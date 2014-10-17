@@ -2,6 +2,7 @@ package org.sample.controller;
 
 import javax.validation.Valid;
 
+import org.sample.controller.pojos.AdcreationForm;
 import org.sample.controller.pojos.SignupForm;
 import org.sample.controller.service.SampleService;
 import org.sample.exceptions.InvalidUserException;
@@ -27,6 +28,13 @@ public class IndexController {
         return model;
     }
 
+    @RequestMapping(value = "/adcreation", method = RequestMethod.GET)
+    public ModelAndView adcreation() {
+    	ModelAndView model = new ModelAndView("adcreation");
+    	model.addObject("adcreationForm", new AdcreationForm());    	
+        return model;
+    }
+    
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public ModelAndView create(@Valid SignupForm signupForm, BindingResult result, RedirectAttributes redirectAttributes) {
     	ModelAndView model;    	

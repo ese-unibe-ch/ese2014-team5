@@ -1,10 +1,8 @@
 package org.sample.model;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 
 
 @Entity
@@ -12,8 +10,9 @@ public class Address {
 	  @Id
 	    @GeneratedValue
 	    private Long id;
-
 	    private String street;
+	    private String city;
+	    private String plz;
 	    
 
 
@@ -31,6 +30,22 @@ public class Address {
 
 		public void setStreet(String street) {
 			this.street = street;
+		}
+
+		public String getCity() {
+			return city;
+		}
+
+		public void setCity(String city) {
+			this.city = city;
+		}
+
+		public String getPlz() {
+			return plz;
+		}
+
+		public void setPlz(String plz) {
+			this.plz = plz;
 		}
 	    
 	    
