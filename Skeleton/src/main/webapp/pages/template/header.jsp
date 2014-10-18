@@ -31,6 +31,7 @@
                 <span class="icon-bar"></span>
             </a>
             <a class="brand" href="/sample/">Sample App</a>
+            <a class="brand" href="/sample/login">Login</a>
 
         </div>
     </div>
