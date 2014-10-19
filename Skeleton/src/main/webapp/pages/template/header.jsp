@@ -32,6 +32,7 @@
             </a>
             <a class="brand" href="/sample/">Sample App</a>
             <a class="brand" href="/sample/login">Login</a>
+            <a class="brand" href="/sample/adcreation">Create new Ad</a>
 
         </div>
     </div>

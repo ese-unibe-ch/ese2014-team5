@@ -11,8 +11,6 @@ var i = 1;
 
 $(document).ready(function() {
     $("#add").click(function(){
-    	
-    	alert("ok");
     	$("#files").append("<div class=\"secfile\"> File to upload: <input type=\"file\" name=\"files["+ (i++) +"]\"><input type=\"button\" class=\"delete\" value=\"Delete\"></div>");
     });
     
@@ -119,14 +117,14 @@ $(document).ready(function() {
         <legend>Images</legend>
 
 		<div id="files">File to upload: <input type="file" name="files[0]"><br /> </div>
-        
-         <input type="button" value="Add file" id="add">
+         
+         <input type="button" value="Add another file" id="add">
     
    <div id="result">${result}</div>
         
         <div class="form-actions">
             <button type="submit" class="btn btn-primary">Create</button>
-            <button type="button" class="btn">Cancel</button>
+            <button type="button" class="btn" onclick="javascript:location.href='/sample'">Cancel</button>
         </div>
     </fieldset>
 </form:form>
