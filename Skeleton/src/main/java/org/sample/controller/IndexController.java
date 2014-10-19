@@ -1,20 +1,28 @@
 package org.sample.controller;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+
+import javax.servlet.ServletContext;
 import javax.validation.Valid;
 
 import org.sample.controller.pojos.LoginForm;
 import org.sample.controller.pojos.AdCreationForm;
-
 import org.sample.controller.pojos.SignupForm;
 import org.sample.controller.pojos.SignupUser;
 import org.sample.controller.service.SampleService;
 import org.sample.exceptions.InvalidUserException;
+import org.sample.model.Picture;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -23,6 +31,9 @@ public class IndexController {
 
     @Autowired
     SampleService sampleService;
+    
+    @Autowired
+    ServletContext context;
 
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -86,19 +97,50 @@ public class IndexController {
     	return model;
     }
     
-    @RequestMapping(value = "/createad", method = RequestMethod.POST)
+    @RequestMapping(value = "/newad", method = RequestMethod.POST)
     public ModelAndView createAd(@Valid AdCreationForm adForm, BindingResult result, RedirectAttributes redirectAttributes) {
     	ModelAndView model;    	
     	if (!result.hasErrors()) {
             try {
-            	sampleService.saveFrom(adForm);
-            	model = new ModelAndView("show");
+            	
+            	System.out.println(adForm.getFiles().get(0).getOriginalFilename());
+            	
+            	for (int i = 0; i < adForm.getFiles().size(); i++) {
+        			MultipartFile file = adForm.getFiles().get(i);
+        			try {
+        				byte[] bytes = file.getBytes();
+
+        				// Creating the directory to store file
+        				 String rootPath = context.getRealPath("/");
+        				File dir = new File(rootPath + "/img");
+        				if (!dir.exists())
+        					dir.mkdirs();
+
+        				String filename =  System.currentTimeMillis() + "_" + file.getOriginalFilename();
+        				
+        				// Create the file on server
+        				File serverFile = new File(dir.getAbsolutePath()
+        						+ File.separator + filename);
+        				BufferedOutputStream stream = new BufferedOutputStream(
+        						new FileOutputStream(serverFile));
+        				stream.write(bytes);
+        				stream.close();
+        				
+        				adForm.addFile(filename);
+        			} catch (Exception e) {
+        			
+        			}
+        		}
+            	
+            	Long id = sampleService.saveFromAd(adForm);
+            	model = new ModelAndView("showad");
+            	model.addObject("ad", sampleService.getAd(id));  
             } catch (InvalidUserException e) {
-            	model = new ModelAndView("index");
+            	model = new ModelAndView("showad");
             	model.addObject("page_error", e.getMessage());
             }
         } else {
-        	model = new ModelAndView("createad");
+        	model = new ModelAndView("showad");
         }   	
     	return model;
     }

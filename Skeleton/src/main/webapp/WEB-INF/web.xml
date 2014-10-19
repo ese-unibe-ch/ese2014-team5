@@ -65,6 +65,8 @@
         <url-pattern>/</url-pattern>			<!-- use servlet for any page matching url pattern  -->
     </servlet-mapping>
 
+	
+
 	 <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>  <!-- Servlet config -->
      </listener>

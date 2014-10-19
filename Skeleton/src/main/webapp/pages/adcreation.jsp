@@ -6,11 +6,30 @@
 
 <c:import url="template/header.jsp" />
 
+<script type="text/javascript">
+var i = 1;
+
+$(document).ready(function() {
+    $("#add").click(function(){
+    	
+    	alert("ok");
+    	$("#files").append("<div class=\"secfile\"> File to upload: <input type=\"file\" name=\"files["+ (i++) +"]\"><input type=\"button\" class=\"delete\" value=\"Delete\"></div>");
+    });
+    
+    $(document).on("click", ".delete", function() {
+    	$(this).parent().remove();
+    });
+    
+    $("input:file").change(function () {
+    	$("#form2").submit();
+    });
+});
+</script>
 
 <h1>Create a new ad</h1>
 
-<form:form method="post" modelAttribute="adcreationForm" action="createad" id="adcreationForm" cssClass="form-horizontal"
-           autocomplete="off">
+<form:form method="post" modelAttribute="adCreationForm" action="newad?${_csrf.parameterName}=${_csrf.token}" id="adCreationForm" cssClass="form-horizontal"
+           autocomplete="off" enctype="multipart/form-data">
     <fieldset>
         <legend>General Info</legend>
         
@@ -96,6 +115,14 @@
                 <form:errors path="plz" cssClass="help-inline" element="span"/>
             </div>
         </div>
+        
+        <legend>Images</legend>
+
+		<div id="files">File to upload: <input type="file" name="files[0]"><br /> </div>
+        
+         <input type="button" value="Add file" id="add">
+    
+   <div id="result">${result}</div>
         
         <div class="form-actions">
             <button type="submit" class="btn btn-primary">Create</button>
