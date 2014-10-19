@@ -12,7 +12,7 @@
 
 <h1>Sign Up Here for the WG-Site!</h1>
 
-<form:form method="post" modelAttribute="SignupUser" action="create" id="SignupUser" cssClass="form-horizontal"
+<form:form method="post" modelAttribute="signupUser" action="createAccount" id="signupUser" cssClass="form-horizontal"
            autocomplete="off">
     <fieldset>
         <legend>Enter Your Name, Email and your password</legend>

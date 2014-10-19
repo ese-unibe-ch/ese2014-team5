@@ -24,22 +24,22 @@ public class RegisterController {
     @Autowired
     SampleService sampleService;
 
-        @RequestMapping(value = "/register", method = RequestMethod.GET)
+   @RequestMapping(value = "/register", method = RequestMethod.GET)
     public ModelAndView register() {
     	ModelAndView model = new ModelAndView("register");
-    	model.addObject("SignupUser", new SignupUser());    	
+    	model.addObject("signupUser", new SignupUser());    	
         return model;
     }
 
     @RequestMapping(value = "/createAccount", method = RequestMethod.POST)
-    public ModelAndView createRegistration(@Valid SignupUser SignupUser, BindingResult result, RedirectAttributes redirectAttributes) {
+    public ModelAndView createRegistration(@Valid SignupUser signupUser, BindingResult result, RedirectAttributes redirectAttributes) {
     	ModelAndView model;    	
     	if (!result.hasErrors()) {
             try {
-            	sampleService.saveUser(SignupUser);
+            	sampleService.saveUser(signupUser);
             	model = new ModelAndView("show");
             } catch (InvalidUserException e) {
-            	model = new ModelAndView("register");
+            	model = new ModelAndView("index");
             	model.addObject("page_error", e.getMessage());
             }
         } else {

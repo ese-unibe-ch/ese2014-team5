@@ -6,6 +6,7 @@ import org.sample.controller.pojos.LoginForm;
 import org.sample.controller.pojos.AdCreationForm;
 
 import org.sample.controller.pojos.SignupForm;
+import org.sample.controller.pojos.SignupUser;
 import org.sample.controller.service.SampleService;
 import org.sample.exceptions.InvalidUserException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,6 +102,7 @@ public class IndexController {
         }   	
     	return model;
     }
+    
     
     @RequestMapping(value = "/security-error", method = RequestMethod.GET)
     public String securityError(RedirectAttributes redirectAttributes) {
