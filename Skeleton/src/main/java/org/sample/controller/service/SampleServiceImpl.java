@@ -1,6 +1,6 @@
 package org.sample.controller.service;
 
-import org.sample.controller.pojos.AdcreationForm;
+import org.sample.controller.pojos.AdCreationForm;
 import org.sample.controller.pojos.SignupForm;
 import org.sample.controller.pojos.SignupUser;
 import org.sample.exceptions.InvalidUserException;
@@ -85,7 +85,7 @@ public class SampleServiceImpl implements SampleService {
 
     
     @Transactional
-	public AdcreationForm saveFrom(AdcreationForm adForm) throws InvalidAdException {
+	public AdCreationForm saveFrom(AdCreationForm adForm) throws InvalidAdException {
 		String street = adForm.getStreet();
 
         if(!StringUtils.isEmpty(street)) {

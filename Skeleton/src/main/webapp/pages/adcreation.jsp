@@ -9,7 +9,7 @@
 
 <h1>Create a new ad</h1>
 
-<form:form method="post" modelAttribute="adcreationForm" action="createAd" id="adcreationForm" cssClass="form-horizontal"
+<form:form method="post" modelAttribute="adcreationForm" action="createad" id="adcreationForm" cssClass="form-horizontal"
            autocomplete="off">
     <fieldset>
         <legend>General Info</legend>
