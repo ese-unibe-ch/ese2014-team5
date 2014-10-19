@@ -23,7 +23,14 @@
         <property name="prefix" value="/pages/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
+ <mvc:resources mapping="/**" location="/" />
+ <bean id="multipartResolver"
+        class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
  
+         <!-- setting maximum upload size -->
+        <property name="maxUploadSize" value="100000" />
+ 
+    </bean>
     
     <!-- resources  -->
     <mvc:resources mapping="/assets/**" location="classpath:/META-INF/resources/webjars/"/>

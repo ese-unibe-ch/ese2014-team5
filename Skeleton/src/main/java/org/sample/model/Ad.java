@@ -2,10 +2,12 @@ package org.sample.model;
 
 import java.awt.Point;
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 
@@ -23,6 +25,9 @@ public class Ad {
     private Point coods;
     private Date from;
     private Date to;
+    
+    @OneToMany
+    private Set<Picture> pictures;
     
     @OneToOne
     private Address address; 
@@ -97,6 +102,19 @@ public class Ad {
 
 	public void setTo(Date to) {
 		this.to = to;
+	}
+
+	public Set<Picture> getPictures() {
+		return pictures;
+	}
+
+	public void setPictures(Set<Picture> pictures) {
+		this.pictures = pictures;
+	}
+	
+	public void addPicture(Picture picture) {
+		
+		this.pictures.add(picture);
 	}
 
     
