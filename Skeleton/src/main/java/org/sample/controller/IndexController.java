@@ -2,8 +2,9 @@ package org.sample.controller;
 
 import javax.validation.Valid;
 
-import org.sample.controller.pojos.AdcreationForm;
 import org.sample.controller.pojos.LoginForm;
+import org.sample.controller.pojos.AdcreationForm;
+
 import org.sample.controller.pojos.SignupForm;
 import org.sample.controller.service.SampleService;
 import org.sample.exceptions.InvalidUserException;
@@ -84,9 +85,26 @@ public class IndexController {
     	return model;
     }
     
+    @RequestMapping(value = "/createad", method = RequestMethod.POST)
+    public ModelAndView createAd(@Valid AdcreationForm adForm, BindingResult result, RedirectAttributes redirectAttributes) {
+    	ModelAndView model;    	
+    	if (!result.hasErrors()) {
+            try {
+            	sampleService.saveFrom(adForm);
+            	model = new ModelAndView("show");
+            } catch (InvalidUserException e) {
+            	model = new ModelAndView("index");
+            	model.addObject("page_error", e.getMessage());
+            }
+        } else {
+        	model = new ModelAndView("createad");
+        }   	
+    	return model;
+    }
+    
     @RequestMapping(value = "/security-error", method = RequestMethod.GET)
     public String securityError(RedirectAttributes redirectAttributes) {
-        redirectAttributes.addFlashAttribute("page_error", "You do have have permission to do that!");
+        redirectAttributes.addFlashAttribute("page_error", "You do have no permission to do that!");
         return "redirect:/";
     }
 

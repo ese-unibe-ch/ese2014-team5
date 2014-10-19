@@ -1,7 +1,6 @@
 package org.sample.controller.pojos;
 
 import java.awt.Point;
-import java.util.Date;
 
 public class AdcreationForm {
 

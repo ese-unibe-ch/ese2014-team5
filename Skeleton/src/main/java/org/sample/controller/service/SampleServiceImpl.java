@@ -1,11 +1,16 @@
 package org.sample.controller.service;
 
+import org.sample.controller.pojos.AdcreationForm;
 import org.sample.controller.pojos.SignupForm;
 import org.sample.controller.pojos.SignupUser;
 import org.sample.exceptions.InvalidUserException;
 import org.sample.model.AddUserAccount;
+import org.sample.exceptions.InvalidAdException;
+import org.sample.exceptions.InvalidUserException;
+import org.sample.model.Ad;
 import org.sample.model.Address;
 import org.sample.model.User;
+import org.sample.model.dao.AdDao;
 import org.sample.model.dao.AddressDao;
 import org.sample.model.dao.UserAccountDao;
 import org.sample.model.dao.UserDao;
@@ -17,11 +22,9 @@ import org.springframework.util.StringUtils;
 @Service
 public class SampleServiceImpl implements SampleService {
 
-    @Autowired
-    UserDao userDao;
-    @Autowired
-    AddressDao addDao;
-
+    @Autowired    UserDao userDao;
+    @Autowired    AddressDao addDao;
+    @Autowired	  AdDao adDao;
     @Transactional
     public SignupForm saveFrom(SignupForm signupForm) throws InvalidUserException {
 
@@ -78,5 +81,37 @@ public class SampleServiceImpl implements SampleService {
 
             return signupUser;
         }
-    }
 
+
+    
+    @Transactional
+	public AdcreationForm saveFrom(AdcreationForm adForm) throws InvalidAdException {
+		String street = adForm.getStreet();
+
+        if(!StringUtils.isEmpty(street)) {
+            throw new InvalidUserException("Street must not be empty");   // throw exception
+        }
+        
+        Address address = new Address();
+        address.setStreet(street);
+        address.setCity(adForm.getCity());
+        address.setPlz(adForm.getPlz());
+
+        Ad ad = new Ad();
+        ad.setAddress(address);
+        ad.setTitle(adForm.getTitle());
+        ad.setPeopleDescription(adForm.getPeopleDescription());
+        ad.setRoomDescription(adForm.getRoomDescription());
+        
+        ad.setSize(Integer.parseInt(adForm.getSize()));
+        
+        // need to parse dates before
+       // ad.setFrom(adForm.getFrom());
+       // ad.setTo(adForm.getTo());
+        
+        address = addDao.save(address);
+        ad = adDao.save(ad);
+        
+		return adForm;
+	}
+}
