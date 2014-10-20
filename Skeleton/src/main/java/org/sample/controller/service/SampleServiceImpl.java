@@ -1,8 +1,5 @@
 package org.sample.controller.service;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.util.Date;
 
 import javax.servlet.ServletContext;
@@ -13,7 +10,6 @@ import org.sample.controller.pojos.SignupUser;
 import org.sample.exceptions.InvalidUserException;
 import org.sample.model.AddUserAccount;
 import org.sample.exceptions.InvalidAdException;
-import org.sample.exceptions.InvalidUserException;
 import org.sample.model.Ad;
 import org.sample.model.Address;
 import org.sample.model.Picture;
@@ -27,7 +23,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class SampleServiceImpl implements SampleService {

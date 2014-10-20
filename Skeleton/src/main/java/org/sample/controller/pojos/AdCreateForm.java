@@ -2,9 +2,7 @@ package org.sample.controller.pojos;
 
 import java.awt.Point;
 import java.util.List;
-import java.util.Set;
 
-import org.sample.model.Picture;
 import org.springframework.web.multipart.MultipartFile;
 
 public class AdCreateForm {
