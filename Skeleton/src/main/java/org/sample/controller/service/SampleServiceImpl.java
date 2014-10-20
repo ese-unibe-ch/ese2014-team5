@@ -102,7 +102,7 @@ public class SampleServiceImpl implements SampleService {
             throw new InvalidUserException("Street must not be empty");   // throw exception
         }
         
-        if(!StringUtils.isEmpty(adForm.getSize())) {
+        if(!StringUtils.isEmpty(adForm.getRoomSize())) {
             throw new InvalidUserException("Size must not be empty");   // throw exception
         }
         
@@ -114,10 +114,10 @@ public class SampleServiceImpl implements SampleService {
         Advert ad = new Advert();
         ad.setAddress(address);
         ad.setTitle(adForm.getTitle());
-        ad.setPeopleDesc(adForm.getPeopleDescription());
-        ad.setRoomDesc(adForm.getRoomDescription());
+        ad.setPeopleDesc(adForm.getPeopleDesc());
+        ad.setRoomDesc(adForm.getRoomDesc());
         
-        ad.setRoomSize(Integer.parseInt(adForm.getSize()));
+        ad.setRoomSize(Integer.parseInt(adForm.getRoomSize()));
         
         // need to parse dates before
         ad.setFromDate(new Date());

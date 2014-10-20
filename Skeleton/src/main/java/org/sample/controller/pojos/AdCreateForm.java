@@ -9,13 +9,13 @@ public class AdCreateForm {
 
 
     //private Long id;
-    private String roomDescription;
-    private String peopleDescription;
+    private String roomDesc;
+    private String peopleDesc;
     private String title;
-    private String size;
+    private String roomSize;
     private Point coods;
-    private String from;
-    private String to;
+    private String fromDate;
+    private String toDate;
     
     private String street;
     private String city;
@@ -25,17 +25,17 @@ public class AdCreateForm {
     private List<String> filenames;
     
     
-	public String getRoomDescription() {
-		return roomDescription;
+	public String getRoomDesc() {
+		return roomDesc;
 	}
-	public void setRoomDescription(String roomDescription) {
-		this.roomDescription = roomDescription;
+	public void setRoomDesc(String roomDescription) {
+		this.roomDesc = roomDescription;
 	}
-	public String getPeopleDescription() {
-		return peopleDescription;
+	public String getPeopleDesc() {
+		return peopleDesc;
 	}
-	public void setPeopleDescription(String peopleDescription) {
-		this.peopleDescription = peopleDescription;
+	public void setPeopleDesc(String peopleDescription) {
+		this.peopleDesc = peopleDescription;
 	}
 	public String getTitle() {
 		return title;
@@ -43,11 +43,11 @@ public class AdCreateForm {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public String getSize() {
-		return size;
+	public String getRoomSize() {
+		return roomSize;
 	}
-	public void setSize(String size) {
-		this.size = size;
+	public void setRoomSize(String size) {
+		this.roomSize = size;
 	}
 	public Point getCoods() {
 		return coods;
@@ -55,17 +55,17 @@ public class AdCreateForm {
 	public void setCoods(Point coods) {
 		this.coods = coods;
 	}
-	public String getFrom() {
-		return from;
+	public String getFromDate() {
+		return fromDate;
 	}
-	public void setFrom(String from) {
-		this.from = from;
+	public void setFromDate(String from) {
+		this.fromDate = from;
 	}
-	public String getTo() {
-		return to;
+	public String getToDate() {
+		return toDate;
 	}
-	public void setTo(String to) {
-		this.to = to;
+	public void setToDate(String to) {
+		this.toDate = to;
 	}
 	public String getStreet() {
 		return street;
