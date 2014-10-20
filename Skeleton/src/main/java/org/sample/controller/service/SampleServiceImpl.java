@@ -145,4 +145,23 @@ public class SampleServiceImpl implements SampleService {
 		
 		return adDao.findOne(id);
 	}
+        
+        
+        public Object getUser(Long id) {
+            
+        AddUserAccount User = UserAccountDao.findOne(id);
+                 
+        return User;
+        }
+        
+        public Object getUserByFirstNameAndLastName(String fname, String lname) {
+       
+            for(AddUserAccount user : UserAccountDao.findAll()) {
+                if(user.getFirstName().equals(fname) && user.getLastName().equals(lname)) {
+                    return user;
+                }
+            }
+            
+            return null;
+        }
 }

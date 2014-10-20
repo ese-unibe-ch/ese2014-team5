@@ -14,5 +14,9 @@ public interface SampleService {
     public Long saveFromAd(AdCreateForm adForm) throws InvalidAdException;
     
     public Advert getAd(Long id);
+    
+    /*The get methods*/
+    public Object getUser(Long id);
+    public Object getUserByFirstNameAndLastName(String fname, String lname);
 }
  
