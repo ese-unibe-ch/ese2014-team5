@@ -1,5 +1,7 @@
 package org.sample.controller.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.servlet.ServletContext;
@@ -98,13 +100,13 @@ public class SampleServiceImpl implements SampleService {
 	public Long saveFromAd(AdCreateForm adForm) throws InvalidAdException {
 		String street = adForm.getStreet();
 
-        if(!StringUtils.isEmpty(street)) {
+   /*     if(!StringUtils.isEmpty(street)) {
             throw new InvalidUserException("Street must not be empty");   // throw exception
         }
         
         if(!StringUtils.isEmpty(adForm.getRoomSize())) {
             throw new InvalidUserException("Size must not be empty");   // throw exception
-        }
+        }*/
         
         Address address = new Address();
         address.setStreet(street);
@@ -120,8 +122,19 @@ public class SampleServiceImpl implements SampleService {
         ad.setRoomSize(Integer.parseInt(adForm.getRoomSize()));
         
         // need to parse dates before
-        ad.setFromDate(new Date());
-        ad.setToDate(new Date());
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+        Date dateFrom = null;
+        Date dateTo = null;
+		try {
+			dateFrom = formatter.parse(adForm.getFromDate());
+			dateTo = formatter.parse(adForm.getToDate());
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			dateFrom = new Date();
+		}
+        ad.setFromDate(dateFrom);
+        ad.setToDate(dateTo);
         
         for(String file : adForm.getFilenames())
         {

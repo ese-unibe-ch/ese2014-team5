@@ -1,6 +1,7 @@
 package org.sample.controller.pojos;
 
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -100,6 +101,10 @@ public class AdCreateForm {
 
 	public void addFile(String file)
 	{
+		if(filenames==null)
+		{
+			filenames = new ArrayList<String>();
+		}
 		this.filenames.add(file);
 	}
    

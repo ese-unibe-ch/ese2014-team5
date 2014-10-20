@@ -93,6 +93,13 @@ public class IndexController {
     	return model;
     }
     
+    @RequestMapping(value = "/showad", method = RequestMethod.GET)
+    public ModelAndView showad(@RequestParam("value") Long id) {
+    	ModelAndView model = new ModelAndView("showad");
+    	model.addObject("ad", sampleService.getAd(id));    	
+        return model;
+    }
+    
     @RequestMapping(value = "/newad", method = RequestMethod.POST)
     public ModelAndView createAd(@Valid AdCreateForm adForm, BindingResult result, RedirectAttributes redirectAttributes) {
     	ModelAndView model;    	
@@ -124,7 +131,7 @@ public class IndexController {
         				
         				adForm.addFile(filename);
         			} catch (Exception e) {
-        			
+    
         			}
         		}
             	
@@ -132,11 +139,14 @@ public class IndexController {
             	model = new ModelAndView("showad");
             	model.addObject("ad", sampleService.getAd(id));  
             } catch (InvalidUserException e) {
-            	model = new ModelAndView("showad");
+            	
+            	model = new ModelAndView("adcreation");
+            	model.addObject("adCreationForm", new AdCreateForm());
             	model.addObject("page_error", e.getMessage());
             }
         } else {
-        	model = new ModelAndView("showad");
+        	model = new ModelAndView("adcreation");
+        	model.addObject("adCreationForm", new AdCreateForm());
         }   	
     	return model;
     }

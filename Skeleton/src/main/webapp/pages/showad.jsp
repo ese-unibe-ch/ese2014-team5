@@ -6,17 +6,41 @@
 
 <c:import url="template/header.jsp" />
 
-<h3>${ad.title}</h3>
-
-Room: ${ad.roomDesc }
-People: ${ad.peopleDesc }
-Size: ${ad.roomSize }
-Address: ${ad.address.street }, ${ad.address.city } ${ad.address.plz }
-
-<c:forEach items="${ad.pictures}" var="pic">
-		<img src="<c:url value="${pic.url}"/>"/>
+<style type="text/css">
+img {
+	width: 150px;
+}
+</style>
+<div class="row">
+<div class="col-md-4"></div>
+  <div class="col-md-8"><h4>${ad.title}</h4></div>
+</div>
+<div class="row">
+  <div class="col-md-4">
+  <c:forEach items="${ad.pictures}" var="pic">
+		<img src="<c:url value="img/${pic.url}"/>"/>
 		<br />
 	</c:forEach>
+  
+  </div>
+  <div class="col-md-8">Room: ${ad.roomDesc }</div>
+  <div class="col-md-8">People: ${ad.peopleDesc }</div>
+  <div class="col-md-8">Size: ${ad.roomSize }m^2</div>
+  <div class="col-md-8">Available from: ${ad.fromDate } to: ${ad.toDate } </div>
+  <div class="col-md-8">Address: ${ad.address.street }, ${ad.address.plz } ${ad.address.city }</div>
+</div>
+<br />
+<div class="row">
+  <div class="col-md-4">
+	<div style="width: 300px">
+		<iframe width="300" height="300" 
+		src="http://maps.google.de/maps?hl=de&q=${ad.address.street }, ${ad.address.plz } ${ad.address.city }&ie=UTF8&t=&z=17&iwloc=B&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0">
+		</iframe>
+	</div>
+  </div>
+ </div>
+
+
 
 
 <c:import url="template/footer.jsp" />
