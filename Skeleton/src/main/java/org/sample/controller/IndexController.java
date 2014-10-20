@@ -8,7 +8,7 @@ import javax.servlet.ServletContext;
 import javax.validation.Valid;
 
 import org.sample.controller.pojos.LoginForm;
-import org.sample.controller.pojos.AdCreationForm;
+import org.sample.controller.pojos.AdCreateForm;
 import org.sample.controller.pojos.SignupForm;
 import org.sample.controller.pojos.SignupUser;
 import org.sample.controller.service.SampleService;
@@ -76,7 +76,7 @@ public class IndexController {
     @RequestMapping(value = "/adcreation", method = RequestMethod.GET)
     public ModelAndView adcreation() {
     	ModelAndView model = new ModelAndView("adcreation");
-    	model.addObject("adCreationForm", new AdCreationForm());    	
+    	model.addObject("adCreationForm", new AdCreateForm());    	
         return model;
     }
     
@@ -98,7 +98,7 @@ public class IndexController {
     }
     
     @RequestMapping(value = "/newad", method = RequestMethod.POST)
-    public ModelAndView createAd(@Valid AdCreationForm adForm, BindingResult result, RedirectAttributes redirectAttributes) {
+    public ModelAndView createAd(@Valid AdCreateForm adForm, BindingResult result, RedirectAttributes redirectAttributes) {
     	ModelAndView model;    	
     	if (!result.hasErrors()) {
             try {

@@ -7,7 +7,7 @@ import java.util.Date;
 
 import javax.servlet.ServletContext;
 
-import org.sample.controller.pojos.AdCreationForm;
+import org.sample.controller.pojos.AdCreateForm;
 import org.sample.controller.pojos.SignupForm;
 import org.sample.controller.pojos.SignupUser;
 import org.sample.exceptions.InvalidUserException;
@@ -100,7 +100,7 @@ public class SampleServiceImpl implements SampleService {
 
     
     @Transactional
-	public Long saveFromAd(AdCreationForm adForm) throws InvalidAdException {
+	public Long saveFromAd(AdCreateForm adForm) throws InvalidAdException {
 		String street = adForm.getStreet();
 
         if(!StringUtils.isEmpty(street)) {
