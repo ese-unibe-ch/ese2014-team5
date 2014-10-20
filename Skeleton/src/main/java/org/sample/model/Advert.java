@@ -12,19 +12,19 @@ import javax.persistence.OneToOne;
 
 
 @Entity
-public class Ad {
+public class Advert {
 
     @Id
     @GeneratedValue
     private Long id;
 
-    private String roomDescription;
-    private String peopleDescription;
+    private String roomDesc;
+    private String peopleDesc;
     private String title;
-    private int size;
+    private int roomSize;
     private Point coods;
-    private Date from;
-    private Date to;
+    private Date fromDate;
+    private Date toDate;
     
     @OneToMany
     private Set<Picture> pictures;
@@ -48,21 +48,6 @@ public class Ad {
 		this.address = address;
 	}
 
-	public String getRoomDescription() {
-		return roomDescription;
-	}
-
-	public void setRoomDescription(String roomDescription) {
-		this.roomDescription = roomDescription;
-	}
-
-	public String getPeopleDescription() {
-		return peopleDescription;
-	}
-
-	public void setPeopleDescription(String peopleDescription) {
-		this.peopleDescription = peopleDescription;
-	}
 
 	public String getTitle() {
 		return title;
@@ -72,12 +57,12 @@ public class Ad {
 		this.title = title;
 	}
 
-	public int getSize() {
-		return size;
+	public int getRoomSize() {
+		return roomSize;
 	}
 
-	public void setSize(int size) {
-		this.size = size;
+	public void setRoomSize(int size) {
+		this.roomSize = size;
 	}
 
 	public Point getCoods() {
@@ -88,20 +73,20 @@ public class Ad {
 		this.coods = coods;
 	}
 
-	public Date getFrom() {
-		return from;
+	public Date getFromDate() {
+		return fromDate;
 	}
 
-	public void setFrom(Date from) {
-		this.from = from;
+	public void setFromDate(Date from) {
+		this.fromDate = from;
 	}
 
-	public Date getTo() {
-		return to;
+	public Date getToDate() {
+		return toDate;
 	}
 
-	public void setTo(Date to) {
-		this.to = to;
+	public void setToDate(Date to) {
+		this.toDate = to;
 	}
 
 	public Set<Picture> getPictures() {
@@ -115,6 +100,22 @@ public class Ad {
 	public void addPicture(Picture picture) {
 		
 		this.pictures.add(picture);
+	}
+
+	public String getRoomDesc() {
+		return roomDesc;
+	}
+
+	public void setRoomDesc(String roomDesc) {
+		this.roomDesc = roomDesc;
+	}
+
+	public String getPeopleDesc() {
+		return peopleDesc;
+	}
+
+	public void setPeopleDesc(String peopleDesc) {
+		this.peopleDesc = peopleDesc;
 	}
 
     

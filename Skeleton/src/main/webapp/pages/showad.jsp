@@ -8,9 +8,9 @@
 
 <h3>${ad.title}</h3>
 
-Room: ${ad.roomDescription }
-People: ${ad.peopleDescription }
-Size: ${ad.size }
+Room: ${ad.roomDesc }
+People: ${ad.peopleDesc }
+Size: ${ad.roomSize }
 Address: ${ad.address.street }, ${ad.address.city } ${ad.address.plz }
 
 <c:forEach items="${ad.pictures}" var="pic">

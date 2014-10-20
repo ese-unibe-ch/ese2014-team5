@@ -40,49 +40,49 @@ $(document).ready(function() {
             </div>
         </div>
         
-		<c:set var="roomDescriptionErrors"><form:errors path="roomDescription"/></c:set>
-        <div class="control-group<c:if test="${not empty roomDescriptionErrors}"> error</c:if>">
-            <label class="control-label" for="field-roomDescription">Room Description</label>
+		<c:set var="roomDescErrors"><form:errors path="roomDesc"/></c:set>
+        <div class="control-group<c:if test="${not empty roomDescErrors}"> error</c:if>">
+            <label class="control-label" for="field-roomDesc">Room Description</label>
             <div class="controls">
-                <form:textarea path="roomDescription" id="field-roomDescription" rows="6" width="350px" tabindex="2" maxlength="500" placeholder="Describe your room (bright/historic/...).."/>
-                <form:errors path="roomDescription" cssClass="help-inline" element="span"/>
+                <form:textarea path="roomDesc" id="field-roomDesc" rows="6" width="350px" tabindex="2" maxlength="500" placeholder="Describe your room (bright/historic/...).."/>
+                <form:errors path="roomDesc" cssClass="help-inline" element="span"/>
             </div>
         </div>
         
-        <c:set var="peopleDescriptionErrors"><form:errors path="peopleDescription"/></c:set>
-        <div class="control-group<c:if test="${not empty peopleDescriptionErrors}"> error</c:if>">
-            <label class="control-label" for="field-peopleDescription">People Description</label>
+        <c:set var="peopleDescErrors"><form:errors path="peopleDesc"/></c:set>
+        <div class="control-group<c:if test="${not empty peopleDescErrors}"> error</c:if>">
+            <label class="control-label" for="field-peopleDesc">People Description</label>
             <div class="controls">
-                <form:textarea path="peopleDescription" id="field-peopleDescription" rows="6" width="350px" tabindex="2" maxlength="500" placeholder="Describe the people living in the appartment (age/profession/...).."/>
-                <form:errors path="peopleDescription" cssClass="help-inline" element="span"/>
+                <form:textarea path="peopleDesc" id="field-peopleDesc" rows="6" width="350px" tabindex="2" maxlength="500" placeholder="Describe the people living in the appartment (age/profession/...).."/>
+                <form:errors path="peopleDesc" cssClass="help-inline" element="span"/>
             </div>
         </div>
         
-        <c:set var="sizeErrors"><form:errors path="size"/></c:set>
-        <div class="control-group<c:if test="${not empty sizeErrors}"> error</c:if>">
-            <label class="control-label" for="field-size">Size</label>
+        <c:set var="roomSizeErrors"><form:errors path="roomSize"/></c:set>
+        <div class="control-group<c:if test="${not empty roomSizeErrors}"> error</c:if>">
+            <label class="control-label" for="field-roomSize">Size</label>
             <div class="controls">
-                <form:input path="size" id="field-size" tabindex="2" maxlength="150" placeholder="e.g. 18"/> m^2
-                <form:errors path="size" cssClass="help-inline" element="span"/>
+                <form:input path="roomSize" id="field-roomSize" tabindex="2" maxlength="150" placeholder="e.g. 18"/> m^2
+                <form:errors path="roomSize" cssClass="help-inline" element="span"/>
             </div>
         </div>
         
         <legend>Availability</legend>
-        <c:set var="fromErrors"><form:errors path="from"/></c:set>
-        <div class="control-group<c:if test="${not empty fromErrors}"> error</c:if>">
-            <label class="control-label" for="field-from">from</label>
+        <c:set var="fromDateErrors"><form:errors path="fromDate"/></c:set>
+        <div class="control-group<c:if test="${not empty fromDateErrors}"> error</c:if>">
+            <label class="control-label" for="field-fromDate">from</label>
             <div class="controls">
-                <form:input path="from" id="field-from" tabindex="2" maxlength="150" placeholder="e.g. 02.04.14"/>
-                <form:errors path="from" cssClass="help-inline" element="span"/>
+                <form:input path="fromDate" id="field-fromDate" tabindex="2" maxlength="150" placeholder="e.g. 02.04.14"/>
+                <form:errors path="fromDate" cssClass="help-inline" element="span"/>
             </div>
         </div>
         
-        <c:set var="toErrors"><form:errors path="to"/></c:set>
-        <div class="control-group<c:if test="${not empty toErrors}"> error</c:if>">
-            <label class="control-label" for="field-to">till</label>
+        <c:set var="toDateErrors"><form:errors path="toDate"/></c:set>
+        <div class="control-group<c:if test="${not empty toDateErrors}"> error</c:if>">
+            <label class="control-label" for="field-toDate">till</label>
             <div class="controls">
-                <form:input path="to" id="field-to" tabindex="2" maxlength="150" placeholder="e.g. 02.04.14"/>
-                <form:errors path="to" cssClass="help-inline" element="span"/>
+                <form:input path="toDate" id="field-toDate" tabindex="2" maxlength="150" placeholder="e.g. 02.04.14"/>
+                <form:errors path="toDate" cssClass="help-inline" element="span"/>
             </div>
         </div>
         

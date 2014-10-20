@@ -10,7 +10,7 @@ import org.sample.controller.pojos.SignupUser;
 import org.sample.exceptions.InvalidUserException;
 import org.sample.model.AddUserAccount;
 import org.sample.exceptions.InvalidAdException;
-import org.sample.model.Ad;
+import org.sample.model.Advert;
 import org.sample.model.Address;
 import org.sample.model.Picture;
 import org.sample.model.User;
@@ -111,17 +111,17 @@ public class SampleServiceImpl implements SampleService {
         address.setCity(adForm.getCity());
         address.setPlz(adForm.getPlz());
 
-        Ad ad = new Ad();
+        Advert ad = new Advert();
         ad.setAddress(address);
         ad.setTitle(adForm.getTitle());
-        ad.setPeopleDescription(adForm.getPeopleDescription());
-        ad.setRoomDescription(adForm.getRoomDescription());
+        ad.setPeopleDesc(adForm.getPeopleDescription());
+        ad.setRoomDesc(adForm.getRoomDescription());
         
-        ad.setSize(Integer.parseInt(adForm.getSize()));
+        ad.setRoomSize(Integer.parseInt(adForm.getSize()));
         
         // need to parse dates before
-        ad.setFrom(new Date());
-        ad.setTo(new Date());
+        ad.setFromDate(new Date());
+        ad.setToDate(new Date());
         
         for(String file : adForm.getFilenames())
         {
@@ -141,7 +141,7 @@ public class SampleServiceImpl implements SampleService {
 
 
 
-	public Ad getAd(Long id) {
+	public Advert getAd(Long id) {
 		
 		return adDao.findOne(id);
 	}
