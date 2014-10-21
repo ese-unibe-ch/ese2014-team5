@@ -25,38 +25,13 @@ public class UserController {
     @Autowired
     SampleService sampleService;
 
-   @RequestMapping(value = "/register", method = RequestMethod.GET)
-    public ModelAndView register() {
-    	ModelAndView model = new ModelAndView("register");
-    	model.addObject("signupUser", new SignupUser());    	
-        return model;
-    }
-
     
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
-    public ModelAndView showProfile(@RequestParam("id") long id) {
+    public ModelAndView showProfile(@RequestParam(value = "id", required = false) long id) {
      ModelAndView model = new ModelAndView("profile");
-     model.addObject("id", sampleService.getUser(id));
+     model.addObject("currentUser", sampleService.getUser(id));
      return model;
     }
-    
-    
-    
-    @RequestMapping(value = "/createAccount", method = RequestMethod.POST)
-    public ModelAndView createRegistration(@Valid SignupUser signupUser, BindingResult result, RedirectAttributes redirectAttributes) {
-    	ModelAndView model;    	
-    	if (!result.hasErrors()) {
-            try {
-            	sampleService.saveUser(signupUser);
-            	model = new ModelAndView("show");
-            } catch (InvalidUserException e) {
-            	model = new ModelAndView("index");
-            	model.addObject("page_error", e.getMessage());
-            }
-        } else {
-        	model = new ModelAndView("register");
-        }   	
-    	return model;
-    }
+
     
 }

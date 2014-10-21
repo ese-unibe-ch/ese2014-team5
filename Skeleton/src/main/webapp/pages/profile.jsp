@@ -7,10 +7,9 @@
 <c:import url="template/header.jsp" />
 
 
-<h3>${AddUserAccount.firstName} ${AddUserAccount.lastName}'s profile</h3>
+<h3>${currentUser.firstName} ${currentUser.lastName}'s profile</h3>
 <div>
-<p>ID: ${AddUserAccount.id }</p>
-<p>E-Mail: ${AddUserAccount.email}</p>
+<p>E-Mail: ${currentUser.email}</p>
 </div>
 
 Go back to the <a href="register">Register</a>

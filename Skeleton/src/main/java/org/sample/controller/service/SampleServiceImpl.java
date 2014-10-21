@@ -10,12 +10,12 @@ import org.sample.controller.pojos.AdCreateForm;
 import org.sample.controller.pojos.SignupForm;
 import org.sample.controller.pojos.SignupUser;
 import org.sample.exceptions.InvalidUserException;
-import org.sample.model.AddUserAccount;
+import org.sample.model.User;
 import org.sample.exceptions.InvalidAdException;
 import org.sample.model.Advert;
 import org.sample.model.Address;
 import org.sample.model.Picture;
-import org.sample.model.User;
+import org.sample.model.UserDeprecated;
 import org.sample.model.dao.AdDao;
 import org.sample.model.dao.AddressDao;
 import org.sample.model.dao.PictureDao;
@@ -49,7 +49,7 @@ public class SampleServiceImpl implements SampleService {
         Address address = new Address();
         address.setStreet("TestStreet");
 
-        User user = new User();
+        UserDeprecated user = new UserDeprecated();
         user.setFirstName(signupForm.getFirstName());
         user.setEmail(signupForm.getEmail());
         user.setLastName(signupForm.getLastName());
@@ -73,7 +73,7 @@ public class SampleServiceImpl implements SampleService {
         @Transactional
         public SignupUser saveUser(SignupUser signupUser) throws InvalidUserException {
 
-            AddUserAccount User = new AddUserAccount();
+            User User = new User();
             User.setFirstName(signupUser.getFirstName());
             User.setLastName(signupUser.getLastName());
             User.setEmail(signupUser.getEmail());
@@ -158,23 +158,21 @@ public class SampleServiceImpl implements SampleService {
 		
 		return adDao.findOne(id);
 	}
-        
-        
-        public Object getUser(Long id) {
-            
-        AddUserAccount User = UserAccountDao.findOne(id);
-                 
-        return User;
-        }
-        
-        public Object getUserByFirstNameAndLastName(String fname, String lname) {
-       
-            for(AddUserAccount user : UserAccountDao.findAll()) {
-                if(user.getFirstName().equals(fname) && user.getLastName().equals(lname)) {
-                    return user;
-                }
+    
+    
+    public User getUser(Long id) {
+    	
+        return UserAccountDao.findOne(id);
+    }
+    
+    public Object getUserByFirstNameAndLastName(String fname, String lname) {
+   
+        for(User user : UserAccountDao.findAll()) {
+            if(user.getFirstName().equals(fname) && user.getLastName().equals(lname)) {
+                return user;
             }
-            
-            return null;
         }
+        
+        return null;
+    }
 }

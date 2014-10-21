@@ -1,7 +1,7 @@
 package org.sample.model.dao;
 
-import org.sample.model.User;
+import org.sample.model.UserDeprecated;
 import org.springframework.data.repository.CrudRepository;
 
-public interface UserDao extends CrudRepository<User,Long> {
+public interface UserDao extends CrudRepository<UserDeprecated,Long> {
 }

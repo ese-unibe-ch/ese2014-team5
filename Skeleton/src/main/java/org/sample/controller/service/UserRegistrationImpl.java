@@ -7,7 +7,7 @@ package org.sample.controller.service;
 
 import org.sample.controller.pojos.SignupUser;
 import org.sample.exceptions.InvalidUserException;
-import org.sample.model.AddUserAccount;
+import org.sample.model.User;
 import org.sample.model.dao.UserAccountDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,7 +25,7 @@ public class UserRegistrationImpl {
     @Transactional
     public SignupUser saveUser(SignupUser signupUser) throws InvalidUserException {
         
-        AddUserAccount User = new AddUserAccount();
+        User User = new User();
         User.setFirstName(signupUser.getFirstName());
         User.setLastName(signupUser.getLastName());
         User.setEmail(signupUser.getEmail());
