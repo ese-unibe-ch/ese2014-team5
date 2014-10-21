@@ -48,6 +48,12 @@ public class IndexController {
         return model;
     }
     
+    @RequestMapping(value = "/siteowner", method = RequestMethod.GET)
+    public ModelAndView siteowner() {
+    	ModelAndView model = new ModelAndView("siteowner");    
+        return model;
+    }
+    
     @RequestMapping(value = "/login", method = RequestMethod.GET)
 	public ModelAndView login(
 		@RequestParam(value = "error", required = false) String error,

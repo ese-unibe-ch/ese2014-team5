@@ -31,7 +31,8 @@ width: 100px;
 }
 
 .controlbox {
-width: 100%;
+width: 250px;
+margin-left: 120px;
 }
 </style>
 
@@ -81,11 +82,10 @@ width: 100%;
                 <form:input path="nearCity" id="field-nearCity" tabindex="2" maxlength="35" placeholder="e.g. Bern"/>
             </div>
             
+            
             <div class="controlbox">
-            <label class="control-label" for="field-favorites">Include favorites</label>
-            <div class="controls">
-                <form:checkbox path="favorites" id="field-favorites"/>
-            </div>
+            
+                Include favorites<form:checkbox path="favorites" id="field-favorites"/>
             </div>
             
             <div class="form-actions">

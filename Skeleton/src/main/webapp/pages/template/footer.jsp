@@ -6,14 +6,12 @@
 <div class="wrap">
 <div class="footer">
 			<div class="copy">
-				<p class="link"><span>© All rights reserved | Template by&nbsp;<a href="http://w3layouts.com/"> W3Layouts</a></span></p>
+				<p class="link"><span>© All rights reserved | Template by&nbsp;ESE14 Team5</span></p>
 			</div>
 			<div class="f_nav">
 				<ul>
-					<li><a href="index.html">home</a></li>
-					<li><a href="rooms.html">rooms & suits</a></li>
-					<li><a href="reservation.html">reservation</a></li>
-					<li><a href="contact.html">Contact</a></li>
+					<li><a href="index">home</a></li>
+					<li><a href="siteowner">legal notice</a></li>
 				</ul>
 			</div>
 			<div class="soc_icons">
