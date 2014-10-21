@@ -1,7 +1,5 @@
 package org.sample.model;
 
-import java.awt.Point;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -26,7 +24,6 @@ public class Advert {
     private String peopleDesc;
     private String title;
     private int roomSize;
-    private Point coods;
     private Date fromDate;
     private Date toDate;
     
@@ -68,15 +65,7 @@ public class Advert {
 	public void setRoomSize(int size) {
 		this.roomSize = size;
 	}
-
-	public Point getCoods() {
-		return coods;
-	}
-
-	public void setCoods(Point coods) {
-		this.coods = coods;
-	}
-
+	
 	public Date getFromDate() {
 		return fromDate;
 	}

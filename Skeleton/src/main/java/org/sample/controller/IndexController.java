@@ -11,6 +11,7 @@ import org.sample.controller.pojos.LoginForm;
 import org.sample.controller.pojos.AdCreateForm;
 import org.sample.controller.pojos.SignupForm;
 import org.sample.controller.service.SampleService;
+import org.sample.exceptions.InvalidAdException;
 import org.sample.exceptions.InvalidUserException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -101,15 +102,13 @@ public class IndexController {
     }
     
     @RequestMapping(value = "/newad", method = RequestMethod.POST)
-    public ModelAndView createAd(@Valid AdCreateForm adForm, BindingResult result, RedirectAttributes redirectAttributes) {
+    public ModelAndView createAd(@Valid AdCreateForm adCreationForm, BindingResult result, RedirectAttributes redirectAttributes) {
     	ModelAndView model;    	
     	if (!result.hasErrors()) {
             try {
             	
-            	System.out.println(adForm.getFiles().get(0).getOriginalFilename());
-            	
-            	for (int i = 0; i < adForm.getFiles().size(); i++) {
-        			MultipartFile file = adForm.getFiles().get(i);
+            	for (int i = 0; i < adCreationForm.getFiles().size(); i++) {
+        			MultipartFile file = adCreationForm.getFiles().get(i);
         			try {
         				byte[] bytes = file.getBytes();
 
@@ -129,24 +128,23 @@ public class IndexController {
         				stream.write(bytes);
         				stream.close();
         				
-        				adForm.addFile(filename);
+        				adCreationForm.addFile(filename);
         			} catch (Exception e) {
-    
+        				System.out.println("No files selected.");
         			}
         		}
             	
-            	Long id = sampleService.saveFromAd(adForm);
+            	Long id = sampleService.saveFromAd(adCreationForm);
             	model = new ModelAndView("showad");
-            	model.addObject("ad", sampleService.getAd(id));  
-            } catch (InvalidUserException e) {
-            	
+            	model.addObject("ad", sampleService.getAd(id)); 
+            } catch (InvalidAdException e) {
+            	System.out.println("Invalidadexception raised");
             	model = new ModelAndView("adcreation");
-            	model.addObject("adCreationForm", new AdCreateForm());
+            	model.addObject("adCreationForm", adCreationForm);
             	model.addObject("page_error", e.getMessage());
             }
         } else {
         	model = new ModelAndView("adcreation");
-        	model.addObject("adCreationForm", new AdCreateForm());
         }   	
     	return model;
     }

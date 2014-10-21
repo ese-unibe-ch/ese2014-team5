@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>  
 
 
 <c:import url="template/header.jsp" />
@@ -26,7 +27,9 @@ img {
   <div class="col-md-8">Room: ${ad.roomDesc }</div>
   <div class="col-md-8">People: ${ad.peopleDesc }</div>
   <div class="col-md-8">Size: ${ad.roomSize }m^2</div>
-  <div class="col-md-8">Available from: ${ad.fromDate } to: ${ad.toDate } </div>
+  <fmt:formatDate value="${ad.fromDate}" var="dateFrom" pattern="MM/dd/yyyy" />
+	<fmt:formatDate value="${ad.toDate}" var="dateTo" pattern="MM/dd/yyyy" />
+  <div class="col-md-8">Available from: ${dateFrom } to: ${dateTo } </div>
   <div class="col-md-8">Address: ${ad.address.street }, ${ad.address.plz } ${ad.address.city }</div>
 </div>
 <br />

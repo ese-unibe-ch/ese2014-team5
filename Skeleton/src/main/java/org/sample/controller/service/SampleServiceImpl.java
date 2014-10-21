@@ -94,23 +94,39 @@ public class SampleServiceImpl implements SampleService {
             return signupUser;
         }
 
-
+        public static boolean isInteger(String s) {
+            try { 
+                Integer.parseInt(s); 
+            } catch(NumberFormatException e) { 
+                return false; 
+            }
+            // only got here if we didn't return false
+            return true;
+        }
     
     @Transactional
 	public Long saveFromAd(AdCreateForm adForm) throws InvalidAdException {
 		String street = adForm.getStreet();
+		String city = adForm.getCity();
+		String plz = adForm.getPlz();
 
-   /*     if(!StringUtils.isEmpty(street)) {
-            throw new InvalidUserException("Street must not be empty");   // throw exception
+        if(StringUtils.isEmpty(street)) {
+            throw new InvalidAdException("Street must not be empty");   // throw exception
         }
         
-        if(!StringUtils.isEmpty(adForm.getRoomSize())) {
-            throw new InvalidUserException("Size must not be empty");   // throw exception
-        }*/
+        if(StringUtils.isEmpty(city)) {
+            throw new InvalidAdException("City must not be empty");   // throw exception
+        }
+        
+        if(StringUtils.isEmpty(plz) || !isInteger(plz) || (plz.length()<4) || (plz.length()>5)) {
+            throw new InvalidAdException("Enter a valid postcode");   // throw exception
+        }
+        
+        
         
         Address address = new Address();
         address.setStreet(street);
-        address.setCity(adForm.getCity());
+        address.setCity(city);
         address.setPlz(adForm.getPlz());
 
         Advert ad = new Advert();

@@ -1,9 +1,12 @@
 package org.sample.controller.pojos;
 
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.web.multipart.MultipartFile;
 
 public class AdCreateForm {
@@ -14,7 +17,7 @@ public class AdCreateForm {
     private String peopleDesc;
     private String title;
     private String roomSize;
-    private Point coods;
+    
     private String fromDate;
     private String toDate;
     
@@ -49,12 +52,6 @@ public class AdCreateForm {
 	}
 	public void setRoomSize(String size) {
 		this.roomSize = size;
-	}
-	public Point getCoods() {
-		return coods;
-	}
-	public void setCoods(Point coods) {
-		this.coods = coods;
 	}
 	public String getFromDate() {
 		return fromDate;

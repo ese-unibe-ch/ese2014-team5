@@ -50,6 +50,15 @@ $(document).ready(function() {
 
 <h1>Create a new ad</h1>
 
+<c:if test="${page_error != null }">
+        <div class="alert alert-error">
+            <button type="button" class="close" style="left:0;" data-dismiss="alert">&times;</button>
+            <h4>Error!</h4>
+                ${page_error}
+        </div>
+    </c:if>
+
+
 <form:form method="post" modelAttribute="adCreationForm" action="newad?${_csrf.parameterName}=${_csrf.token}" id="adCreationForm" cssClass="form-horizontal"
            autocomplete="off" enctype="multipart/form-data">
     <fieldset>
@@ -154,15 +163,6 @@ $(document).ready(function() {
 </form:form>
 
 
-
-
-	<c:if test="${page_error != null }">
-        <div class="alert alert-error">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            <h4>Error!</h4>
-                ${page_error}
-        </div>
-    </c:if>
 
 
 <c:import url="template/footer.jsp" />
