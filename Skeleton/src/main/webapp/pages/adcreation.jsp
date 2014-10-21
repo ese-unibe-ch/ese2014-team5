@@ -47,8 +47,10 @@ $(document).ready(function() {
     }).data('datepicker');
 });
 </script>
-
-<h1>Create a new ad</h1>
+<div class="booking_room">
+			<h4>Create a new ad</h4>
+		</div>
+		<div class="reservation">
 
 <c:if test="${page_error != null }">
         <div class="alert alert-error">
@@ -163,6 +165,9 @@ $(document).ready(function() {
 </form:form>
 
 
-
+</div>
+		</div>
+		<div class="clear"></div>
+		</div>
 
 <c:import url="template/footer.jsp" />

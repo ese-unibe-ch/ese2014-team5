@@ -123,4 +123,5 @@
 
 	<div class="online_reservation">
 	<div class="b_room">
+		    <div class="main_bg">
 		           

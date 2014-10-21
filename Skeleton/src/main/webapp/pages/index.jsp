@@ -11,66 +11,89 @@
 <!-- <h2 class="title" style="opacity: 1;"><i class="bg"></i>WG-Site</h4><br />
 	<h4 class="subtitle">We find you a room!</h4>-->
 <!--start main -->
-<div class="main_bg">
 
+<style type="text/css">
+div.controls {
+	padding-bottom:0.2em;
+	
+}
+.controls-from {
+	width: 50%;
+	float: left;
+}
+.controls-to {
+	width: 50%;
+	float:left;
+}
 
+.ctrl {
+width: 100px;
+}
+
+.controlbox {
+width: 100%;
+}
+</style>
 
 		<div class="booking_room">
 			<h4>Find a room</h4>
 			<p>Enter your wishes below and make your dream of a wonderful room come true!</p>
 		</div>
 		<div class="reservation">
-			<ul>
-				<li class="span1_of_1">
-					<h5>type of room:</h5>
-					<!----------start section_room----------->
-					<div class="section_room">
-						<select id="country" onchange="change_country(this.value)" class="frm-field required">
-							<option value="null">Select a type of room</option>
-				            <option value="null">Suite room</option>         
-				            <option value="AX">Single room</option>
-							<option value="AX">Double room</option>
-		        		</select>
-					</div>	
-				</li>
-				<li  class="span1_of_1 left">
-					<h5>check-in-date:</h5>
-					<div class="book_date">
-						<form>
-							<input class="date" id="datepicker" type="text" value="DD/MM/YY" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'DD/MM/YY';}">
-						</form>
-
-					</div>					
-				</li>
-				<li  class="span1_of_1 left">
-					<h5>check-out-date:</h5>
-					<div class="book_date">
-						<form>
-							<input class="date" id="datepicker1" type="text" value="DD/MM/YY" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'DD/MM/YY';}">
-						</form>
-					</div>		
-				</li>
-				<li class="span1_of_2 left">
-					<h5>Adults:</h5>
-					<!----------start section_room----------->
-					<div class="section_room">
-						<select id="country" onchange="change_country(this.value)" class="frm-field required">
-							<option value="null">1</option>
-				            <option value="null">2</option>         
-				            <option value="AX">3</option>
-							<option value="AX">4</option>
-		        		</select>
-					</div>					
-				</li>
-				<li class="span1_of_3">
-					<div class="date_btn">
-						<form>
-							<input type="submit" value="book now" />
-						</form>
-					</div>
-				</li>
-				<div class="clear"></div>
-			</ul>
+			<form:form method="post" modelAttribute="searchForm" action="search" id="searchForm" cssClass="form-horizontal"
+           autocomplete="off">
+   				 <fieldset>
+            <label class="control-label" for="field-search">Search</label>
+            <div class="controls">
+                <form:input path="search" id="field-search" tabindex="2" maxlength="35" placeholder="Search for specifics (near shops, party-friendly, etc.).."/>
+            </div>
+            
+            <div class="controls-from">
+            	<label class="control-label ctrl" for="field-fromPrice">from</label>
+            	<div class="controls">
+            	    <form:input  path="fromPrice" id="field-fromPrice" tabindex="2" maxlength="35" placeholder="CHF"/>
+            	</div>
+            </div>
+        
+        	<div class="controls-to">
+        	<label class="control-label" for="field-toPrice">to</label>
+            <div class="controls">
+                <form:input path="toPrice" id="field-toPrice" tabindex="2" maxlength="35" placeholder="CHF"/>
+            </div>
+            </div>
+            
+            <div class="controls-from">
+            	<label class="control-label" for="field-fromSize">from</label>
+            	<div class="controls">
+            	    <form:input class="from" path="fromSize" id="field-fromSize" tabindex="2" maxlength="35" placeholder="m^2"/>
+            	</div>
+        	</div>
+        	
+        	<div class="controls-to">
+        	<label class="control-label" for="field-toSize">to</label>
+            <div class="controls">
+                <form:input path="toSize" id="field-toSize" tabindex="2" maxlength="35" placeholder="m^2"/>
+            </div>
+            </div>
+            
+            <label class="control-label" for="field-nearCity">Near City</label>
+            <div class="controls">
+                <form:input path="nearCity" id="field-nearCity" tabindex="2" maxlength="35" placeholder="e.g. Bern"/>
+            </div>
+            
+            <div class="controlbox">
+            <label class="control-label" for="field-favorites">Include favorites</label>
+            <div class="controls">
+                <form:checkbox path="favorites" id="field-favorites"/>
+            </div>
+            </div>
+            
+            <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Search</button>
+        	</div>
+        
+            </form:form>
+        </div>
 		</div>
 		<div class="clear"></div>
 		</div>

@@ -6,8 +6,15 @@
 
 <c:import url="template/header.jsp" />
 
-<h1>Sign Up Complete!</h1>
+<div class="booking_room">
+			<h4>Sign Up Complete!</h4>
+			
+		</div>
+		<div class="reservation">
 
-
+</div>
+		</div>
+		<div class="clear"></div>
+		</div>
 
 <c:import url="template/footer.jsp" />

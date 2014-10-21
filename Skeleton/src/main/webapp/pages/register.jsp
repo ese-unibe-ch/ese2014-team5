@@ -9,8 +9,11 @@
 
 <c:import url="template/header.jsp" />
 
-
-<h1>Sign Up Here for the WG-Site!</h1>
+<div class="booking_room">
+			<h4>Sign Up Here for the WG-Site!</h4>
+			
+		</div>
+		<div class="reservation">
 
 <form:form method="post" modelAttribute="signupUser" action="createAccount" id="signupUser" cssClass="form-horizontal"
            autocomplete="off">
@@ -72,5 +75,10 @@
 
     </fieldset>
 </form:form>
+
+</div>
+		</div>
+		<div class="clear"></div>
+		</div>
 
 <c:import url="template/footer.jsp" />
