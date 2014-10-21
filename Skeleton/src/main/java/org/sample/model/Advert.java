@@ -1,10 +1,14 @@
 package org.sample.model;
 
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -26,7 +30,7 @@ public class Advert {
     private Date fromDate;
     private Date toDate;
     
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
     private Set<Picture> pictures;
     
     @OneToOne
@@ -99,6 +103,10 @@ public class Advert {
 	
 	public void addPicture(Picture picture) {
 		
+		if(pictures==null)
+		{
+			pictures = new HashSet<Picture>();
+		}
 		this.pictures.add(picture);
 	}
 
