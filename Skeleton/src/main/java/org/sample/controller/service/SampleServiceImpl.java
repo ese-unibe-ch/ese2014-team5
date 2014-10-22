@@ -109,7 +109,33 @@ public class SampleServiceImpl implements SampleService {
 		String street = adForm.getStreet();
 		String city = adForm.getCity();
 		String plz = adForm.getPlz();
+		
+		String roomDesc = adForm.getRoomDesc();
+	    String peopleDesc = adForm.getPeopleDesc() ;
+	    String title = adForm.getTitle();
+	    String roomSize = adForm.getRoomSize();
+	    String fromDate = adForm.getFromDate();
 
+		if(StringUtils.isEmpty(roomDesc)) {
+	            throw new InvalidAdException("Room description must not be empty");   // throw exception
+	    }
+		
+		if(StringUtils.isEmpty(peopleDesc)) {
+            throw new InvalidAdException("Street must not be empty");   // throw exception
+        }
+		
+		if(StringUtils.isEmpty(title)) {
+            throw new InvalidAdException("Title must not be empty");   // throw exception
+        }
+
+		if(StringUtils.isEmpty(roomSize)) {
+            throw new InvalidAdException("Room size must not be empty");   // throw exception
+        }
+		
+		if(StringUtils.isEmpty(fromDate)) {
+            throw new InvalidAdException("Date must not be empty");   // throw exception
+        }
+		 
         if(StringUtils.isEmpty(street)) {
             throw new InvalidAdException("Street must not be empty");   // throw exception
         }
@@ -121,8 +147,6 @@ public class SampleServiceImpl implements SampleService {
         if(StringUtils.isEmpty(plz) || !isInteger(plz) || (plz.length()<4) || (plz.length()>5)) {
             throw new InvalidAdException("Enter a valid postcode");   // throw exception
         }
-        
-        
         
         Address address = new Address();
         address.setStreet(street);
