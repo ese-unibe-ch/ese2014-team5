@@ -12,10 +12,10 @@ import org.springframework.web.multipart.MultipartFile;
 public class AdCreateForm {
 
 
-    //private Long id;
+    //private Long id;    
+	private String title;
     private String roomDesc;
     private String peopleDesc;
-    private String title;
     private String roomSize;
     private String roomPrice;
     

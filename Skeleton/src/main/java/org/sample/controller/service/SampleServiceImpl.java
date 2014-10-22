@@ -110,7 +110,62 @@ public class SampleServiceImpl implements SampleService {
 		String street = adForm.getStreet();
 		String city = adForm.getCity();
 		String plz = adForm.getPlz();
+			    
+		String title = adForm.getTitle();
+		String roomDesc = adForm.getRoomDesc();
+	    String peopleDesc = adForm.getPeopleDesc() ;
+	    String roomSize = adForm.getRoomSize();
+	    String fromDate = adForm.getFromDate();
+	    
+	    SimpleDateFormat dateFormater = new SimpleDateFormat("MM/dd/yyyy");
+	    String today=dateFormater.format(new Date());
 
+	    if(StringUtils.isEmpty(title)) {
+            throw new InvalidAdException("Title must not be empty");   // throw exception
+        }
+	    else if(title.length()<4) {
+            throw new InvalidAdException("Please enter a meaningfull Title ");   // throw exception
+	    }
+
+		if(StringUtils.isEmpty(roomDesc)) {
+	            throw new InvalidAdException("Room description must not be empty");   // throw exception
+	    }
+		else if(roomDesc.length()<10) {
+            throw new InvalidAdException("Please enter more information");   // throw exception
+	    }
+		
+		if(StringUtils.isEmpty(peopleDesc)) {
+            throw new InvalidAdException("People description must not be empty");   // throw exception
+        }
+		else if(peopleDesc.length()<10) {
+            throw new InvalidAdException("Please enter more information");   // throw exception
+	    }
+		try {
+		if(StringUtils.isEmpty(roomSize)||Integer.parseInt(roomSize)<0) {
+            throw new InvalidAdException("Please enter a valid Room size");   // throw exception
+        }
+		}
+		catch(Exception e)
+		{
+			throw new InvalidAdException("Please enter a valid Room size");  
+		}
+		
+		if(StringUtils.isEmpty(fromDate)) {
+            throw new InvalidAdException("Date must not be empty");   // throw exception
+        }
+		else if(fromDate.length()!=10) {
+			throw new InvalidAdException("Please enter the date correctly MM/dd/yyyy");   // throw exception
+		}
+		else if(Integer.parseInt(fromDate.substring(6))<Integer.parseInt(today.substring(6))) {
+			throw new InvalidAdException("Please enter a future date or today");   // throw exception
+		}
+		else if(Integer.parseInt(fromDate.substring(3,5))<Integer.parseInt(today.substring(3,5))) {
+			throw new InvalidAdException("Please enter a future date or today");   // throw exception
+		}
+		else if(Integer.parseInt(fromDate.substring(0,2))<Integer.parseInt(today.substring(0,2))) {
+			throw new InvalidAdException("Please enter a future date or today");   // throw exception
+		}
+		 
         if(StringUtils.isEmpty(street)) {
             throw new InvalidAdException("Street must not be empty");   // throw exception
         }
@@ -120,10 +175,8 @@ public class SampleServiceImpl implements SampleService {
         }
         
         if(StringUtils.isEmpty(plz) || !isInteger(plz) || (plz.length()<4) || (plz.length()>5)) {
-            throw new InvalidAdException("Enter a valid postcode");   // throw exception
+            throw new InvalidAdException("Please enter a valid postcode");   // throw exception
         }
-        
-        
         
         Address address = new Address();
         address.setStreet(street);
@@ -144,14 +197,18 @@ public class SampleServiceImpl implements SampleService {
         Date dateTo = null;
 		try {
 			dateFrom = formatter.parse(adForm.getFromDate());
-			dateTo = formatter.parse(adForm.getToDate());
+			if(adForm.getToDate()!=null){
+				dateTo = formatter.parse(adForm.getToDate());
+			}
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			dateFrom = new Date();
 		}
         ad.setFromDate(dateFrom);
-        ad.setToDate(dateTo);
+        if(adForm.getToDate()!=null){
+        	ad.setToDate(dateTo);
+        }
         
         for(String file : adForm.getFilenames())
         {

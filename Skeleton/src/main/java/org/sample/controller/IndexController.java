@@ -160,7 +160,7 @@ public class IndexController {
             	model = new ModelAndView("showad");
             	model.addObject("ad", sampleService.getAd(id)); 
             } catch (InvalidAdException e) {
-            	System.out.println("Invalidadexception raised");
+            	//System.out.println("Invalidadexception raised");
             	model = new ModelAndView("adcreation");
             	model.addObject("adCreationForm", adCreationForm);
             	model.addObject("page_error", e.getMessage());
