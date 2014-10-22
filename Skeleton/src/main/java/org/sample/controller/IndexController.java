@@ -9,6 +9,7 @@ import javax.validation.Valid;
 
 import org.sample.controller.pojos.LoginForm;
 import org.sample.controller.pojos.AdCreateForm;
+import org.sample.controller.pojos.SearchForm;
 import org.sample.controller.pojos.SignupForm;
 import org.sample.controller.service.SampleService;
 import org.sample.exceptions.InvalidAdException;
@@ -36,7 +37,28 @@ public class IndexController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView index() {
     	ModelAndView model = new ModelAndView("index");
-    	model.addObject("signupForm", new SignupForm());    	
+    	model.addObject("searchForm", new SearchForm());
+        return model;
+    }
+    
+    @RequestMapping(value = "/index", method = RequestMethod.GET)
+    public ModelAndView index2() {
+    	ModelAndView model = new ModelAndView("index");    
+    	model.addObject("searchForm", new SearchForm());
+        return model;
+    }
+    
+    @RequestMapping(value = "/siteowner", method = RequestMethod.GET)
+    public ModelAndView siteowner() {
+    	ModelAndView model = new ModelAndView("siteowner");    
+        return model;
+    }
+    
+    @RequestMapping(value = "/search", method = RequestMethod.POST)
+    public ModelAndView search() {
+    	ModelAndView model = new ModelAndView("search"); 
+    	model.addObject("searchForm", new SearchForm());
+    	model.addObject("searchResults", sampleService.findAds("*"));
         return model;
     }
     

@@ -6,8 +6,11 @@
 
 <c:import url="template/header.jsp" />
 
-
-<h1>Login</h1>
+<div class="booking_room">
+			<h4>Login</h4>
+			
+		</div>
+		<div class="reservation">
 
 
 <form:form method="post" modelAttribute="loginForm" action="j_spring_security_check" id="loginForm" cssClass="form-horizontal"
@@ -53,5 +56,9 @@
         </div>
     </c:if>
 
+</div>
+		</div>
+		<div class="clear"></div>
+		</div>
 
 <c:import url="template/footer.jsp" />

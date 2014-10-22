@@ -3,6 +3,7 @@ package org.sample.controller.service;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 
@@ -248,4 +249,15 @@ public class SampleServiceImpl implements SampleService {
         
         return null;
     }
+
+	public Object findAds(String string) {
+		
+		Iterable<Advert> ads = null;
+		if(string.equals("*"))
+		{
+			ads = adDao.findAll();
+		}
+		
+		return ads;
+	}
 }

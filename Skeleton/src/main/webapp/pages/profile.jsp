@@ -6,13 +6,19 @@
 
 <c:import url="template/header.jsp" />
 
-
+<div class="booking_room">
+			<h4>Profile</h4>
+			
+		</div>
+		<div class="reservation">
 <h3>${currentUser.firstName} ${currentUser.lastName}'s profile</h3>
 <div>
 <p>E-Mail: ${currentUser.email}</p>
 </div>
-
-Go back to the <a href="register">Register</a>
+		</div>
+		</div>
+		<div class="clear"></div>
+		</div>
 
 
 <c:import url="template/footer.jsp" />

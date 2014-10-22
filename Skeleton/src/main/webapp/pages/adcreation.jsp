@@ -47,8 +47,10 @@ $(document).ready(function() {
     }).data('datepicker');
 });
 </script>
-
-<h1>Create a new ad</h1>
+<div class="booking_room">
+			<h4>Create a new ad</h4>
+		</div>
+		<div class="reservation">
 
 <c:if test="${page_error != null }">
         <div class="alert alert-error">
@@ -77,7 +79,7 @@ $(document).ready(function() {
         <div class="control-group<c:if test="${not empty roomDescErrors}"> error</c:if>">
             <label class="control-label" for="field-roomDesc">Room Description</label>
             <div class="controls">
-                <form:textarea path="roomDesc" id="field-roomDesc" rows="6" width="350px" tabindex="2" maxlength="500" placeholder="Describe your room (bright/historic/...).."/>
+                <form:textarea path="roomDesc" id="field-roomDesc" rows="6" width="350px" style="resize:vertical;" tabindex="2" maxlength="500" placeholder="Describe your room (bright/historic/...).."/>
                 <form:errors path="roomDesc" cssClass="help-inline" element="span"/>
             </div>
         </div>
@@ -86,7 +88,7 @@ $(document).ready(function() {
         <div class="control-group<c:if test="${not empty peopleDescErrors}"> error</c:if>">
             <label class="control-label" for="field-peopleDesc">People Description</label>
             <div class="controls">
-                <form:textarea path="peopleDesc" id="field-peopleDesc" rows="6" width="350px" tabindex="2" maxlength="500" placeholder="Describe the people living in the appartment (age/profession/...).."/>
+                <form:textarea path="peopleDesc" id="field-peopleDesc" rows="6" width="350px" style="resize:vertical;" tabindex="2" maxlength="500" placeholder="Describe the people living in the appartment (age/profession/...).."/>
                 <form:errors path="peopleDesc" cssClass="help-inline" element="span"/>
             </div>
         </div>
@@ -95,8 +97,17 @@ $(document).ready(function() {
         <div class="control-group<c:if test="${not empty roomSizeErrors}"> error</c:if>">
             <label class="control-label" for="field-roomSize">Size</label>
             <div class="controls">
-                <form:input path="roomSize" id="field-roomSize"  tabindex="2" maxlength="150" placeholder="e.g. 18"/> m^2
+                <form:input path="roomSize" id="field-roomSize"  tabindex="2" maxlength="150" placeholder="e.g. 18"/> m&sup2;
                 <form:errors path="roomSize" cssClass="help-inline" element="span"/>
+            </div>
+        </div>
+        
+        <c:set var="roomPriceErrors"><form:errors path="roomPrice"/></c:set>
+        <div class="control-group<c:if test="${not empty roomPriceErrors}"> error</c:if>">
+            <label class="control-label" for="field-roomPrice">Price</label>
+            <div class="controls">
+                <form:input path="roomPrice" id="field-roomPrice"  tabindex="2" maxlength="150" placeholder="e.g. 18"/> CHF
+                <form:errors path="roomPrice" cssClass="help-inline" element="span"/>
             </div>
         </div>
         
@@ -105,7 +116,7 @@ $(document).ready(function() {
         <div class="control-group<c:if test="${not empty fromDateErrors}"> error</c:if>">
             <label class="control-label" for="field-fromDate">from</label>
             <div class="controls">
-                <form:input path="fromDate" id="field-fromDate" class="span2" tabindex="2" maxlength="150" placeholder="e.g. 02.04.14"/>
+                <form:input path="fromDate" id="field-fromDate" class="span2" tabindex="2" maxlength="150" placeholder="e.g. 02/23/14"/>
                 <form:errors path="fromDate" cssClass="help-inline" element="span"/>
             </div>
         </div>
@@ -114,7 +125,7 @@ $(document).ready(function() {
         <div class="control-group<c:if test="${not empty toDateErrors}"> error</c:if>">
             <label class="control-label" for="field-toDate">till</label>
             <div class="controls">
-                <form:input path="toDate" id="field-toDate" class="span2" tabindex="2" maxlength="150" placeholder="e.g. 02.04.14"/> or leave empty for undefined
+                <form:input path="toDate" id="field-toDate" class="span2" tabindex="2" maxlength="150" placeholder="e.g. 02/23/14"/> or leave empty for undefined
                 <form:errors path="toDate" cssClass="help-inline" element="span"/>
             </div>
         </div>
@@ -163,6 +174,9 @@ $(document).ready(function() {
 </form:form>
 
 
-
+</div>
+		</div>
+		<div class="clear"></div>
+		</div>
 
 <c:import url="template/footer.jsp" />

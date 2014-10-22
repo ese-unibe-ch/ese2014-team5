@@ -24,6 +24,7 @@ public class Advert {
     private String peopleDesc;
     private String title;
     private int roomSize;
+    private int roomPrice;
     private Date fromDate;
     private Date toDate;
     
@@ -113,6 +114,14 @@ public class Advert {
 
 	public void setPeopleDesc(String peopleDesc) {
 		this.peopleDesc = peopleDesc;
+	}
+
+	public int getRoomPrice() {
+		return roomPrice;
+	}
+
+	public void setRoomPrice(int roomPrice) {
+		this.roomPrice = roomPrice;
 	}
 
     

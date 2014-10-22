@@ -9,8 +9,11 @@
 
 <c:import url="template/header.jsp" />
 
-
-<h1>Sign Up Here for the WG-Site!</h1>
+<div class="booking_room">
+			<h4>Sign Up Here for the WG-Site!</h4>
+			
+		</div>
+		<div class="reservation">
 
 <form:form method="post" modelAttribute="signupUser" action="createAccount" id="signupUser" cssClass="form-horizontal"
            autocomplete="off">
@@ -50,7 +53,7 @@
         <div class="control-group<c:if test="${not empty passwordErrors}"> error</c:if>">
             <label class="control-label" for="field-password">Password</label>
             <div class="controls">
-                <form:input path="password" id="field-password" tabindex="3" maxlength="35" placeholder="password"/>
+                <form:input type="password" path="password" id="field-password" tabindex="3" maxlength="35" placeholder="password"/>
                 <form:errors path="password" cssClass="help-inline" element="span"/>
             </div>
         </div>
@@ -59,7 +62,7 @@
         <div class="control-group<c:if test="${not empty passwordRepeatErrors}"> error</c:if>">
             <label class="control-label" for="field-passwordRepeat">PasswordRepeat</label>
             <div class="controls">
-                <form:input path="passwordRepeat" id="field-passwordRepeat" tabindex="3" maxlength="35" placeholder="passwordRepeat"/>
+                <form:input type="password" path="passwordRepeat" id="field-passwordRepeat" tabindex="3" maxlength="35" placeholder="passwordRepeat"/>
                 <form:errors path="passwordRepeat" cssClass="help-inline" element="span"/>
             </div>
         </div>
@@ -72,5 +75,10 @@
 
     </fieldset>
 </form:form>
+
+</div>
+		</div>
+		<div class="clear"></div>
+		</div>
 
 <c:import url="template/footer.jsp" />
