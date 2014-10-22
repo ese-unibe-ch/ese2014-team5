@@ -3,12 +3,10 @@ package org.sample.controller.service;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 import javax.servlet.ServletContext;
 
 import org.sample.controller.pojos.AdCreateForm;
-import org.sample.controller.pojos.SignupForm;
 import org.sample.controller.pojos.SignupUser;
 import org.sample.exceptions.InvalidUserException;
 import org.sample.model.User;
@@ -16,11 +14,9 @@ import org.sample.exceptions.InvalidAdException;
 import org.sample.model.Advert;
 import org.sample.model.Address;
 import org.sample.model.Picture;
-import org.sample.model.UserDeprecated;
 import org.sample.model.dao.AdDao;
 import org.sample.model.dao.AddressDao;
 import org.sample.model.dao.PictureDao;
-import org.sample.model.dao.UserAccountDao;
 import org.sample.model.dao.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,73 +33,40 @@ public class SampleServiceImpl implements SampleService {
     
     @Autowired
     ServletContext context;
-    
+
     @Transactional
-    public SignupForm saveFrom(SignupForm signupForm) throws InvalidUserException {
+    public SignupUser saveUser(SignupUser signupUser) throws InvalidUserException {
 
-        String firstName = signupForm.getFirstName();
+        User User = new User();
+        User.setFirstName(signupUser.getFirstName());
+        User.setLastName(signupUser.getLastName());
+        User.setEmail(signupUser.getEmail());
 
-        if (!StringUtils.isEmpty(firstName) && "ESE".equalsIgnoreCase(firstName)) {
-            throw new InvalidUserException("Sorry, ESE is not a valid name");   // throw exception
+        String password = signupUser.getpassword();
+        String passwordRepeat = signupUser.getpasswordRepeat();
+        if (password.equals(passwordRepeat)) {
+            User.setpassword(signupUser.getpassword());
         }
+    //TODO, password should not be saved readable in database. 
+        //Hashfunction is needed or something similar
+        //Would mean user password replaced by double, but still read in as String in signupUser
 
-        Address address = new Address();
-        address.setStreet("TestStreet");
+        User = userDao.save(User);
 
-        UserDeprecated user = new UserDeprecated();
-        user.setFirstName(signupForm.getFirstName());
-        user.setEmail(signupForm.getEmail());
-        user.setLastName(signupForm.getLastName());
-        user.setAddress(address);
+        signupUser.setId(User.getId());
 
-        address = addDao.save(address);
-        user = userDao.save(user);   // save object to DB
-
-        // Iterable<Address> addresses = addDao.findAll();  // find all 
-        // Address anAddress = addDao.findOne((long)3); // find by ID
-        signupForm.setId(user.getId());
-
-        return signupForm;
-
+        return signupUser;
     }
 
-
-        @Autowired
-        UserAccountDao UserAccountDao;
-
-        @Transactional
-        public SignupUser saveUser(SignupUser signupUser) throws InvalidUserException {
-
-            User User = new User();
-            User.setFirstName(signupUser.getFirstName());
-            User.setLastName(signupUser.getLastName());
-            User.setEmail(signupUser.getEmail());
-
-            String password = signupUser.getpassword();
-            String passwordRepeat = signupUser.getpasswordRepeat();
-            if (password.equals(passwordRepeat)) {
-                User.setpassword(signupUser.getpassword());
-            }
-        //TODO, password should not be saved readable in database. 
-            //Hashfunction is needed or something similar
-            //Would mean user password replaced by double, but still read in as String in signupUser
-
-            User = UserAccountDao.save(User);
-
-            signupUser.setId(User.getId());
-
-            return signupUser;
+    public static boolean isInteger(String s) {
+        try { 
+            Integer.parseInt(s); 
+        } catch(NumberFormatException e) { 
+            return false; 
         }
-
-        public static boolean isInteger(String s) {
-            try { 
-                Integer.parseInt(s); 
-            } catch(NumberFormatException e) { 
-                return false; 
-            }
-            // only got here if we didn't return false
-            return true;
-        }
+        // only got here if we didn't return false
+        return true;
+    }
     
     @Transactional
 	public Long saveFromAd(AdCreateForm adForm) throws InvalidAdException {
@@ -236,12 +199,12 @@ public class SampleServiceImpl implements SampleService {
     
     public User getUser(Long id) {
     	
-        return UserAccountDao.findOne(id);
+        return userDao.findOne(id);
     }
     
     public Object getUserByFirstNameAndLastName(String fname, String lname) {
    
-        for(User user : UserAccountDao.findAll()) {
+        for(User user : userDao.findAll()) {
             if(user.getFirstName().equals(fname) && user.getLastName().equals(lname)) {
                 return user;
             }
@@ -256,6 +219,34 @@ public class SampleServiceImpl implements SampleService {
 		if(string.equals("*"))
 		{
 			ads = adDao.findAll();
+		}
+		else
+		{
+			/* SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+			FullTextSession fullTextSession = Search.getFullTextSession(session);
+			Transaction tx = fullTextSession.beginTransaction();
+
+			// create native Lucene query unsing the query DSL
+			// alternatively you can write the Lucene query using the Lucene query parser
+			// or the Lucene programmatic API. The Hibernate Search DSL is recommended though
+			QueryBuilder qb = fullTextSession.getSearchFactory()
+			    .buildQueryBuilder().forEntity(Advert.class).get();
+			org.apache.lucene.search.Query query = qb
+			  .keyword()
+			  .onFields("roomDesc", "peopleDesc", "address.street")
+			  .matching(string)
+			  .createQuery();
+
+			// wrap Lucene query in a org.hibernate.Query
+			org.hibernate.Query hibQuery = 
+			    fullTextSession.createFullTextQuery(query, Advert.class);
+
+			// execute search
+			ads = hibQuery.list();
+			  
+			tx.commit();
+			session.close();*/
+			
 		}
 		
 		return ads;

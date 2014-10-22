@@ -10,10 +10,8 @@ import javax.validation.Valid;
 import org.sample.controller.pojos.LoginForm;
 import org.sample.controller.pojos.AdCreateForm;
 import org.sample.controller.pojos.SearchForm;
-import org.sample.controller.pojos.SignupForm;
 import org.sample.controller.service.SampleService;
 import org.sample.exceptions.InvalidAdException;
-import org.sample.exceptions.InvalidUserException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -97,23 +95,6 @@ public class IndexController {
     	ModelAndView model = new ModelAndView("adcreation");
     	model.addObject("adCreationForm", new AdCreateForm());    	
         return model;
-    }
-    
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public ModelAndView create(@Valid SignupForm signupForm, BindingResult result, RedirectAttributes redirectAttributes) {
-    	ModelAndView model;    	
-    	if (!result.hasErrors()) {
-            try {
-            	sampleService.saveFrom(signupForm);
-            	model = new ModelAndView("show");
-            } catch (InvalidUserException e) {
-            	model = new ModelAndView("index");
-            	model.addObject("page_error", e.getMessage());
-            }
-        } else {
-        	model = new ModelAndView("index");
-        }   	
-    	return model;
     }
     
     @RequestMapping(value = "/showad", method = RequestMethod.GET)

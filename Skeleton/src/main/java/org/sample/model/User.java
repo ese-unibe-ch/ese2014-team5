@@ -8,6 +8,7 @@ package org.sample.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
 /**
  * This class loads the data to the database
@@ -22,7 +23,9 @@ public class User {
     
     private String firstName;
     private String lastName;
+    @NotNull
     private String password;
+    @NotNull
     private String email;
 
         public Long getId() {
