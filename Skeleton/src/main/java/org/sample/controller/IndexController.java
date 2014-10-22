@@ -55,10 +55,10 @@ public class IndexController {
     }
     
     @RequestMapping(value = "/search", method = RequestMethod.POST)
-    public ModelAndView search() {
+    public ModelAndView search(@RequestParam("searchForm") SearchForm search) {
     	ModelAndView model = new ModelAndView("search"); 
     	model.addObject("searchForm", new SearchForm());
-    	model.addObject("searchResults", sampleService.findAds("*"));
+    	model.addObject("searchResults", sampleService.findAds(search.getSearch()));
         return model;
     }
     
