@@ -129,31 +129,39 @@ public class SampleServiceImpl implements SampleService {
 		if(StringUtils.isEmpty(roomDesc)) {
 	            throw new InvalidAdException("Room description must not be empty");   // throw exception
 	    }
-		else if(title.length()<10) {
+		else if(roomDesc.length()<10) {
             throw new InvalidAdException("Please enter more information");   // throw exception
 	    }
 		
 		if(StringUtils.isEmpty(peopleDesc)) {
             throw new InvalidAdException("People description must not be empty");   // throw exception
         }
-		else if(title.length()<10) {
+		else if(peopleDesc.length()<10) {
             throw new InvalidAdException("Please enter more information");   // throw exception
 	    }
-		
-		if(StringUtils.isEmpty(roomSize)&&Integer.getInteger(roomSize)!=null) {
+		try {
+		if(StringUtils.isEmpty(roomSize)||Integer.parseInt(roomSize)<0) {
             throw new InvalidAdException("Please enter a valid Room size");   // throw exception
         }
+		}
+		catch(Exception e)
+		{
+			throw new InvalidAdException("Please enter a valid Room size");  
+		}
 		
 		if(StringUtils.isEmpty(fromDate)) {
             throw new InvalidAdException("Date must not be empty");   // throw exception
         }
-		else if(Integer.getInteger(fromDate.substring(7))<Integer.getInteger(today.substring(7))) {
+		else if(fromDate.length()!=10) {
+			throw new InvalidAdException("Please enter the date correctly MM/dd/yyyy");   // throw exception
+		}
+		else if(Integer.parseInt(fromDate.substring(6))<Integer.parseInt(today.substring(6))) {
 			throw new InvalidAdException("Please enter a future date or today");   // throw exception
 		}
-		else if(Integer.getInteger(fromDate.substring(4,6))<Integer.getInteger(today.substring(4,6))) {
+		else if(Integer.parseInt(fromDate.substring(3,5))<Integer.parseInt(today.substring(3,5))) {
 			throw new InvalidAdException("Please enter a future date or today");   // throw exception
 		}
-		else if(Integer.getInteger(fromDate.substring(4,6))<Integer.getInteger(today.substring(4,6))) {
+		else if(Integer.parseInt(fromDate.substring(0,2))<Integer.parseInt(today.substring(0,2))) {
 			throw new InvalidAdException("Please enter a future date or today");   // throw exception
 		}
 		 
