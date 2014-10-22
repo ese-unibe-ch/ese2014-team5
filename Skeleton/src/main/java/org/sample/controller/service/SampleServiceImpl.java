@@ -109,32 +109,53 @@ public class SampleServiceImpl implements SampleService {
 		String street = adForm.getStreet();
 		String city = adForm.getCity();
 		String plz = adForm.getPlz();
-		
+			    
+		String title = adForm.getTitle();
 		String roomDesc = adForm.getRoomDesc();
 	    String peopleDesc = adForm.getPeopleDesc() ;
-	    String title = adForm.getTitle();
 	    String roomSize = adForm.getRoomSize();
 	    String fromDate = adForm.getFromDate();
+	    
+	    SimpleDateFormat dateFormater = new SimpleDateFormat("MM/dd/yyyy");
+	    String today=dateFormater.format(new Date());
+
+	    if(StringUtils.isEmpty(title)) {
+            throw new InvalidAdException("Title must not be empty");   // throw exception
+        }
+	    else if(title.length()<4) {
+            throw new InvalidAdException("Please enter a meaningfull Title ");   // throw exception
+	    }
 
 		if(StringUtils.isEmpty(roomDesc)) {
 	            throw new InvalidAdException("Room description must not be empty");   // throw exception
 	    }
+		else if(title.length()<10) {
+            throw new InvalidAdException("Please enter more information");   // throw exception
+	    }
 		
 		if(StringUtils.isEmpty(peopleDesc)) {
-            throw new InvalidAdException("Street must not be empty");   // throw exception
+            throw new InvalidAdException("People description must not be empty");   // throw exception
         }
+		else if(title.length()<10) {
+            throw new InvalidAdException("Please enter more information");   // throw exception
+	    }
 		
-		if(StringUtils.isEmpty(title)) {
-            throw new InvalidAdException("Title must not be empty");   // throw exception
-        }
-
-		if(StringUtils.isEmpty(roomSize)) {
-            throw new InvalidAdException("Room size must not be empty");   // throw exception
+		if(StringUtils.isEmpty(roomSize)&&Integer.getInteger(roomSize)!=null) {
+            throw new InvalidAdException("Please enter a valid Room size");   // throw exception
         }
 		
 		if(StringUtils.isEmpty(fromDate)) {
             throw new InvalidAdException("Date must not be empty");   // throw exception
         }
+		else if(Integer.getInteger(fromDate.substring(7))<Integer.getInteger(today.substring(7))) {
+			throw new InvalidAdException("Please enter a future date or today");   // throw exception
+		}
+		else if(Integer.getInteger(fromDate.substring(4,6))<Integer.getInteger(today.substring(4,6))) {
+			throw new InvalidAdException("Please enter a future date or today");   // throw exception
+		}
+		else if(Integer.getInteger(fromDate.substring(4,6))<Integer.getInteger(today.substring(4,6))) {
+			throw new InvalidAdException("Please enter a future date or today");   // throw exception
+		}
 		 
         if(StringUtils.isEmpty(street)) {
             throw new InvalidAdException("Street must not be empty");   // throw exception
@@ -145,7 +166,7 @@ public class SampleServiceImpl implements SampleService {
         }
         
         if(StringUtils.isEmpty(plz) || !isInteger(plz) || (plz.length()<4) || (plz.length()>5)) {
-            throw new InvalidAdException("Enter a valid postcode");   // throw exception
+            throw new InvalidAdException("Please enter a valid postcode");   // throw exception
         }
         
         Address address = new Address();
