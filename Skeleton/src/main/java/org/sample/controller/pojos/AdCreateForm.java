@@ -24,6 +24,7 @@ public class AdCreateForm {
     private String street;
     private String city;
     private String plz;
+    private String price;
     
     private List<MultipartFile> files;
     private List<String> filenames;
@@ -82,6 +83,12 @@ public class AdCreateForm {
 	}
 	public void setPlz(String plz) {
 		this.plz = plz;
+	}
+	public String getPrice() {
+		return price;
+	}
+	public void setPrice(String price) {
+		this.price = price;
 	}
 	public List<MultipartFile> getFiles() {
 		return files;

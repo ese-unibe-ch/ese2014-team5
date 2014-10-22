@@ -115,11 +115,11 @@ public class SampleServiceImpl implements SampleService {
 	    String peopleDesc = adForm.getPeopleDesc() ;
 	    String roomSize = adForm.getRoomSize();
 	    String fromDate = adForm.getFromDate();
+	    String prize= adForm.getPrice();
 	    
 	    SimpleDateFormat dateFormater = new SimpleDateFormat("MM/dd/yyyy");
 	    Date todayDate=new Date();
 	    Date fromDate2;
-	    String today=dateFormater.format(todayDate);
 	    
 	    if(StringUtils.isEmpty(title)) {
             throw new InvalidAdException("Title must not be empty"+ title);   // throw exception
@@ -143,7 +143,11 @@ public class SampleServiceImpl implements SampleService {
 	    }
 		
 		if(StringUtils.isEmpty(roomSize)||!isInteger(roomSize)) {
-            throw new InvalidAdException("Please enter a valid Room size");   // throw exception
+            throw new InvalidAdException("Please enter a valid room size");   // throw exception
+        }
+		
+		if(StringUtils.isEmpty(prize)||!isInteger(prize)) {
+            throw new InvalidAdException("Please enter a valid price");   // throw exception
         }
 		
 		if(StringUtils.isEmpty(fromDate)) {

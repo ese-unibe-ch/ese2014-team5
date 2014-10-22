@@ -23,6 +23,7 @@ public class RestrictionTest {
 		adForm.setRoomDesc("This is a very nice room.");
 		adForm.setPeopleDesc("All people are happy here.");
 		adForm.setRoomSize("11");
+		adForm.setPrice("11");
 		adForm.setFromDate("01/01/2015");
 		adForm.setStreet("Street");
 		adForm.setCity("City");
@@ -111,7 +112,7 @@ public class RestrictionTest {
 	@Test
 	public void RoomSizeRestrictionEmpty() {
 
-		eMessage = "Please enter a valid Room size";
+		eMessage = "Please enter a valid room size";
 		adForm.setRoomSize("");
 
 		try {
@@ -124,8 +125,33 @@ public class RestrictionTest {
 	@Test
 	public void RoomSizeRestrictionFalse() {
 
-		eMessage = "Please enter a valid Room size";
+		eMessage = "Please enter a valid room size";
 		adForm.setRoomSize("a,b.c");
+		try {
+			service.saveFromAd(adForm);
+		} catch (InvalidAdException e) {
+			assertEquals(eMessage, e.getMessage());
+		}
+	}
+	
+	@Test
+	public void PriceRestrictionEmpty() {
+
+		eMessage = "Please enter a valid price";
+		adForm.setPrice("");
+
+		try {
+			service.saveFromAd(adForm);
+		} catch (InvalidAdException e) {
+			assertEquals(eMessage, e.getMessage());
+		}
+	}
+
+	@Test
+	public void PriceRestrictionFalse() {
+
+		eMessage = "Please enter a valid price";
+		adForm.setPrice("a,b.c");
 		try {
 			service.saveFromAd(adForm);
 		} catch (InvalidAdException e) {
