@@ -8,9 +8,7 @@
 <c:import url="template/header.jsp" />
 
 <style type="text/css">
-img.gallery {
-	width: 150px;
-}
+
 </style>
 
 <div class="booking_room">
@@ -30,7 +28,7 @@ img.gallery {
   <ul style="clear:left;">
   <li>Room: ${ad.roomDesc }</li>
   <li>People: ${ad.peopleDesc }</li>
-  <li>Size: ${ad.roomSize }m^2</li>
+  <li>Size: ${ad.roomSize }m&sup2;</li>
   <li>Available from: ${dateFrom } to: ${dateTo } </li>
   <li>Address: ${ad.address.street }, ${ad.address.plz } ${ad.address.city }</li>
   </ul>

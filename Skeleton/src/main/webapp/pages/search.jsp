@@ -6,22 +6,24 @@
 
 <c:import url="template/header.jsp" />
 
+<script type="text/javascript">
+function open()
+{
+	window.location.replace("/showad?value=1");
+}
+$(document).ready(function(){
+	$(document).on("click", "result", function(){
+		$(location).attr('href',"showad?value="+$(this).data("value"));
+	});
+});
+</script>
 
-
-<!-- <h2 class="title" style="opacity: 1;"><i class="bg"></i>WG-Site</h4><br />
-	<h4 class="subtitle">We find you a room!</h4>-->
-<!--start main -->
-
-<style type="text/css">
-
-</style>
-
-		<div class="booking_room">
-			<h4>Find a room</h4>
-			<p>Enter your wishes below and make your dream of a wonderful room come true!</p>
+<div class="booking_room">
+			<h4>Search results</h4>
+			
 		</div>
 		<div class="reservation">
-			<form:form method="post" modelAttribute="searchForm" action="search" id="searchForm" cssClass="form-horizontal"
+<form:form method="post" modelAttribute="searchForm" action="search" id="searchForm" cssClass="form-horizontal"
            autocomplete="off">
    				 <fieldset>
             <label class="control-label" for="field-search">Search</label>
@@ -53,7 +55,7 @@
         	<div class="controls-to">
         	<label class="control-label" for="field-toSize">to</label>
             <div class="controls">
-                <form:input path="toSize" id="field-toSize" tabindex="2" maxlength="35" placeholder="m&sup2;"/>
+                <form:input path="toSize" id="field-toSize" tabindex="2" maxlength="35" placeholder="m^2"/>
             </div>
             </div>
             
@@ -73,10 +75,28 @@
         	</div>
         </fieldset>
             </form:form>
-        </div>
+            
+            <div id="results" style="width:100%">
+             <c:forEach items="${searchResults}" var="ad">
+             
+       			<div class="result" style="width:100%;height:150px;padding:10px;" onclick="javascript:location.href='showad?value=${ad.id}'">
+	       			<c:forEach items="${ad.pictures}" varStatus="loopCount" var="pic">
+	             		<c:if test="${loopCount.count eq 1}"><img class="gallery" src="<c:url value="img/${pic.url}"/>"/></c:if>
+					</c:forEach>
+					<div class="resultinfo">
+						<b style="font-family:Arial;font-size:14pt;">${ad.title}</b>
+						<br />
+						${ad.roomDesc}
+						<br />
+						Price: ${ad.roomPrice}CHF, Size: ${ad.roomSize}m&sup2;
+					</div>
+				</div>
+				</a>
+			</c:forEach>
+            </div>
+</div>
 		</div>
 		<div class="clear"></div>
 		</div>
-
 
 <c:import url="template/footer.jsp" />

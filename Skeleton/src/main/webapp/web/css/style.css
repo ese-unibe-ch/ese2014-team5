@@ -1174,3 +1174,21 @@ width: 100px;
 width: 250px;
 margin-left: 120px;
 }
+img.gallery {
+	width: 150px;
+	float: left;
+}
+div.resultinfo
+{
+	margin-left: 160px;
+}
+
+.result {
+	background-color: #F1F1F1;
+	margin-bottom:5px;
+	
+}
+.result:hover {
+	background-color: #E4E4E4;
+	
+}

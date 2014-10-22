@@ -17,6 +17,7 @@ public class AdCreateForm {
     private String peopleDesc;
     private String title;
     private String roomSize;
+    private String roomPrice;
     
     private String fromDate;
     private String toDate;
@@ -103,6 +104,12 @@ public class AdCreateForm {
 			filenames = new ArrayList<String>();
 		}
 		this.filenames.add(file);
+	}
+	public String getRoomPrice() {
+		return roomPrice;
+	}
+	public void setRoomPrice(String roomPrice) {
+		this.roomPrice = roomPrice;
 	}
    
 }

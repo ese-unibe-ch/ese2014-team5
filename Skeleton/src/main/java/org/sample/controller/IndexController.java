@@ -54,6 +54,14 @@ public class IndexController {
         return model;
     }
     
+    @RequestMapping(value = "/search", method = RequestMethod.POST)
+    public ModelAndView search() {
+    	ModelAndView model = new ModelAndView("search"); 
+    	model.addObject("searchForm", new SearchForm());
+    	model.addObject("searchResults", sampleService.findAds("*"));
+        return model;
+    }
+    
     @RequestMapping(value = "/login", method = RequestMethod.GET)
 	public ModelAndView login(
 		@RequestParam(value = "error", required = false) String error,
