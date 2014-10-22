@@ -118,10 +118,12 @@ public class SampleServiceImpl implements SampleService {
 	    String fromDate = adForm.getFromDate();
 	    
 	    SimpleDateFormat dateFormater = new SimpleDateFormat("MM/dd/yyyy");
-	    String today=dateFormater.format(new Date());
-
+	    Date todayDate=new Date();
+	    Date fromDate2;
+	    String today=dateFormater.format(todayDate);
+	    
 	    if(StringUtils.isEmpty(title)) {
-            throw new InvalidAdException("Title must not be empty");   // throw exception
+            throw new InvalidAdException("Title must not be empty"+ title);   // throw exception
         }
 	    else if(title.length()<4) {
             throw new InvalidAdException("Please enter a meaningfull Title ");   // throw exception
@@ -131,41 +133,35 @@ public class SampleServiceImpl implements SampleService {
 	            throw new InvalidAdException("Room description must not be empty");   // throw exception
 	    }
 		else if(roomDesc.length()<10) {
-            throw new InvalidAdException("Please enter more information");   // throw exception
+            throw new InvalidAdException("Please enter more information in your Room Description");   // throw exception
 	    }
 		
 		if(StringUtils.isEmpty(peopleDesc)) {
             throw new InvalidAdException("People description must not be empty");   // throw exception
         }
 		else if(peopleDesc.length()<10) {
-            throw new InvalidAdException("Please enter more information");   // throw exception
+            throw new InvalidAdException("Please enter more information in your People Description");   // throw exception
 	    }
-		try {
-		if(StringUtils.isEmpty(roomSize)||Integer.parseInt(roomSize)<0) {
+		
+		if(StringUtils.isEmpty(roomSize)||!isInteger(roomSize)) {
             throw new InvalidAdException("Please enter a valid Room size");   // throw exception
         }
-		}
-		catch(Exception e)
-		{
-			throw new InvalidAdException("Please enter a valid Room size");  
-		}
 		
 		if(StringUtils.isEmpty(fromDate)) {
             throw new InvalidAdException("Date must not be empty");   // throw exception
         }
-		else if(fromDate.length()!=10) {
+		if(fromDate.length()!=10) {
 			throw new InvalidAdException("Please enter the date correctly MM/dd/yyyy");   // throw exception
 		}
-		else if(Integer.parseInt(fromDate.substring(6))<Integer.parseInt(today.substring(6))) {
+		try {
+			fromDate2= dateFormater.parse(fromDate);
+		} catch (ParseException e1) {
+			throw new InvalidAdException("Please enter the date correctly MM/dd/yyyy");   // throw exception
+		}
+		if(todayDate.compareTo(fromDate2)>0) {
 			throw new InvalidAdException("Please enter a future date or today");   // throw exception
 		}
-		else if(Integer.parseInt(fromDate.substring(3,5))<Integer.parseInt(today.substring(3,5))) {
-			throw new InvalidAdException("Please enter a future date or today");   // throw exception
-		}
-		else if(Integer.parseInt(fromDate.substring(0,2))<Integer.parseInt(today.substring(0,2))) {
-			throw new InvalidAdException("Please enter a future date or today");   // throw exception
-		}
-		 
+		
         if(StringUtils.isEmpty(street)) {
             throw new InvalidAdException("Street must not be empty");   // throw exception
         }
