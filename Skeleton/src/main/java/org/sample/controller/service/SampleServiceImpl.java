@@ -196,14 +196,18 @@ public class SampleServiceImpl implements SampleService {
         Date dateTo = null;
 		try {
 			dateFrom = formatter.parse(adForm.getFromDate());
-			dateTo = formatter.parse(adForm.getToDate());
+			if(adForm.getToDate()!=null){
+				dateTo = formatter.parse(adForm.getToDate());
+			}
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			dateFrom = new Date();
 		}
         ad.setFromDate(dateFrom);
-        ad.setToDate(dateTo);
+        if(adForm.getToDate()!=null){
+        	ad.setToDate(dateTo);
+        }
         
         for(String file : adForm.getFilenames())
         {
