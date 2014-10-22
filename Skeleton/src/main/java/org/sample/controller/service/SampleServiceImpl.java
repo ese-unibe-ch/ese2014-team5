@@ -5,8 +5,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.EntityManager;
 import javax.servlet.ServletContext;
 
+import org.hibernate.*;
+import org.hibernate.cache.ehcache.internal.util.HibernateUtil;
+import org.hibernate.search.FullTextSession;
+import org.hibernate.search.Search;
+import org.hibernate.search.query.dsl.QueryBuilder;
 import org.sample.controller.pojos.AdCreateForm;
 import org.sample.controller.pojos.SignupForm;
 import org.sample.controller.pojos.SignupUser;
@@ -256,6 +262,34 @@ public class SampleServiceImpl implements SampleService {
 		if(string.equals("*"))
 		{
 			ads = adDao.findAll();
+		}
+		else
+		{
+			/* SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+			FullTextSession fullTextSession = Search.getFullTextSession(session);
+			Transaction tx = fullTextSession.beginTransaction();
+
+			// create native Lucene query unsing the query DSL
+			// alternatively you can write the Lucene query using the Lucene query parser
+			// or the Lucene programmatic API. The Hibernate Search DSL is recommended though
+			QueryBuilder qb = fullTextSession.getSearchFactory()
+			    .buildQueryBuilder().forEntity(Advert.class).get();
+			org.apache.lucene.search.Query query = qb
+			  .keyword()
+			  .onFields("roomDesc", "peopleDesc", "address.street")
+			  .matching(string)
+			  .createQuery();
+
+			// wrap Lucene query in a org.hibernate.Query
+			org.hibernate.Query hibQuery = 
+			    fullTextSession.createFullTextQuery(query, Advert.class);
+
+			// execute search
+			ads = hibQuery.list();
+			  
+			tx.commit();
+			session.close();*/
+			
 		}
 		
 		return ads;

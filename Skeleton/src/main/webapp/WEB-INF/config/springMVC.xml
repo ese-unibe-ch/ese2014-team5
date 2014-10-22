@@ -13,6 +13,7 @@
 
 	<!-- search for controllers (@Controller)  -->
     <mvc:annotation-driven />
+    
     <context:component-scan base-package="org.sample"/> 
 	
     <!-- handler  -->
@@ -31,6 +32,7 @@
         <property name="maxUploadSize" value="1000000" />
  
     </bean>
+    
     
     <!-- resources  -->
     <mvc:resources mapping="/assets/**" location="classpath:/META-INF/resources/webjars/"/>
