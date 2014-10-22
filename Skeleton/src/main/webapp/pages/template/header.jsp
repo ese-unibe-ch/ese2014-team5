@@ -76,8 +76,8 @@
 <div class="header_bg">
 <div class="wrap">
 	<div class="header">
-		<div class="logo">
-			<a href="index"><h3 class="logo">WG-Site</h3></a>
+		<div class="logo1">
+			<a href="index"><h3 class="logotext">WG-Site</h3></a>
 		</div>
 		<div class="h_right">
 			<!--start menu -->
@@ -89,17 +89,18 @@
 				<li><a href="adcreation">create an Ad</a></li>
 				<div class="clear"></div>
 			</ul>
-			<!-- start profile_details -->
+			<!-- start profile_details --><div style="width:100px;position:absolute;right:20px;left:auto;">
 					<form class="style-1 drp_dwn">
-						<div class="row">
-							<div class="grid_3 columns">
+						<!-- <div class="row">
+							<div class="grid_3 columns"> -->
 								<select class="custom-select" id="select-1">
 									<option selected="selected">EN</option>
 									<option>DE</option>
 								</select>
-							</div>		
-						</div>		
+						<!--	</div>		
+						</div>		 -->
 					</form>
+					</div>
 		</div>
 		<div class="clear"></div>
 		<div class="top-nav">

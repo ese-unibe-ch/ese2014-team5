@@ -28,8 +28,12 @@ nav.vertical ul li{	display:block;}/* vertical menu */
 nav.horizontal ul li{	display: inline-block;}/* horizontal menu */
 img{max-width:100%;}
 /*end reset*/
-input {
-	width: 200px;
+input[type="text"]{
+	width:60%;
+}
+
+fieldset {
+	width: 60%;
 }
 
 .topbox {
@@ -38,12 +42,17 @@ input {
 	color: white;
 	z-index: 1;
 }
-.logo {
+.logo1 {
+	
+	z-index: 200;
+	top:60px;
+	width: 160px;
+	float:left;
+}
+.logotext {
 	font-family: 'Open Sans', sans-serif;
 	font-size: 29pt;
 	color: white;
-	z-index: 200;
-	top:60px;
 }
 .title {
 	position:relative;
@@ -1140,4 +1149,28 @@ span.next:hover {
 		padding: 10px;
 		width: 50% !important;
 	}
+}
+
+div.controls {
+	padding-bottom:0.2em;
+	width: 60%;
+	
+}
+.controls-from {
+	width: 40%;
+	float: left;
+}
+.controls-to {
+	width: 40%;
+	float:left;
+	margin-left: -4%;
+}
+
+.ctrl {
+width: 100px;
+}
+
+.controlbox {
+width: 250px;
+margin-left: 120px;
 }

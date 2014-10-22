@@ -13,27 +13,7 @@
 <!--start main -->
 
 <style type="text/css">
-div.controls {
-	padding-bottom:0.2em;
-	
-}
-.controls-from {
-	width: 50%;
-	float: left;
-}
-.controls-to {
-	width: 50%;
-	float:left;
-}
 
-.ctrl {
-width: 100px;
-}
-
-.controlbox {
-width: 250px;
-margin-left: 120px;
-}
 </style>
 
 		<div class="booking_room">
@@ -77,7 +57,7 @@ margin-left: 120px;
             </div>
             </div>
             
-            <label class="control-label" for="field-nearCity">Near City</label>
+            <label class="control-label" for="field-nearCity" style="clear:left;">Area</label>
             <div class="controls">
                 <form:input path="nearCity" id="field-nearCity" tabindex="2" maxlength="35" placeholder="e.g. Bern"/>
             </div>
@@ -91,7 +71,7 @@ margin-left: 120px;
             <div class="form-actions">
             <button type="submit" class="btn btn-primary">Search</button>
         	</div>
-        
+        </fieldset>
             </form:form>
         </div>
 		</div>

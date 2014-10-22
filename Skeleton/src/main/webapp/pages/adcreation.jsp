@@ -79,7 +79,7 @@ $(document).ready(function() {
         <div class="control-group<c:if test="${not empty roomDescErrors}"> error</c:if>">
             <label class="control-label" for="field-roomDesc">Room Description</label>
             <div class="controls">
-                <form:textarea path="roomDesc" id="field-roomDesc" rows="6" width="350px" tabindex="2" maxlength="500" placeholder="Describe your room (bright/historic/...).."/>
+                <form:textarea path="roomDesc" id="field-roomDesc" rows="6" width="350px" style="resize:vertical;" tabindex="2" maxlength="500" placeholder="Describe your room (bright/historic/...).."/>
                 <form:errors path="roomDesc" cssClass="help-inline" element="span"/>
             </div>
         </div>
@@ -88,7 +88,7 @@ $(document).ready(function() {
         <div class="control-group<c:if test="${not empty peopleDescErrors}"> error</c:if>">
             <label class="control-label" for="field-peopleDesc">People Description</label>
             <div class="controls">
-                <form:textarea path="peopleDesc" id="field-peopleDesc" rows="6" width="350px" tabindex="2" maxlength="500" placeholder="Describe the people living in the appartment (age/profession/...).."/>
+                <form:textarea path="peopleDesc" id="field-peopleDesc" rows="6" width="350px" style="resize:vertical;" tabindex="2" maxlength="500" placeholder="Describe the people living in the appartment (age/profession/...).."/>
                 <form:errors path="peopleDesc" cssClass="help-inline" element="span"/>
             </div>
         </div>
