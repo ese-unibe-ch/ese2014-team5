@@ -13,10 +13,10 @@
 
     <context:annotation-config/>
     
-    <context:component-scan base-package="org.sample"/>
+    <context:component-scan base-package="org.sample.*"/>
     
 
-    <bean id="mainDataSource" class="com.jolbox.bonecp.BoneCPDataSource" destroy-method="close">
+    <bean id="dataSource" class="com.jolbox.bonecp.BoneCPDataSource" destroy-method="close">
         <property name="driverClass" value="com.mysql.jdbc.Driver" />
         <property name="jdbcUrl" value="jdbc:mysql://localhost/testBDB?autoReconnect=true&amp;createDatabaseIfNotExist=true&amp;useUnicode=true&amp;characterEncoding=utf-8" />
         <property name="username" value="root"/>
@@ -35,37 +35,58 @@
     <!-- SPRING - JPA -->
     <jpa:repositories base-package="org.sample.model.dao" entity-manager-factory-ref="entityManagerFactory" />
 	<tx:annotation-driven transaction-manager="transactionManager" />
+    
+ 
+   
+    
+    <bean id="sessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="mappingResources">
+			<list>
+				<value>orm/Users.hbm.xml</value>
+				<value>orm/UserRoles.hbm.xml</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+				<prop key="hibernate.format_sql">true</prop>
+				<prop key="hibernate.show_sql">true</prop>
+			</props>
+		</property>
+	</bean>
 
-    <bean class="org.springframework.orm.jpa.JpaTransactionManager"  id="transactionManager">
-        <property name="entityManagerFactory"  ref="entityManagerFactory" />
+	<bean id="userDao" class="org.sample.model.dao.UserDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<bean id="myUserDetailsService" class="org.sample.controller.service.SampleServiceImpl">
+		<property name="userDao" ref="userDao" />
+	</bean>
+
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+		<property name="entityManagerFactory"  ref="entityManagerFactory" />
         <property name="jpaDialect">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaDialect" />
         </property>
-    </bean>
-    
- 
-    <bean id="entityManagerFactory"  class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        <property name="dataSource" ref="mainDataSource" />
-        <property name="packagesToScan" value="org.sample.model"/>
-        <property name="jpaVendorAdapter">
-            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-                <property name="generateDdl" value="true"/>
-                <property name="showSql" value="true"/>
-                <property name="databasePlatform" value="org.hibernate.dialect.MySQLDialect"/>
-                <property name="database" value="MYSQL"/>
-            </bean>
-        </property>
-        <property name="jpaProperties">
-            <value>
-                hibernate.cache.use_second_level_cache = true
-                hibernate.cache.region.factory_class = org.hibernate.cache.ehcache.EhCacheRegionFactory
-                hibernate.cache.use_query_cache = true
-                hibernate.generate_statistics = true
-                hibernate.hbm2ddl.auo = create
-            </value>
-  	      
-        </property>
-    </bean>
+	</bean>
+
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="get*" read-only="true" />
+			<tx:method name="find*" read-only="true" />
+			<tx:method name="*" />
+		</tx:attributes>
+	</tx:advice>
+
+	<!-- <aop:config>
+		<aop:pointcut id="userServicePointCut"
+			expression="execution(* com.mkyong.users.service.*Service.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="userServicePointCut" />
+	</aop:config>-->
     
      <bean class="org.springframework.orm.hibernate4.HibernateExceptionTranslator"/>
     

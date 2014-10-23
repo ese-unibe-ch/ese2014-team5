@@ -13,8 +13,6 @@ public interface SampleService {
     public Advert getAd(Long id);
     
     /*The get methods*/
-    public Object getUser(Long id);
-    public Object getUserByFirstNameAndLastName(String fname, String lname);
 	public Object findAds(String string);
 }
  

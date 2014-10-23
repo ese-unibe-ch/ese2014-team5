@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-
+<%@page session="true"%>
 
 <c:import url="template/header.jsp" />
 
@@ -13,37 +13,35 @@
 		<div class="reservation">
 
 
-<form:form method="post" modelAttribute="loginForm" action="j_spring_security_check" id="loginForm" cssClass="form-horizontal"
-           autocomplete="off">
-    <fieldset>
-        <legend>Enter Your Information</legend>
+<c:if test="${not empty error}">
+			<div class="error">${error}</div>
+		</c:if>
+		<c:if test="${not empty msg}">
+			<div class="msg">${msg}</div>
+		</c:if>
 
-        <c:set var="emailErrors"><form:errors path="email"/></c:set>
-        <div class="control-group<c:if test="${not empty emailErrors}"> error</c:if>">
-            <label class="control-label" for="field-email">Email</label>
+		<form name='loginForm'
+			action="<c:url value='/j_spring_security_check' />" method='POST'>
 
-            <div class="controls">
-                <form:input path="email" id="field-email" tabindex="1" maxlength="45" placeholder="Email"/>
-                <form:errors path="email" cssClass="help-inline" element="span"/>
-            </div>
-        </div>
-        <c:set var="passwordErrors"><form:errors path="password"/></c:set>
-        <div class="control-group<c:if test="${not empty passwordErrors}"> error</c:if>">
-            <label class="control-label" for="field-password">Password</label>
-            <div class="controls">
-                <form:input type="password" path="password" id="field-password" tabindex="2" maxlength="35" placeholder="*****"/>
-                <form:errors path="password" cssClass="help-inline" element="span"/>
-            </div>
-        </div>
-        <div class="form-actions">
-            <button type="submit" class="btn btn-primary">Log in</button>
-        </div>
-    </fieldset>
-    
-    <input type="hidden" name="${_csrf.parameterName}"
-			value="${_csrf.token}" />
-    
-</form:form>
+			<table>
+				<tr>
+					<td>User:</td>
+					<td><input type='text' name='username'></td>
+				</tr>
+				<tr>
+					<td>Password:</td>
+					<td><input type='password' name='password' /></td>
+				</tr>
+				<tr>
+					<td colspan='2'><input name="submit" type="submit"
+						value="submit" /></td>
+				</tr>
+			</table>
+
+			<input type="hidden" name="${_csrf.parameterName}"
+				value="${_csrf.token}" />
+
+		</form>
 
 
 

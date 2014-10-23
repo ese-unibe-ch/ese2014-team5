@@ -2,60 +2,118 @@ package org.sample.controller.service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import javax.servlet.ServletContext;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.sample.controller.pojos.AdCreateForm;
 import org.sample.controller.pojos.SignupUser;
-import org.sample.exceptions.InvalidUserException;
-import org.sample.model.User;
 import org.sample.exceptions.InvalidAdException;
-import org.sample.model.Advert;
-import org.sample.model.Address;
-import org.sample.model.Picture;
+import org.sample.exceptions.InvalidUserException;
 import org.sample.model.dao.AdDao;
 import org.sample.model.dao.AddressDao;
 import org.sample.model.dao.PictureDao;
 import org.sample.model.dao.UserDao;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
+import org.sample.model.*;
 
 @Service
-public class SampleServiceImpl implements SampleService {
+public class SampleServiceImpl implements SampleService,  UserDetailsService {
 
     @Autowired    UserDao userDao;
-    @Autowired    AddressDao addDao;
+   /* @Autowired    AddressDao addDao;
     @Autowired	  AdDao adDao;
-    @Autowired	  PictureDao pictureDao;
+    @Autowired	  PictureDao pictureDao;*/
     
     @Autowired
     ServletContext context;
+    
+    public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
+
+		// Programmatic transaction management
+		/*
+		return transactionTemplate.execute(new TransactionCallback<UserDetails>() {
+
+			public UserDetails doInTransaction(TransactionStatus status) {
+				com.mkyong.users.model.User user = userDao.findByUserName(username);
+				List<GrantedAuthority> authorities = buildUserAuthority(user.getUserRole());
+
+				return buildUserForAuthentication(user, authorities);
+			}
+
+		});*/
+		
+		org.sample.model.User user = userDao.findByUserName(username);
+		List<GrantedAuthority> authorities = buildUserAuthority(user.getUserRole());
+
+		return buildUserForAuthentication(user, authorities);
+		
+
+	}
+
+	// Converts com.mkyong.users.model.User user to
+	// org.springframework.security.core.userdetails.User
+	private User buildUserForAuthentication(org.sample.model.User user, List<GrantedAuthority> authorities) {
+		return new User(user.getUsername(), user.getPassword(), user.isEnabled(), true, true, true, authorities);
+	}
+
+	private List<GrantedAuthority> buildUserAuthority(Set<UserRole> userRoles) {
+
+		Set<GrantedAuthority> setAuths = new HashSet<GrantedAuthority>();
+
+		// Build user's authorities
+		for (UserRole userRole : userRoles) {
+			setAuths.add(new SimpleGrantedAuthority(userRole.getRole()));
+		}
+
+		List<GrantedAuthority> Result = new ArrayList<GrantedAuthority>(setAuths);
+
+		return Result;
+	}
+
+	public UserDao getUserDao() {
+		return userDao;
+	}
+
+	public void setUserDao(UserDao userDao) {
+		this.userDao = userDao;
+	}
 
     @Transactional
     public SignupUser saveUser(SignupUser signupUser) throws InvalidUserException {
 
-        User User = new User();
-        User.setFirstName(signupUser.getFirstName());
-        User.setLastName(signupUser.getLastName());
-        User.setEmail(signupUser.getEmail());
+       /* User user = new User();
+        user.setFirstName(signupUser.getFirstName());
+        user.setLastName(signupUser.getLastName());
+        user.setEmail(signupUser.getEmail());
 
         String password = signupUser.getpassword();
         String passwordRepeat = signupUser.getpasswordRepeat();
         if (password.equals(passwordRepeat)) {
-            User.setpassword(signupUser.getpassword());
+            user.setPassword(signupUser.getpassword());
         }
     //TODO, password should not be saved readable in database. 
         //Hashfunction is needed or something similar
         //Would mean user password replaced by double, but still read in as String in signupUser
 
-        User = userDao.save(User);
+        user = userDao.save(user);
 
-        signupUser.setId(User.getId());
+        signupUser.setId(user.getId());*/
 
-        return signupUser;
+        return null;
     }
 
     public static boolean isInteger(String s) {
@@ -175,11 +233,11 @@ public class SampleServiceImpl implements SampleService {
     		
     		ad.addPicture(pic);
     		
-    		pic = pictureDao.save(pic);
+    		//pic = pictureDao.save(pic);
         }
         
-        address = addDao.save(address);
-        ad = adDao.save(ad);
+      //  address = addDao.save(address);
+       // ad = adDao.save(ad);
         
 		return ad.getId();
 	}
@@ -188,32 +246,17 @@ public class SampleServiceImpl implements SampleService {
 
 	public Advert getAd(Long id) {
 		
-		return adDao.findOne(id);
+		return null;//adDao.findOne(id);
 	}
     
     
-    public User getUser(Long id) {
-    	
-        return userDao.findOne(id);
-    }
-    
-    public Object getUserByFirstNameAndLastName(String fname, String lname) {
-   
-        for(User user : userDao.findAll()) {
-            if(user.getFirstName().equals(fname) && user.getLastName().equals(lname)) {
-                return user;
-            }
-        }
-        
-        return null;
-    }
 
 	public Object findAds(String string) {
 		
 		Iterable<Advert> ads = null;
 		if(string.equals("*"))
 		{
-			ads = adDao.findAll();
+			//ads = adDao.findAll();
 		}
 		else
 		{
