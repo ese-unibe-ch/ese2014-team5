@@ -15,6 +15,7 @@
 <context:annotation-config/>
 <context:component-scan base-package="org.sample.*"/>
 <!-- <jpa:repositories base-package="org.sample.model.dao" entity-manager-factory-ref="entityManagerFactory" />-->
+<tx:annotation-driven transaction-manager="transactionManager"/>
 
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
@@ -51,18 +52,18 @@
 	 <bean id="sampleServiceImpl" class="org.sample.controller.service.SampleServiceImpl">
 		<property name="userDao" ref="userDao" />
 	</bean> 
-
-	<bean id="transactionManager"
-		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
-		<property name="sessionFactory" ref="sessionFactory"></property>
-	</bean>
+	
+	<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+    <property name="sessionFactory" ref="sessionFactory" />
+    <property name="dataSource" ref="dataSource" />
+</bean>
 
 
 	<tx:advice id="txAdvice" transaction-manager="transactionManager">
 		<tx:attributes>
-			<tx:method name="get*" read-only="true" propagation="REQUIRED"/>
-			<tx:method name="find*" read-only="true" propagation="REQUIRED"/>
-			<tx:method name="*" propagation="REQUIRED"/>
+			<tx:method name="get*" read-only="true"/>
+			<tx:method name="find*" read-only="true" />
+			<tx:method name="*"/>
 		</tx:attributes>
 	</tx:advice>
 

@@ -31,6 +31,7 @@ import org.sample.model.dao.UserDao;
 import org.sample.model.*;
 
 @Service
+@Transactional
 public class SampleServiceImpl implements SampleService,  UserDetailsService {
 
     @Autowired    UserDao userDao;
@@ -57,6 +58,7 @@ public class SampleServiceImpl implements SampleService,  UserDetailsService {
 		});*/
 		
 		org.sample.model.User user = userDao.findByUserName(username);
+		
 		List<GrantedAuthority> authorities = buildUserAuthority(user.getUserRole());
 
 		return buildUserForAuthentication(user, authorities);

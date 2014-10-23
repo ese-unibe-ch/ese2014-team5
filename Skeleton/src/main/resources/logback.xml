@@ -11,18 +11,18 @@
 		</layout>
 	</appender>
 
-	<logger name="com.mkyong" level="debug">
+	<!-- <logger name="org.sample.controller.service" level="debug">
 		<appender-ref ref="STDOUT" />
-	</logger>
+	</logger>-->
 
 	<!-- <logger name="org.hibernate.type" level="ALL" /> <logger name="org.hibernate" 
 		level="debug"> <appender-ref ref="STDOUT" /> </logger> -->
 
-	<!-- 
-	<logger name="org.springframework" level="debug">
+	
+	<logger name="org.springframework.security.web.authentication.*" level="debug">
 		<appender-ref ref="STDOUT" />
 	</logger>
-
+	<!-- 
 	<logger name="org.hibernate" level="debug">
 		<appender-ref ref="STDOUT" />
 	</logger>
