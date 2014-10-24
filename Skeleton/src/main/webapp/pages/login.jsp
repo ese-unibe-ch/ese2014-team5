@@ -28,4 +28,10 @@
 		</fieldset>
 	</form:form>
 	
+	</div>
+		</div>
+		<div class="clear"></div>
+		</div>
+	
+	
 	<c:import url="template/footer.jsp" />

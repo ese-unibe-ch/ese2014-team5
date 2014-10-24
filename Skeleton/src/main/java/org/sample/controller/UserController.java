@@ -58,7 +58,7 @@ public class UserController {
     @RequestMapping("/login")
 	public String login(Model model, @RequestParam(required=false) String message) {
 		model.addAttribute("message", message);
-		return "access/login";
+		return "/login";
 	}
 	
 	@RequestMapping(value = "/denied")

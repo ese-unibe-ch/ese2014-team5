@@ -65,6 +65,11 @@
   		}
 		});
 	});
+	
+	function formSubmit() {
+		document.getElementById("logoutForm").submit();
+	}
+
 	</script>
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -72,6 +77,9 @@
     <![endif]-->
 </head>
 <body>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
+
 <!-- start header -->
 <div class="header_bg">
 <div class="wrap">
@@ -83,10 +91,22 @@
 			<!--start menu -->
 			<ul class="menu">
 				<li class="active"><a href="index">Home</a></li> |
-				<li><a href="login">login</a></li> |
-				<li><a href="register">register</a></li> |
-				<li><a href="profile">profile</a></li> |
-				<li><a href="adcreation">create an Ad</a></li>
+				<sec:authorize access="hasRole('ROLE_USER')">
+					<li><a href="adcreation">create an Ad</a></li> |
+					<li><a href="profile"><span id="username"><%=SecurityContextHolder.getContext().getAuthentication().getName().toLowerCase()%></span></a></li> |
+					<li><form:form action="${logoutUrl}" method="post" id="logoutForm">
+							<input type="hidden" name="${_csrf.parameterName}"
+								value="${_csrf.token}" />
+						</form:form>
+				
+						<c:if test="${pageContext.request.userPrincipal.name != null}">
+							<a href="javascript:formSubmit()"> Logout</a>
+						</c:if></li>
+				</sec:authorize>
+				<sec:authorize access="!hasRole('ROLE_USER')">
+					<li><a href="login">login</a></li> |
+					<li><a href="register">register</a></li>
+				</sec:authorize>
 				<div class="clear"></div>
 			</ul>
 			<!-- start profile_details --><div style="width:100px;position:absolute;right:20px;left:auto;">
@@ -107,10 +127,24 @@
 		<nav class="clearfix">
 				<ul>
 				<li class="active"><a href="index">Home</a></li>
-				<li><a href="login">login</a></li>
-				<li><a href="register">register</a></li>
-				<li><a href="adcreation">Create an Ad</a></li>
+				<sec:authorize access="hasRole('ROLE_USER')">
+					<li><a href="adcreation">create an Ad</a></li>
+					<li><a href="profile"><span id="username"><%=SecurityContextHolder.getContext().getAuthentication().getName().toLowerCase()%></span></a></li>
+					<li><a href="logout">logout</a></li>
+				</sec:authorize>
+				<sec:authorize access="!hasRole('ROLE_USER')">
+					<li><form:form action="${logoutUrl}" method="post" id="logoutForm">
+			<input type="hidden" name="${_csrf.parameterName}"
+				value="${_csrf.token}" />
+		</form:form>
+
+		<c:if test="${pageContext.request.userPrincipal.name != null}">
+			<a href="javascript:formSubmit()"> Logout</a>
+		</c:if></li>
+					<li><a href="register">register</a></li>
+				</sec:authorize>
 				</ul>
+				
 				<a href="#" id="pull">Menu</a>
 			</nav>
 		</div>
