@@ -1,11 +1,10 @@
 package org.sample.model.dao;
 
 import org.sample.model.User;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserDao {
+public interface UserDao extends JpaRepository<User, Long> {
 
-	User findByUserName(String username);
-
-	User save(User user);
+	User findByUsername(String username);
 
 }

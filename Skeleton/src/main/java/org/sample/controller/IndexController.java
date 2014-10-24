@@ -28,24 +28,6 @@ public class IndexController {
     @Autowired
     SampleService sampleService;
     
-    @Autowired
-    ServletContext context;
-
-
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ModelAndView index() {
-    	ModelAndView model = new ModelAndView("index");
-    	model.addObject("searchForm", new SearchForm());
-        return model;
-    }
-    
-    @RequestMapping(value = "/index", method = RequestMethod.GET)
-    public ModelAndView index2() {
-    	ModelAndView model = new ModelAndView("index");    
-    	model.addObject("searchForm", new SearchForm());
-        return model;
-    }
-    
     @RequestMapping(value = "/siteowner", method = RequestMethod.GET)
     public ModelAndView siteowner() {
     	ModelAndView model = new ModelAndView("siteowner");    
@@ -86,7 +68,7 @@ public class IndexController {
         				byte[] bytes = file.getBytes();
 
         				// Creating the directory to store file
-        				 String rootPath = context.getRealPath("/");
+        				 String rootPath = null; // PLACE THE RIGHT PATH HERE
         				File dir = new File(rootPath + "/img");
         				if (!dir.exists())
         					dir.mkdirs();

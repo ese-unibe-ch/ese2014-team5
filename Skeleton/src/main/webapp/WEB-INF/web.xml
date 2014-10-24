@@ -10,6 +10,23 @@
         <welcome-file>index</welcome-file>
     </welcome-file-list>
         
+        
+    <!-- Spring MVC Servlet config -->
+    <servlet>
+        <servlet-name>myApp</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>  <!-- Dispatcher Servlet -->
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>/WEB-INF/config/springMVC.xml</param-value>		<!-- Servlet config -->
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>myApp</servlet-name>
+        <url-pattern>/</url-pattern>			<!-- use servlet for any page matching url pattern  -->
+    </servlet-mapping>
+    
     
     <!-- import config files -->    
     <context-param>
@@ -53,22 +70,7 @@
         
 
 
-    <!-- Spring MVC Servlet config -->
-    <servlet>
-        <servlet-name>myApp</servlet-name>
-        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>  <!-- Dispatcher Servlet -->
-        <init-param>
-            <param-name>contextConfigLocation</param-name>
-            <param-value>/WEB-INF/config/springMVC.xml</param-value>		<!-- Servlet config -->
-        </init-param>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>myApp</servlet-name>
-        <url-pattern>/</url-pattern>			<!-- use servlet for any page matching url pattern  -->
-    </servlet-mapping>
-
+    
 	
 
 	 <listener>

@@ -3,6 +3,7 @@ package org.sample.controller.service;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -36,8 +37,10 @@ import org.sample.model.*;
 @Transactional
 public class SampleServiceImpl implements SampleService,  UserDetailsService {
 
-    @Autowired    UserDao userDao;
     @Autowired	  UserRoleDao userRoleDao;
+    
+    @Autowired
+	private UserDao userDao;
    /* @Autowired    AddressDao addDao;
     @Autowired	  AdDao adDao;
     @Autowired	  PictureDao pictureDao;*/
@@ -46,63 +49,73 @@ public class SampleServiceImpl implements SampleService,  UserDetailsService {
     ServletContext context;
     
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
-
-		// Programmatic transaction management
-		/*
-		return transactionTemplate.execute(new TransactionCallback<UserDetails>() {
-
-			public UserDetails doInTransaction(TransactionStatus status) {
-				com.mkyong.users.model.User user = userDao.findByUserName(username);
-				List<GrantedAuthority> authorities = buildUserAuthority(user.getUserRole());
-
-				return buildUserForAuthentication(user, authorities);
-			}
-
-		});*/
-		
-		org.sample.model.User user = userDao.findByUserName(username);
-		
-		List<GrantedAuthority> authorities = buildUserAuthority(user.getUserRole());
-
-		return buildUserForAuthentication(user, authorities);
-		
-
-	}
-
-	// Converts com.mkyong.users.model.User user to
-	// org.springframework.security.core.userdetails.User
-	private User buildUserForAuthentication(org.sample.model.User user, List<GrantedAuthority> authorities) {
-		return new User(user.getUsername(), user.getPassword(), user.isEnabled(), true, true, true, authorities);
-	}
-
-	private List<GrantedAuthority> buildUserAuthority(Set<UserRole> userRoles) {
-
-		Set<GrantedAuthority> setAuths = new HashSet<GrantedAuthority>();
-
-		// Build user's authorities
-		for (UserRole userRole : userRoles) {
-			setAuths.add(new SimpleGrantedAuthority(userRole.getRole()));
+    	
+    	try {
+    		System.out.println("FIND USER BY NAME: " + username);
+			org.sample.model.User domainUser = userDao.findByUsername(username);
+			
+			System.out.println("FOUND USER BY NAME, PW is: " + domainUser.getPassword());
+			boolean enabled = true;
+			boolean accountNonExpired = true;
+			boolean credentialsNonExpired = true;
+			boolean accountNonLocked = true;
+			
+			return new User(
+					domainUser.getUsername(), 
+					domainUser.getPassword(),
+					enabled,
+					accountNonExpired,
+					credentialsNonExpired,
+					accountNonLocked,
+					getAuthorities(domainUser.getUserRole().getRole()));
+			
+		} catch (Exception e) {
+			System.out.println("ERROR! -----------------------------------------------------------------------------");
+			throw new RuntimeException(e);
 		}
-
-		List<GrantedAuthority> Result = new ArrayList<GrantedAuthority>(setAuths);
-
-		return Result;
+		
 	}
 
-	public UserDao getUserDao() {
-		return userDao;
-	}
-
-	public void setUserRoleDao(UserRoleDao userRoleDao) {
-		this.userRoleDao = userRoleDao;
+    /**
+	 * Retrieves a collection of {@link GrantedAuthority} based on a numerical role
+	 * @param role the numerical role
+	 * @return a collection of {@link GrantedAuthority
+	 */
+	public Collection<? extends GrantedAuthority> getAuthorities(Integer role) {
+		List<GrantedAuthority> authList = getGrantedAuthorities(getRoles(role));
+		return authList;
 	}
 	
-	public UserRoleDao getUserRoleDao() {
-		return userRoleDao;
+	/**
+	 * Converts a numerical role to an equivalent list of roles
+	 * @param role the numerical role
+	 * @return list of roles as as a list of {@link String}
+	 */
+	public List<String> getRoles(Integer role) {
+		List<String> roles = new ArrayList<String>();
+		
+		if (role.intValue() == 1) {
+			roles.add("ROLE_USER");
+			roles.add("ROLE_ADMIN");
+			
+		} else if (role.intValue() == 2) {
+			roles.add("ROLE_USER");
+		}
+		
+		return roles;
 	}
-
-	public void setUserDao(UserDao userDao) {
-		this.userDao = userDao;
+	
+	/**
+	 * Wraps {@link String} roles to {@link SimpleGrantedAuthority} objects
+	 * @param roles {@link String} of roles
+	 * @return list of granted authorities
+	 */
+	public static List<GrantedAuthority> getGrantedAuthorities(List<String> roles) {
+		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+		for (String role : roles) {
+			authorities.add(new SimpleGrantedAuthority(role));
+		}
+		return authorities;
 	}
 
     @Transactional
@@ -123,15 +136,17 @@ public class SampleServiceImpl implements SampleService,  UserDetailsService {
             user.setEnabled(true);
             
             UserRole role = new UserRole();
-            role.setUser(user);
-            role.setRole("ROLE_USER");
+            role.setRole(1);
+            
+            role = userRoleDao.save(role);
+            user.setUserRole(role);
             user = userDao.save(user);
             
-            userRoleDao.save(role);
+       
             
-            
-
-            signupUser.setId(user.getId());
+            org.sample.model.User user2 = userDao.findByUsername(signupUser.getEmail());
+            System.out.println("User found! " + user2.getUsername());
+            signupUser.setId(user2.getId());
         }
     //TODO, password should not be saved readable in database. 
         //Hashfunction is needed or something similar

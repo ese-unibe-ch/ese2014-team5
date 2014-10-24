@@ -5,21 +5,20 @@
 	http://www.springframework.org/schema/security
 	http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
-	<!-- enable use-expressions -->
-	<http auto-config="true" use-expressions="true">
-		<intercept-url pattern="/admin**" access="hasRole('ROLE_ADMIN')" />
 
-		<!-- access denied page -->
-		<access-denied-handler error-page="/403" />
-		<form-login 
-		    login-page="/login" 
-		    default-target-url="/welcome"
-			authentication-failure-url="/login?error" 
-			username-parameter="username"
-			password-parameter="password" />
-		<logout logout-success-url="/login?logout" />
-		<!-- enable csrf protection -->
-		<csrf />
+	<http pattern="/resources" security="none" />
+	<!-- enable use-expressions -->
+	<http auto-config="true"  use-expressions="true">
+		<intercept-url pattern="/index" access="permitAll"/>
+		<form-login login-page="/login" 
+			authentication-failure-url="/login/failure" 
+			default-target-url="/index"/>
+		
+		<access-denied-handler error-page="/denied"/>
+		
+		<logout invalidate-session="true" 
+			logout-success-url="/logout/success" 
+			logout-url="/logout"/>
 	</http>
 
 	<authentication-manager>
@@ -27,5 +26,6 @@
 			<password-encoder hash="bcrypt" />    
 		</authentication-provider>
 	</authentication-manager>
+	
 
 </beans:beans>

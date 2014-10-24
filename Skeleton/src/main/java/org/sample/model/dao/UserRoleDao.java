@@ -1,7 +1,7 @@
 package org.sample.model.dao;
 
 import org.sample.model.UserRole;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRoleDao {
-	UserRole save(UserRole role);
+public interface UserRoleDao extends JpaRepository<UserRole, Long> {
 }

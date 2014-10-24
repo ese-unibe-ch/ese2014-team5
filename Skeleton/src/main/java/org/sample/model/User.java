@@ -5,13 +5,11 @@
  */
 package org.sample.model;
 
-import java.util.HashSet;
-
-import java.util.Set;
-
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -34,9 +32,21 @@ public class User
     private String email;
     private String username;
     private boolean enabled;
-	private Set<UserRole> userRole = new HashSet<UserRole>(0);
+    
+    @OneToOne
+	private UserRole userRole;
 
 	public User(){}
+	
+	public UserRole getUserRole()
+	{
+		return this.userRole;
+	}
+	
+	public void setUserRole(UserRole role)
+	{
+		this.userRole = role;
+	}
 	
     public Long getId() {
         return id;
@@ -82,14 +92,6 @@ public class User
 
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
-	}
-
-	public Set<UserRole> getUserRole() {
-		return userRole;
-	}
-
-	public void setUserRole(Set<UserRole> userRole) {
-		this.userRole = userRole;
 	}
 
 	public String getUsername() {

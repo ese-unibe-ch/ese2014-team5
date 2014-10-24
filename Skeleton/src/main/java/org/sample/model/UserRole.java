@@ -1,12 +1,18 @@
 package org.sample.model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 @Entity
 public class UserRole {
-	private Integer userRoleId;
-	private org.sample.model.User user;
-	private String role;
+	@Id
+	@GeneratedValue
+	private Integer userRoleId;	
+	
+	private Integer role;
 	
 	public UserRole(){}
 	
@@ -16,16 +22,11 @@ public class UserRole {
 	public void setUserRoleId(Integer userRoleId) {
 		this.userRoleId = userRoleId;
 	}
-	public org.sample.model.User getUser() {
-		return user;
-	}
-	public void setUser(org.sample.model.User user) {
-		this.user = user;
-	}
-	public String getRole() {
+
+	public Integer getRole() {
 		return role;
 	}
-	public void setRole(String role) {
+	public void setRole(Integer role) {
 		this.role = role;
 	}
 }
