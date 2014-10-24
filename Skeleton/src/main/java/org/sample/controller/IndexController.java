@@ -37,7 +37,7 @@ public class IndexController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView index() {
     	ModelAndView model = new ModelAndView("index");
-    	
+    	model.addObject("searchForm", new SearchForm());
         return model;
     }
     

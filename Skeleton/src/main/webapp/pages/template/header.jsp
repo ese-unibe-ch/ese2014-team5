@@ -17,24 +17,12 @@
 	<!---strat-date-piker---->
 	<link rel="stylesheet" href="web/css/jquery-ui.css" />
 	<script src="web/js/jquery-ui.js"></script>
-			  <script>
-					  $(function() {
-					    $( "#datepicker,#datepicker1" ).datepicker();
-					  });
-			  </script>
 	<!---/End-date-piker---->
 	<link type="text/css" rel="stylesheet" href="web/css/JFGrid.css" />
 	<link type="text/css" rel="stylesheet" href="web/css/JFFormStyle-1.css" />
 			<script type="text/javascript" src="web/js/JFCore.js"></script>
 			<script type="text/javascript" src="web/js/JFForms.js"></script>
 			<!-- Set here the key for your domain in order to hide the watermark on the web server -->
-			<script type="text/javascript">
-				(function() {
-					JC.init({
-						domainKey: ''
-					});
-					})();
-			</script>
 	<!--nav-->
 	</head>
 
@@ -45,6 +33,7 @@
 
 	<script type="text/javascript">
 	$(document).ready(function() {
+	
 		  $(document).on("click", ".close", function(){
 			 $(this).parent().remove();
 		  });
@@ -64,11 +53,9 @@
   			menu.removeAttr('style');
   		}
 		});
+		
+		
 	});
-	
-	function formSubmit() {
-		document.getElementById("logoutForm").submit();
-	}
 
 	</script>
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -79,7 +66,13 @@
 <body>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
-
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:url var="logoutUrl" value="/logout"/>
+<form action="${logoutUrl}" method="post" style="display:none;" id="logoutForm">
+  <input type="submit" value="logout" />
+  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+</form>
 <!-- start header -->
 <div class="header_bg">
 <div class="wrap">
@@ -93,14 +86,9 @@
 				<li class="active"><a href="index">Home</a></li> |
 				<sec:authorize access="hasRole('ROLE_USER')">
 					<li><a href="adcreation">create an Ad</a></li> |
-					<li><a href="profile"><span id="username"><%=SecurityContextHolder.getContext().getAuthentication().getName().toLowerCase()%></span></a></li> |
-					<li><form:form action="${logoutUrl}" method="post" id="logoutForm">
-							<input type="hidden" name="${_csrf.parameterName}"
-								value="${_csrf.token}" />
-						</form:form>
-				
-						<c:if test="${pageContext.request.userPrincipal.name != null}">
-							<a href="javascript:formSubmit()"> Logout</a>
+					<li><a href="profile?name=<%=SecurityContextHolder.getContext().getAuthentication().getName()%>"><span id="username"><%=SecurityContextHolder.getContext().getAuthentication().getName().toLowerCase()%></span></a></li> |
+					<li><c:if test="${pageContext.request.userPrincipal.name != null}">
+							<a onclick="javascript:logout();">Logout</a>
 						</c:if></li>
 				</sec:authorize>
 				<sec:authorize access="!hasRole('ROLE_USER')">
@@ -129,18 +117,11 @@
 				<li class="active"><a href="index">Home</a></li>
 				<sec:authorize access="hasRole('ROLE_USER')">
 					<li><a href="adcreation">create an Ad</a></li>
-					<li><a href="profile"><span id="username"><%=SecurityContextHolder.getContext().getAuthentication().getName().toLowerCase()%></span></a></li>
-					<li><a href="logout">logout</a></li>
+					<li><a href="profile?name=<%=SecurityContextHolder.getContext().getAuthentication().getName()%>"><span id="username"><%=SecurityContextHolder.getContext().getAuthentication().getName().toLowerCase()%></span></a></li>
+					<li><a onclick="javascript:logout();">Logout</a></li>
 				</sec:authorize>
 				<sec:authorize access="!hasRole('ROLE_USER')">
-					<li><form:form action="${logoutUrl}" method="post" id="logoutForm">
-			<input type="hidden" name="${_csrf.parameterName}"
-				value="${_csrf.token}" />
-		</form:form>
-
-		<c:if test="${pageContext.request.userPrincipal.name != null}">
-			<a href="javascript:formSubmit()"> Logout</a>
-		</c:if></li>
+					<li><a href="login">login</a></li>
 					<li><a href="register">register</a></li>
 				</sec:authorize>
 				</ul>
@@ -151,6 +132,11 @@
 	</div>
 </div>
 </div>
+<script type="text/javascript">
+function logout() {
+	document.getElementById("logoutForm").submit();
+}
+</script>
 <div class="topbox"><img src="web/images/slum.jpg"/></div>
 
 <div id="container">

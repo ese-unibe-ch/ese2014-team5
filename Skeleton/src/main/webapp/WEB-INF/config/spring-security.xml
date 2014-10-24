@@ -10,15 +10,14 @@
 	<!-- enable use-expressions -->
 	<http auto-config="true"  use-expressions="true">
 		<intercept-url pattern="/index" access="permitAll"/>
+		<intercept-url pattern="/adcreation" access="hasRole('ROLE_USER')"/>
+		
 		<form-login login-page="/login" 
 			authentication-failure-url="/login/failure" 
 			default-target-url="/index"/>
 		
 		<access-denied-handler error-page="/denied"/>
-		
-		<logout invalidate-session="true" 
-			logout-success-url="/logout/success" 
-			logout-url="/logout"/>
+		<logout invalidate-session="true" logout-url="/logout" logout-success-url="/index" />
 		<csrf/>
 	</http>
 
