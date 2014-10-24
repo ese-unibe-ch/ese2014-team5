@@ -48,9 +48,14 @@
 	<bean id="userDao" class="org.sample.model.dao.UserDaoImpl">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
+	
+	<bean id="userRoleDao" class="org.sample.model.dao.UserRoleDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
 
 	 <bean id="sampleServiceImpl" class="org.sample.controller.service.SampleServiceImpl">
 		<property name="userDao" ref="userDao" />
+		<property name="userRoleDao" ref="userRoleDao" />
 	</bean> 
 	
 	<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">

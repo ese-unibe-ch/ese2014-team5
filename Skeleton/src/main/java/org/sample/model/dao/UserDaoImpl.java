@@ -44,7 +44,7 @@ public class UserDaoImpl implements UserDao {
 		session.saveOrUpdate(user);
 		session.flush();
 		
-		return null;
+		return user;
 	}
 
 }

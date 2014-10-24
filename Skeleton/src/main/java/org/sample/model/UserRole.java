@@ -5,18 +5,21 @@ import javax.persistence.Entity;
 @Entity
 public class UserRole {
 	private Integer userRoleId;
-	private User user;
+	private org.sample.model.User user;
 	private String role;
+	
+	public UserRole(){}
+	
 	public Integer getUserRoleId() {
 		return userRoleId;
 	}
 	public void setUserRoleId(Integer userRoleId) {
 		this.userRoleId = userRoleId;
 	}
-	public User getUser() {
+	public org.sample.model.User getUser() {
 		return user;
 	}
-	public void setUser(User user) {
+	public void setUser(org.sample.model.User user) {
 		this.user = user;
 	}
 	public String getRole() {

@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -28,6 +29,7 @@ import org.sample.model.dao.AdDao;
 import org.sample.model.dao.AddressDao;
 import org.sample.model.dao.PictureDao;
 import org.sample.model.dao.UserDao;
+import org.sample.model.dao.UserRoleDao;
 import org.sample.model.*;
 
 @Service
@@ -35,6 +37,7 @@ import org.sample.model.*;
 public class SampleServiceImpl implements SampleService,  UserDetailsService {
 
     @Autowired    UserDao userDao;
+    @Autowired	  UserRoleDao userRoleDao;
    /* @Autowired    AddressDao addDao;
     @Autowired	  AdDao adDao;
     @Autowired	  PictureDao pictureDao;*/
@@ -90,6 +93,14 @@ public class SampleServiceImpl implements SampleService,  UserDetailsService {
 		return userDao;
 	}
 
+	public void setUserRoleDao(UserRoleDao userRoleDao) {
+		this.userRoleDao = userRoleDao;
+	}
+	
+	public UserRoleDao getUserRoleDao() {
+		return userRoleDao;
+	}
+
 	public void setUserDao(UserDao userDao) {
 		this.userDao = userDao;
 	}
@@ -106,17 +117,27 @@ public class SampleServiceImpl implements SampleService,  UserDetailsService {
         String password = signupUser.getpassword();
         String passwordRepeat = signupUser.getpasswordRepeat();
         if (password.equals(passwordRepeat)) {
-            user.setPassword(signupUser.getpassword());
+        	BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    		String hashedPassword = passwordEncoder.encode(password);
+            user.setPassword(hashedPassword);
+            user.setEnabled(true);
+            
+            UserRole role = new UserRole();
+            role.setUser(user);
+            role.setRole("ROLE_USER");
+            user = userDao.save(user);
+            
+            userRoleDao.save(role);
+            
+            
+
+            signupUser.setId(user.getId());
         }
     //TODO, password should not be saved readable in database. 
         //Hashfunction is needed or something similar
         //Would mean user password replaced by double, but still read in as String in signupUser
 
-        user = userDao.save(user);
-
-        signupUser.setId(user.getId());
-
-        return null;
+        return signupUser;
     }
 
     public static boolean isInteger(String s) {
