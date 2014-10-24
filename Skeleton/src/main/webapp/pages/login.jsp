@@ -10,21 +10,25 @@
 		</div>
 		<div class="reservation">
 
-<form:form class="login-form" action="j_spring_security_check" method="POST" >
+	<form:form class="login-form" action="j_spring_security_check" method="POST" >
 		<fieldset>
 			<legend>Login Here</legend>
 			
-			<p> 
-			<label for="j_username">Username</label>:
-			<input id="j_username" name="j_username" size="20" maxlength="50" type="text"/>
-			</p>
+			 
+			<label for="j_username">Username</label>
+			<div class="controls">
+				<input id="j_username" name="j_username" size="20" maxlength="50" type="text"/>
+			</div>
 			
-			<p>
-			<label for="j_password">Password</label>:
-			<input id="j_password" name="j_password" size="20" maxlength="50" type="password"/>
-			</p>
 			
-			<p><input type="submit" value="Login"/></p>
+			<label for="j_password">Password</label>
+			<div class="controls">
+				<input id="j_password" name="j_password" size="20" maxlength="50" type="password"/>
+			</div>
+	
+			<div class="form-actions">
+            	<button type="submit" class="btn btn-primary">Login</button>
+       	 	</div>
 		</fieldset>
 	</form:form>
 	

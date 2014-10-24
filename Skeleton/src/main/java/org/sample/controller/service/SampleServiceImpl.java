@@ -5,9 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.ServletContext;
 
@@ -41,9 +39,9 @@ public class SampleServiceImpl implements SampleService,  UserDetailsService {
     
     @Autowired
 	private UserDao userDao;
-   /* @Autowired    AddressDao addDao;
+    @Autowired    AddressDao addDao;
     @Autowired	  AdDao adDao;
-    @Autowired	  PictureDao pictureDao;*/
+    @Autowired	  PictureDao pictureDao;
     
     @Autowired
     ServletContext context;
@@ -51,10 +49,10 @@ public class SampleServiceImpl implements SampleService,  UserDetailsService {
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
     	
     	try {
-    		System.out.println("FIND USER BY NAME: " + username);
+    		//System.out.println("FIND USER BY NAME: " + username);
 			org.sample.model.User domainUser = userDao.findByUsername(username);
 			
-			System.out.println("FOUND USER BY NAME, PW is: " + domainUser.getPassword());
+			//System.out.println("FOUND USER BY NAME, PW is: " + domainUser.getPassword());
 			boolean enabled = true;
 			boolean accountNonExpired = true;
 			boolean credentialsNonExpired = true;
@@ -70,7 +68,7 @@ public class SampleServiceImpl implements SampleService,  UserDetailsService {
 					getAuthorities(domainUser.getUserRole().getRole()));
 			
 		} catch (Exception e) {
-			System.out.println("ERROR! -----------------------------------------------------------------------------");
+			//System.out.println("ERROR! -----------------------------------------------------------------------------");
 			throw new RuntimeException(e);
 		}
 		
@@ -272,11 +270,11 @@ public class SampleServiceImpl implements SampleService,  UserDetailsService {
     		
     		ad.addPicture(pic);
     		
-    		//pic = pictureDao.save(pic);
+    		pic = pictureDao.save(pic);
         }
         
-      //  address = addDao.save(address);
-       // ad = adDao.save(ad);
+        address = addDao.save(address);
+        ad = adDao.save(ad);
         
 		return ad.getId();
 	}
@@ -285,7 +283,7 @@ public class SampleServiceImpl implements SampleService,  UserDetailsService {
 
 	public Advert getAd(Long id) {
 		
-		return null;//adDao.findOne(id);
+		return adDao.findOne(id);
 	}
     
     
@@ -295,7 +293,7 @@ public class SampleServiceImpl implements SampleService,  UserDetailsService {
 		Iterable<Advert> ads = null;
 		if(string.equals("*"))
 		{
-			//ads = adDao.findAll();
+			ads = adDao.findAll();
 		}
 		else
 		{

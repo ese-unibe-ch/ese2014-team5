@@ -4,10 +4,8 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 
-import javax.servlet.ServletContext;
 import javax.validation.Valid;
 
-import org.sample.controller.pojos.LoginForm;
 import org.sample.controller.pojos.AdCreateForm;
 import org.sample.controller.pojos.SearchForm;
 import org.sample.controller.service.SampleService;
