@@ -1,74 +1,31 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<html>
-<head>
-<title>Login Page</title>
-<style>
-.error {
-	padding: 15px;
-	margin-bottom: 20px;
-	border: 1px solid transparent;
-	border-radius: 4px;
-	color: #a94442;
-	background-color: #f2dede;
-	border-color: #ebccd1;
-}
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
-.msg {
-	padding: 15px;
-	margin-bottom: 20px;
-	border: 1px solid transparent;
-	border-radius: 4px;
-	color: #31708f;
-	background-color: #d9edf7;
-	border-color: #bce8f1;
-}
+<c:import url="template/header.jsp" />
 
-#login-box {
-	width: 300px;
-	padding: 20px;
-	margin: 100px auto;
-	background: #fff;
-	-webkit-border-radius: 2px;
-	-moz-border-radius: 2px;
-	border: 1px solid #000;
-}
-</style>
-</head>
-<body onload='document.loginForm.username.focus();'>
+<div class="booking_room">
+			<h4>Login</h4>
+			
+		</div>
+		<div class="reservation">
 
-	<h1>Spring Security Login Form (Database + Hibernate Authentication)</h1>
-
-	<div id="login-box">
-
-		<h3>Login with Username and Password</h3>
-
-		<c:if test="${not empty error}">
-			<div class="error">${error}</div>
-		</c:if>
-		<c:if test="${not empty msg}">
-			<div class="msg">${msg}</div>
-		</c:if>
-
-		<form name='loginForm'
-			action="<c:url value='/j_spring_security_check' />" method='POST'>
-
-			<table>
-				<tr>
-					<td>User:</td>
-					<td><input type='text' name='username'></td>
-				</tr>
-				<tr>
-					<td>Password:</td>
-					<td><input type='password' name='password' /></td>
-				</tr>
-				<tr>
-					<td colspan='2'><input name="submit" type="submit"
-						value="submit" /></td>
-				</tr>
-			</table>
-
-		</form>
-	</div>
-
-</body>
-</html>
+<form:form class="login-form" action="j_spring_security_check" method="POST" >
+		<fieldset>
+			<legend>Login Here</legend>
+			
+			<p> 
+			<label for="j_username">Username</label>:
+			<input id="j_username" name="j_username" size="20" maxlength="50" type="text"/>
+			</p>
+			
+			<p>
+			<label for="j_password">Password</label>:
+			<input id="j_password" name="j_password" size="20" maxlength="50" type="password"/>
+			</p>
+			
+			<p><input type="submit" value="Login"/></p>
+		</fieldset>
+	</form:form>
+	
+	<c:import url="template/footer.jsp" />

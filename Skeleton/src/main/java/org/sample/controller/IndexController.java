@@ -34,6 +34,20 @@ public class IndexController {
         return model;
     }
     
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public ModelAndView index() {
+    	ModelAndView model = new ModelAndView("index");
+    	
+        return model;
+    }
+    
+    @RequestMapping(value = "/index", method = RequestMethod.GET)
+    public ModelAndView index2() {
+    	ModelAndView model = new ModelAndView("index");    
+    	model.addObject("searchForm", new SearchForm());
+        return model;
+    }
+    
     @RequestMapping(value = "/search", method = RequestMethod.POST)
     public ModelAndView search() {
     	ModelAndView model = new ModelAndView("search"); 

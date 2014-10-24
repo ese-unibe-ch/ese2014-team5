@@ -30,28 +30,14 @@ public class UserController {
     SampleService sampleService;
 
     
-    @RequestMapping(value = "/profile", method = RequestMethod.GET)
+    @RequestMapping(value = "profile", method = RequestMethod.GET)
     public ModelAndView showProfile(@RequestParam(value = "id", required = false) long id) {
      ModelAndView model = new ModelAndView("profile");
     // model.addObject("currentUser", sampleService.getUser(id));
      return model;
     }
     
-    @RequestMapping(value = "/show", method = RequestMethod.GET)
-    public ModelAndView index() {
-    	ModelAndView model = new ModelAndView("show");
-    	
-        return model;
-    }
-    
-    @RequestMapping(value = "/index", method = RequestMethod.GET)
-    public ModelAndView index2(@RequestParam(required=false) int id) {
-    	ModelAndView model = new ModelAndView("index");    
-    	//model.addObject("searchForm", new SearchForm());
-        return model;
-    }
-    
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+   /* @RequestMapping(value = "/login", method = RequestMethod.GET)
    	public ModelAndView login(
    		@RequestParam(value = "error", required = false) String error,
    		@RequestParam(value = "logout", required = false) String logout) {
@@ -67,9 +53,9 @@ public class UserController {
 
    		return model;
     
-   	}
+   	}*/
     
-    /*@RequestMapping("/login")
+    @RequestMapping("/login")
 	public String login(Model model, @RequestParam(required=false) String message) {
 		model.addAttribute("message", message);
 		return "access/login";
@@ -90,7 +76,7 @@ public class UserController {
  	public String logoutSuccess() {
 		String message = "Logout Success!";
 		return "redirect:/login?message="+message;
-	}*/
+	}
 
     
 }

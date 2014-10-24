@@ -19,6 +19,7 @@
 		<logout invalidate-session="true" 
 			logout-success-url="/logout/success" 
 			logout-url="/logout"/>
+		<csrf/>
 	</http>
 
 	<authentication-manager>
