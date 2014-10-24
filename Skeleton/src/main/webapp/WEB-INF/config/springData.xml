@@ -34,7 +34,7 @@
 
     <!-- SPRING - JPA -->
     <jpa:repositories base-package="org.sample.model.dao" entity-manager-factory-ref="entityManagerFactory" />
-	<tx:annotation-driven transaction-manager="transactionManager" />
+	
     
  
    

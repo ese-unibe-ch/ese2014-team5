@@ -97,10 +97,11 @@ public class SampleServiceImpl implements SampleService,  UserDetailsService {
     @Transactional
     public SignupUser saveUser(SignupUser signupUser) throws InvalidUserException {
 
-       /* User user = new User();
+        org.sample.model.User user = new org.sample.model.User();
         user.setFirstName(signupUser.getFirstName());
         user.setLastName(signupUser.getLastName());
         user.setEmail(signupUser.getEmail());
+        user.setUsername(signupUser.getEmail());
 
         String password = signupUser.getpassword();
         String passwordRepeat = signupUser.getpasswordRepeat();
@@ -113,7 +114,7 @@ public class SampleServiceImpl implements SampleService,  UserDetailsService {
 
         user = userDao.save(user);
 
-        signupUser.setId(user.getId());*/
+        signupUser.setId(user.getId());
 
         return null;
     }
