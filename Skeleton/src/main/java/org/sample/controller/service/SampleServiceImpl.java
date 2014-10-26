@@ -9,9 +9,23 @@ import java.util.List;
 
 import javax.servlet.ServletContext;
 
+import org.sample.controller.pojos.AdCreateForm;
+import org.sample.controller.pojos.SignupUser;
+import org.sample.exceptions.InvalidAdException;
+import org.sample.exceptions.InvalidUserException;
+import org.sample.model.Address;
+import org.sample.model.Advert;
+import org.sample.model.Picture;
+import org.sample.model.UserRole;
+import org.sample.model.dao.AdDao;
+import org.sample.model.dao.AddressDao;
+import org.sample.model.dao.PictureDao;
+import org.sample.model.dao.UserDao;
+import org.sample.model.dao.UserRoleDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,16 +34,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-import org.sample.controller.pojos.AdCreateForm;
-import org.sample.controller.pojos.SignupUser;
-import org.sample.exceptions.InvalidAdException;
-import org.sample.exceptions.InvalidUserException;
-import org.sample.model.dao.AdDao;
-import org.sample.model.dao.AddressDao;
-import org.sample.model.dao.PictureDao;
-import org.sample.model.dao.UserDao;
-import org.sample.model.dao.UserRoleDao;
-import org.sample.model.*;
 
 @Service
 @Transactional
@@ -152,6 +156,26 @@ public class SampleServiceImpl implements SampleService,  UserDetailsService {
 
         return signupUser;
     }
+    
+    @Transactional
+    public void updateUser(SignupUser profileUpdateForm) throws InvalidUserException {
+    	org.sample.model.User user = (org.sample.model.User)getLoggedInUser();
+        user.setFirstName(profileUpdateForm.getFirstName());
+        user.setLastName(profileUpdateForm.getLastName());
+        user.setEmail(profileUpdateForm.getEmail());
+
+        String password = profileUpdateForm.getpassword();
+        String passwordRepeat = profileUpdateForm.getpasswordRepeat();
+        if (!password.equals(passwordRepeat)) {
+        	throw new InvalidUserException("Passwords are not equal.");
+        }
+        if(!password.isEmpty()){
+        	user.setPassword(password);
+        }
+
+        user = userDao.save(user);
+	}
+    
 
     public static boolean isInteger(String s) {
         try { 
@@ -326,4 +350,9 @@ public class SampleServiceImpl implements SampleService,  UserDetailsService {
 		
 		return ads;
 	}
+
+	public Object getLoggedInUser() {
+		return userDao.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+	}
+	
 }

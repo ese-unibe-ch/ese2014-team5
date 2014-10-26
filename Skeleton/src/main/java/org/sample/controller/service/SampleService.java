@@ -16,5 +16,7 @@ public interface SampleService {
     
     /*The get methods*/
 	public Object findAds(String string);
+	public void updateUser(SignupUser profileUpdateForm);
+	public Object getLoggedInUser();
 }
  

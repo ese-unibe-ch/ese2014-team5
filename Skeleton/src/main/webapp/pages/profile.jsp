@@ -13,7 +13,9 @@
 		<div class="reservation">
 <h3>${currentUser.firstName} ${currentUser.lastName}'s profile</h3>
 <div>
-<p>E-Mail: ${currentUser.email}</p>
+	<p>E-Mail: ${currentUser.email}</p>
+	</br>
+	<button type="submit" onclick="location.href='edit-profile'" class="btn btn-primary">Edit profile</button>
 </div>
 		</div>
 		</div>
