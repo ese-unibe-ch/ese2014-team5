@@ -15,6 +15,13 @@ $(document).ready(function(){
 	$(document).on("click", "result", function(){
 		$(location).attr('href',"showad?value="+$(this).data("value"));
 	});
+	
+	<c:if test="${hasResults==1}" >
+	
+		$('html,body').animate({scrollTop: $("#resultTable").offset().top + 300},'slow');
+
+	</c:if>
+    
 });
 </script>
 
@@ -85,6 +92,7 @@ $(document).ready(function(){
         	</div>
         </fieldset>
             </form:form>
+            <div id="resultTable">
             <c:choose>
             <c:when test="${displayMap==0}">
             <div id="results" style="width:100%">
@@ -201,6 +209,7 @@ $(document).ready(function(){
 	    </script>
 	    	</c:otherwise>
 	    	</c:choose>
+	    	</div>
 		
 </div>
 		</div>
