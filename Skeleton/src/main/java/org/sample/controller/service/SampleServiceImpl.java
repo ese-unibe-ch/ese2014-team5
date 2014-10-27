@@ -347,33 +347,66 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         if (Form.getFromPrice() == (null)) { // No 0 allowed
             Form.setFromPrice("0");
         }
-        if(Form.getToPrice() ==(null)) {
+        if (Form.getToPrice() == (null)) {
             Form.setToPrice("0");
         }
         int priceMin = 0;
         int priceMax = 0;
         try {
-        	priceMin = Integer.parseInt(Form.getFromPrice());
+            priceMin = Integer.parseInt(Form.getFromPrice());
             priceMax = Integer.parseInt(Form.getToPrice());
 
-            if(priceMax < priceMin) { // This would crash the database...
-            int placeholder = priceMax;
-            priceMax = priceMin;
-            priceMin = placeholder;
+            if (priceMax < priceMin) { // This would crash the database...
+                int placeholder = priceMax;
+                priceMax = priceMin;
+                priceMin = placeholder;
             }
+        } catch (NumberFormatException e) {
+            priceMax = 9999999;
+            priceMin = 0;
         }
-        catch(NumberFormatException e)
-        {
-        	priceMax = 9999999;
-        	priceMin = 0;
+
+        if (Form.getFromSize() == null) {
+            Form.setFromSize("0");
+        }
+        if (Form.getToSize() == null) {
+            Form.setToSize("0");
+        }
+        int roomSizeMin = 0;
+        int roomSizeMax = 0;
+        try {
+            roomSizeMin = Integer.parseInt(Form.getFromSize());
+            roomSizeMax = Integer.parseInt(Form.getToSize());
+            
+            if (roomSizeMax < roomSizeMin) { // This would crash the database...
+                int placeholder = roomSizeMax;
+                roomSizeMax = roomSizeMin;
+                roomSizeMin = placeholder;
+            }
+
+        } catch (NumberFormatException e) {
+            roomSizeMin = 0;
+            roomSizeMax = 9999999;
         }
         
-        //Iterable<Advert> ads = adDao.findAll();
-        //Iterable <org.sample.model.Advert> ads = adDao.findByroomPriceBetweenAndroomSizeBetween(100, 400, 10, 30);
-        Iterable<org.sample.model.Advert> ads = adDao.findByroomPriceBetween(priceMin, priceMax);
-         //Iterable<org.sample.model.Advert> persons = adDao.findAll();
-            /*First go over all WG and then check, the different cathegories*/
+        String town = Form.getNearCity();
+        if(town == null || town.length() == 0) {
+        town = "Bern";    
+        }
+        
+        String TextSearch = Form.getSearch();
+        if(TextSearch == null) {
+        TextSearch = "";  //Is like empty search, contains is always true...  
+        }
+        
+        Iterable <org.sample.model.Advert> ads = adDao.findByroomPriceBetweenAndRoomSizeBetweenAndRoomDescContainingAndAddressCity(priceMin, priceMax, roomSizeMin, roomSizeMax, TextSearch, town);
 
+        
+        
+        
+        
+        
+         //Iterable<org.sample.model.Advert> persons = adDao.findAll();
 
         /* SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
          FullTextSession fullTextSession = Search.getFullTextSession(session);
