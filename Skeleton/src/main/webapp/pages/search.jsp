@@ -21,7 +21,14 @@ $(document).ready(function(){
 		$('html,body').animate({scrollTop: $("#resultTable").offset().top + 300},'slow');
 
 	</c:if>
-    
+	
+	$("#slider-range-price").slider('values',0,${minPrice}); // sets first handle (index 0) to 50
+	$("#slider-range-price").slider('values',1,${maxPrice}); // sets second handle (index 1) to 80
+	$( "#amountPrice" ).val( 	"CHF ${minPrice} - CHF ${maxPrice}"  );
+	
+	$("#slider-range-size").slider('values',0,${minSize}); // sets first handle (index 0) to 50
+	$("#slider-range-size").slider('values',1,${maxSize}); // sets second handle (index 1) to 80
+	$( "#amountSize" ).val(	"${minSize}m^2 - ${maxSize}m^2" );
 });
 </script>
 
@@ -47,33 +54,23 @@ $(document).ready(function(){
                 <form:input path="search" id="field-search" tabindex="2" maxlength="35" placeholder="Search for specifics (near shops, party-friendly, etc.).."/>
             </div>
             
-            <div class="controls-from">
-            	<label class="control-label ctrl" for="field-fromPrice">from</label>
-            	<div class="controls">
-            	    <form:input  path="fromPrice" id="field-fromPrice" tabindex="2" maxlength="35" placeholder="CHF"/>
-            	</div>
-            </div>
-        
-        	<div class="controls-to">
-        	<label class="control-label" for="field-toPrice">to</label>
+             
+            <label class="control-label" for="amountPrice">Price</label>
             <div class="controls">
-                <form:input path="toPrice" id="field-toPrice" tabindex="2" maxlength="35" placeholder="CHF"/>
-            </div>
-            </div>
+			 <input type="text" id="amountPrice" readonly style="border:0; color:#f6931f; font-weight:bold;">
+            	<div id="slider-range-price"></div>
+            	<form:input type="hidden"  path="fromPrice" id="field-fromPrice" tabindex="2" maxlength="35" placeholder="CHF"/>
+            	<form:input type="hidden" path="toPrice" id="field-toPrice" tabindex="2" maxlength="35" placeholder="CHF"/>
+            </div>	 
             
-            <div class="controls-from">
-            	<label class="control-label" for="field-fromSize">from</label>
-            	<div class="controls">
-            	    <form:input class="from" path="fromSize" id="field-fromSize" tabindex="2" maxlength="35" placeholder="m^2"/>
-            	</div>
-        	</div>
-        	
-        	<div class="controls-to">
-        	<label class="control-label" for="field-toSize">to</label>
+            <label class="control-label" for="amountSize">Size</label>
             <div class="controls">
-                <form:input path="toSize" id="field-toSize" tabindex="2" maxlength="35" placeholder="m^2"/>
-            </div>
-            </div>
+				  <input type="text" id="amountSize" readonly style="border:0; color:#f6931f; font-weight:bold;">
+            	<div id="slider-range-size"></div>
+            	<form:input type="hidden"  path="fromSize" id="field-fromSize" tabindex="2" maxlength="35" placeholder="CHF"/>
+            	<form:input type="hidden" path="toSize" id="field-toSize" tabindex="2" maxlength="35" placeholder="CHF"/>
+            </div>	   
+            
             
             <label class="control-label" for="field-nearCity" style="clear:left;">Area</label>
             <div class="controls">

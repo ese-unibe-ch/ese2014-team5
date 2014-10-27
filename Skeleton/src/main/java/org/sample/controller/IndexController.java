@@ -43,6 +43,10 @@ public class IndexController {
     public ModelAndView index2() {
     	ModelAndView model = new ModelAndView("index");    
     	model.addObject("searchForm", new SearchForm());
+    	model.addObject("minPrice",0);
+		model.addObject("maxPrice",3000);
+		model.addObject("minSize",0);
+		model.addObject("maxSize",200);
         return model;
     }
     
@@ -54,11 +58,19 @@ public class IndexController {
     	{
     		model.addObject("displayMap",1);
     		model.addObject("hasResults", 1);
+    		model.addObject("minPrice",searchForm.getFromPrice());
+    		model.addObject("maxPrice",searchForm.getToPrice());
+    		model.addObject("minSize",searchForm.getFromSize());
+    		model.addObject("maxSize",searchForm.getToSize());
     	}
     	else
     	{
     		model.addObject("displayMap",0);
     		model.addObject("hasResults", 1);
+    		model.addObject("minPrice",searchForm.getFromPrice());
+    		model.addObject("maxPrice",searchForm.getToPrice());
+    		model.addObject("minSize",searchForm.getFromSize());
+    		model.addObject("maxSize",searchForm.getToSize());
     	}
         return model;
     }

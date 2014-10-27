@@ -7,16 +7,12 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
 	<link href="web/css/style.css" rel="stylesheet" type="text/css" media="all" />
-	<script src="web/js/jquery.min.js"></script>
 	<!--start slider -->
 	<link rel="stylesheet" href="web/css/fwslider.css" media="all">
-	<script src="web/js/jquery-ui.min.js"></script>
 	<script src="web/js/css3-mediaqueries.js"></script>
 	<script src="web/js/fwslider.js"></script>
 	<!--end slider -->
 	<!---strat-date-piker---->
-	<link rel="stylesheet" href="web/css/jquery-ui.css" />
-	<script src="web/js/jquery-ui.js"></script>
 	<!---/End-date-piker---->
 	<link type="text/css" rel="stylesheet" href="web/css/JFGrid.css" />
 	<link type="text/css" rel="stylesheet" href="web/css/JFFormStyle-1.css" />
@@ -27,9 +23,12 @@
 	</head>
 
     <link rel="stylesheet" type="text/css" href="css/main.css" media="all"/>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+  <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
    <!--  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">-->
     <script type="text/javascript"  src="dn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+
 
 	<script type="text/javascript">
 	$(document).ready(function() {
@@ -53,7 +52,38 @@
   			menu.removeAttr('style');
   		}
 		});
-		
+		    $( "#slider-range-price" ).slider({
+		      range: true,
+		      min: 0,
+		      max: 3000,
+		      values: [ 75, 750 ],
+		      slide: function( event, ui ) {
+		        $( "#field-fromPrice" ).val(ui.values[ 0 ]);
+		        $( "#field-toPrice" ).val(ui.values[ 1 ]);
+		        	$( "#amountPrice" ).val("CHF " + ui.values[ 0 ] + " - CHF " + ui.values[ 1 ] );
+		      }
+		    });
+		    $( "#field-fromPrice" ).val($( "#slider-range-price" ).slider( "values", 0 ));
+		    $( "#field-toPrice" ).val($( "#slider-range-price" ).slider( "values", 1 ));
+		    
+		  /*  if($( "#amountPrice" ).val()==0)
+		    	$( "#amountPrice" ).val( 	"CHF 75 - CHF 750"  );*/
+		    
+		    $( "#slider-range-size" ).slider({
+			      range: true,
+			      min: 0,
+			      max: 200,
+			      values: [ 10, 180 ],
+			      slide: function( event, ui ) {
+			        $( "#field-fromSize" ).val(ui.values[ 0 ]);
+			        $( "#field-toSize" ).val(ui.values[ 1 ]);
+			        $( "#amountSize" ).val( ui.values[ 0 ] + "m^2 - " + ui.values[ 1 ] + "m^2" );
+			      }
+			    });
+			    $( "#field-fromSize" ).val($( "#slider-range-size" ).slider( "values", 0 ));
+			    $( "#field-toSize" ).val($( "#slider-range-size" ).slider( "values", 1 ));
+			    /*if($( "#amountSize" ).val()==0)
+				    $( "#amountSize" ).val(	"10m^2 - 180m^2" );*/
 		
 	});
 
