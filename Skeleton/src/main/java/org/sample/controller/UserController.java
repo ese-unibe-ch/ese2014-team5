@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.sample.controller;
 
 import javax.validation.Valid;
@@ -12,7 +7,6 @@ import org.sample.controller.service.SampleService;
 import org.sample.exceptions.InvalidUserException;
 import org.sample.model.dao.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -33,14 +27,14 @@ public class UserController {
     @Autowired
     UserDao userDao;
     
-    @RequestMapping(value = "profile", method = RequestMethod.GET)
+    @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public ModelAndView showProfile() {
 	    ModelAndView model = new ModelAndView("profile");
 	    model.addObject("currentUser", sampleService.getLoggedInUser());
 	    return model;
     }
     
-    @RequestMapping(value = "edit-profile", method = RequestMethod.GET)
+    @RequestMapping(value = "/edit-profile", method = RequestMethod.GET)
     public ModelAndView editProfile() {
 	    ModelAndView model = new ModelAndView("profileediting");
 	    model.addObject("profileUpdateForm", new SignupUser());
@@ -65,6 +59,18 @@ public class UserController {
         	model = new ModelAndView("profileediting");
         }   	
     	return model;
+    }
+    
+    /**
+     * Redirects to the 'saved searches' section in user profile
+     * 
+     */
+    @RequestMapping(value = "/saved-searches", method = RequestMethod.GET)
+    public ModelAndView showSearches() {
+	    ModelAndView model = new ModelAndView("profilesearches");
+	    model.addObject("currentUser", sampleService.getLoggedInUser());
+	    //model.addObject("searchList", );
+	    return model;
     }
     
     

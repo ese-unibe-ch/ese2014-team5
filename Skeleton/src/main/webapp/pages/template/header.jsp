@@ -27,8 +27,8 @@
 	</head>
 
     <link rel="stylesheet" type="text/css" href="css/main.css" media="all"/>
-   <!--  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">-->
-    <script type="text/javascript"  src="dn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<!--     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"> -->
+<!--     <script type="text/javascript"  src="dn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script> -->
     <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
 
 	<script type="text/javascript">
@@ -86,7 +86,8 @@
 				<li class="active"><a href="index">Home</a></li> |
 				<sec:authorize access="hasRole('ROLE_USER')">
 					<li><a href="adcreation">create an Ad</a></li> |
-					<li><a href="profile?name=<%=SecurityContextHolder.getContext().getAuthentication().getName()%>"><span id="username"><%=SecurityContextHolder.getContext().getAuthentication().getName().toLowerCase()%></span></a></li> |
+					<li><a href="profile?name=<%=SecurityContextHolder.getContext().getAuthentication().getName()%>"><span id="username">Profile</span></a></li> |
+					<li><a href="saved-searches?name=<%=SecurityContextHolder.getContext().getAuthentication().getName()%>"><span id="username">Saved Searches</span></a></li> |
 					<li><c:if test="${pageContext.request.userPrincipal.name != null}">
 							<a onclick="javascript:logout();">Logout</a>
 						</c:if></li>
