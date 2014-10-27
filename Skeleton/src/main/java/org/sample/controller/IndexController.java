@@ -53,10 +53,12 @@ public class IndexController {
     	if(action.equals("bmap"))
     	{
     		model.addObject("displayMap",1);
+    		model.addObject("hasResults", 1);
     	}
     	else
     	{
     		model.addObject("displayMap",0);
+    		model.addObject("hasResults", 1);
     	}
         return model;
     }
