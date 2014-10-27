@@ -101,69 +101,95 @@ $(document).ready(function(){
                 <style>
 	      #map-canvas {
 	        height: 450px;
-	        widht: 100%;
+	        widht: 450px;
 	        margin: 0px;
 	        padding: 0px
 	      }
 	    </style>
-	    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+	    
+	    	<div id="map-canvas"></div>
+	    	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
 	    <script>
 	    
 	    var results = [<c:forEach items="${searchResults}" var="ad" varStatus="ads">{ content:
 							<c:forEach items="${ad.pictures}" varStatus="loopCount" var="pic">
-	       	             		<c:if test="${loopCount.count eq 1}">"<img class='gallery' src='<c:url value='img/${pic.url}'/>'/>" +</c:if>
+	       	             		<c:if test="${loopCount.count eq 1}">"<div id='contentwindow'><img class='gallery' src='<c:url value='img/${pic.url}'/>'/><br />" +</c:if>
 	       					</c:forEach>
 	       					"${ad.title}" +
 	       				    "${ad.roomDesc}" +
-	       				    "Price: ${ad.roomPrice}CHF, Size: ${ad.roomSize}m&sup2; ",
+	       				    "Price: ${ad.roomPrice}CHF, Size: ${ad.roomSize}m&sup2; </div>",
 	       				address:
 	       						"${ad.address.street} ${ad.address.city} ${ad.address.plz}" }
 	                     <c:if test="${ ! ads.last}" >,  </c:if> 
 	       			</c:forEach>
 	                   ];
-			var map;
-			 var geocoder;
-			function initialize() {
-				geocoder = new google.maps.Geocoder();
-			  var mapOptions = {
-					  
-			    zoom: 8,
-			    center: new google.maps.LatLng(46.9479222,7.4446085,7)
-			  };
-			  map = new google.maps.Map(document.getElementById('map-canvas'),
-			      mapOptions);
-			  
-			  results.forEach(function(entry) {
-				  var infowindow = new google.maps.InfoWindow({
-				      content: entry.content
-				  });
+	    
+	    var map;
+		var geocoder;
+		
+		  
+		    var gmarkers = []; 
+	   
+			  function initialize() {
+				    geocoder = new google.maps.Geocoder();
+				    var latlng = new google.maps.LatLng(46.9510827861504654, 7.4386324175389165);
+				    var myOptions = {
+				      zoom: 8,
+				      center: latlng,
+				      mapTypeId: google.maps.MapTypeId.ROADMAP
+				    };
+				    map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);
 
-				  var marker = new google.maps.Marker({
-				      position: codeAddress(entry.address),
-				      map: map,
-				      title: 'room'
-				  });
-				  google.maps.event.addListener(marker, 'click', function() {
-				    infowindow.open(map,marker);
-				  });
-				});
-			}
+				    var marker, i;
+				    for (i = 0; i < results.length; i++) {  
+				    	
+				       codeAddress(results[i]);
+				       
+				      
+				      
+				      // save the info we need to use later for the side_bar
+				      gmarkers.push(marker);
+				    }
+				    
+				    google.maps.event.addListener(map, 'click', function() {
+				          infowindow.close(map,marker);
+				    });
+				  }
+
+				  function codeAddress(event) {
+				    geocoder.geocode( { 'address': event.address}, function(results, status) {
+				      if (status == google.maps.GeocoderStatus.OK) {
+				        map.setCenter(results[0].geometry.location);
+				        var marker = new google.maps.Marker({
+				            map: map,
+				            position: results[0].geometry.location
+				            
+				        });
+				        
+				        var infowindow = new google.maps.InfoWindow({
+				            content: event.content
+				        });
+				        
+				        google.maps.event.addListener(marker, 'click', function() {
+					          infowindow.setContent(event.content); 
+					          infowindow.open(map,marker);
+					    });
+				        
+				       
+				      } else {
+				        //alert("Geocode was not successful for the following reason: " + status);
+				        return null
+				      }
+				    });
+				  }
+			
+				  
+				  
+				  google.maps.event.addDomListener(window, 'load', initialize);
 			
 			
-			function codeAddress(address) {
-			    geocoder.geocode( { 'address': address}, function(results, status) {
-			      if (status == google.maps.GeocoderStatus.OK) {
-			        return results[0].geometry.location;
-			      } else {
-			        return null;
-			      }
-			    });
-			  }
-			
-			google.maps.event.addDomListener(window, 'load', initialize);
 	
 	    </script>
-	    	<div id="map-canvas"></div>
 	    	</c:otherwise>
 	    	</c:choose>
 		
