@@ -73,6 +73,14 @@ public class UserController {
 	    return model;
     }
     
+    @RequestMapping(value = "/my-ads", method = RequestMethod.GET)
+    public ModelAndView showMyAds() {
+	    ModelAndView model = new ModelAndView("profileadverts");
+	    model.addObject("currentUser", sampleService.getLoggedInUser());
+	    //model.addObject("adList", );
+	    return model;
+    }
+    
     
    /* @RequestMapping(value = "/login", method = RequestMethod.GET)
    	public ModelAndView login(
