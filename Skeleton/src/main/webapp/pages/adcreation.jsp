@@ -106,7 +106,7 @@ $(document).ready(function() {
         <div class="control-group<c:if test="${not empty roomPriceErrors}"> error</c:if>">
             <label class="control-label" for="field-roomPrice">Price</label>
             <div class="controls">
-                <form:input path="roomPrice" id="field-roomPrice"  tabindex="2" maxlength="150" placeholder="e.g. 18"/> CHF
+                <form:input path="roomPrice" id="field-roomPrice"  tabindex="2" maxlength="150" placeholder="e.g. 450"/> CHF
                 <form:errors path="roomPrice" cssClass="help-inline" element="span"/>
             </div>
         </div>
@@ -130,32 +130,92 @@ $(document).ready(function() {
             </div>
         </div>
         
+        <style type="text/css">
+        #address_left {
+        	width: 50%;
+        	float:left;
+        }
+        #address_right {
+        	width: 220px;
+        	height: 200px;
+        	float:left;
+        	margin-left: 30px;
+        }
+        </style>
         <legend>Address</legend>
-        <c:set var="streetErrors"><form:errors path="street"/></c:set>
-        <div class="control-group<c:if test="${not empty streetErrors}"> error</c:if>">
-            <label class="control-label" for="field-street">Street</label>
-            <div class="controls">
-                <form:input path="street" id="field-street" tabindex="2" maxlength="150" placeholder="Downing Street 10"/>
-                <form:errors path="street" cssClass="help-inline" element="span"/>
-            </div>
+        <div id="address_left">
+	        <c:set var="streetErrors"><form:errors path="street"/></c:set>
+	        <div class="control-group<c:if test="${not empty streetErrors}"> error</c:if>">
+	            <label class="control-label" for="field-street">Street</label>
+	            <div class="controls">
+	                <form:input path="street" onblur="codeAddress()" id="field-street" tabindex="2" maxlength="150" placeholder="Downing Street 10"/>
+	                <form:errors path="street" cssClass="help-inline" element="span"/>
+	            </div>
+	        </div>
+	        
+	        <c:set var="plzErrors"><form:errors path="plz"/></c:set>
+	        <div class="control-group<c:if test="${not empty plzErrors}"> error</c:if>">
+	            <label class="control-label" for="field-plz">Postcode</label>
+	            <div class="controls">
+	                <form:input path="plz" onblur="codeAddress()" id="field-plz" tabindex="2" maxlength="150" placeholder="3000"/>
+	                <form:errors path="plz" cssClass="help-inline" element="span"/>
+	            </div>
+	        </div>
+	        
+	        <c:set var="cityErrors"><form:errors path="city"/></c:set>
+	        <div class="control-group<c:if test="${not empty cityErrors}"> error</c:if>">
+	            <label class="control-label" for="field-city">City</label>
+	            <div class="controls">
+	                <form:input path="city" onblur="codeAddress()" id="field-city" tabindex="2" maxlength="150" placeholder="Bern"/>
+	                <form:errors path="city" cssClass="help-inline" element="span"/>
+	            </div>
+	        </div>
         </div>
-        
-        <c:set var="cityErrors"><form:errors path="city"/></c:set>
-        <div class="control-group<c:if test="${not empty cityErrors}"> error</c:if>">
-            <label class="control-label" for="field-city">City</label>
-            <div class="controls">
-                <form:input path="city" id="field-city" tabindex="2" maxlength="150" placeholder="Bern"/>
-                <form:errors path="city" cssClass="help-inline" element="span"/>
-            </div>
-        </div>
-        
-        <c:set var="plzErrors"><form:errors path="plz"/></c:set>
-        <div class="control-group<c:if test="${not empty plzErrors}"> error</c:if>">
-            <label class="control-label" for="field-plz">Postcode</label>
-            <div class="controls">
-                <form:input path="plz" id="field-plz" tabindex="2" maxlength="150" placeholder="3000"/>
-                <form:errors path="plz" cssClass="help-inline" element="span"/>
-            </div>
+        <div id="address_right">
+	        <style>
+	      #map-canvas {
+	        height: 100%;
+	        widht: 100%;
+	        margin: 0px;
+	        padding: 0px
+	      }
+	    </style>
+	    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+	    <script>
+			var map;
+			 var geocoder;
+			function initialize() {
+				geocoder = new google.maps.Geocoder();
+			  var mapOptions = {
+					  
+			    zoom: 8,
+			    center: new google.maps.LatLng(46.9479222,7.4446085,7)
+			  };
+			  map = new google.maps.Map(document.getElementById('map-canvas'),
+			      mapOptions);
+			}
+			
+			function codeAddress() {
+			    var address = document.getElementById("field-street").value + " " + document.getElementById("field-plz").value + " " + document.getElementById("field-city").value;
+			    geocoder.geocode( { 'address': address}, function(results, status) {
+			      if (status == google.maps.GeocoderStatus.OK) {
+			        map.setCenter(results[0].geometry.location);
+			        var marker = new google.maps.Marker({
+			            map: map,
+			            position: results[0].geometry.location
+			        });
+			        map.setCenter(results[0].geometry.location);
+			        map.setZoom(16);
+			      } else {
+			        
+			      }
+			    });
+			  }
+			
+			google.maps.event.addDomListener(window, 'load', initialize);
+	
+	    </script>
+	    	<div id="map-canvas"></div>
         </div>
         
         <legend>Images</legend>

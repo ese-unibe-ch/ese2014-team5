@@ -47,10 +47,17 @@ public class IndexController {
     }
     
     @RequestMapping(value = "/search", method = {RequestMethod.POST})
-    public ModelAndView search(@Valid SearchForm searchForm, BindingResult result, RedirectAttributes redirectAttributes) {
-    	ModelAndView model = new ModelAndView("search"); 
-    	//model.addObject("searchForm", searchForm); // Not needed, leads to null exception...
+    public ModelAndView search(@Valid SearchForm searchForm, @RequestParam String action, BindingResult result, RedirectAttributes redirectAttributes) {
+       	ModelAndView model = new ModelAndView("search");
     	model.addObject("searchResults", sampleService.findAds(searchForm));
+    	if(action.equals("bmap"))
+    	{
+    		model.addObject("displayMap",1);
+    	}
+    	else
+    	{
+    		model.addObject("displayMap",0);
+    	}
         return model;
     }
     

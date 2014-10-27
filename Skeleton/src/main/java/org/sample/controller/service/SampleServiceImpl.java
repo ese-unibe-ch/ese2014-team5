@@ -350,15 +350,22 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         if(Form.getToPrice() ==(null)) {
             Form.setToPrice("0");
         }
-        
+        int priceMin = 0;
+        int priceMax = 0;
+        try {
+        	priceMin = Integer.parseInt(Form.getFromPrice());
+            priceMax = Integer.parseInt(Form.getToPrice());
 
-        int priceMin = Integer.parseInt(Form.getFromPrice());
-        int priceMax = Integer.parseInt(Form.getToPrice());
-
-        if(priceMax < priceMin) { // This would crash the database...
-        int placeholder = priceMax;
-        priceMax = priceMin;
-        priceMin = placeholder;
+            if(priceMax < priceMin) { // This would crash the database...
+            int placeholder = priceMax;
+            priceMax = priceMin;
+            priceMin = placeholder;
+            }
+        }
+        catch(NumberFormatException e)
+        {
+        	priceMax = 9999999;
+        	priceMin = 0;
         }
         
         //Iterable<Advert> ads = adDao.findAll();

@@ -1192,3 +1192,7 @@ div.resultinfo
 	background-color: #E4E4E4;
 	
 }
+
+#contentWindow {
+	width: 250px;
+}

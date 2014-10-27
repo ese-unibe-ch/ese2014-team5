@@ -69,7 +69,8 @@
             </div>
             
             <div class="form-actions">
-            <button type="submit" class="btn btn-primary">Search</button>
+            	<button type="submit" name="action" value="blist" class="btn btn-primary">Show List</button>
+            	<button type="submit" name="action" value="bmap" class="btn btn-primary">Show Map</button>
         	</div>
         </fieldset>
             </form:form>
