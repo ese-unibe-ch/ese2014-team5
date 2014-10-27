@@ -41,7 +41,7 @@
             <div class="control-group<c:if test="${not empty lastNameErrors}"> error</c:if>">
                     <label class="control-label" for="field-LastName">Last Name</label>
                     <div class="controls">
-                    <form:input path="LastName" id="field-LastName" tabindex="3" maxlength="35" placeholder="Last Name"/>
+                    <form:input path="LastName" id="field-LastName" tabindex="2" maxlength="35" placeholder="Last Name"/>
                     <form:errors path="LastName" cssClass="help-inline" element="span"/>
                 </div>
             </div>
@@ -51,7 +51,7 @@
                     <label class="control-label" for="field-Email">Email</label>
 
                     <div class="controls">
-                    <form:input path="Email" id="field-Email" tabindex="1" maxlength="45" placeholder="Email"/>
+                    <form:input path="Email" id="field-Email" tabindex="2" maxlength="45" placeholder="Email"/>
                     <form:errors path="Email" cssClass="help-inline" element="span"/>
                 </div>
             </div>
@@ -61,7 +61,7 @@
             <div class="control-group<c:if test="${not empty passwordErrors}"> error</c:if>">
                     <label class="control-label" for="field-password">Password</label>
                     <div class="controls">
-                    <form:input type="password" path="password" id="field-password" tabindex="3" maxlength="35" placeholder="password"/>
+                    <form:input type="password" path="password" id="field-password" tabindex="2" maxlength="35" placeholder="password"/>
                     <form:errors path="password" cssClass="help-inline" element="span"/>
                 </div>
             </div>
@@ -70,7 +70,7 @@
             <div class="control-group<c:if test="${not empty passwordRepeatErrors}"> error</c:if>">
                     <label class="control-label" for="field-passwordRepeat">PasswordRepeat</label>
                     <div class="controls">
-                    <form:input type="password" path="passwordRepeat" id="field-passwordRepeat" tabindex="3" maxlength="35" placeholder="passwordRepeat"/>
+                    <form:input type="password" path="passwordRepeat" id="field-passwordRepeat" tabindex="2" maxlength="35" placeholder="passwordRepeat"/>
                     <form:errors path="passwordRepeat" cssClass="help-inline" element="span"/>
                 </div>
             </div>
