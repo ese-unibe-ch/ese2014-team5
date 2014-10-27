@@ -18,6 +18,15 @@ $(document).ready(function(){
 });
 </script>
 
+<c:if test="${page_error != null }">
+        <div class="alert alert-error">
+            <button type="button" class="close" style="left:0;" data-dismiss="alert">&times;</button>
+            <h4>Error!</h4>
+                ${page_error}
+        </div>
+    </c:if>
+
+
 <div class="booking_room">
 			<h4>Search results</h4>
 			
