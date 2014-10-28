@@ -1,10 +1,13 @@
 package org.sample.controller.service;
 
+import java.util.Set;
+
 import org.sample.controller.pojos.AdCreateForm;
 import org.sample.controller.pojos.SearchForm;
 import org.sample.controller.pojos.SignupUser;
 import org.sample.exceptions.InvalidAdException;
 import org.sample.model.Advert;
+import org.sample.model.User;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -16,6 +19,7 @@ public interface SampleService {
     public Advert getAd(Long id);
     
     /*The get methods*/
+    public Object findAdsForUser(User user);
 	public Object findAds(SearchForm Form);
 	public void updateUser(SignupUser profileUpdateForm);
 	public Object getLoggedInUser();

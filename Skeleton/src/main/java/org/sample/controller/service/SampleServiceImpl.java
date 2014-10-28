@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.ServletContext;
 
@@ -326,7 +327,10 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         ad.setRoomDesc(adForm.getRoomDesc());
         ad.setRoomPrice(Integer.parseInt(adForm.getRoomPrice()));
         ad.setRoomSize(Integer.parseInt(adForm.getRoomSize()));
-
+        System.out.println("USERNAME: " +adForm.getUsername());
+        System.out.println("USERNAME: " +userDao.findByUsername(adForm.getUsername()).getUsername());
+        ad.setUser(userDao.findByUsername(adForm.getUsername()));
+        System.out.println("USERNAME: " +ad.getUser().getUsername());
         // need to parse dates before
         SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
         Date dateFrom = null;
@@ -367,7 +371,7 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
     }
 
     @Transactional
-    public Object findAds(SearchForm form) {
+    public Iterable<Advert> findAds(SearchForm form) {
 
         if (form.getFromPrice() == (null)) { // No 0 allowed
             form.setFromPrice("0");
@@ -425,45 +429,16 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         }
         
         Iterable <org.sample.model.Advert> ads = adDao.findByroomPriceBetweenAndRoomSizeBetweenAndRoomDescContainingAndAddressCity(priceMin, priceMax, roomSizeMin, roomSizeMax, TextSearch, town);
-
-        
-        
-        
-        
-        
-         //Iterable<org.sample.model.Advert> persons = adDao.findAll();
-
-        /* SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-         FullTextSession fullTextSession = Search.getFullTextSession(session);
-         Transaction tx = fullTextSession.beginTransaction();
-
-         create native Lucene query unsing the query DSL
-         alternatively you can write the Lucene query using the Lucene query parser
-         or the Lucene programmatic API. The Hibernate Search DSL is recommended though
-         QueryBuilder qb = fullTextSession.getSearchFactory()
-         .buildQueryBuilder().forEntity(Advert.class).get();
-         org.apache.lucene.search.Query query = qb
-         .keyword()
-         .onFields("roomDesc", "peopleDesc", "address.street")
-         .matching(string)
-         .createQuery();
-
-         wrap Lucene query in a org.hibernate.Query
-         org.hibernate.Query hibQuery = 
-         fullTextSession.createFullTextQuery(query, Advert.class);
-
-         execute search
-         ads = hibQuery.list();
-			  
-         tx.commit();
-         session.close();*/
-        //}
 		
 		return ads;
 	}
 
 	public Object getLoggedInUser() {
 		return userDao.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+	}
+
+	public Iterable<Advert> findAdsForUser(org.sample.model.User user) {
+		return adDao.findByUserId(user.getId());
 	}
 	
 }

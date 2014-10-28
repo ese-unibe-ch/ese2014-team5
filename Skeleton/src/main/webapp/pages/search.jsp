@@ -112,7 +112,6 @@ $(document).ready(function(){
 						Price: ${ad.roomPrice}CHF, Size: ${ad.roomSize}m&sup2;
 					</div>
 				</div>
-				</a>
 			</c:forEach>
             </div>
             </c:when>

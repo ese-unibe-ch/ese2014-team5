@@ -3,6 +3,7 @@ package org.sample.controller.pojos;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.sample.model.User;
 import org.springframework.web.multipart.MultipartFile;
 
 public class AdCreateForm {
@@ -21,6 +22,8 @@ public class AdCreateForm {
     private String street;
     private String city;
     private String plz;
+    
+    private String username;
     
     private List<MultipartFile> files;
     private List<String> filenames;
@@ -106,6 +109,13 @@ public class AdCreateForm {
 	}
 	public void setRoomPrice(String roomPrice) {
 		this.roomPrice = roomPrice;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
 	}
    
 }

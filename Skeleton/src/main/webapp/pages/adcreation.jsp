@@ -129,6 +129,8 @@ $(document).ready(function() {
                 <form:errors path="toDate" cssClass="help-inline" element="span"/>
             </div>
         </div>
+        <%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
+        <form:input type="hidden" id="field-username" path="username" value="<%=SecurityContextHolder.getContext().getAuthentication().getName()%>"/>
         
         <style type="text/css">
         #address_left {

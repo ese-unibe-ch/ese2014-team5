@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.Size;
@@ -33,6 +34,9 @@ public class Advert {
     
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
     private Set<Picture> pictures;
+    
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
+    private User user;
     
     @OneToOne
     private Address address; 
@@ -127,7 +131,13 @@ public class Advert {
 		this.roomPrice = roomPrice;
 	}
 
+    public void setUser(User user) {
+    	this.user = user;
+    }
     
+    public User getUser() {
+    	return user;
+    }
 	
 	
 }

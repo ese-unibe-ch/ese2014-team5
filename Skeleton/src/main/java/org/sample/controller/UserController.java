@@ -5,6 +5,8 @@ import javax.validation.Valid;
 import org.sample.controller.pojos.SignupUser;
 import org.sample.controller.service.SampleService;
 import org.sample.exceptions.InvalidUserException;
+import org.sample.model.User;
+import org.sample.model.dao.AdDao;
 import org.sample.model.dao.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -77,7 +79,7 @@ public class UserController {
     public ModelAndView showMyAds() {
 	    ModelAndView model = new ModelAndView("profileadverts");
 	    model.addObject("currentUser", sampleService.getLoggedInUser());
-	    //model.addObject("adList", );
+	    model.addObject("adList", sampleService.findAdsForUser((User) sampleService.getLoggedInUser()));
 	    return model;
     }
     
