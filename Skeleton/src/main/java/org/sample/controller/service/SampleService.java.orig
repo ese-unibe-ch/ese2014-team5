@@ -16,8 +16,12 @@ public interface SampleService {
     public Advert getAd(Long id);
     
     /*The get methods*/
+<<<<<<< HEAD
 	public Object findAds(SearchForm Form);
+=======
+	public Object findAds(String string);
 	public void updateUser(SignupUser profileUpdateForm);
 	public Object getLoggedInUser();
+>>>>>>> profile-edits
 }
  

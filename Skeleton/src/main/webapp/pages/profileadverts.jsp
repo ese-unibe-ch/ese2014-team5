@@ -7,16 +7,21 @@
 <c:import url="template/header.jsp" />
 
 <div class="booking_room">
-	<h4>Profile</h4>			
+	<h4>Adverts</h4>			
 </div>
 
 <div class="reservation">
-	<h3>${currentUser.firstName} ${currentUser.lastName}'s profile</h3>
-	<div>
-		<p>E-Mail: ${currentUser.email}</p>
-		</br>
-		<button type="submit" onclick="location.href='edit-profile'" class="btn btn-primary">Edit profile</button>
-	</div>
+	<c:if test="${empty searchList}">
+		You didn't place an advert yet.</br></br>
+		<button type="submit" onclick="location.href='adcreation'" class="btn btn-primary">Create an add</button>
+	</c:if>
+	<c:if test="${not empty searchList}">
+		<ul>
+			<c:forEach var="listValue" items="${adList}">
+				<li>${listValue}</li>
+			</c:forEach>
+		</ul>
+	</c:if>
 </div>
 
 </div>

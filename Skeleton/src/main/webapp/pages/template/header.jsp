@@ -29,7 +29,6 @@
    <!--  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">-->
     <script type="text/javascript"  src="dn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
-
 	<script type="text/javascript">
 	$(document).ready(function() {
 	
@@ -118,7 +117,9 @@
 				    <li><a href="#bookmarks">Bookmarks</a></li> |
 				    <li><a href="#savedsearches">Saved Searches</a></li> |
 					<li><a href="adcreation">create an Ad</a></li> |
-					<li><a href="profile?name=<%=SecurityContextHolder.getContext().getAuthentication().getName()%>"><span id="username"><%=SecurityContextHolder.getContext().getAuthentication().getName().toLowerCase()%></span></a></li> |
+					<li><a href="profile?name=<%=SecurityContextHolder.getContext().getAuthentication().getName()%>"><span id="username">Profile</span></a></li> |
+					<li><a href="saved-searches"><span id="username">Saved Searches</span></a></li> |
+					<li><a href="my-ads">My Ads</a></li> |
 					<li><c:if test="${pageContext.request.userPrincipal.name != null}">
 							<a onclick="javascript:logout();">Logout</a>
 						</c:if></li>
