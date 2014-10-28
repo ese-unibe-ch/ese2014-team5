@@ -10,6 +10,7 @@ import java.util.List;
 import javax.servlet.ServletContext;
 
 import org.sample.controller.pojos.AdCreateForm;
+import org.sample.controller.pojos.SearchForm;
 import org.sample.controller.pojos.SignupUser;
 import org.sample.exceptions.InvalidAdException;
 import org.sample.exceptions.InvalidUserException;
@@ -34,20 +35,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-<<<<<<< HEAD
-import org.sample.controller.pojos.AdCreateForm;
-import org.sample.controller.pojos.SearchForm;
-import org.sample.controller.pojos.SignupUser;
-import org.sample.exceptions.InvalidAdException;
-import org.sample.exceptions.InvalidUserException;
-import org.sample.model.dao.AdDao;
-import org.sample.model.dao.AddressDao;
-import org.sample.model.dao.PictureDao;
-import org.sample.model.dao.UserDao;
-import org.sample.model.dao.UserRoleDao;
-import org.sample.model.*;
-=======
->>>>>>> profile-edits
+
 
 @Service
 @Transactional
@@ -379,19 +367,19 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
     }
 
     @Transactional
-    public Object findAds(SearchForm Form) {
+    public Object findAds(SearchForm form) {
 
-        if (Form.getFromPrice() == (null)) { // No 0 allowed
-            Form.setFromPrice("0");
+        if (form.getFromPrice() == (null)) { // No 0 allowed
+            form.setFromPrice("0");
         }
-        if (Form.getToPrice() == (null)) {
-            Form.setToPrice("0");
+        if (form.getToPrice() == (null)) {
+            form.setToPrice("0");
         }
         int priceMin = 0;
         int priceMax = 0;
         try {
-            priceMin = Integer.parseInt(Form.getFromPrice());
-            priceMax = Integer.parseInt(Form.getToPrice());
+            priceMin = Integer.parseInt(form.getFromPrice());
+            priceMax = Integer.parseInt(form.getToPrice());
 
             if (priceMax < priceMin) { // This would crash the database...
                 int placeholder = priceMax;
@@ -403,17 +391,17 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
             priceMin = 0;
         }
 
-        if (Form.getFromSize() == null) {
-            Form.setFromSize("0");
+        if (form.getFromSize() == null) {
+            form.setFromSize("0");
         }
-        if (Form.getToSize() == null) {
-            Form.setToSize("0");
+        if (form.getToSize() == null) {
+            form.setToSize("0");
         }
         int roomSizeMin = 0;
         int roomSizeMax = 0;
         try {
-            roomSizeMin = Integer.parseInt(Form.getFromSize());
-            roomSizeMax = Integer.parseInt(Form.getToSize());
+            roomSizeMin = Integer.parseInt(form.getFromSize());
+            roomSizeMax = Integer.parseInt(form.getToSize());
             
             if (roomSizeMax < roomSizeMin) { // This would crash the database...
                 int placeholder = roomSizeMax;
@@ -426,12 +414,12 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
             roomSizeMax = 9999999;
         }
         
-        String town = Form.getNearCity();
+        String town = form.getNearCity();
         if(town == null || town.length() == 0) {
         town = "Bern";    
         }
         
-        String TextSearch = Form.getSearch();
+        String TextSearch = form.getSearch();
         if(TextSearch == null) {
         TextSearch = "";  //Is like empty search, contains is always true...  
         }

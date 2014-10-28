@@ -12,7 +12,7 @@
 
 <div class="reservation">
 	<c:if test="${empty searchList}">
-		You didn't place an advert yet.</br></br>
+		You haven't placed an advert yet.</br></br>
 		<button type="submit" onclick="location.href='adcreation'" class="btn btn-primary">Create an add</button>
 	</c:if>
 	<c:if test="${not empty searchList}">
