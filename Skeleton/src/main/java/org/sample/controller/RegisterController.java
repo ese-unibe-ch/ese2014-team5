@@ -7,6 +7,7 @@ package org.sample.controller;
 
 import javax.validation.Valid;
 
+import org.sample.controller.pojos.SearchForm;
 import org.sample.controller.pojos.SignupUser;
 import org.sample.controller.service.SampleService;
 import org.sample.exceptions.InvalidUserException;
@@ -38,6 +39,11 @@ public class RegisterController {
             try {
             	sampleService.saveUser(signupUser);
             	model = new ModelAndView("/index");
+            	model.addObject("searchForm", new SearchForm());
+            	model.addObject("minPrice",0);
+        		model.addObject("maxPrice",3000);
+        		model.addObject("minSize",0);
+        		model.addObject("maxSize",200);
             } catch (InvalidUserException e) {
             	model = new ModelAndView("register");
             	model.addObject("signupUser", new SignupUser());  
