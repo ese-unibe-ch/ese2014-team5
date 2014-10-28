@@ -4,6 +4,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 
+import javax.servlet.ServletContext;
 import javax.validation.Valid;
 
 import org.sample.controller.pojos.AdCreateForm;
@@ -23,6 +24,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class IndexController {
 
+	@Autowired
+	ServletContext servletContext;
     @Autowired
     SampleService sampleService;
     
@@ -57,21 +60,16 @@ public class IndexController {
     	if(action.equals("bmap"))
     	{
     		model.addObject("displayMap",1);
-    		model.addObject("hasResults", 1);
-    		model.addObject("minPrice",searchForm.getFromPrice());
-    		model.addObject("maxPrice",searchForm.getToPrice());
-    		model.addObject("minSize",searchForm.getFromSize());
-    		model.addObject("maxSize",searchForm.getToSize());
     	}
     	else
     	{
     		model.addObject("displayMap",0);
-    		model.addObject("hasResults", 1);
-    		model.addObject("minPrice",searchForm.getFromPrice());
-    		model.addObject("maxPrice",searchForm.getToPrice());
-    		model.addObject("minSize",searchForm.getFromSize());
-    		model.addObject("maxSize",searchForm.getToSize());
     	}
+    	model.addObject("hasResults", 1);
+		model.addObject("minPrice",searchForm.getFromPrice());
+		model.addObject("maxPrice",searchForm.getToPrice());
+		model.addObject("minSize",searchForm.getFromSize());
+		model.addObject("maxSize",searchForm.getToSize());
         return model;
     }
     
@@ -101,7 +99,7 @@ public class IndexController {
         				byte[] bytes = file.getBytes();
 
         				// Creating the directory to store file
-        				 String rootPath = null; // PLACE THE RIGHT PATH HERE
+        				 String rootPath = servletContext.getRealPath("/");//null; // PLACE THE RIGHT PATH HERE
         				File dir = new File(rootPath + "/img");
         				if (!dir.exists())
         					dir.mkdirs();

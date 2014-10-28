@@ -60,7 +60,7 @@
 		      slide: function( event, ui ) {
 		        $( "#field-fromPrice" ).val(ui.values[ 0 ]);
 		        $( "#field-toPrice" ).val(ui.values[ 1 ]);
-		        	$( "#amountPrice" ).val("CHF " + ui.values[ 0 ] + " - CHF " + ui.values[ 1 ] );
+		        $( "#amountPrice" ).val("CHF " + ui.values[ 0 ] + " - CHF " + ui.values[ 1 ] );
 		      }
 		    });
 		    $( "#field-fromPrice" ).val($( "#slider-range-price" ).slider( "values", 0 ));

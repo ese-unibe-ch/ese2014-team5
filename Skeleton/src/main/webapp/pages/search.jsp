@@ -25,10 +25,15 @@ $(document).ready(function(){
 	$("#slider-range-price").slider('values',0,${minPrice}); // sets first handle (index 0) to 50
 	$("#slider-range-price").slider('values',1,${maxPrice}); // sets second handle (index 1) to 80
 	$( "#amountPrice" ).val( 	"CHF ${minPrice} - CHF ${maxPrice}"  );
+	$("#field-fromPrice").val(${minPrice});
+	$("#field-toPrice").val(${maxPrice});
 	
 	$("#slider-range-size").slider('values',0,${minSize}); // sets first handle (index 0) to 50
 	$("#slider-range-size").slider('values',1,${maxSize}); // sets second handle (index 1) to 80
 	$( "#amountSize" ).val(	"${minSize}m^2 - ${maxSize}m^2" );
+	$("#field-fromSize").val(${minSize});
+	$("#field-toSize").val(${maxSize});
+
 });
 </script>
 
@@ -131,7 +136,7 @@ $(document).ready(function(){
 	       					</c:forEach>
 	       					"${ad.title}" +
 	       				    "${ad.roomDesc}" +
-	       				    "Price: ${ad.roomPrice}CHF, Size: ${ad.roomSize}m&sup2; </div>",
+	       				    "Price: ${ad.roomPrice}CHF, Size: ${ad.roomSize}m&sup2; </div><a onclick=\"javascript:location.href='showad?value=${ad.id}'\">Show Ad</a>",
 	       				address:
 	       						"${ad.address.street} ${ad.address.city} ${ad.address.plz}" }
 	                     <c:if test="${ ! ads.last}" >,  </c:if> 
@@ -148,7 +153,7 @@ $(document).ready(function(){
 				    geocoder = new google.maps.Geocoder();
 				    var latlng = new google.maps.LatLng(46.9510827861504654, 7.4386324175389165);
 				    var myOptions = {
-				      zoom: 8,
+				      zoom: 12,
 				      center: latlng,
 				      mapTypeId: google.maps.MapTypeId.ROADMAP
 				    };
@@ -168,6 +173,15 @@ $(document).ready(function(){
 				    google.maps.event.addListener(map, 'click', function() {
 				          infowindow.close(map,marker);
 				    });
+				    
+				    var bounds = new google.maps.LatLngBounds ();
+					//  Go through each...
+					for (var i = 0, LtLgLen = qmarkers.length; i < LtLgLen; i++) {
+					  //  And increase the bounds to take this point
+					  bounds.extend (qmarkers[i]);
+					}
+					//  Fit these bounds to the map
+					map.fitBounds (bounds);
 				  }
 
 				  function codeAddress(event) {
@@ -181,7 +195,9 @@ $(document).ready(function(){
 				        });
 				        
 				        var infowindow = new google.maps.InfoWindow({
-				            content: event.content
+				            content: event.content,
+				            maxWidth: 300,
+				            minHeight: 200
 				        });
 				        
 				        google.maps.event.addListener(marker, 'click', function() {
@@ -195,6 +211,8 @@ $(document).ready(function(){
 				        return null
 				      }
 				    });
+				    
+				    
 				  }
 			
 				  
