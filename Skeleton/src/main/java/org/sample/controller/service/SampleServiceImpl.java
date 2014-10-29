@@ -420,16 +420,18 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         
         String town = form.getNearCity();
         if(town == null || town.length() == 0) {
-        town = "Bern";    
+        town = "";    
         }
         
         String TextSearch = form.getSearch();
-        if(TextSearch == null) {
+        if(TextSearch == null || TextSearch.length() == 0) {
         TextSearch = "";  //Is like empty search, contains is always true...  
         }
         
-        Iterable <org.sample.model.Advert> ads = adDao.findByroomPriceBetweenAndRoomSizeBetweenAndRoomDescContainingAndAddressCity(priceMin, priceMax, roomSizeMin, roomSizeMax, TextSearch, town);
-		
+        
+        Iterable <org.sample.model.Advert> ads = adDao.findByroomPriceBetweenAndRoomSizeBetweenAndAddressCityContainingAndRoomDescContaining(priceMin, priceMax, roomSizeMin, roomSizeMax, town, TextSearch);
+	//Iterable <org.sample.model.Advert> ads = adDao.findByroomPriceBetweenAndRoomSizeBetweenAndRoomDescContainingAndAddressCity(priceMin, priceMax, roomSizeMin, roomSizeMax, TextSearch, town);
+	
 		return ads;
 	}
 
