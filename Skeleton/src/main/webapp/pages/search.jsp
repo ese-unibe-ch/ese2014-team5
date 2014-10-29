@@ -91,6 +91,7 @@ $(document).ready(function(){
             <div class="form-actions">
             	<button type="submit" name="action" value="blist" class="btn btn-primary">Show List</button>
             	<button type="submit" name="action" value="bmap" class="btn btn-primary">Show Map</button>
+            	<button type="submit" name="action" value="bsave" class="btn btn-primary">Save Search</button>
         	</div>
         </fieldset>
             </form:form>

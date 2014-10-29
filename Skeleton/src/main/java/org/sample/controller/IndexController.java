@@ -11,6 +11,7 @@ import org.sample.controller.pojos.AdCreateForm;
 import org.sample.controller.pojos.SearchForm;
 import org.sample.controller.service.SampleService;
 import org.sample.exceptions.InvalidAdException;
+import org.sample.exceptions.InvalidSearchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -45,6 +46,7 @@ public class IndexController {
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public ModelAndView index2() {
     	ModelAndView model = new ModelAndView("index");    
+    	model.addObject("currentUser", sampleService.getLoggedInUser());
     	model.addObject("searchForm", new SearchForm());
     	model.addObject("minPrice",0);
 		model.addObject("maxPrice",3000);
@@ -57,6 +59,7 @@ public class IndexController {
     public ModelAndView search(@Valid SearchForm searchForm, @RequestParam String action, BindingResult result, RedirectAttributes redirectAttributes) {
        	ModelAndView model = new ModelAndView("search");
     	model.addObject("searchResults", sampleService.findAds(searchForm));
+    	model.addObject("currentUser", sampleService.getLoggedInUser());
     	if(action.equals("bmap"))
     	{
     		model.addObject("displayMap",1);
@@ -65,6 +68,7 @@ public class IndexController {
     	{
     		model.addObject("displayMap",0);
     	}
+    	
     	model.addObject("hasResults", 1);
 		model.addObject("minPrice",searchForm.getFromPrice());
 		model.addObject("maxPrice",searchForm.getToPrice());

@@ -1,7 +1,7 @@
 package org.sample.controller.pojos;
 
-public class SearchForm {
 
+public class SearchForm {
 
     private String search;
     private String fromSize;
@@ -10,6 +10,7 @@ public class SearchForm {
     private String toPrice;
     private String nearCity;
     private boolean favorites;
+    private Long userId;
     
 	public String getSearch() {
 		return search;
@@ -53,7 +54,11 @@ public class SearchForm {
 	public void setFavorites(boolean favorites) {
 		this.favorites = favorites;
 	}
+	public Long getUserId() {
+		return userId;
+	}
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
 
-
-   
 }
