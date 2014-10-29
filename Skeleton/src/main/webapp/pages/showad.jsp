@@ -19,11 +19,13 @@
 
 <fmt:formatDate value="${ad.fromDate}" var="dateFrom" pattern="MM/dd/yyyy" />
 	<fmt:formatDate value="${ad.toDate}" var="dateTo" pattern="MM/dd/yyyy" />
-
-  <c:forEach items="${ad.pictures}" var="pic">
+<div class="fotorama">
+ <c:forEach items="${ad.pictures}" var="pic">
 		<img style="float:left;" class="gallery" src="<c:url value="img/${pic.url}"/>"/>
 		<br />
 	</c:forEach>
+</div>
+  
 	<br />
   <ul style="clear:left;">
   <li>Room: ${ad.roomDesc }</li>
@@ -35,8 +37,8 @@
 
 <br />
 
-	<div style="width: 300px">
-		<iframe width="300" height="300" 
+	<div width="100%">
+		<iframe width="100%" height="350px" 
 		src="http://maps.google.de/maps?hl=de&q=${ad.address.street }, ${ad.address.plz } ${ad.address.city }&ie=UTF8&t=&z=17&iwloc=B&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0">
 		</iframe>
 	</div>

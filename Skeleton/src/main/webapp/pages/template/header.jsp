@@ -28,6 +28,9 @@
   <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
    <!--  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">-->
     <script type="text/javascript"  src="dn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <link  href="http://fotorama.s3.amazonaws.com/4.6.2/fotorama.css" rel="stylesheet"> <!-- 3 KB -->
+	<script src="http://fotorama.s3.amazonaws.com/4.6.2/fotorama.js"></script> <!-- 16 KB -->
+    
 
 	<script type="text/javascript">
 	$(document).ready(function() {
@@ -129,18 +132,7 @@
 				</sec:authorize>
 				<div class="clear"></div>
 			</ul>
-			<!-- start profile_details --><div style="width:100px;position:absolute;right:20px;left:auto;">
-					<form class="style-1 drp_dwn">
-						<!-- <div class="row">
-							<div class="grid_3 columns"> -->
-								<select class="custom-select" id="select-1">
-									<option selected="selected">EN</option>
-									<option>DE</option>
-								</select>
-						<!--	</div>		
-						</div>		 -->
-					</form>
-					</div>
+
 		</div>
 		<div class="clear"></div>
 		<div class="top-nav">
