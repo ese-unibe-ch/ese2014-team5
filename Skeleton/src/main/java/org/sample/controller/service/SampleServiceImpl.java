@@ -137,7 +137,7 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         
 
         String firstName = signupUser.getFirstName();
-
+        /*Controls to validate input of new User*/
         if (StringUtils.isEmpty(firstName)) {
             throw new InvalidUserException("FirstName must not be empty");   // throw exception
         }
@@ -162,38 +162,8 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 
         if (signupUser.getpassword().equals(signupUser.getpasswordRepeat())) {
 
-//            if (password.length() < 10) {
-//                throw new InvalidAdException("Please enter a password which is long enough (10letters)!!"); // throw exception
-//            }
-//            String[] passwordContainsNumber = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
-//            boolean passwordVarianceNumber = false;
-//            
-//            for (String number : passwordContainsNumber) { //Check password entropy
-//                if (password.contains(number)) {
-//                    passwordVarianceNumber = true;
-//                }
-//            }
-//            boolean passwordVarianceLetters = false;
-//            boolean passwordVarianceBigLetters = false;
-//            String[] letters = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};
-//            String[] bigletters = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
-//
-//            for (String lett : letters) { //Check password entropy
-//                if (password.contains(lett)) {
-//                    passwordVarianceNumber = true;
-//                }
-//            }
-//
-//            for (String bigLett : bigletters) { //Check password entropy
-//                if (password.contains(bigLett)) {
-//                    passwordVarianceNumber = true;
-//                }
-//            }
-//
-//            if (passwordVarianceNumber == false || passwordVarianceLetters == false || passwordVarianceBigLetters == false) {
-//                throw new InvalidUserException("The password must contain a least one number and big vs small written letters..."); //Password must have certain entropy
-//            }
-        	org.sample.model.User user = new org.sample.model.User();
+
+            org.sample.model.User user = new org.sample.model.User();
             user.setFirstName(signupUser.getFirstName());
             user.setLastName(signupUser.getLastName());
             user.setEmail(signupUser.getEmail());
@@ -217,11 +187,14 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
             org.sample.model.User user2 = userDao.findByUsername(signupUser.getEmail());
             System.out.println("User found! " + user2.getUsername());
             signupUser.setId(user2.getId());
+        } else {
+            throw new InvalidUserException("password must be repeated correctly ");
         }
 
         return signupUser;
     }
     
+    /*User get's updated by this function*/
     @Transactional
     public void updateUser(SignupUser profileUpdateForm) throws InvalidUserException {
     	org.sample.model.User user = (org.sample.model.User)getLoggedInUser();
@@ -263,7 +236,8 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         String peopleDesc = adForm.getPeopleDesc();
         String roomSize = adForm.getRoomSize();
         String fromDate = adForm.getFromDate();
-
+        String numberOfPeople = adForm.getNumberOfPeople();
+        
         SimpleDateFormat dateFormater = new SimpleDateFormat("MM/dd/yyyy");
         Date todayDate = new Date();
         Date fromDate2;
@@ -285,7 +259,11 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         } else if (peopleDesc.length() < 10) {
             throw new InvalidAdException("Please enter more information in your People Description");   // throw exception
         }
-
+        
+        if(StringUtils.isEmpty(numberOfPeople)) { 
+            throw new InvalidAdException("Number of people in the WG must be entered");  // throw exception
+        } 
+        
         if (StringUtils.isEmpty(roomSize) || !isInteger(roomSize)) {
             throw new InvalidAdException("Please enter a valid Room size");   // throw exception
         }
@@ -327,8 +305,10 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         ad.setTitle(adForm.getTitle());
         ad.setPeopleDesc(adForm.getPeopleDesc());
         ad.setRoomDesc(adForm.getRoomDesc());
+        ad.setFusedSearch(adForm.getTitle() + " " + adForm.getRoomDesc() + " " + adForm.getPeopleDesc()); // Needed for making search simpler
         ad.setRoomPrice(Integer.parseInt(adForm.getRoomPrice()));
         ad.setRoomSize(Integer.parseInt(adForm.getRoomSize()));
+        ad.setNumberOfPeople(Integer.parseInt(adForm.getNumberOfPeople()));
         System.out.println("USERNAME: " +adForm.getUsername());
         System.out.println("USERNAME: " +userDao.findByUsername(adForm.getUsername()).getUsername());
         ad.setUser(userDao.findByUsername(adForm.getUsername()));
@@ -372,9 +352,14 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         return adDao.findOne(id);
     }
 
+    
+    /* The search of the webpage, contains simple and complex mode for details.
+    The search is 
+    */
     @Transactional
     public Iterable<Advert> findAds(SearchForm form) {
 
+        /*Checking for simple forumula if content is correct, means not null, etc...*/
         if (form.getFromPrice() == (null)) { // No 0 allowed
             form.setFromPrice("0");
         }
@@ -422,18 +407,27 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         
         String town = form.getNearCity();
         if(town == null || town.length() == 0) {
-        town = "";    
+        town = "";    /*This handels errors and makes that the Search finds everything if no city is given*/
         }
         
         String TextSearch = form.getSearch();
         if(TextSearch == null || TextSearch.length() == 0) {
         TextSearch = "";  //Is like empty search, contains is always true...  
         }
+        String Date = form.getNumberOfPeople();
+        if(Date == null) {
+        }
+        boolean simpleSearch = true;
+        Iterable <org.sample.model.Advert> ads = null;
+        if(simpleSearch == true) {
+        /*This is the search function for the simple search /
+        /*Searches strictly in range Price and Bigness of room, searches fuzzy in part */
+        ads = adDao.findByroomPriceBetweenAndRoomSizeBetweenAndAddressCityContainingAndFusedSearchContaining(priceMin, priceMax, roomSizeMin, roomSizeMax, town, TextSearch);
+	} else {
+        /* The complex search allows it to search for more criterea in a much more complex function*/    
+            
+        }
         
-        
-        Iterable <org.sample.model.Advert> ads = adDao.findByroomPriceBetweenAndRoomSizeBetweenAndAddressCityContainingAndRoomDescContaining(priceMin, priceMax, roomSizeMin, roomSizeMax, town, TextSearch);
-	//Iterable <org.sample.model.Advert> ads = adDao.findByroomPriceBetweenAndRoomSizeBetweenAndRoomDescContainingAndAddressCity(priceMin, priceMax, roomSizeMin, roomSizeMax, TextSearch, town);
-	
 		return ads;
 	}
 

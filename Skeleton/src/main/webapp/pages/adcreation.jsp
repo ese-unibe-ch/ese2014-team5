@@ -92,6 +92,16 @@ $(document).ready(function() {
                 <form:errors path="peopleDesc" cssClass="help-inline" element="span"/>
             </div>
         </div>
+            
+                <c:set var="numberOfPeopleErrors"><form:errors path="numberOfPeople"/></c:set>
+        <div class="control-group<c:if test="${not empty numberOfPeopleErrors}"> error</c:if>">
+            <label class="control-label" for="field-numberOfPeople">Persons</label>
+            <div class="controls">
+                <form:input path="numberOfPeople" id="field-numberOfPeople"  tabindex="2" maxlength="150" placeholder="e.g. 4"/>
+                <form:errors path="numberOfPeople" cssClass="help-inline" element="span"/>
+            </div>
+        </div>
+    
         
         <c:set var="roomSizeErrors"><form:errors path="roomSize"/></c:set>
         <div class="control-group<c:if test="${not empty roomSizeErrors}"> error</c:if>">

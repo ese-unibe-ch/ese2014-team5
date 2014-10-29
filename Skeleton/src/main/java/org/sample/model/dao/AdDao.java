@@ -27,18 +27,11 @@ public interface AdDao  extends JpaRepository<Advert,Long>
         
         @Query(value = "SELECT * FROM Advert WHERE user_id = ?1", nativeQuery = true)
         List <Advert> findByUserId(Long userid);
-        
+       
+        /*Fuzzy version of the search, for the argument city and free search */
         @Query
-        List <Advert> findByroomPriceBetweenAndRoomSizeBetween(int roomPriceMin, int roomPriceMax, int roomSizeMin, int roomSizeMax);
-        
-        @Query
-        List <Advert> findByroomPriceBetweenAndRoomSizeBetweenAndRoomDescContaining(int roomPriceMin, int roomPriceMax, int roomSizeMin, int roomSizeMax, String search);
+        List <Advert> findByroomPriceBetweenAndRoomSizeBetweenAndAddressCityContainingAndFusedSearchContaining(int roomPriceMin, int roomPriceMax, int roomSizeMin, int roomSizeMax, String City, String search);
 
-        @Query
-        List <Advert> findByroomPriceBetweenAndRoomSizeBetweenAndAddressCityContainingAndRoomDescContaining(int roomPriceMin, int roomPriceMax, int roomSizeMin, int roomSizeMax, String City, String search);
-
-        @Query
-        List <Advert> findByroomPriceBetweenAndRoomSizeBetweenAndRoomDescContainingAndAddressCity(int roomPriceMin, int roomPriceMax, int roomSizeMin, int roomSizeMax, String search, String City);
-
-
+        //@Query
+        //List <Advert> findByroomPriceBetweenAndRoomSizeBetweenAndRoomDescContainingAndAddressCityAnd(int roomPriceMin, int roomPriceMax, int roomSizeMin, int roomSizeMax, String search, String city);
 }
