@@ -134,40 +134,33 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
     @Transactional
     public SignupUser saveUser(SignupUser signupUser) throws InvalidUserException {
 
-        org.sample.model.User user = new org.sample.model.User();
-        user.setFirstName(signupUser.getFirstName());
-        user.setLastName(signupUser.getLastName());
-        user.setEmail(signupUser.getEmail());
-        user.setUsername(signupUser.getEmail());
+        
 
-        String password = signupUser.getpassword();
-        String passwordRepeat = signupUser.getpasswordRepeat();
+        String firstName = signupUser.getFirstName();
 
-        String FirstName = user.getFirstName();
-
-        if (StringUtils.isEmpty(FirstName)) {
+        if (StringUtils.isEmpty(firstName)) {
             throw new InvalidUserException("FirstName must not be empty");   // throw exception
         }
 
-        String LastName = user.getLastName();
-        if (StringUtils.isEmpty(LastName)) {
+        String lastName = signupUser.getLastName();
+        if (StringUtils.isEmpty(lastName)) {
             throw new InvalidUserException("LastName must not be empty ");   // throw exception
         }
 
-        String Email = user.getEmail();
-        if (StringUtils.isEmpty(Email)) {
+        String email = signupUser.getEmail();
+        if (StringUtils.isEmpty(email)) {
             throw new InvalidUserException("Email must not be empty ");   // throw exception
         }
 
-        if (StringUtils.isEmpty(password)) {
+        if (StringUtils.isEmpty(signupUser.getpassword())) {
             throw new InvalidUserException("password must not be empty ");   // throw exception
         }
 
-        if (StringUtils.isEmpty(passwordRepeat)) {
+        if (StringUtils.isEmpty(signupUser.getpasswordRepeat())) {
             throw new InvalidUserException("passwordRepeat must not be empty ");   // throw exception
         }
 
-        if (password.equals(passwordRepeat)) {
+        if (signupUser.getpassword().equals(signupUser.getpasswordRepeat())) {
 
 //            if (password.length() < 10) {
 //                throw new InvalidAdException("Please enter a password which is long enough (10letters)!!"); // throw exception
@@ -200,6 +193,15 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 //            if (passwordVarianceNumber == false || passwordVarianceLetters == false || passwordVarianceBigLetters == false) {
 //                throw new InvalidUserException("The password must contain a least one number and big vs small written letters..."); //Password must have certain entropy
 //            }
+        	org.sample.model.User user = new org.sample.model.User();
+            user.setFirstName(signupUser.getFirstName());
+            user.setLastName(signupUser.getLastName());
+            user.setEmail(signupUser.getEmail());
+            user.setUsername(signupUser.getEmail());
+
+            String password = signupUser.getpassword();
+            String passwordRepeat = signupUser.getpasswordRepeat();
+        	
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
             String hashedPassword = passwordEncoder.encode(password);
             user.setPassword(hashedPassword);

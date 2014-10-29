@@ -46,12 +46,11 @@ public class RegisterController {
         		model.addObject("maxSize",200);
             } catch (InvalidUserException e) {
             	model = new ModelAndView("register");
-            	model.addObject("signupUser", new SignupUser());  
+            	model.addObject("signupUser", signupUser);  
             	model.addObject("page_error", e.getMessage());
             }
         } else {
-        	model = new ModelAndView("register");
-        	model.addObject("signupUser", new SignupUser());  
+        	model = new ModelAndView("register"); 
         }   	
     	return model;
     }
