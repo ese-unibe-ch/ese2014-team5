@@ -43,10 +43,11 @@ public class IndexController {
     }
     
     @RequestMapping(value = "/index")
-    public ModelAndView index2(@Valid SearchForm searchForm, @RequestParam String action, BindingResult result, RedirectAttributes redirectAttributes) {
+    public ModelAndView index(@Valid SearchForm searchForm, @RequestParam(required = false) String action, BindingResult result, RedirectAttributes redirectAttributes) {
     	ModelAndView model = new ModelAndView("index");
     	model.addObject("searchResults", sampleService.findAds(searchForm));
-    	if(action.equals("bmap"))
+    
+    	if(action!=null && action.equals("bmap"))
     	{
     		model.addObject("displayMap",1);
     	}
