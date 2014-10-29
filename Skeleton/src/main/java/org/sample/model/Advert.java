@@ -31,6 +31,8 @@ public class Advert {
     private int roomPrice;
     private Date fromDate;
     private Date toDate;
+    private int numberOfPeople;
+    private String fusedSearch;
     
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
     private Set<Picture> pictures;
@@ -64,6 +66,14 @@ public class Advert {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+        
+        public int getnumberOfPeople() {
+		return numberOfPeople;
+	}
+
+	public void setNumberOfPeople(int numberOfPeople) {
+		this.numberOfPeople = numberOfPeople;
 	}
 
 	public int getRoomSize() {
@@ -121,6 +131,15 @@ public class Advert {
 
 	public void setPeopleDesc(String peopleDesc) {
 		this.peopleDesc = peopleDesc;
+	}
+        
+        /* This fused search string simplifies the search...*/
+        public String getFusedSearch() { 
+		return fusedSearch;
+	}
+
+	public void setFusedSearch(String fusedSearch) {
+		this.fusedSearch = fusedSearch;
 	}
 
 	public int getRoomPrice() {

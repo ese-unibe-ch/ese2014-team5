@@ -31,7 +31,7 @@ public class UserController {
     
     @Autowired
     SearchDao searchDao;
-    
+
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public ModelAndView showProfile() {
 	    ModelAndView model = new ModelAndView("profile");
@@ -85,26 +85,7 @@ public class UserController {
 	    model.addObject("adList", sampleService.findAdsForUser((User) sampleService.getLoggedInUser()));
 	    return model;
     }
-    
-    
-   /* @RequestMapping(value = "/login", method = RequestMethod.GET)
-   	public ModelAndView login(
-   		@RequestParam(value = "error", required = false) String error,
-   		@RequestParam(value = "logout", required = false) String logout) {
-    
-   		ModelAndView model = new ModelAndView("login");
-   		if (error != null) {
-   			model.addObject("error", "Invalid username or password!");
-   		}
-    
-   		if (logout != null) {
-   			model.addObject("msg", "You've been logged out successfully.");
-   		}
-
-   		return model;
-    
-   	}*/
-    
+        
     @RequestMapping("/login")
 	public String login(Model model, @RequestParam(required=false) String message) {
 		model.addAttribute("message", message);

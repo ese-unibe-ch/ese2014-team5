@@ -9,6 +9,7 @@ public class SearchForm {
     private String fromPrice;
     private String toPrice;
     private String nearCity;
+    private String numberOfPeople;
     private boolean favorites;
     private Long userId;
     
@@ -47,6 +48,13 @@ public class SearchForm {
 	}
 	public void setNearCity(String nearCity) {
 		this.nearCity = nearCity;
+	}
+        
+        public String getNumberOfPeople() {
+		return numberOfPeople;
+	}
+	public void setNumberOfPeople(String numberOfPeople) {
+		this.numberOfPeople =numberOfPeople;
 	}
 	public boolean isFavorites() {
 		return favorites;

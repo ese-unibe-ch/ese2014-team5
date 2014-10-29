@@ -48,6 +48,8 @@ public class IndexController {
         return model;
     }
     
+    /*Core of the page, starting point,search and search output in one
+    * is also containing an extended version of this search and a map version of the search */
     @RequestMapping(value = "/index")
     public ModelAndView index(@Valid SearchForm searchForm, @RequestParam(required = false) String action, BindingResult result, RedirectAttributes redirectAttributes) {
 

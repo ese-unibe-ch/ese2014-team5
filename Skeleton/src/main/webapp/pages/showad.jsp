@@ -30,6 +30,7 @@
   <ul style="clear:left;">
   <li>Room: ${ad.roomDesc }</li>
   <li>People: ${ad.peopleDesc }</li>
+  <li>Number of People: ${ad.numberOfPeople} </li>
   <li>Size: ${ad.roomSize }m&sup2;</li>
   <li>Available from: ${dateFrom } to: ${dateTo } </li>
   <li>Address: ${ad.address.street }, ${ad.address.plz } ${ad.address.city }</li>
