@@ -12,7 +12,9 @@ import org.sample.controller.pojos.SearchForm;
 import org.sample.controller.service.SampleService;
 import org.sample.exceptions.InvalidAdException;
 import org.sample.exceptions.InvalidSearchException;
+import org.sample.model.dao.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +31,8 @@ public class IndexController {
 	ServletContext servletContext;
     @Autowired
     SampleService sampleService;
+    @Autowired
+    UserDao userDao;
     
     @RequestMapping(value = "/siteowner", method = RequestMethod.GET)
     public ModelAndView siteowner() {
@@ -40,33 +44,42 @@ public class IndexController {
     public ModelAndView index() {
     	ModelAndView model = new ModelAndView("index");
     	model.addObject("searchForm", new SearchForm());
+    	model.addObject("currentUser", (org.sample.model.User) userDao.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
         return model;
     }
     
-    @RequestMapping(value = "/index", method = RequestMethod.GET)
-    public ModelAndView index2() {
-    	ModelAndView model = new ModelAndView("index");    
-    	model.addObject("currentUser", sampleService.getLoggedInUser());
-    	model.addObject("searchForm", new SearchForm());
-    	model.addObject("minPrice",0);
-		model.addObject("maxPrice",3000);
-		model.addObject("minSize",0);
-		model.addObject("maxSize",200);
-        return model;
-    }
-    
-    @RequestMapping(value = "/search", method = {RequestMethod.POST})
-    public ModelAndView search(@Valid SearchForm searchForm, @RequestParam String action, BindingResult result, RedirectAttributes redirectAttributes) {
-       	ModelAndView model = new ModelAndView("search");
+    @RequestMapping(value = "/index")
+    public ModelAndView index(@Valid SearchForm searchForm, @RequestParam(required = false) String action, BindingResult result, RedirectAttributes redirectAttributes) {
+
+    	ModelAndView model = new ModelAndView("index");
+    	model.addObject("currentUser", (org.sample.model.User) userDao.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
     	model.addObject("searchResults", sampleService.findAds(searchForm));
-    	model.addObject("currentUser", sampleService.getLoggedInUser());
-    	if(action.equals("bmap"))
+    
+    	if(action!=null && action.equals("bmap"))
     	{
     		model.addObject("displayMap",1);
     	}
-    	else
+    	else if(action!=null && action.equals("blist"))
     	{
     		model.addObject("displayMap",0);
+    	}
+    	else if(action!=null && action.equals("bsave"))
+    	{
+        	if(sampleService.getLoggedInUser().getUserRole().getRole() == 1){
+    	    	if (!result.hasErrors()) {
+    	            try {
+    	            	sampleService.saveFromSearch(searchForm);
+    	            	model = new ModelAndView("index");
+    	            	model.addObject("currentUser", (org.sample.model.User) userDao.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
+    	            	model.addObject("searchForm", searchForm);
+    	            	model.addObject("msg", "You can find your saved search in your profile.");
+    	            } catch (InvalidSearchException e) {
+    	            	model = new ModelAndView("index");
+    	            	model.addObject("currentUser", (org.sample.model.User) userDao.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
+    	            	model.addObject("page_error", e.getMessage());
+    	            }
+    	        }
+        	}
     	}
     	
     	model.addObject("hasResults", 1);
@@ -74,6 +87,7 @@ public class IndexController {
 		model.addObject("maxPrice",searchForm.getToPrice());
 		model.addObject("minSize",searchForm.getFromSize());
 		model.addObject("maxSize",searchForm.getToSize());
+		
         return model;
     }
     

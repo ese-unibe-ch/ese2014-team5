@@ -227,7 +227,7 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
     
     @Transactional
     public void updateUser(SignupUser profileUpdateForm) throws InvalidUserException {
-    	org.sample.model.User user = (org.sample.model.User)getLoggedInUser();
+    	org.sample.model.User user = getLoggedInUser();
         user.setFirstName(profileUpdateForm.getFirstName());
         user.setLastName(profileUpdateForm.getLastName());
         user.setEmail(profileUpdateForm.getEmail());
@@ -378,13 +378,15 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         String sizeFrom = searchForm.getFromSize();
         String sizeTo = searchForm.getToSize();
         String area = searchForm.getNearCity();
-        
-        if (StringUtils.isEmpty(freetext) && StringUtils.isEmpty(priceFrom) && StringUtils.isEmpty(priceTo) && 
-        		StringUtils.isEmpty(sizeFrom) && StringUtils.isEmpty(sizeTo) && StringUtils.isEmpty(area)) {
-            throw new InvalidSearchException("Search is not being saved because no filters are set.");   // throw exception
-        }
-        
         org.sample.model.User user = userDao.findOne(searchForm.getUserId());
+        
+        //TODO Change this if search parameters change
+        if (StringUtils.isEmpty(freetext) && priceFrom.equals("0") && priceTo.equals("0") && 
+        		sizeFrom.equals("0") && sizeTo.equals("0") && StringUtils.isEmpty(area)) {
+            throw new InvalidSearchException("Search is not being saved because no filters are set.");
+        } else if (user == null){
+        	throw new InvalidSearchException("User is missing.");
+        }
         
         Search search = new Search();
         search.setFreetext(freetext);
@@ -470,8 +472,8 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 		return ads;
 	}
 
-	public Object getLoggedInUser() {
-		return userDao.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+	public org.sample.model.User getLoggedInUser() {
+		return (org.sample.model.User) userDao.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
 	}
 
 	public Iterable<Advert> findAdsForUser(org.sample.model.User user) {
