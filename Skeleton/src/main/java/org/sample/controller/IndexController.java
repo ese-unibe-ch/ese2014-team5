@@ -42,20 +42,9 @@ public class IndexController {
         return model;
     }
     
-    @RequestMapping(value = "/index", method = RequestMethod.GET)
-    public ModelAndView index2() {
-    	ModelAndView model = new ModelAndView("index");    
-    	model.addObject("searchForm", new SearchForm());
-    	model.addObject("minPrice",0);
-		model.addObject("maxPrice",3000);
-		model.addObject("minSize",0);
-		model.addObject("maxSize",200);
-        return model;
-    }
-    
-    @RequestMapping(value = "/search", method = {RequestMethod.POST})
-    public ModelAndView search(@Valid SearchForm searchForm, @RequestParam String action, BindingResult result, RedirectAttributes redirectAttributes) {
-       	ModelAndView model = new ModelAndView("search");
+    @RequestMapping(value = "/index")
+    public ModelAndView index2(@Valid SearchForm searchForm, @RequestParam String action, BindingResult result, RedirectAttributes redirectAttributes) {
+    	ModelAndView model = new ModelAndView("index");
     	model.addObject("searchResults", sampleService.findAds(searchForm));
     	if(action.equals("bmap"))
     	{
