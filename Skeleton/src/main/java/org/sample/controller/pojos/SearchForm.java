@@ -1,5 +1,7 @@
 package org.sample.controller.pojos;
 
+import java.util.Date;
+
 public class SearchForm {
 
 
@@ -9,8 +11,13 @@ public class SearchForm {
     private String fromPrice;
     private String toPrice;
     private String nearCity;
-    private String numberOfPeople;
     private boolean favorites;
+    
+    /*Part for extended search*/
+    private Date fromDate;
+    private Date toDate;
+    private String numberOfPeople;
+
     
 	public String getSearch() {
 		return search;
@@ -60,6 +67,22 @@ public class SearchForm {
 	}
 	public void setFavorites(boolean favorites) {
 		this.favorites = favorites;
+	}
+        
+        public Date getToDate() {
+		return toDate;
+	}
+
+	public void setToDate(Date toDate) {
+		this.toDate = toDate;
+	}
+        
+        public Date getFromDate() {
+		return fromDate;
+	}
+
+	public void setFromDate(Date fromDate) {
+		this.fromDate = fromDate;
 	}
 
 

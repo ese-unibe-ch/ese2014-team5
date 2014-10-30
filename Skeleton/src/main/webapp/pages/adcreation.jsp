@@ -128,7 +128,7 @@ $(document).ready(function() {
             <div class="controls">
                 <form:input path="fromDate" id="field-fromDate" class="span2" tabindex="2" maxlength="150" placeholder="e.g. 02/23/14"/>
                 <form:errors path="fromDate" cssClass="help-inline" element="span"/>
-            </div>
+            </div>        <legend>Availability</legend>
         </div>
         
         <c:set var="toDateErrors"><form:errors path="toDate"/></c:set>

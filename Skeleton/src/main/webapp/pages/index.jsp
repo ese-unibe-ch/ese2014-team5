@@ -36,6 +36,49 @@ $(document).ready(function(){
 
 });
 </script>
+<script type="text/javascript"  src="js/bootstrap-datepicker.js"></script>
+<script type="text/javascript">
+
+var i = 1;
+
+$(document).ready(function() {
+    $("#add").click(function(){
+    	$("#files").append("<div class=\"secfile\"> File to upload: <input type=\"file\" name=\"files["+ (i++) +"]\"><input type=\"button\" class=\"delete\" value=\"Delete\"></div>");
+    });
+    
+    $(document).on("click", ".delete", function() {
+    	$(this).parent().remove();
+    });
+    
+    $("input:file").change(function () {
+    	$("#form2").submit();
+    });
+    
+    var nowTemp = new Date();
+    var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+     
+    var checkin = $('#field-fromDate').datepicker({
+      onRender: function(date) {
+        return date.valueOf() < now.valueOf() ? 'disabled' : '';
+      }
+    }).on('changeDate', function(ev) {
+      if (ev.date.valueOf() > checkout.date.valueOf()) {
+        var newDate = new Date(ev.date)
+        newDate.setDate(newDate.getDate() + 1);
+      }
+      checkin.hide();
+      $('#field-toDate')[0].focus();
+    }).data('datepicker');
+    var checkout = $('#field-toDate').datepicker({
+      onRender: function(date) {
+        return date.valueOf() <= checkin.date.valueOf() ? 'disabled' : '';
+      }
+    }).on('changeDate', function(ev) {
+      checkout.hide();
+    }).data('datepicker');
+});
+</script>
+
 
 <c:if test="${page_error != null }">
         <div class="alert alert-error">
@@ -81,6 +124,36 @@ $(document).ready(function(){
             <div class="controls">
                 <form:input path="nearCity" id="field-nearCity" tabindex="2" maxlength="35" placeholder="e.g. Bern"/>
             </div>
+            
+            
+                            <c:set var="numberOfPeopleErrors"><form:errors path="numberOfPeople"/></c:set>
+        <div class="control-group<c:if test="${not empty numberOfPeopleErrors}"> error</c:if>">
+            <label class="control-label" for="field-numberOfPeople">Persons</label>
+            <div class="controls">
+                <form:input path="numberOfPeople" id="field-numberOfPeople"  tabindex="2" maxlength="150" placeholder="e.g. 4"/>
+                <form:errors path="numberOfPeople" cssClass="help-inline" element="span"/>
+            </div>
+        </div>
+
+            
+                    <c:set var="fromDateErrors"><form:errors path="fromDate"/></c:set>
+        <div class="control-group<c:if test="${not empty fromDateErrors}"> error</c:if>">
+            <label class="control-label" for="field-fromDate">from</label>
+            <div class="controls">
+                <form:input path="fromDate" id="field-fromDate" class="span2" tabindex="2" maxlength="150" placeholder="e.g. 02/23/14"/>
+                <form:errors path="fromDate" cssClass="help-inline" element="span"/>
+            </div>
+        </div>
+        
+        <c:set var="toDateErrors"><form:errors path="toDate"/></c:set>
+        <div class="control-group<c:if test="${not empty toDateErrors}"> error</c:if>">
+            <label class="control-label" for="field-toDate">till</label>
+            <div class="controls">
+                <form:input path="toDate" id="field-toDate" class="span2" tabindex="2" maxlength="150" placeholder="e.g. 02/23/14"/> or leave empty for undefined
+                <form:errors path="toDate" cssClass="help-inline" element="span"/>
+            </div>
+        </div>
+
             
             
             <div class="controlbox">
