@@ -6,6 +6,7 @@ import org.sample.controller.pojos.SignupUser;
 import org.sample.controller.service.SampleService;
 import org.sample.exceptions.InvalidUserException;
 import org.sample.model.User;
+import org.sample.model.dao.SearchDao;
 import org.sample.model.dao.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,7 +29,9 @@ public class UserController {
     @Autowired
     UserDao userDao;
     
-    /* Controler for the user profile*/
+    @Autowired
+    SearchDao searchDao;
+
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public ModelAndView showProfile() {
 	    ModelAndView model = new ModelAndView("profile");
@@ -71,7 +74,7 @@ public class UserController {
     public ModelAndView showSearches() {
 	    ModelAndView model = new ModelAndView("profilesearches");
 	    model.addObject("currentUser", sampleService.getLoggedInUser());
-	    //model.addObject("searchList", );
+	    model.addObject("searchList", searchDao.findByUserId( ((User) sampleService.getLoggedInUser()).getId() ));
 	    return model;
     }
     

@@ -15,11 +15,24 @@
 		You don't have any saved searches.
 	</c:if>
 	<c:if test="${not empty searchList}">
-			<ul>
-				<c:forEach var="listValue" items="${searchList}">
-					<li>${listValue}</li>
-				</c:forEach>
-			</ul>
+		
+		<div id="searchlist" style="width:100%">
+			<c:forEach items="${searchList}" var="listValue">
+		     
+			    <div class="result" style="width:100%;height:100px;padding:10px;" onclick="#">
+					<div class="resultinfo">
+						<b style="font-family:Arial;font-size:14pt;">${listValue.freetext}</b>
+						<br />
+						Price: ${listValue.priceFrom} to ${listValue.priceTo} CHF
+						<br />
+						Size: ${listValue.sizeFrom} to ${listValue.sizeTo}m&sup2;
+						<br />
+						Area: ${listValue.area}
+					</div>
+				</div>
+			    			
+			</c:forEach>
+    	</div>
 	</c:if>
 </div>
 
