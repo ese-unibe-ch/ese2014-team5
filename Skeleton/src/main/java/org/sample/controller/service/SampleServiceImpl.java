@@ -6,9 +6,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.servlet.ServletContext;
 
@@ -16,14 +13,17 @@ import org.sample.controller.pojos.AdCreateForm;
 import org.sample.controller.pojos.SearchForm;
 import org.sample.controller.pojos.SignupUser;
 import org.sample.exceptions.InvalidAdException;
+import org.sample.exceptions.InvalidSearchException;
 import org.sample.exceptions.InvalidUserException;
 import org.sample.model.Address;
 import org.sample.model.Advert;
 import org.sample.model.Picture;
+import org.sample.model.Search;
 import org.sample.model.UserRole;
 import org.sample.model.dao.AdDao;
 import org.sample.model.dao.AddressDao;
 import org.sample.model.dao.PictureDao;
+import org.sample.model.dao.SearchDao;
 import org.sample.model.dao.UserDao;
 import org.sample.model.dao.UserRoleDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +55,8 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
     AdDao adDao;
     @Autowired
     PictureDao pictureDao;
+    @Autowired
+    SearchDao searchDao;
 
     @Autowired
     ServletContext context;
@@ -348,6 +350,38 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 
         return ad.getId();
     }
+    
+    @Transactional
+    public Long saveFromSearch(SearchForm searchForm) {
+        String freetext = searchForm.getSearch();
+        String priceFrom = searchForm.getFromPrice();
+        String priceTo = searchForm.getToPrice();
+        String sizeFrom = searchForm.getFromSize();
+        String sizeTo = searchForm.getToSize();
+        String area = searchForm.getNearCity();
+        org.sample.model.User user = userDao.findOne(searchForm.getUserId());
+        
+        //TODO Change this if search parameters change
+        if (StringUtils.isEmpty(freetext) && priceFrom.equals("0") && priceTo.equals("0") && 
+        		sizeFrom.equals("0") && sizeTo.equals("0") && StringUtils.isEmpty(area)) {
+            throw new InvalidSearchException("Search is not being saved because no filters are set.");
+        } else if (user == null){
+        	throw new InvalidSearchException("User is missing.");
+        }
+        
+        Search search = new Search();
+        search.setFreetext(freetext);
+        search.setPriceFrom(priceFrom);
+        search.setPriceTo(priceTo);
+        search.setSizeFrom(sizeFrom);
+        search.setSizeTo(sizeTo);
+        search.setArea(area);
+        search.setUser(user);
+        
+        search = searchDao.save(search);
+
+        return search.getId();
+    }
 
     public Advert getAd(Long id) {
 
@@ -451,8 +485,8 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 		return ads;
 	}
 
-	public Object getLoggedInUser() {
-		return userDao.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+    public org.sample.model.User getLoggedInUser() {
+		return (org.sample.model.User) userDao.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
 	}
 
 	public Iterable<Advert> findAdsForUser(org.sample.model.User user) {

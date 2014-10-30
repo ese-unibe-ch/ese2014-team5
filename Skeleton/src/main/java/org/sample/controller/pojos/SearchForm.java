@@ -12,6 +12,7 @@ public class SearchForm {
     private String toPrice;
     private String nearCity;
     private boolean favorites;
+    private Long userId;
     
     /*Part for extended search*/
     private Date fromDate;
@@ -84,7 +85,13 @@ public class SearchForm {
 	public void setFromDate(Date fromDate) {
 		this.fromDate = fromDate;
 	}
-
-
+	
+	public Long getUserId() {
+		return userId;
+	}
+	
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
    
 }
