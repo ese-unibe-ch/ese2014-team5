@@ -453,33 +453,15 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         String Date = form.getNumberOfPeople();
         if(Date == null) {
         }
-        boolean simpleSearch = false; // Debugtrick
+        boolean simpleSearch = true;
         Iterable <org.sample.model.Advert> ads = null;
         if(simpleSearch == true) {
         /*This is the search function for the simple search /
         /*Searches strictly in range Price and Bigness of room, searches fuzzy in part */
         ads = adDao.findByroomPriceBetweenAndRoomSizeBetweenAndAddressCityContainingAndFusedSearchContaining(priceMin, priceMax, roomSizeMin, roomSizeMax, town, TextSearch);
 	} else {
-        /* The complex search allows it to search for more criterea in a much more complex function*/   
-            int numberofPeople;
-            if(form.getNumberOfPeople().length() == 0 ){
-            numberofPeople = 99;  // This means we doesn't care about the number    
-            } else {
-        numberofPeople = Integer.parseInt(form.getNumberOfPeople());
-        }
-            Date datefrom;
-            Date dateto;
-            if(form.getFromDate().toString().length() == 0 && form.getToDate().toString().length() == 0){
-                
-            datefrom = form.getFromDate();
-            dateto = form.getToDate();
-             } else {
-                datefrom = new Date();
-                dateto = new Date();
-            }
-
+        /* The complex search allows it to search for more criterea in a much more complex function*/    
             
-        ads = adDao.findByroomPriceBetweenAndRoomSizeBetweenAndAddressCityContainingAndFusedSearchContainingAndNumberOfPeopleLessThanEqualAndFromDateBeforeAndToDateAfter(priceMin, priceMax, roomSizeMin, roomSizeMax, town, TextSearch, numberofPeople, datefrom, dateto);    
         }
         
 		return ads;
