@@ -33,7 +33,7 @@ public interface AdDao  extends JpaRepository<Advert,Long>
         List <Advert> findByroomPriceBetweenAndRoomSizeBetweenAndAddressCityContainingAndFusedSearchContaining(int roomPriceMin, int roomPriceMax, int roomSizeMin, int roomSizeMax, String City, String search);
 
         @Query
-        List <Advert> findByroomPriceBetweenAndRoomSizeBetweenAndAddressCityContainingAndFusedSearchContainingAndNumberOfPeopleLessThanEqualAndFromDateBeforeAndToDateAfter(int roomPriceMin, int roomPriceMax, int roomSizeMin, int roomSizeMax, String search, String city, int number, Date startdate, Date enddate);
+        List <Advert> findByroomPriceBetweenAndRoomSizeBetweenAndAddressCityContainingAndFusedSearchContainingAndNumberOfPeopleLessThanEqualAndFromDateBeforeAndToDateAfter(int roomPriceMin, int roomPriceMax, int roomSizeMin, int roomSizeMax, String city, String search, int number, Date startdate, Date enddate);
 
         //List <Advert> findByroomPriceBetweenAndRoomSizeBetweenAndAddressCityContainingAndFusedSearchContainingAndNumberOfPeopleAndFromDateAfterAndToDateBefore(int roomPriceMin, int roomPriceMax, int roomSizeMin, int roomSizeMax, String search, String city, int number, Date startdate, Date enddate);
 

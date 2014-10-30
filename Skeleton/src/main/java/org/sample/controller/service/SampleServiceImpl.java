@@ -450,9 +450,7 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         if(TextSearch == null || TextSearch.length() == 0) {
         TextSearch = "";  //Is like empty search, contains is always true...  
         }
-        String Date = form.getNumberOfPeople();
-        if(Date == null) {
-        }
+   
         boolean simpleSearch = true;
         Iterable <org.sample.model.Advert> ads = null;
         if(simpleSearch == true) {
@@ -461,7 +459,9 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         ads = adDao.findByroomPriceBetweenAndRoomSizeBetweenAndAddressCityContainingAndFusedSearchContaining(priceMin, priceMax, roomSizeMin, roomSizeMax, town, TextSearch);
 	} else {
         /* The complex search allows it to search for more criterea in a much more complex function*/    
-            
+        int people = Integer.parseInt(form.getNumberOfPeople());
+        Date date = new Date();
+        ads = adDao.findByroomPriceBetweenAndRoomSizeBetweenAndAddressCityContainingAndFusedSearchContainingAndNumberOfPeopleLessThanEqualAndFromDateBeforeAndToDateAfter(roomSizeMin, roomSizeMax, roomSizeMin, roomSizeMax, town, TextSearch, people , date, date);
         }
         
 		return ads;
