@@ -32,7 +32,7 @@
 							<br />
 							Area: ${listValue.area}
 						</div>
-						<div style="float:right;padding-bottom:20px"><button type="submit" name="action" value="deletesearch" onclick="javascript:location.href='saved-searches?value=${listValue.id}'" class="btn btn-primary">Remove</button></div>
+						<div style="float:right;padding-bottom:20px"><button type="submit" onclick="javascript:location.href='saved-searches?value=${listValue.id}'" class="btn btn-primary">Remove</button></div>
 					</div>
 				</div>
 			    			

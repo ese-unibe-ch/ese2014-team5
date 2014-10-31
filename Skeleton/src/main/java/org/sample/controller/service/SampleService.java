@@ -23,6 +23,7 @@ public interface SampleService {
 	public Object findAds(SearchForm Form);
 	public void updateUser(SignupUser profileUpdateForm);
 	public User getLoggedInUser();
+	public void removeSearch(Long value);
 
 }
  

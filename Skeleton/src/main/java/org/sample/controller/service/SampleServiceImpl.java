@@ -474,5 +474,12 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 	public Iterable<Advert> findAdsForUser(org.sample.model.User user) {
 		return adDao.findByUserId(user.getId());
 	}
+
+	public void removeSearch(Long searchId) {
+		Search search = searchDao.findOne(searchId);
+		search.setUser(null);
+		
+		search = searchDao.save(search);
+	}
 	
 }
