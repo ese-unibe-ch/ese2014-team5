@@ -495,5 +495,21 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 		
 		return (bookmarkDao.findByAdAndUser(adDao.findById(id),user)!=null)? true : false;
 	}
+
+	public Object findBookmarkedAdsForUser(org.sample.model.User user) {
+		
+		Iterable<Bookmark> bookmarks = bookmarkDao.findByUser(user);
+		ArrayList<Advert> ads = new ArrayList<Advert>();
+		for(Bookmark bm : bookmarks)
+		{
+			ads.add(bm.getAd());
+		}
+		return ads;
+	}
+
+	public void deleteBookmark(String adid, String username) {
+		bookmarkDao.delete(bookmarkDao.findByAdAndUser(adDao.findById(Long.parseLong(adid)), userDao.findByUsername(username)));
+		
+	}
 	
 }

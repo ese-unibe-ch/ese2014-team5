@@ -26,6 +26,8 @@ public interface SampleService {
 	public User getLoggedInUser();
 	public Long bookmark(BookmarkForm bookmarkForm);
 	public boolean checkBookmarked(Long id, User user);
+	public Object findBookmarkedAdsForUser(User user);
+	public void deleteBookmark(String adid, String username);
 
 }
  

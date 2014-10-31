@@ -85,6 +85,20 @@ public class UserController {
 	    model.addObject("adList", sampleService.findAdsForUser((User) sampleService.getLoggedInUser()));
 	    return model;
     }
+    
+    @RequestMapping(value = "/bookmarks", method = RequestMethod.GET)
+    public ModelAndView showBookmarks() {
+	    ModelAndView model = new ModelAndView("bookmarks");
+	    model.addObject("currentUser", sampleService.getLoggedInUser());
+	    model.addObject("adList", sampleService.findBookmarkedAdsForUser(sampleService.getLoggedInUser()));
+	    return model;
+    }
+    
+    @RequestMapping("/removeBookmark")
+	public String removeBookmark(Model model, @RequestParam String adid,@RequestParam String username) {
+		sampleService.deleteBookmark(adid,username);
+		return "/bookmarks";
+	}
         
     @RequestMapping("/login")
 	public String login(Model model, @RequestParam(required=false) String message) {
