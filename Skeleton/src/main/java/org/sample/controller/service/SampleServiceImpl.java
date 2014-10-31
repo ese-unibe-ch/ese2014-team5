@@ -490,5 +490,10 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 		
 		return bookmarkDao.save(bookmark).getId();
 	}
+
+	public boolean checkBookmarked(Long id, org.sample.model.User user) {
+		
+		return (bookmarkDao.findByAdAndUser(adDao.findById(id),user)!=null)? true : false;
+	}
 	
 }

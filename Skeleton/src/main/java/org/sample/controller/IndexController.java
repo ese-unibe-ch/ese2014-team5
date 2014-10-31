@@ -109,6 +109,10 @@ public class IndexController {
     	ModelAndView model = new ModelAndView("showad");
     	model.addObject("currentUser", sampleService.getLoggedInUser());
     	model.addObject("ad", sampleService.getAd(id));    	
+    	if(sampleService.checkBookmarked(id,sampleService.getLoggedInUser()))
+    	{
+    		model.addObject("bookmarked", 1);
+    	}
     	if(bookmarkForm!=null && bookmarkForm.getAdNumber()!=null && !bookmarkForm.getAdNumber().equals(""))
     	{
     		Long bookmarkid = sampleService.bookmark(bookmarkForm);

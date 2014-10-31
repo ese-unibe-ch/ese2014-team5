@@ -25,6 +25,7 @@ public interface SampleService {
 	public void updateUser(SignupUser profileUpdateForm);
 	public User getLoggedInUser();
 	public Long bookmark(BookmarkForm bookmarkForm);
+	public boolean checkBookmarked(Long id, User user);
 
 }
  
