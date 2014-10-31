@@ -10,6 +10,7 @@ import java.util.List;
 import javax.servlet.ServletContext;
 
 import org.sample.controller.pojos.AdCreateForm;
+import org.sample.controller.pojos.BookmarkForm;
 import org.sample.controller.pojos.SearchForm;
 import org.sample.controller.pojos.SignupUser;
 import org.sample.exceptions.InvalidAdException;
@@ -17,11 +18,13 @@ import org.sample.exceptions.InvalidSearchException;
 import org.sample.exceptions.InvalidUserException;
 import org.sample.model.Address;
 import org.sample.model.Advert;
+import org.sample.model.Bookmark;
 import org.sample.model.Picture;
 import org.sample.model.Search;
 import org.sample.model.UserRole;
 import org.sample.model.dao.AdDao;
 import org.sample.model.dao.AddressDao;
+import org.sample.model.dao.BookmarkDao;
 import org.sample.model.dao.PictureDao;
 import org.sample.model.dao.SearchDao;
 import org.sample.model.dao.UserDao;
@@ -57,6 +60,9 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
     PictureDao pictureDao;
     @Autowired
     SearchDao searchDao;
+    
+    @Autowired
+    BookmarkDao bookmarkDao;
 
     @Autowired
     ServletContext context;
@@ -473,6 +479,16 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 
 	public Iterable<Advert> findAdsForUser(org.sample.model.User user) {
 		return adDao.findByUserId(user.getId());
+	}
+
+	public Long bookmark(BookmarkForm bookmarkForm) {
+		
+		Bookmark bookmark = new Bookmark();
+		bookmark.setAd(adDao.findById((long) Integer.parseInt(bookmarkForm.getAdNumber())));
+		bookmark.setUser(userDao.findByUsername(bookmarkForm.getUsername()));
+		
+		
+		return bookmarkDao.save(bookmark).getId();
 	}
 	
 }

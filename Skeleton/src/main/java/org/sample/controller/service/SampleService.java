@@ -1,6 +1,7 @@
 package org.sample.controller.service;
 
 import org.sample.controller.pojos.AdCreateForm;
+import org.sample.controller.pojos.BookmarkForm;
 import org.sample.controller.pojos.SearchForm;
 import org.sample.controller.pojos.SignupUser;
 import org.sample.exceptions.InvalidAdException;
@@ -23,6 +24,7 @@ public interface SampleService {
 	public Object findAds(SearchForm Form);
 	public void updateUser(SignupUser profileUpdateForm);
 	public User getLoggedInUser();
+	public Long bookmark(BookmarkForm bookmarkForm);
 
 }
  
