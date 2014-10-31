@@ -35,6 +35,14 @@
   <li>Available from: ${dateFrom } to: ${dateTo } </li>
   <li>Address: ${ad.address.street }, ${ad.address.plz } ${ad.address.city }</li>
   </ul>
+  
+  <%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
+  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+  <sec:authorize access="!hasRole('ROLE_USER')">
+  <c:if test="${ad.user.username!=currentUser.username }" >
+  	<input type="button" value="Bookmark" onclick="bookmark()"/>
+  </c:if>
+  </sec:authorize>
 
 <br />
 

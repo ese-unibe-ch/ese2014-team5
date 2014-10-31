@@ -105,6 +105,7 @@ public class IndexController {
     @RequestMapping(value = "/showad", method = RequestMethod.GET)
     public ModelAndView showad(@RequestParam("value") Long id) {
     	ModelAndView model = new ModelAndView("showad");
+    	model.addObject("currentUser", sampleService.getLoggedInUser());
     	model.addObject("ad", sampleService.getAd(id));    	
         return model;
     }
