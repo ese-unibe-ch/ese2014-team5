@@ -60,13 +60,16 @@ public class IndexController {
     	if(action!=null && action.equals("bmap"))
     	{
     		model.addObject("displayMap",1);
+    		model.addObject("hasResults", 1);
     	}
     	else if(action!=null && action.equals("blist"))
     	{
     		model.addObject("displayMap",0);
+    		model.addObject("hasResults", 1);
     	}
     	else if(action!=null && action.equals("bsave"))
     	{
+    		model.addObject("hasResults", 1);
         	if(sampleService.getLoggedInUser().getUserRole().getRole() == 1){
     	    	if (!result.hasErrors()) {
     	            try {
@@ -84,7 +87,6 @@ public class IndexController {
         	}
     	}
     	
-    	model.addObject("hasResults", 1);
 		model.addObject("minPrice",searchForm.getFromPrice());
 		model.addObject("maxPrice",searchForm.getToPrice());
 		model.addObject("minSize",searchForm.getFromSize());

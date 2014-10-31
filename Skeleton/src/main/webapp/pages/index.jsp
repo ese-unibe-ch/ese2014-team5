@@ -181,7 +181,7 @@ $(document).ready(function() {
 	</form:form>
     <div id="resultTable">
 		<c:choose>
-	    <c:when test="${displayMap==0}">
+	    <c:when test="${displayMap==0 && hasResults==1}">
 	    <div id="results" style="width:100%">
 			<c:forEach items="${searchResults}" var="ad">
 		     
@@ -201,7 +201,7 @@ $(document).ready(function() {
 			</c:forEach>
 	    </div>
 	    </c:when>
-		<c:otherwise>
+		<c:when test="${displayMap==1 && hasResults==1}">
        	<style>
 			#map-canvas {
 			  height: 450px;
@@ -297,7 +297,7 @@ $(document).ready(function() {
 			google.maps.event.addDomListener(window, 'load', initialize);
 
 	    </script>
-	    </c:otherwise>
+	    </c:when>
 	    </c:choose>
 	</div>
 		
