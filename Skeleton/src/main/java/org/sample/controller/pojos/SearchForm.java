@@ -15,8 +15,8 @@ public class SearchForm {
     private Long userId;
     
     /*Part for extended search*/
-    private Date fromDate;
-    private Date toDate;
+    private String fromDate;
+    private String toDate;
     private String numberOfPeople;
 
     
@@ -70,19 +70,19 @@ public class SearchForm {
 		this.favorites = favorites;
 	}
         
-        public Date getToDate() {
+        public String getToDate() {
 		return toDate;
 	}
 
-	public void setToDate(Date toDate) {
+	public void setToDate(String toDate) {
 		this.toDate = toDate;
 	}
         
-        public Date getFromDate() {
+        public String getFromDate() {
 		return fromDate;
 	}
 
-	public void setFromDate(Date fromDate) {
+	public void setFromDate(String fromDate) {
 		this.fromDate = fromDate;
 	}
 	

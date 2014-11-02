@@ -141,15 +141,14 @@ $(document).ready(function() {
                 <form:errors path="numberOfPeople" cssClass="help-inline" element="span"/>
             </div>
         </div>
- <%-- 
-
+            
                     <c:set var="fromDateErrors"><form:errors path="fromDate"/></c:set>
         <div class="control-group<c:if test="${not empty fromDateErrors}"> error</c:if>">
             <label class="control-label" for="field-fromDate">from</label>
             <div class="controls">
                 <form:input path="fromDate" id="field-fromDate" class="span2" tabindex="2" maxlength="150" placeholder="e.g. 02/23/14"/>
                 <form:errors path="fromDate" cssClass="help-inline" element="span"/>
-            </div> 
+            </div>        
         </div>
         
         <c:set var="toDateErrors"><form:errors path="toDate"/></c:set>
@@ -160,8 +159,7 @@ $(document).ready(function() {
                 <form:errors path="toDate" cssClass="help-inline" element="span"/>
             </div>
         </div>
---%>
-
+            
             
             
             <div class="controlbox">

@@ -21,7 +21,7 @@ public interface SampleService {
     
     /*The get methods*/
     public Object findAdsForUser(User user);
-	public Object findAds(SearchForm Form);
+	public Object findAds(SearchForm Form) throws InvalidSearchException;
 	public void updateUser(SignupUser profileUpdateForm);
 	public User getLoggedInUser();
 	public Long bookmark(BookmarkForm bookmarkForm);

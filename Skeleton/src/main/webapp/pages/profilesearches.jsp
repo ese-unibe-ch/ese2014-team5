@@ -28,6 +28,12 @@
 						Size: ${listValue.sizeFrom} to ${listValue.sizeTo}m&sup2;
 						<br />
 						Area: ${listValue.area}
+                                                <br />
+                                                Persons: ${listValue.numberOfPeople}
+                                                <br /> 
+                                                DateFrom: ${listValue.fromDate}
+                                                <br /> 
+                                                DateTo: ${listValue.toDate}
 					</div>
 				</div>
 			    			
