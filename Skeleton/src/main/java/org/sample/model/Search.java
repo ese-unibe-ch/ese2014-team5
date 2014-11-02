@@ -1,7 +1,5 @@
 package org.sample.model;
 
-import java.util.Date;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -21,7 +19,6 @@ public class Search {
     @JoinColumn(name = "user_id")
     private User user;
 
-<<<<<<< HEAD
     private String freetext;
     private String priceFrom;
     private String priceTo;
@@ -31,17 +28,6 @@ public class Search {
     private String numberOfPeople;
     private String fromDate;
     private String toDate;
-=======
-	private String freetext;
-	private String priceFrom;
-	private String priceTo;
-	private String sizeFrom;
-	private String sizeTo;
-	private String area;
-	private String peopleAmount;
-	private Date fromDate;
-    private Date toDate;
->>>>>>> master
 
     public String getFreetext() {
         return freetext;
@@ -115,39 +101,9 @@ public class Search {
         this.fromDate = fromDate;
     }
 
-<<<<<<< HEAD
     public User getUser() {
         return user;
     }
-=======
-	public String getPeopleAmount() {
-		return peopleAmount;
-	}
-
-	public void setPeopleAmount(String peopleAmount) {
-		this.peopleAmount = peopleAmount;
-	}
-
-	public Date getFromDate() {
-		return fromDate;
-	}
-
-	public void setFromDate(Date fromDate) {
-		this.fromDate = fromDate;
-	}
-
-	public Date getToDate() {
-		return toDate;
-	}
-
-	public void setToDate(Date toDate) {
-		this.toDate = toDate;
-	}
-
-	public User getUser() {
-		return user;
-	}
->>>>>>> master
 
     public void setUser(User user) {
         this.user = user;
