@@ -1,5 +1,7 @@
 package org.sample.model;
 
+import java.util.Date;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -26,6 +28,9 @@ public class Search {
 	private String sizeFrom;
 	private String sizeTo;
 	private String area;
+	private String peopleAmount;
+	private Date fromDate;
+    private Date toDate;
 
     
     public String getFreetext() {
@@ -74,6 +79,30 @@ public class Search {
 
 	public void setArea(String area) {
 		this.area = area;
+	}
+
+	public String getPeopleAmount() {
+		return peopleAmount;
+	}
+
+	public void setPeopleAmount(String peopleAmount) {
+		this.peopleAmount = peopleAmount;
+	}
+
+	public Date getFromDate() {
+		return fromDate;
+	}
+
+	public void setFromDate(Date fromDate) {
+		this.fromDate = fromDate;
+	}
+
+	public Date getToDate() {
+		return toDate;
+	}
+
+	public void setToDate(Date toDate) {
+		this.toDate = toDate;
 	}
 
 	public User getUser() {

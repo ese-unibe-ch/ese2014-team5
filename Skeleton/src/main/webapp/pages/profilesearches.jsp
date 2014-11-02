@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 
 <c:import url="template/header.jsp" />
@@ -26,11 +27,11 @@
 						<div class="resultinfo" style="float:left;">
 							<b style="font-family:Arial;font-size:14pt;">${listValue.freetext}</b>
 							<br />
-							Price: ${listValue.priceFrom} to ${listValue.priceTo} CHF
+							Price: ${listValue.priceFrom} to ${listValue.priceTo} CHF, Size: ${listValue.sizeFrom} to ${listValue.sizeTo} m&sup2;
 							<br />
-							Size: ${listValue.sizeFrom} to ${listValue.sizeTo} m&sup2;
+							Amount of people: ${listValue.peopleAmount}, Area: ${listValue.area}
 							<br />
-							Area: ${listValue.area}
+							From <fmt:formatDate value="${listValue.fromDate}"/> to <fmt:formatDate value="${listValue.toDate}"/>
 						</div>
 						<div style="float:right;padding-bottom:20px"><button type="submit" onclick="javascript:location.href='saved-searches?value=${listValue.id}'" class="btn btn-primary">Remove</button></div>
 					</div>
