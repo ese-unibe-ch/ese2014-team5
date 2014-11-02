@@ -362,15 +362,12 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         String peopleAmount = searchForm.getNumberOfPeople();
     	Date fromDate = searchForm.getFromDate();
         Date toDate = searchForm.getToDate();
-        org.sample.model.User user = userDao.findOne(searchForm.getUserId());
         
         //TODO Change this if search parameters change
         if ( StringUtils.isEmpty(freetext) && priceFrom.equals("0") && priceTo.equals("0") && 
         		sizeFrom.equals("0") && sizeTo.equals("0") && StringUtils.isEmpty(area) && 
         		StringUtils.isEmpty(peopleAmount) && fromDate.equals(null) && toDate.equals(null)) {
             throw new InvalidSearchException("Search is not being saved because no filters are set.");
-        } else if (user == null){
-        	throw new InvalidSearchException("User is missing.");
         }
         
         Search search = new Search();
@@ -383,7 +380,9 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         search.setPeopleAmount(peopleAmount);
         search.setFromDate(fromDate);
         search.setToDate(toDate);
-        search.setUser(user);
+        if(getLoggedInUser() != null && getLoggedInUser().getUserRole().getRole() == 1){
+        	search.setUser( userDao.findOne(searchForm.getUserId()) );
+        }
         
         search = searchDao.save(search);
 

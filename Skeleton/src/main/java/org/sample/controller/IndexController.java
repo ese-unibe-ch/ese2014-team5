@@ -56,7 +56,23 @@ public class IndexController {
     	ModelAndView model = new ModelAndView("index");
     	model.addObject("currentUser", (org.sample.model.User) userDao.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
     	model.addObject("searchResults", sampleService.findAds(searchForm));
-    
+    	
+    	//When one of the save buttons is clicked, save search.
+    	if(action!=null){
+    		if (!result.hasErrors()) {
+	            try {
+	            	sampleService.saveFromSearch(searchForm);
+	            	if(sampleService.getLoggedInUser() != null && sampleService.getLoggedInUser().getUserRole().getRole() == 1){
+	            		model.addObject("msg", "You can find your saved search in your profile.");
+	            	}
+	            } catch (InvalidSearchException e) {
+	            	if(sampleService.getLoggedInUser().getUserRole().getRole() == 1){
+	            		model.addObject("page_error", e.getMessage());
+	            	}
+	            }
+	        }
+    	}
+    	
     	if(action!=null && action.equals("bmap"))
     	{
     		model.addObject("displayMap",1);
@@ -65,24 +81,7 @@ public class IndexController {
     	{
     		model.addObject("displayMap",0);
     	}
-    	else if(action!=null && action.equals("bsave"))
-    	{
-        	if(sampleService.getLoggedInUser().getUserRole().getRole() == 1){
-    	    	if (!result.hasErrors()) {
-    	            try {
-    	            	sampleService.saveFromSearch(searchForm);
-    	            	model = new ModelAndView("index");
-    	            	model.addObject("currentUser", (org.sample.model.User) userDao.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
-    	            	model.addObject("searchForm", searchForm);
-    	            	model.addObject("msg", "You can find your saved search in your profile.");
-    	            } catch (InvalidSearchException e) {
-    	            	model = new ModelAndView("index");
-    	            	model.addObject("currentUser", (org.sample.model.User) userDao.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
-    	            	model.addObject("page_error", e.getMessage());
-    	            }
-    	        }
-        	}
-    	}
+    	
     	
     	model.addObject("hasResults", 1);
 		model.addObject("minPrice",searchForm.getFromPrice());
