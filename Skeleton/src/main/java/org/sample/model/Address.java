@@ -13,8 +13,6 @@ public class Address {
 	    private String street;
 	    private String city;
 	    private String plz;
-	    
-
 
 		public Long getId() {
 			return id;
@@ -47,7 +45,5 @@ public class Address {
 		public void setPlz(String plz) {
 			this.plz = plz;
 		}
-	    
-	    
-	  
+
 }

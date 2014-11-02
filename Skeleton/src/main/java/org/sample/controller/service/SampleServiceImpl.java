@@ -10,6 +10,7 @@ import java.util.List;
 import javax.servlet.ServletContext;
 
 import org.sample.controller.pojos.AdCreateForm;
+import org.sample.controller.pojos.BookmarkForm;
 import org.sample.controller.pojos.SearchForm;
 import org.sample.controller.pojos.SignupUser;
 import org.sample.exceptions.InvalidAdException;
@@ -17,11 +18,13 @@ import org.sample.exceptions.InvalidSearchException;
 import org.sample.exceptions.InvalidUserException;
 import org.sample.model.Address;
 import org.sample.model.Advert;
+import org.sample.model.Bookmark;
 import org.sample.model.Picture;
 import org.sample.model.Search;
 import org.sample.model.UserRole;
 import org.sample.model.dao.AdDao;
 import org.sample.model.dao.AddressDao;
+import org.sample.model.dao.BookmarkDao;
 import org.sample.model.dao.PictureDao;
 import org.sample.model.dao.SearchDao;
 import org.sample.model.dao.UserDao;
@@ -57,6 +60,9 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
     PictureDao pictureDao;
     @Autowired
     SearchDao searchDao;
+    
+    @Autowired
+    BookmarkDao bookmarkDao;
 
     @Autowired
     ServletContext context;
@@ -456,9 +462,7 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         if(TextSearch == null || TextSearch.length() == 0) {
         TextSearch = "";  //Is like empty search, contains is always true...  
         }
-        String Date = form.getNumberOfPeople();
-        if(Date == null) {
-        }
+   
         boolean simpleSearch = true;
         Iterable <org.sample.model.Advert> ads = null;
         if(simpleSearch == true) {
@@ -467,7 +471,9 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         ads = adDao.findByroomPriceBetweenAndRoomSizeBetweenAndAddressCityContainingAndFusedSearchContaining(priceMin, priceMax, roomSizeMin, roomSizeMax, town, TextSearch);
 	} else {
         /* The complex search allows it to search for more criterea in a much more complex function*/    
-            
+        int people = Integer.parseInt(form.getNumberOfPeople());
+        Date date = new Date();
+        ads = adDao.findByroomPriceBetweenAndRoomSizeBetweenAndAddressCityContainingAndFusedSearchContainingAndNumberOfPeopleLessThanEqualAndFromDateBeforeAndToDateAfter(roomSizeMin, roomSizeMax, roomSizeMin, roomSizeMax, town, TextSearch, people , date, date);
         }
         
 		return ads;
@@ -486,6 +492,37 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 		search.setUser(null);
 		
 		search = searchDao.save(search);
+	}
+
+	public Long bookmark(BookmarkForm bookmarkForm) {
+		
+		Bookmark bookmark = new Bookmark();
+		bookmark.setAd(adDao.findById((long) Integer.parseInt(bookmarkForm.getAdNumber())));
+		bookmark.setUser(userDao.findByUsername(bookmarkForm.getUsername()));
+		
+		
+		return bookmarkDao.save(bookmark).getId();
+	}
+
+	public boolean checkBookmarked(Long id, org.sample.model.User user) {
+		
+		return (bookmarkDao.findByAdAndUser(adDao.findById(id),user)!=null)? true : false;
+	}
+
+	public Object findBookmarkedAdsForUser(org.sample.model.User user) {
+		
+		Iterable<Bookmark> bookmarks = bookmarkDao.findByUser(user);
+		ArrayList<Advert> ads = new ArrayList<Advert>();
+		for(Bookmark bm : bookmarks)
+		{
+			ads.add(bm.getAd());
+		}
+		return ads;
+	}
+
+	public void deleteBookmark(String adid, String username) {
+		bookmarkDao.delete(bookmarkDao.findByAdAndUser(adDao.findById(Long.parseLong(adid)), userDao.findByUsername(username)));
+
 	}
 	
 }

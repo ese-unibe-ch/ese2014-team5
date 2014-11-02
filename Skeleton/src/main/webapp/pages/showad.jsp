@@ -7,10 +7,6 @@
 
 <c:import url="template/header.jsp" />
 
-<style type="text/css">
-
-</style>
-
 <div class="booking_room">
 			<h4>${ad.title}</h4>
 			
@@ -35,6 +31,16 @@
   <li>Available from: ${dateFrom } to: ${dateTo } </li>
   <li>Address: ${ad.address.street }, ${ad.address.plz } ${ad.address.city }</li>
   </ul>
+  
+  <%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
+  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+	  <c:if test="${ad.user.username!=currentUser.username && currentUser.username!=null && bookmarked!=1}" >
+		  <form:form action="showad?value=${ad.id }" modelAttribute="bookmarkForm" id="bookmarkForm" method="post">
+		  	<form:input path="username" type="hidden" id="field-username" value="${currentUser.username }" />
+		  	<form:input path="adNumber" type="hidden" id="field-adNumber" value="${ad.id }"/>
+		  	<button type="submit" value="Bookmark">Bookmark</button>
+		  </form:form>
+	  </c:if>
 
 <br />
 

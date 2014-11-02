@@ -17,6 +17,8 @@ public interface AdDao  extends JpaRepository<Advert,Long>
 	// z.B. so:
 	@Query(value = "SELECT * FROM Advert WHERE roomDesc LIKE '*?1*'", nativeQuery = true)
 	Advert findByRoomDesc(String roomDesc);
+	
+	Advert findById(Long id);
         
         //The completeSearchString for the hardInfos like price range, etc... , Beware, Values could be 0...
         @Query
@@ -33,7 +35,7 @@ public interface AdDao  extends JpaRepository<Advert,Long>
         List <Advert> findByroomPriceBetweenAndRoomSizeBetweenAndAddressCityContainingAndFusedSearchContaining(int roomPriceMin, int roomPriceMax, int roomSizeMin, int roomSizeMax, String City, String search);
 
         @Query
-        List <Advert> findByroomPriceBetweenAndRoomSizeBetweenAndAddressCityContainingAndFusedSearchContainingAndNumberOfPeopleLessThanEqualAndFromDateBeforeAndToDateAfter(int roomPriceMin, int roomPriceMax, int roomSizeMin, int roomSizeMax, String search, String city, int number, Date startdate, Date enddate);
+        List <Advert> findByroomPriceBetweenAndRoomSizeBetweenAndAddressCityContainingAndFusedSearchContainingAndNumberOfPeopleLessThanEqualAndFromDateBeforeAndToDateAfter(int roomPriceMin, int roomPriceMax, int roomSizeMin, int roomSizeMax, String city, String search, int number, Date startdate, Date enddate);
 
         //List <Advert> findByroomPriceBetweenAndRoomSizeBetweenAndAddressCityContainingAndFusedSearchContainingAndNumberOfPeopleAndFromDateAfterAndToDateBefore(int roomPriceMin, int roomPriceMax, int roomSizeMin, int roomSizeMax, String search, String city, int number, Date startdate, Date enddate);
 

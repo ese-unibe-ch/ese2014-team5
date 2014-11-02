@@ -141,15 +141,15 @@ $(document).ready(function() {
                 <form:errors path="numberOfPeople" cssClass="help-inline" element="span"/>
             </div>
         </div>
+ <%-- 
 
-            
                     <c:set var="fromDateErrors"><form:errors path="fromDate"/></c:set>
         <div class="control-group<c:if test="${not empty fromDateErrors}"> error</c:if>">
             <label class="control-label" for="field-fromDate">from</label>
             <div class="controls">
                 <form:input path="fromDate" id="field-fromDate" class="span2" tabindex="2" maxlength="150" placeholder="e.g. 02/23/14"/>
                 <form:errors path="fromDate" cssClass="help-inline" element="span"/>
-            </div>
+            </div> 
         </div>
         
         <c:set var="toDateErrors"><form:errors path="toDate"/></c:set>
@@ -160,6 +160,7 @@ $(document).ready(function() {
                 <form:errors path="toDate" cssClass="help-inline" element="span"/>
             </div>
         </div>
+--%>
 
             
             
@@ -180,7 +181,7 @@ $(document).ready(function() {
 	</form:form>
     <div id="resultTable">
 		<c:choose>
-	    <c:when test="${displayMap==0}">
+	    <c:when test="${displayMap==0 && hasResults==1}">
 	    <div id="results" style="width:100%">
 			<c:forEach items="${searchResults}" var="ad">
 		     
@@ -200,7 +201,7 @@ $(document).ready(function() {
 			</c:forEach>
 	    </div>
 	    </c:when>
-		<c:otherwise>
+		<c:when test="${displayMap==1 && hasResults==1}">
        	<style>
 			#map-canvas {
 			  height: 450px;
@@ -296,7 +297,7 @@ $(document).ready(function() {
 			google.maps.event.addDomListener(window, 'load', initialize);
 
 	    </script>
-	    </c:otherwise>
+	    </c:when>
 	    </c:choose>
 	</div>
 		

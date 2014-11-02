@@ -8,6 +8,7 @@ import javax.servlet.ServletContext;
 import javax.validation.Valid;
 
 import org.sample.controller.pojos.AdCreateForm;
+import org.sample.controller.pojos.BookmarkForm;
 import org.sample.controller.pojos.SearchForm;
 import org.sample.controller.service.SampleService;
 import org.sample.exceptions.InvalidAdException;
@@ -16,6 +17,7 @@ import org.sample.model.dao.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -76,14 +78,15 @@ public class IndexController {
     	if(action!=null && action.equals("bmap"))
     	{
     		model.addObject("displayMap",1);
+    		model.addObject("hasResults", 1);
     	}
     	else if(action!=null && action.equals("blist"))
     	{
     		model.addObject("displayMap",0);
+    		model.addObject("hasResults", 1);
     	}
     	
     	
-    	model.addObject("hasResults", 1);
 		model.addObject("minPrice",searchForm.getFromPrice());
 		model.addObject("maxPrice",searchForm.getToPrice());
 		model.addObject("minSize",searchForm.getFromSize());
@@ -99,10 +102,21 @@ public class IndexController {
         return model;
     }
     
-    @RequestMapping(value = "/showad", method = RequestMethod.GET)
-    public ModelAndView showad(@RequestParam("value") Long id) {
+    @RequestMapping(value = "/showad")
+    public ModelAndView showad(@Valid BookmarkForm bookmarkForm, @RequestParam("value") Long id, BindingResult result, RedirectAttributes redirectAttributes) {
     	ModelAndView model = new ModelAndView("showad");
+    	model.addObject("currentUser", sampleService.getLoggedInUser());
     	model.addObject("ad", sampleService.getAd(id));    	
+    	if(sampleService.checkBookmarked(id,sampleService.getLoggedInUser()))
+    	{
+    		model.addObject("bookmarked", 1);
+    	}
+    	if(bookmarkForm!=null && bookmarkForm.getAdNumber()!=null && !bookmarkForm.getAdNumber().equals(""))
+    	{
+    		Long bookmarkid = sampleService.bookmark(bookmarkForm);
+    		if(bookmarkid>0)
+    			model.addObject("bookmarked", 1);
+    	}
         return model;
     }
     
