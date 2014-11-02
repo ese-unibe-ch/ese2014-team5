@@ -15,7 +15,7 @@ public interface SampleService {
 
     public SignupUser saveUser(SignupUser signupUser);
     public Long saveFromAd(AdCreateForm adForm) throws InvalidAdException;
-    public Long saveFromSearch(SearchForm searchForm) throws InvalidSearchException;
+    public Long saveFromSearch(SearchForm searchForm, boolean saveToProfile) throws InvalidSearchException;
     
     public Advert getAd(Long id);
     

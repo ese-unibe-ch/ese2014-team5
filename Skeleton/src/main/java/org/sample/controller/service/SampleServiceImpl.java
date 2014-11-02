@@ -358,7 +358,7 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
     }
     
     @Transactional
-    public Long saveFromSearch(SearchForm searchForm) {
+    public Long saveFromSearch(SearchForm searchForm, boolean saveToProfile) {
         String freetext = searchForm.getSearch();
         String priceFrom = searchForm.getFromPrice();
         String priceTo = searchForm.getToPrice();
@@ -370,9 +370,9 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         Date toDate = searchForm.getToDate();
         
         //TODO Change this if search parameters change
-        if ( StringUtils.isEmpty(freetext) && priceFrom.equals("0") && priceTo.equals("0") && 
-        		sizeFrom.equals("0") && sizeTo.equals("0") && StringUtils.isEmpty(area) && 
-        		StringUtils.isEmpty(peopleAmount) && fromDate.equals(null) && toDate.equals(null)) {
+        if (!( !StringUtils.isEmpty(freetext) || !priceFrom.equals("0") || !priceTo.equals("0") || 
+        		!sizeFrom.equals("0") || !sizeTo.equals("0") || !StringUtils.isEmpty(area) || 
+        		!StringUtils.isEmpty(peopleAmount) || fromDate != null || toDate != null )) {
             throw new InvalidSearchException("Search is not being saved because no filters are set.");
         }
         
@@ -386,7 +386,7 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         search.setPeopleAmount(peopleAmount);
         search.setFromDate(fromDate);
         search.setToDate(toDate);
-        if(getLoggedInUser() != null && getLoggedInUser().getUserRole().getRole() == 1){
+        if(getLoggedInUser() != null && getLoggedInUser().getUserRole().getRole() == 1 && saveToProfile == true){
         	search.setUser( userDao.findOne(searchForm.getUserId()) );
         }
         
