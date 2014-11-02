@@ -59,21 +59,16 @@ public class IndexController {
     	model.addObject("currentUser", (org.sample.model.User) userDao.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
     	model.addObject("searchResults", sampleService.findAds(searchForm));
     	
-    	boolean saveToProfile = false;
-    	if(action!=null && action.equals("bsave")){
-    		saveToProfile = true;
-    	}
-    	
     	//When one of the save buttons is clicked, save search.
     	if(action!=null){
     		if (!result.hasErrors()) {
 	            try {
-	            	sampleService.saveFromSearch(searchForm, saveToProfile);
-	            	if(sampleService.getLoggedInUser() != null && sampleService.getLoggedInUser().getUserRole().getRole() == 1 && saveToProfile){
+	            	sampleService.saveFromSearch(searchForm);
+	            	if(sampleService.getLoggedInUser() != null && sampleService.getLoggedInUser().getUserRole().getRole() == 1){
 	            		model.addObject("msg", "You can find your saved search in your profile.");
 	            	}
 	            } catch (InvalidSearchException e) {
-	            	if(sampleService.getLoggedInUser() != null && sampleService.getLoggedInUser().getUserRole().getRole() == 1 && saveToProfile){
+	            	if(sampleService.getLoggedInUser().getUserRole().getRole() == 1){
 	            		model.addObject("page_error", e.getMessage());
 	            	}
 	            }
