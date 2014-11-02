@@ -484,7 +484,7 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         boolean noDateRangeUp = false;
         boolean noDateRangeDown = false;
         int people = 0;
-        if (form.getNumberOfPeople().length() == 0) {
+        if (form.getNumberOfPeople()==null || form.getNumberOfPeople().equals("") || form.getNumberOfPeople().length() == 0) {
             people = 99;
         } else {
             people = Integer.parseInt(form.getNumberOfPeople());
@@ -496,16 +496,24 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 
         try {
             dateFrom = dateFormater.parse(form.getFromDate());
-        } catch (ParseException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-            dateFrom = new Date();
+            try {
+				dateFrom = dateFormater.parse("01/01/1980");
+			} catch (ParseException e1) {
+				e1.printStackTrace();
+			}
             noDateRangeDown = true;
         }
         try {
             dateTo = dateFormater.parse(form.getToDate());
 
-        } catch (ParseException ex) {
-            dateTo = new Date();
+        } catch (Exception ex) {
+            try {
+				dateTo = dateFormater.parse("01/01/2100");
+			} catch (ParseException e1) {
+				e1.printStackTrace();
+			}
             noDateRangeUp = true;
         }
 
