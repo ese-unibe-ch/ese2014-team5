@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.servlet.ServletContext;
 
@@ -366,8 +368,8 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         String sizeTo = searchForm.getToSize();
         String area = searchForm.getNearCity();
         String peopleAmount = searchForm.getNumberOfPeople();
-    	Date fromDate = searchForm.getFromDate();
-        Date toDate = searchForm.getToDate();
+    	String fromDate = searchForm.getFromDate();
+        String toDate = searchForm.getToDate();
         
         //TODO Change this if search parameters change
         if (!( !StringUtils.isEmpty(freetext) || !priceFrom.equals("0") || !priceTo.equals("0") || 
@@ -384,8 +386,21 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         search.setSizeTo(sizeTo);
         search.setArea(area);
         search.setPeopleAmount(peopleAmount);
-        search.setFromDate(fromDate);
-        search.setToDate(toDate);
+                SimpleDateFormat dateFormater = new SimpleDateFormat("MM/dd/yyyy");
+        Date insertFromdate = null;
+        try {
+            insertFromdate = dateFormater.parse(fromDate);
+        } catch (ParseException ex) {
+            Logger.getLogger(SampleServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Date insertTodate = null;
+        try {
+            insertTodate = dateFormater.parse(toDate);
+        } catch (ParseException ex) {
+            Logger.getLogger(SampleServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        search.setFromDate(insertFromdate);
+        search.setToDate(insertTodate);
         if(getLoggedInUser() != null && getLoggedInUser().getUserRole().getRole() == 1 && saveToProfile == true){
         	search.setUser( userDao.findOne(searchForm.getUserId()) );
         }
@@ -441,7 +456,7 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         try {
             roomSizeMin = Integer.parseInt(form.getFromSize());
             roomSizeMax = Integer.parseInt(form.getToSize());
-            
+
             if (roomSizeMax < roomSizeMin) { // This would crash the database...
                 int placeholder = roomSizeMax;
                 roomSizeMax = roomSizeMin;
@@ -452,32 +467,72 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
             roomSizeMin = 0;
             roomSizeMax = 9999999;
         }
-        
+
         String town = form.getNearCity();
-        if(town == null || town.length() == 0) {
-        town = "";    /*This handels errors and makes that the Search finds everything if no city is given*/
+        if (town == null || town.length() == 0) {
+            town = "";    /*This handels errors and makes that the Search finds everything if no city is given*/
+
         }
-        
-        String TextSearch = form.getSearch();
-        if(TextSearch == null || TextSearch.length() == 0) {
-        TextSearch = "";  //Is like empty search, contains is always true...  
+
+        String textSearch = form.getSearch();
+        if (textSearch == null || textSearch.length() == 0) {
+            textSearch = "";  //Is like empty search, contains is always true...  
         }
-   
-        boolean simpleSearch = true;
-        Iterable <org.sample.model.Advert> ads = null;
-        if(simpleSearch == true) {
-        /*This is the search function for the simple search /
-        /*Searches strictly in range Price and Bigness of room, searches fuzzy in part */
-        ads = adDao.findByroomPriceBetweenAndRoomSizeBetweenAndAddressCityContainingAndFusedSearchContaining(priceMin, priceMax, roomSizeMin, roomSizeMax, town, TextSearch);
-	} else {
-        /* The complex search allows it to search for more criterea in a much more complex function*/    
-        int people = Integer.parseInt(form.getNumberOfPeople());
-        Date date = new Date();
-        ads = adDao.findByroomPriceBetweenAndRoomSizeBetweenAndAddressCityContainingAndFusedSearchContainingAndNumberOfPeopleLessThanEqualAndFromDateBeforeAndToDateAfter(roomSizeMin, roomSizeMax, roomSizeMin, roomSizeMax, town, TextSearch, people , date, date);
+
+        boolean simpleSearch = false;
+        Iterable<org.sample.model.Advert> ads = null;
+        boolean noDateRangeUp = false;
+        boolean noDateRangeDown = false;
+        int people = 0;
+        if (form.getNumberOfPeople().length() == 0) {
+            people = 99;
+        } else {
+            people = Integer.parseInt(form.getNumberOfPeople());
         }
-        
-		return ads;
-	}
+
+        Date dateFrom = null;
+        Date dateTo = null;
+        SimpleDateFormat dateFormater = new SimpleDateFormat("MM/dd/yyyy");
+
+        try {
+            dateFrom = dateFormater.parse(form.getFromDate());
+        } catch (ParseException e) {
+            e.printStackTrace();
+            dateFrom = new Date();
+            noDateRangeDown = true;
+        }
+        try {
+            dateTo = dateFormater.parse(form.getToDate());
+
+        } catch (ParseException ex) {
+            dateTo = new Date();
+            noDateRangeUp = true;
+        }
+
+        if (dateFrom.compareTo(dateTo) > 0) {
+            /*Turn the dates if they are not in timeline*/
+            Date placeholder = dateTo;
+            dateTo = dateFrom;
+            dateFrom = placeholder;
+        }
+
+        /*This is needed because the datarange would exclude everything if you search  all with the longest function, or you must turn the logic for the dates.*/
+        if (noDateRangeDown == false && noDateRangeUp == false) {
+            /*Very complex complex search, searches for ranges , full text, number of persons, etc... Don't touch!*/
+            ads = adDao.findByFromDateBeforeAndToDateAfterAndNumberOfPeopleLessThanEqualAndRoomPriceBetweenAndRoomSizeBetweenAndAddressCityContainingAndFusedSearchContaining(dateFrom, dateTo, people, priceMin, priceMax, roomSizeMin, roomSizeMax, town, textSearch);
+        } else if (noDateRangeDown == true && noDateRangeUp == false) {
+            ads = adDao.findByToDateAfterAndNumberOfPeopleLessThanEqualAndRoomPriceBetweenAndRoomSizeBetweenAndAddressCityContainingAndFusedSearchContaining(dateTo, people, priceMin, priceMax, roomSizeMin, roomSizeMax, town, textSearch);
+        } else if (noDateRangeDown == false && noDateRangeUp == true) {
+            ads = adDao.findByFromDateBeforeAndToDateAfterAndNumberOfPeopleLessThanEqualAndRoomPriceBetweenAndRoomSizeBetweenAndAddressCityContainingAndFusedSearchContaining(dateFrom, dateFrom, people, priceMin, priceMax, roomSizeMin, roomSizeMax, town, textSearch);
+        } else if (noDateRangeDown == true && noDateRangeUp == true) {
+            /*Searches strictly in range Price and Bigness of room, searches fuzzy in part, is just here in case that needed again later */
+            ads = adDao.findByroomPriceBetweenAndRoomSizeBetweenAndAddressCityContainingAndFusedSearchContaining(priceMin, priceMax, roomSizeMin, roomSizeMax, town, textSearch);
+
+        }
+
+        return ads;
+    }
+
 
     public org.sample.model.User getLoggedInUser() {
 		return (org.sample.model.User) userDao.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());

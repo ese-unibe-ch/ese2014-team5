@@ -142,7 +142,7 @@ $(document).ready(function() {
                 <form:errors path="numberOfPeople" cssClass="help-inline" element="span"/>
             </div>
         </div>
- <%-- 
+ 
 
                     <c:set var="fromDateErrors"><form:errors path="fromDate"/></c:set>
         <div class="control-group<c:if test="${not empty fromDateErrors}"> error</c:if>">
@@ -161,7 +161,6 @@ $(document).ready(function() {
                 <form:errors path="toDate" cssClass="help-inline" element="span"/>
             </div>
         </div>
---%>
 
             
             
