@@ -54,6 +54,11 @@
 		</div>
 		<div class="clear"></div>
 		</div>
+                
+        <div>	
+	<button type="changeAdvert" onclick="location.href='edit-advert'" class="btn btn-primary">Edit advert</button>
+	</div>
+
 
 
 <c:import url="template/footer.jsp" />

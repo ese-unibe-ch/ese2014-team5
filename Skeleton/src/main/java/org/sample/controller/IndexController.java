@@ -125,6 +125,14 @@ public class IndexController {
         return model;
     }
     
+//       @RequestMapping(value = "/edit-ad", method = RequestMethod.GET)
+//    public ModelAndView editad() {
+//	    ModelAndView model = new ModelAndView("adcreationEditing");
+//	    model.addObject("adcreationupdateForm", new AdCreateForm());
+//            model.addObject("currentAd", 1);
+//	    return model;
+//    }
+    
     @RequestMapping(value = "/newad", method = RequestMethod.POST)
     public ModelAndView createAd(@Valid AdCreateForm adCreationForm, BindingResult result, RedirectAttributes redirectAttributes) {
     	ModelAndView model;    	

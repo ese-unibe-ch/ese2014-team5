@@ -366,6 +366,13 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         return ad.getId();
     }
     
+//            @Transactional
+            public void updateAdvert(AdCreateForm adchangedCreateForm) {
+//                Advert ad= getAd(x);
+            }
+
+    
+    
     @Transactional
     public Long saveFromSearch(SearchForm searchForm, boolean saveToProfile) {
         String freetext = searchForm.getSearch();

@@ -29,6 +29,8 @@ public interface SampleService {
 	public boolean checkBookmarked(Long id, User user);
 	public Object findBookmarkedAdsForUser(User user);
 	public void deleteBookmark(String adid, String username);
+        
+        public void updateAdvert(AdCreateForm adchangedCreateForm);
 
 }
  
