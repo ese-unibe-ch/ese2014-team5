@@ -1,4 +1,5 @@
 <%@ page language="java" pageEncoding="UTF-8" contentType="text/html;charset=utf-8" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
@@ -170,9 +171,9 @@ $(document).ready(function() {
             <div class="form-actions">
             	<button type="submit" name="action" value="blist" class="btn btn-primary">Show List</button>
             	<button type="submit" name="action" value="bmap" class="btn btn-primary">Show Map</button>
-<!--             	<sec:authorize access="hasRole('ROLE_USER')"> -->
+            	<sec:authorize access="hasRole('ROLE_USER')">
             		<button type="submit" name="action" value="bsave" class="btn btn-primary">Save Search</button>
-<!-- 				</sec:authorize> -->
+				</sec:authorize>
         	</div>
         </fieldset>
         <form:input type="hidden" path="userId" id="field-user" value="${currentUser.id}"/>

@@ -355,13 +355,14 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
     }
 
     @Transactional
-    public Long saveFromSearch(SearchForm searchForm) {
+    public Long saveFromSearch(SearchForm searchForm, boolean saveToProfile) {
         String freetext = searchForm.getSearch();
         String priceFrom = searchForm.getFromPrice();
         String priceTo = searchForm.getToPrice();
         String sizeFrom = searchForm.getFromSize();
         String sizeTo = searchForm.getToSize();
         String area = searchForm.getNearCity();
+<<<<<<< HEAD
         String dateFrom = searchForm.getFromDate();
         String dateTo = searchForm.getToDate();
         String numberOfPeople = searchForm.getNumberOfPeople();
@@ -374,6 +375,17 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
             throw new InvalidSearchException("Search is not being saved because no filters are set.");
         } else if (user == null) {
             throw new InvalidSearchException("User is missing.");
+=======
+        String peopleAmount = searchForm.getNumberOfPeople();
+    	Date fromDate = searchForm.getFromDate();
+        Date toDate = searchForm.getToDate();
+        
+        //TODO Change this if search parameters change
+        if (!( !StringUtils.isEmpty(freetext) || !priceFrom.equals("0") || !priceTo.equals("0") || 
+        		!sizeFrom.equals("0") || !sizeTo.equals("0") || !StringUtils.isEmpty(area) || 
+        		!StringUtils.isEmpty(peopleAmount) || fromDate != null || toDate != null )) {
+            throw new InvalidSearchException("Search is not being saved because no filters are set.");
+>>>>>>> master
         }
 
         Search search = new Search();
@@ -383,6 +395,7 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         search.setSizeFrom(sizeFrom);
         search.setSizeTo(sizeTo);
         search.setArea(area);
+<<<<<<< HEAD
         search.setUser(user);
         search.setSizeFrom(sizeFrom);
         search.setSizeTo(sizeTo);
@@ -390,6 +403,15 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         search.setToDate(dateTo);
         search.setFromDate(dateFrom);
 
+=======
+        search.setPeopleAmount(peopleAmount);
+        search.setFromDate(fromDate);
+        search.setToDate(toDate);
+        if(getLoggedInUser() != null && getLoggedInUser().getUserRole().getRole() == 1 && saveToProfile == true){
+        	search.setUser( userDao.findOne(searchForm.getUserId()) );
+        }
+        
+>>>>>>> master
         search = searchDao.save(search);
 
         return search.getId();
@@ -518,6 +540,7 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
     }
 
     public org.sample.model.User getLoggedInUser() {
+<<<<<<< HEAD
         return (org.sample.model.User) userDao.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
     }
 
@@ -554,4 +577,51 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 
     }
 
+=======
+		return (org.sample.model.User) userDao.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+	}
+
+	public Iterable<Advert> findAdsForUser(org.sample.model.User user) {
+		return adDao.findByUserId(user.getId());
+	}
+
+	public void removeSearch(Long searchId) {
+		Search search = searchDao.findOne(searchId);
+		search.setUser(null);
+		
+		search = searchDao.save(search);
+	}
+
+	public Long bookmark(BookmarkForm bookmarkForm) {
+		
+		Bookmark bookmark = new Bookmark();
+		bookmark.setAd(adDao.findById((long) Integer.parseInt(bookmarkForm.getAdNumber())));
+		bookmark.setUser(userDao.findByUsername(bookmarkForm.getUsername()));
+		
+		
+		return bookmarkDao.save(bookmark).getId();
+	}
+
+	public boolean checkBookmarked(Long id, org.sample.model.User user) {
+		
+		return (bookmarkDao.findByAdAndUser(adDao.findById(id),user)!=null)? true : false;
+	}
+
+	public Object findBookmarkedAdsForUser(org.sample.model.User user) {
+		
+		Iterable<Bookmark> bookmarks = bookmarkDao.findByUser(user);
+		ArrayList<Advert> ads = new ArrayList<Advert>();
+		for(Bookmark bm : bookmarks)
+		{
+			ads.add(bm.getAd());
+		}
+		return ads;
+	}
+
+	public void deleteBookmark(String adid, String username) {
+		bookmarkDao.delete(bookmarkDao.findByAdAndUser(adDao.findById(Long.parseLong(adid)), userDao.findByUsername(username)));
+
+	}
+	
+>>>>>>> master
 }

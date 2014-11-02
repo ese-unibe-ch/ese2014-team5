@@ -68,11 +68,17 @@ public class UserController {
     
     /**
      * Redirects to the 'saved searches' section in user profile
-     * 
+     * @param value The id of the search that has to be deleted from the user profile.
      */
-    @RequestMapping(value = "/saved-searches", method = RequestMethod.GET)
-    public ModelAndView showSearches() {
+    @RequestMapping(value = "/saved-searches")
+    public ModelAndView showSearches(@RequestParam(required = false) Long value) {
+    	System.out.println(value);
 	    ModelAndView model = new ModelAndView("profilesearches");
+	    
+	    if (value!=null){
+	    	sampleService.removeSearch(value);
+	    }
+
 	    model.addObject("currentUser", sampleService.getLoggedInUser());
 	    model.addObject("searchList", searchDao.findByUserId( ((User) sampleService.getLoggedInUser()).getId() ));
 	    return model;

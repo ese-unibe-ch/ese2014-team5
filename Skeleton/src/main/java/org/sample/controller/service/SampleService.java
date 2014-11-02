@@ -15,7 +15,7 @@ public interface SampleService {
 
     public SignupUser saveUser(SignupUser signupUser);
     public Long saveFromAd(AdCreateForm adForm) throws InvalidAdException;
-    public Long saveFromSearch(SearchForm searchForm) throws InvalidSearchException;
+    public Long saveFromSearch(SearchForm searchForm, boolean saveToProfile) throws InvalidSearchException;
     
     public Advert getAd(Long id);
     
@@ -24,6 +24,7 @@ public interface SampleService {
 	public Object findAds(SearchForm Form) throws InvalidSearchException;
 	public void updateUser(SignupUser profileUpdateForm);
 	public User getLoggedInUser();
+	public void removeSearch(Long value);
 	public Long bookmark(BookmarkForm bookmarkForm);
 	public boolean checkBookmarked(Long id, User user);
 	public Object findBookmarkedAdsForUser(User user);

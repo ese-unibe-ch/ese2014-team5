@@ -58,7 +58,28 @@ public class IndexController {
     	ModelAndView model = new ModelAndView("index");
     	model.addObject("currentUser", (org.sample.model.User) userDao.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
     	model.addObject("searchResults", sampleService.findAds(searchForm));
-    
+    	
+    	boolean saveToProfile = false;
+    	if(action!=null && action.equals("bsave")){
+    		saveToProfile = true;
+    	}
+    	
+    	//When one of the save buttons is clicked, save search.
+    	if(action!=null){
+    		if (!result.hasErrors()) {
+	            try {
+	            	sampleService.saveFromSearch(searchForm, saveToProfile);
+	            	if(sampleService.getLoggedInUser() != null && sampleService.getLoggedInUser().getUserRole().getRole() == 1 && saveToProfile){
+	            		model.addObject("msg", "You can find your saved search in your profile.");
+	            	}
+	            } catch (InvalidSearchException e) {
+	            	if(sampleService.getLoggedInUser() != null && sampleService.getLoggedInUser().getUserRole().getRole() == 1 && saveToProfile){
+	            		model.addObject("page_error", e.getMessage());
+	            	}
+	            }
+	        }
+    	}
+    	
     	if(action!=null && action.equals("bmap"))
     	{
     		model.addObject("displayMap",1);
@@ -69,25 +90,7 @@ public class IndexController {
     		model.addObject("displayMap",0);
     		model.addObject("hasResults", 1);
     	}
-    	else if(action!=null && action.equals("bsave"))
-    	{
-    		model.addObject("hasResults", 1);
-        	if(sampleService.getLoggedInUser().getUserRole().getRole() == 1){
-    	    	if (!result.hasErrors()) {
-    	            try {
-    	            	sampleService.saveFromSearch(searchForm);
-    	            	model = new ModelAndView("index");
-    	            	model.addObject("currentUser", (org.sample.model.User) userDao.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
-    	            	model.addObject("searchForm", searchForm);
-    	            	model.addObject("msg", "You can find your saved search in your profile.");
-    	            } catch (InvalidSearchException e) {
-    	            	model = new ModelAndView("index");
-    	            	model.addObject("currentUser", (org.sample.model.User) userDao.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
-    	            	model.addObject("page_error", e.getMessage());
-    	            }
-    	        }
-        	}
-    	}
+    	
     	
 		model.addObject("minPrice",searchForm.getFromPrice());
 		model.addObject("maxPrice",searchForm.getToPrice());

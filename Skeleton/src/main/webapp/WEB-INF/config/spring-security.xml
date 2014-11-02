@@ -11,6 +11,9 @@
 	<http auto-config="true"  use-expressions="true">
 		<intercept-url pattern="/index" access="permitAll"/>
 		<intercept-url pattern="/adcreation" access="hasRole('ROLE_USER')"/>
+		<intercept-url pattern="/profile" access="hasRole('ROLE_USER')"/>
+		<intercept-url pattern="/adcreation" access="hasRole('ROLE_USER')"/>
+		<intercept-url pattern="/saved-searches" access="hasRole('ROLE_USER')"/>
 		
 		<form-login login-page="/login" 
 			authentication-failure-url="/login/failure" 
