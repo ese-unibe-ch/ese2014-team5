@@ -60,7 +60,9 @@ public class IndexController {
     	ModelAndView model = new ModelAndView("index");
     	model.addObject("currentUser", (org.sample.model.User) userDao.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
     	model.addObject("searchResults", sampleService.findAds(searchForm));
-    	sampleService.createNotification(sampleService.getLoggedInUser(), "Welcome back " + sampleService.getLoggedInUser().getFirstName() + "!");
+    	if(sampleService.getLoggedInUser() != null){
+    		sampleService.createNotification(sampleService.getLoggedInUser(), "Welcome back " + sampleService.getLoggedInUser().getFirstName() + "!");
+    	}
     	model.addObject("notifications",sampleService.findNotificationsForUser(sampleService.getLoggedInUser()));
     	boolean saveToProfile = false;
     	if(action!=null && action.equals("bsave")){
