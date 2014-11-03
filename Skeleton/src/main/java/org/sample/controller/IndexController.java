@@ -107,6 +107,35 @@ public class IndexController {
         return model;
     }
     
+//        @RequestMapping(value = "/edit-add", method = RequestMethod.GET)
+//    public ModelAndView editProfile() {
+//	    ModelAndView model = new ModelAndView("addediting");
+//	    model.addObject("addUpdateForm", new AdCreateForm());
+//	    model.addObject("currentAdd", sampleService.getAd(Long.MIN_VALUE));
+//	    return model;
+//    }
+//    
+//    @RequestMapping(value = "/updateAdd", method = RequestMethod.POST)
+//    public ModelAndView updateAdd(@Valid AdCreateForm addUpdateForm, BindingResult result, RedirectAttributes redirectAttributes) {
+//    	ModelAndView model;    	
+//    	if (!result.hasErrors()) {
+//            try {
+//            	sampleService.updateAds(addUpdateForm);
+//            	model = new ModelAndView("updateAdd");
+//            	model.addObject("currentAdd", sampleService.getAd(Long.MIN_VALUE));
+//            	model.addObject("msg", "You've updated your add successfully.");
+//            } catch (InvalidAdException e) {
+//            	model = new ModelAndView("addediting");
+//            	model.addObject("page_error", e.getMessage());
+//            }
+//        } else {
+//        	model = new ModelAndView("addediting");
+//        }   	
+//    	return model;
+//    }
+
+    
+    
     @RequestMapping(value = "/showad")
     public ModelAndView showad(@Valid BookmarkForm bookmarkForm, @RequestParam("value") Long id, BindingResult result, RedirectAttributes redirectAttributes) {
     	ModelAndView model = new ModelAndView("showad");

@@ -367,6 +367,24 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
     }
     
     @Transactional
+    public void updateAds(AdCreateForm updateForm){
+        /*Read in again all the values, difference to last time: */
+        String street = updateForm.getStreet();
+        String city = updateForm.getCity();
+        String plz = updateForm.getPlz();
+
+        String title = updateForm.getTitle();
+        String roomDesc = updateForm.getRoomDesc();
+        String peopleDesc = updateForm.getPeopleDesc();
+        String roomSize = updateForm.getRoomSize();
+        String fromDate = updateForm.getFromDate();
+        String numberOfPeople = updateForm.getNumberOfPeople();
+        
+        
+        
+    }
+    
+    @Transactional
     public Long saveFromSearch(SearchForm searchForm, boolean saveToProfile) {
         String freetext = searchForm.getSearch();
         String priceFrom = searchForm.getFromPrice();

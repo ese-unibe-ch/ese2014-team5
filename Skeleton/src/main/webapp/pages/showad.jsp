@@ -40,6 +40,12 @@
 		  	<form:input path="adNumber" type="hidden" id="field-adNumber" value="${ad.id }"/>
 		  	<button type="submit" value="Bookmark">Bookmark</button>
 		  </form:form>
+                        
+                        	<div>
+		</br>
+		<button type="submit" onclick="location.href='edit-add'" class="btn btn-primary">Edit add</button>
+	</div>
+
 	  </c:if>
 
 <br />
