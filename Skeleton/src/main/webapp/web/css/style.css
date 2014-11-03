@@ -1172,7 +1172,16 @@ width: 100px;
 
 .controlbox {
 width: 250px;
-margin-left: 120px;
+height: 40px;
+}
+#advanced {
+	padding: 0;
+	margin: 0;
+	width: 100%;
+	height: 300px;
+}
+.remove-indent {
+	margin-left: -100px;
 }
 img.gallery {
 	width: 150px;

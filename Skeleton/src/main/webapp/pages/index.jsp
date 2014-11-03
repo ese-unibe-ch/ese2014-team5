@@ -77,6 +77,18 @@ $(document).ready(function() {
     }).on('changeDate', function(ev) {
       checkout.hide();
     }).data('datepicker');
+    
+    $("#advanced_check").change(function(){
+
+    	if(!$("#advanced_check").is(":checked"))
+    	{	
+    		$("#advanced").animate({height:'0px'},200);
+    	}
+    	else
+    	{
+    		$("#advanced").animate({height:'200px'},200);
+    	}
+    });
 });
 </script>
 
@@ -133,41 +145,38 @@ $(document).ready(function() {
                 <form:input path="nearCity" id="field-nearCity" tabindex="2" maxlength="35" placeholder="e.g. Bern"/>
             </div>
             
+
+            <label class="control-label">Advanced Search</label>
+            <div class="controls">
+            	<input type="checkbox" id="advanced_check"/>
+            </div><br />
+            <div style="float:left;"></div>
+            <div id="advanced" style="height: 0px; overflow:hidden;"> 
             
-                            <c:set var="numberOfPeopleErrors"><form:errors path="numberOfPeople"/></c:set>
-        <div class="control-group<c:if test="${not empty numberOfPeopleErrors}"> error</c:if>">
-            <label class="control-label" for="field-numberOfPeople">Persons</label>
+          
+            <label class="control-label" for="field-numberOfPeople">Number of People</label>
             <div class="controls">
                 <form:input path="numberOfPeople" id="field-numberOfPeople"  tabindex="2" maxlength="150" placeholder="e.g. 4"/>
-                <form:errors path="numberOfPeople" cssClass="help-inline" element="span"/>
             </div>
-        </div>
- 
-
-                    <c:set var="fromDateErrors"><form:errors path="fromDate"/></c:set>
-        <div class="control-group<c:if test="${not empty fromDateErrors}"> error</c:if>">
-            <label class="control-label" for="field-fromDate">from</label>
+   			<br />
+            <label class="control-label " for="field-fromDate">from</label>
             <div class="controls">
-                <form:input path="fromDate" id="field-fromDate" class="span2" tabindex="2" maxlength="150" placeholder="e.g. 02/23/14"/>
-                <form:errors path="fromDate" cssClass="help-inline" element="span"/>
+                <form:input path="fromDate" id="field-fromDate" class="span2" tabindex="2" maxlength="150" placeholder="e.g. 02/23/14"/>  
             </div> 
-        </div>
-        
-        <c:set var="toDateErrors"><form:errors path="toDate"/></c:set>
-        <div class="control-group<c:if test="${not empty toDateErrors}"> error</c:if>">
-            <label class="control-label" for="field-toDate">till</label>
+
+            <label class="control-label " for="field-toDate">till</label>
             <div class="controls">
                 <form:input path="toDate" id="field-toDate" class="span2" tabindex="2" maxlength="150" placeholder="e.g. 02/23/14"/> or leave empty for undefined
-                <form:errors path="toDate" cssClass="help-inline" element="span"/>
             </div>
-        </div>
+  
+            <div class="control-label" >Include favorites </div>
+            <div class="controls"><form:checkbox path="favorites" id="field-favorites"/></div>
 
+		 </div>
             
             
-            <div class="controlbox">
             
-                Include favorites<form:checkbox path="favorites" id="field-favorites"/>
-            </div>
+            
             
             <div class="form-actions">
             	<button type="submit" name="action" value="blist" class="btn btn-primary">Show List</button>
