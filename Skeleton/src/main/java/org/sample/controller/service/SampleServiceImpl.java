@@ -21,12 +21,14 @@ import org.sample.exceptions.InvalidUserException;
 import org.sample.model.Address;
 import org.sample.model.Advert;
 import org.sample.model.Bookmark;
+import org.sample.model.Notifies;
 import org.sample.model.Picture;
 import org.sample.model.Search;
 import org.sample.model.UserRole;
 import org.sample.model.dao.AdDao;
 import org.sample.model.dao.AddressDao;
 import org.sample.model.dao.BookmarkDao;
+import org.sample.model.dao.NotifiesDao;
 import org.sample.model.dao.PictureDao;
 import org.sample.model.dao.SearchDao;
 import org.sample.model.dao.UserDao;
@@ -65,6 +67,8 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
     
     @Autowired
     BookmarkDao bookmarkDao;
+    @Autowired
+    NotifiesDao notifiesDao;
 
     @Autowired
     ServletContext context;
@@ -593,6 +597,22 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 	public void deleteBookmark(String adid, String username) {
 		bookmarkDao.delete(bookmarkDao.findByAdAndUser(adDao.findById(Long.parseLong(adid)), userDao.findByUsername(username)));
 
+	}
+
+	public Object findNotificationsForUser(org.sample.model.User user) {
+		
+		return notifiesDao.findByToUser(user);
+	}
+
+	public void createNotification(org.sample.model.User user, String text) {
+		
+		Notifies note = new Notifies();
+		note.setText(text);
+		note.setToUser(user);
+		note.setDate(new Date());
+		note.setNotetype(0);
+		note.setSeen(0);
+		notifiesDao.save(note);
 	}
 	
 }

@@ -45,7 +45,9 @@ public class IndexController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView index() {
     	ModelAndView model = new ModelAndView("index");
+    	
     	model.addObject("searchForm", new SearchForm());
+    	model.addObject("notifications",sampleService.findNotificationsForUser(sampleService.getLoggedInUser()));
     	model.addObject("currentUser", (org.sample.model.User) userDao.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
         return model;
     }
@@ -58,7 +60,8 @@ public class IndexController {
     	ModelAndView model = new ModelAndView("index");
     	model.addObject("currentUser", (org.sample.model.User) userDao.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
     	model.addObject("searchResults", sampleService.findAds(searchForm));
-    	
+    	sampleService.createNotification(sampleService.getLoggedInUser(), "Welcome back " + sampleService.getLoggedInUser().getFirstName() + "!");
+    	model.addObject("notifications",sampleService.findNotificationsForUser(sampleService.getLoggedInUser()));
     	boolean saveToProfile = false;
     	if(action!=null && action.equals("bsave")){
     		saveToProfile = true;

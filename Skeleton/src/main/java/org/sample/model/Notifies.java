@@ -2,6 +2,7 @@ package org.sample.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -10,29 +11,43 @@ import javax.persistence.OneToOne;
 
 
 @Entity
-public class Notification {
+public class Notifies {
 	@Id
 	@GeneratedValue
 	private Long id;
+	//private boolean read;
+	@Column(name = "seen")
+	private Integer seen;
+	@Column(name = "notetype")
+	private Integer notetype;
+
 	
-	public enum Type {
-	    BOOKMARK, SEARCHMATCH, INTERESTED, MESSAGE
+	
+	public Integer getSeen() {
+		return seen;
 	}
-	
-	private Type type;
+	public void setSeen(Integer seen) {
+		this.seen = seen;
+	}
+	public Integer getNotetype() {
+		return notetype;
+	}
+	public void setNotetype(Integer notetype) {
+		this.notetype = notetype;
+	}
 	private String text;
 	private Date date;
 	@OneToOne
-	private User to;
+	private org.sample.model.User toUser;
 	@OneToOne
-	private org.sample.model.User from;
+	private org.sample.model.User fromUser;
 	@OneToOne
 	private Bookmark bookmark;
 	@OneToOne
 	private Search search;
 	@OneToOne
 	private Advert ad;
-	private boolean read;
+	
 	
 	public Bookmark getBookmark() {
 		return bookmark;
@@ -67,57 +82,35 @@ public class Notification {
 	public void setDate(Date date) {
 		this.date = date;
 	}
-	public User getFrom() {
-		return from;
+	
+
+	
+	public User getFromUser() {
+		return fromUser;
 	}
-	public void setFrom(User from) {
-		this.from = from;
+	public void setFromUser(User fromUser) {
+		this.fromUser = fromUser;
 	}
-	public User getTo() {
-		return to;
+	public User getToUser() {
+		return toUser;
 	}
-	public void setTo(User to) {
-		this.to = to;
+	public void setToUser(User toUser) {
+		this.toUser = toUser;
 	}
 	
-	public Type getType() {
-		return type;
-	}
 	
-	public String getTypeString() {
-		String str = "";
-		switch(type)
-		{
-			case BOOKMARK:
-				str = "Bookmarked Ad has changed";
-				break;
-			case SEARCHMATCH:
-				str = "A new Ad matching your preferences has been uploaded.";
-				break;
-			case INTERESTED:
-				str = "New Enquiry for your Ad";
-				break;
-			case MESSAGE:
-				str = text;
-				break;
-		}
-		return str;
-	}
-	
-	public void setType(Type type) {
-		this.type = type;
-	}
 	public String getText() {
 		return text;
 	}
 	public void setText(String text) {
 		this.text = text;
 	}
-	public boolean isRead() {
+	/*public boolean getRead() {
 		return read;
 	}
 	public void setRead(boolean read) {
 		this.read = read;
 	}
+*/
 	
 }

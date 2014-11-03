@@ -109,6 +109,7 @@ public class UserController {
     @RequestMapping("/login")
 	public String login(Model model, @RequestParam(required=false) String message) {
 		model.addAttribute("message", message);
+		//sampleService.createNotification(sampleService.getLoggedInUser(), "Welcome back!");
 		return "/login";
 	}
 	

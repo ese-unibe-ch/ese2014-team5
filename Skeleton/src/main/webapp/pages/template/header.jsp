@@ -132,7 +132,18 @@
 				</sec:authorize>
 				<div class="clear"></div>
 			</ul>
-
+			<form class="style-1 drp_dwn">
+				<div class="row">
+					<div class="grid_3 columns">
+						<select class="custom-select" id="select-1" style="display: none;">
+							<c:forEach items="${notifications}" varStatus="loopCount" var="notif">
+								<option>${notif.text }</option>
+							</c:forEach>
+							<div style="display:none"><option selected="selected"> </option></div>
+						</select>
+					</div>		
+				</div>		
+			</form>
 		</div>
 		<div class="clear"></div>
 		<div class="top-nav">
@@ -143,6 +154,8 @@
 					<li><a href="bookmarks">Bookmarks</a></li>
 					<li><a href="adcreation">create an Ad</a></li>
 					<li><a href="profile?name=<%=SecurityContextHolder.getContext().getAuthentication().getName()%>"><span id="username"><%=SecurityContextHolder.getContext().getAuthentication().getName().toLowerCase()%></span></a></li>
+					<li><a href="saved-searches"><span id="username">Saved Searches</span></a></li>
+					<li><a href="my-ads">My Ads</a></li>
 					<li><a onclick="javascript:logout();">Logout</a></li>
 				</sec:authorize>
 				<sec:authorize access="!hasRole('ROLE_USER')">
