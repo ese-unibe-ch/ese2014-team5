@@ -6,7 +6,17 @@
 
 
 <c:import url="template/header.jsp" />
+<script type="text/javascript">
 
+$(document).ready(function(){
+	
+	$("#showEnquiryForm").click(function(){
+		$("#enquiryForm").show();
+	});
+	
+});
+
+</script>
 <div class="booking_room">
 			<h4>${ad.title}</h4>
 			

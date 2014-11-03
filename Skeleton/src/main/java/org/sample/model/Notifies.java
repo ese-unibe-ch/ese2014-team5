@@ -4,6 +4,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
@@ -18,23 +20,16 @@ public class Notifies {
 	//private boolean read;
 	@Column(name = "seen")
 	private Integer seen;
-	@Column(name = "notetype")
-	private Integer notetype;
+	
+	public enum Type {
+		BOOKMARK, MESSAGE, ENQUIRY, SEARCHMATCH
+	}
+	
+	@Enumerated(EnumType.ORDINAL)
+	private Type notetype;
+	
 
-	
-	
-	public Integer getSeen() {
-		return seen;
-	}
-	public void setSeen(Integer seen) {
-		this.seen = seen;
-	}
-	public Integer getNotetype() {
-		return notetype;
-	}
-	public void setNotetype(Integer notetype) {
-		this.notetype = notetype;
-	}
+
 	private String text;
 	private Date date;
 	@OneToOne
@@ -49,6 +44,21 @@ public class Notifies {
 	private Advert ad;
 	
 	
+	
+	public Integer getSeen() {
+		return seen;
+	}
+	public void setSeen(Integer seen) {
+		this.seen = seen;
+	}
+	
+	
+	public Type getNotetype() {
+		return notetype;
+	}
+	public void setNotetype(Type notetype) {
+		this.notetype = notetype;
+	}
 	public Bookmark getBookmark() {
 		return bookmark;
 	}

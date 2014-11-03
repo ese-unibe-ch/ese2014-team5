@@ -1202,6 +1202,40 @@ div.resultinfo
 	
 }
 
+#notifications {
+	color: white;
+}
+
 #contentWindow {
 	width: 250px;
+}
+
+#notifybox
+{
+	padding-left: 10px;
+	z-index:100;
+	position:absolute;
+	right: 20px;
+	width: 250px;
+	top: 0px;
+	background: #EFEFEF;
+}
+
+#notifications ul
+{
+	padding:0px;
+	margin:0px;
+}
+
+#notifications ul li
+{
+	padding:0px;
+	margin: 0px;
+	border-bottom: 1px #7E7E7E solid;
+}
+
+#notifications ul li a
+{
+	text-decoration: none;
+	color: black;
 }

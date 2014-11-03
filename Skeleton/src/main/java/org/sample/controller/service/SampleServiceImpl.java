@@ -610,8 +610,22 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 		note.setText(text);
 		note.setToUser(user);
 		note.setDate(new Date());
-		note.setNotetype(0);
+		note.setNotetype(Notifies.Type.MESSAGE);
 		note.setSeen(0);
+		notifiesDao.save(note);
+	}
+	
+	public static String getNotificationsForJSP()
+	{
+		SampleServiceImpl sV = new SampleServiceImpl();
+		
+		return sV.userDao.findByUsername("sz@tune-x.ch").getUsername();
+	}
+
+	public void setRead(String noteid) {
+		
+		Notifies note = notifiesDao.findById(Long.parseLong(noteid));
+		note.setSeen(1);
 		notifiesDao.save(note);
 	}
 	

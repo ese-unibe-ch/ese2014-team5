@@ -7,4 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface NotifiesDao  extends JpaRepository<Notifies,Long>
 {
 	Iterable<Notifies> findByToUser(User user);
+
+	Notifies findById(long parseLong);
 }

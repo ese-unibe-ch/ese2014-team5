@@ -31,5 +31,7 @@ public interface SampleService {
 	public void deleteBookmark(String adid, String username);
 	public Object findNotificationsForUser(User user);
 	public void createNotification(User user, String text);
+	public void setRead(String noteid);
+	
 }
  

@@ -86,9 +86,40 @@
 			    $( "#field-toSize" ).val($( "#slider-range-size" ).slider( "values", 1 ));
 			    /*if($( "#amountSize" ).val()==0)
 				    $( "#amountSize" ).val(	"10m^2 - 180m^2" );*/
-		
+
 	});
 
+	function toggle()
+	{
+		$("#notifications").toggle(200);
+	}
+
+	function setread(id,url)
+	{
+		$.get( "setread?noteid=" + id, function() {
+			
+		});
+		if(url!="")
+			window.location.href=url;
+	}
+	
+	$.getJSON( "getnotifications.htm", function( data ) {
+	  	//$("#notifications").text(data);
+	  	
+	  	var items = [];
+	  	
+	  	data["Notifications"].forEach(function(entry) {
+	  		if(entry.read==1)
+		  		items.push( "<li id='" + entry.id + "'><a onclick='setread(" + entry.id + ", \""+ entry.url +"\")'>" + entry.text + "</a></li>" );
+	  	});
+	   
+	    $( "<ul/>", {
+	      "class": "my-new-list",
+	      html: items.join( "" )
+	    }).appendTo( "#notifications" );
+	    
+	 });
+   
 	</script>
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -132,7 +163,7 @@
 				</sec:authorize>
 				<div class="clear"></div>
 			</ul>
-			<form class="style-1 drp_dwn">
+			<!--<form class="style-1 drp_dwn">
 				<div class="row">
 					<div class="grid_3 columns">
 						<select class="custom-select" id="select-1" style="display: none;">
@@ -143,9 +174,12 @@
 						</select>
 					</div>		
 				</div>		
-			</form>
+			</form>-->
+			
 		</div>
+		
 		<div class="clear"></div>
+		
 		<div class="top-nav">
 		<nav class="clearfix">
 				<ul>
@@ -167,15 +201,22 @@
 				<a href="#" id="pull">Menu</a>
 			</nav>
 		</div>
+		
 	</div>
 </div>
+<sec:authorize access="hasRole('ROLE_USER')">
+<div id="notifybox" onclick="toggle()">
+	Notifications
+	<div id="notifications" style="display:none;"></div>
+</div>
+</sec:authorize>
 </div>
 <script type="text/javascript">
 function logout() {
 	document.getElementById("logoutForm").submit();
 }
 </script>
-<div class="topbox"><img src="web/images/slum.jpg"/></div>
+<div class="topbox"><img src="web/images/slum.jpg" onclick="getNotes()"/></div>
 
 <div id="container">
 <div class="wrap">

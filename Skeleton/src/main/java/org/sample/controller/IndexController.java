@@ -3,6 +3,10 @@ package org.sample.controller;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.validation.Valid;
@@ -13,6 +17,8 @@ import org.sample.controller.pojos.SearchForm;
 import org.sample.controller.service.SampleService;
 import org.sample.exceptions.InvalidAdException;
 import org.sample.exceptions.InvalidSearchException;
+import org.sample.model.Notifies;
+import org.sample.model.dao.NotifiesDao;
 import org.sample.model.dao.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,6 +28,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -42,12 +49,70 @@ public class IndexController {
         return model;
     }
     
+    @RequestMapping(value = "/getnotifications", method = RequestMethod.GET)
+    public @ResponseBody String getNotifications() {
+    	Iterable<Notifies> notifications = (Iterable<Notifies>) sampleService.findNotificationsForUser(sampleService.getLoggedInUser());
+    	
+    	    	
+    	String result = "{\"Notifications\":[";
+    	Iterator<Notifies> iterator = notifications.iterator();
+    	while(iterator.hasNext())
+    	{
+    		Notifies note = iterator.next();
+    		
+    		SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+    		String date = dateFormat.format(note.getDate());
+    		String txt = "";
+    		String url = "";
+    		try
+    		{
+	    		switch(note.getNotetype())
+	    		{
+	    			case BOOKMARK:
+	    				txt = "Bookmarked Ad " + note.getBookmark().getAd().getTitle() + " has changed - <span class='beside'>" + date +"</span>";
+	    				url = "showad?value=" + note.getBookmark().getAd().getId();
+	    				break;
+	    			case MESSAGE:
+	    				txt = note.getText() + " - " + "<span class='beside'>" + date +"</span>";
+	    				break;
+	    			case ENQUIRY:
+	    				txt = "New enquiry received from " + note.getFromUser().getUsername() + " - <span class='beside'>" + date +"</span>";
+	    				url = "";
+	    				break;
+	    			case SEARCHMATCH:
+	    				txt = "New matching ad for your search! - <span class='beside'>" + date +"</span>";
+	    				url = "";
+	    				break;
+	    			default:
+	    				txt =  note.getText() + " - <span class='beside'>" + date +"</span>";
+	    		}
+	    		result += "{\"id\": " + note.getId() + ",\"text\":\"" + txt + "\",\"url\":\"" + url + "\",\"read\":" + note.getSeen() + "}";
+	    		if(iterator.hasNext())
+	    		{
+	    			result += ",";
+	    		}
+    		}
+    		catch(NullPointerException e)
+    		{
+    			
+    		}
+    		
+    	}
+    	result += "]}";
+        return result;
+    }
+    
+    @RequestMapping("/setread")
+	public @ResponseBody String setread(Model model, @RequestParam String noteid) {
+		sampleService.setRead(noteid);
+		return "#";
+	}
+    
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView index() {
     	ModelAndView model = new ModelAndView("index");
     	
     	model.addObject("searchForm", new SearchForm());
-    	model.addObject("notifications",sampleService.findNotificationsForUser(sampleService.getLoggedInUser()));
     	model.addObject("currentUser", (org.sample.model.User) userDao.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
         return model;
     }
@@ -60,8 +125,8 @@ public class IndexController {
     	ModelAndView model = new ModelAndView("index");
     	model.addObject("currentUser", (org.sample.model.User) userDao.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
     	model.addObject("searchResults", sampleService.findAds(searchForm));
-    	sampleService.createNotification(sampleService.getLoggedInUser(), "Welcome back " + sampleService.getLoggedInUser().getFirstName() + "!");
-    	model.addObject("notifications",sampleService.findNotificationsForUser(sampleService.getLoggedInUser()));
+    	
+    	//model.addObject("notifications",sampleService.findNotificationsForUser(sampleService.getLoggedInUser()));
     	boolean saveToProfile = false;
     	if(action!=null && action.equals("bsave")){
     		saveToProfile = true;
