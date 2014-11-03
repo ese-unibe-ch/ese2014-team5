@@ -163,6 +163,13 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         if (StringUtils.isEmpty(email)) {
             throw new InvalidUserException("Email must not be empty ");   // throw exception
         }
+        
+        for(org.sample.model.User existingUser : userDao.findAll()) {
+            if(existingUser.getEmail().equals(email)) {
+                throw new InvalidUserException("Email already used in database");
+        }
+            
+        }
 
         if (StringUtils.isEmpty(signupUser.getpassword())) {
             throw new InvalidUserException("password must not be empty ");   // throw exception
