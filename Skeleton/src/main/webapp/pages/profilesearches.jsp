@@ -19,13 +19,14 @@
 	<c:if test="${not empty searchList}">
 		<div id="searchlist" style="width:100%">
 			<div class="radio" style="padding:28px;">
-				<label class="radio-inline"><input type="radio" name="notifySearch">Don't notify me if a new advert matches any of my saved searches.</label>
+			
+				<label class="radio-inline"><input type="radio" name="notifySearch" onclick="location.href='saved-searches?filter=0'" <c:if test="${empty selectedSearch}">checked</c:if> >Don't notify me if a new advert matches any of my saved searches.</label>
 			</div>
 			
 			<c:forEach items="${searchList}" var="listValue">
 		    	<div id="profilesearches_result">
 				    <div class="result" style="width:100%;height:100px;padding:10px;" onclick="#">
-				    	<div style="width:50px;float:left;"><input type="radio" name="notifySearch"></div>
+				    	<div style="width:50px;float:left;"><input type="radio" name="notifySearch" id="${listValue.id}" onclick="location.href='saved-searches?filter=${listValue.id}'" <c:if test="${selectedSearch == listValue.id}">checked</c:if> ></div>
 				    	<div style="float:left;">Search for:</div>
 						<div class="resultinfo" style="margin-left:50px; float:left;">
 							<b style="font-family:Arial;font-size:14pt;">${listValue.freetext}</b>

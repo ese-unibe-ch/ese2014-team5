@@ -182,7 +182,9 @@ $(document).ready(function() {
             	<button type="submit" name="action" value="blist" class="btn btn-primary">Show List</button>
             	<button type="submit" name="action" value="bmap" class="btn btn-primary">Show Map</button>
             	<sec:authorize access="hasRole('ROLE_USER')">
-            		<button type="submit" name="action" value="bsave" class="btn btn-primary">Save Search</button>
+            		<c:if test="${hasResults ==1}">
+            			<button type="submit" name="action" value="bsave" class="btn btn-primary">Save Search</button>
+            		</c:if>
 				</sec:authorize>
         	</div>
         </fieldset>

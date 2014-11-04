@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.sample.model;
 
 import javax.persistence.Entity;
@@ -13,6 +8,9 @@ import javax.validation.constraints.NotNull;
 
 /**
  * This class loads the data to the database
+ * 
+ * @field selectedSearch is 0 if the user doesn't want notifications about defined search filters, 
+ * otherwise the id of the {@link Search} whose parameters are used for notifications.
  */
 @Entity
 public class User
@@ -31,10 +29,11 @@ public class User
     private String email;
     private String username;
     private boolean enabled;
-    
+    private Integer selectedSearch;
     @OneToOne
 	private UserRole userRole;
 
+    
 	public User(){}
 	
 	public UserRole getUserRole()
@@ -99,6 +98,14 @@ public class User
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public Integer getSelectedSearch() {
+		return selectedSearch;
+	}
+
+	public void setSelectedSearch(Integer selectedSearch) {
+		this.selectedSearch = selectedSearch;
 	}
 
 }
