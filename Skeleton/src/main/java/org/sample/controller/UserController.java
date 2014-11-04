@@ -71,16 +71,25 @@ public class UserController {
      * @param value The id of the search that has to be deleted from the user profile.
      */
     @RequestMapping(value = "/saved-searches")
-    public ModelAndView showSearches(@RequestParam(required = false) Long value) {
+    public ModelAndView showSearches(@RequestParam(required = false) Long value, Integer filter) {
     	System.out.println(value);
 	    ModelAndView model = new ModelAndView("profilesearches");
 	    
 	    if (value!=null){
 	    	sampleService.removeSearch(value);
 	    }
-
-	    model.addObject("currentUser", sampleService.getLoggedInUser());
-	    model.addObject("searchList", searchDao.findByUserId( ((User) sampleService.getLoggedInUser()).getId() ));
+	    
+	    User currentUser = sampleService.getLoggedInUser();
+	    if (filter!=null && filter==0){
+	    	currentUser.setSelectedSearch(null);
+	    	userDao.save(currentUser);
+	    } else if (filter!=null){
+	    	currentUser.setSelectedSearch(filter);
+	    	userDao.save(currentUser);
+	    }
+	    model.addObject("selectedSearch", currentUser.getSelectedSearch());
+	    model.addObject("currentUser", currentUser);
+	    model.addObject("searchList", searchDao.findByUserId(currentUser.getId())); //cast (User) ??
 	    return model;
     }
     
