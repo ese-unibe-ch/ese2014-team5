@@ -127,10 +127,14 @@ public class IndexController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView index() {
     	ModelAndView model = new ModelAndView("index");
-    	
-    	model.addObject("searchForm", new SearchForm());
+    	SearchForm searchForm = new SearchForm();
+    	model.addObject("searchForm", searchForm);
     	model.addObject("currentUser", (org.sample.model.User) userDao.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
-        return model;
+    	model.addObject("minPrice",searchForm.getFromPrice());
+		model.addObject("maxPrice",searchForm.getToPrice());
+		model.addObject("minSize",searchForm.getFromSize());
+		model.addObject("maxSize",searchForm.getToSize());
+    	return model;
     }
     
     /*Core of the page, starting point,search and search output in one
