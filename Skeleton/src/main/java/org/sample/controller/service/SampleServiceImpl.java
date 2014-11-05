@@ -628,5 +628,20 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 		note.setSeen(1);
 		notifiesDao.save(note);
 	}
+
+	/**
+	 * @param id The id of the advert that causes new notifications for saved searches.
+	 */
+	public void createNewSearchNotifications(Long id) {
+		List<Integer> possibleSearchIDsForNotification = userDao.findPossibleSearchIDsForNotification();
+		for (Integer searchId : possibleSearchIDsForNotification) {
+			searchDao.findOne(searchId);
+		}
+		
+		List<Search> searchesToBeNotified = null;
+		for (Search search : searchesToBeNotified) {
+			new Notifies(); //TODO set Notifies-Parameters
+		}
+	}
 	
 }

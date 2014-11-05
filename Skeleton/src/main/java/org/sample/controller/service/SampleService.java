@@ -32,6 +32,7 @@ public interface SampleService {
 	public Object findNotificationsForUser(User user);
 	public void createNotification(User user, String text);
 	public void setRead(String noteid);
+	public void createNewSearchNotifications(Long id);
 	
 }
  

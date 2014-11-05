@@ -221,6 +221,7 @@ public class IndexController {
         				stream.close();
         				
         				adCreationForm.addFile(filename);
+        				
         			} catch (Exception e) {
         				System.out.println("No files selected.");
         			}
@@ -228,7 +229,11 @@ public class IndexController {
             	
             	Long id = sampleService.saveFromAd(adCreationForm);
             	model = new ModelAndView("showad");
-            	model.addObject("ad", sampleService.getAd(id)); 
+            	model.addObject("ad", sampleService.getAd(id));
+            	
+            	//Create notifications for searches
+				sampleService.createNewSearchNotifications(id);
+            	
             } catch (InvalidAdException e) {
             	//System.out.println("Invalidadexception raised");
             	model = new ModelAndView("adcreation");
