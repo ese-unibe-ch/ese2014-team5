@@ -1184,8 +1184,8 @@ height: 40px;
 	margin-left: -100px;
 }
 img.gallery {
-	width: 150px;
-	float: left;
+	max-width: 150px;
+	max-height: 150px;
 }
 div.resultinfo
 {

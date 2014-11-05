@@ -37,7 +37,7 @@
 							<br />
 							From <fmt:formatDate value="${listValue.fromDate}"/> to <fmt:formatDate value="${listValue.toDate}"/>
 						</div>
-						<div style="float:right;padding-bottom:20px"><button type="submit" onclick="javascript:location.href='saved-searches?value=${listValue.id}'" class="btn btn-primary">Remove</button></div>
+						<div style="float:right;padding-bottom:20px;padding-top:70px"><button type="submit" onclick="javascript:location.href='saved-searches?value=${listValue.id}'" class="btn btn-primary">Remove</button></div>
 					</div>
 				</div>
 			</c:forEach>

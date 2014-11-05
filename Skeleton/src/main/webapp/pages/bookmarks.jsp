@@ -20,22 +20,27 @@
 			<div id="profilead_result">
 				<div class="result" style="width:100%;height:150px;padding:10px;" onclick="javascript:location.href='showad?value=${ad.id}'">
 	       			<c:forEach items="${ad.pictures}" varStatus="loopCount" var="pic">
-	             		<c:if test="${loopCount.count eq 1}"><img class="gallery" src="<c:url value="img/${pic.url}"/>"/></c:if>
+	             		<c:if test="${loopCount.count eq 1}">
+	             			<div style="width:150px;float:left;"><img class="gallery" src="<c:url value="img/${pic.url}"/>"/></div>
+	             		</c:if>
 					</c:forEach>
-					<div class="resultinfo">
+					<div class="resultinfo" style="margin-left:10px;float:left;">
 						<b style="font-family:Arial;font-size:14pt;">${ad.title}</b>
 						<br />
 						${ad.roomDesc}
 						<br />
 						Price: ${ad.roomPrice}CHF, Size: ${ad.roomSize}m&sup2;
 					</div>
+					<div style="float:right;padding-bottom:20px;padding-top:120px">
+						<form:form action="removeBookmark" method="post">
+							<input type="hidden" name="username" value="<%=SecurityContextHolder.getContext().getAuthentication().getName()%>" />
+							<button type="submit" name="adid" value="${ad.id }" class="btn btn-primary">Remove</button>
+						</form:form>
+					</div>
 				</div>
-				<form:form action="removeBookmark" method="post">
-					<input type="hidden" name="username" value="<%=SecurityContextHolder.getContext().getAuthentication().getName()%>" />
-					<button type="submit" name="adid" value="${ad.id }" >Remove</button>
-				</form:form>
 			</div>
 		</c:forEach>
+		
 	</c:if>
 </div>
 

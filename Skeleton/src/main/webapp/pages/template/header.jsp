@@ -148,6 +148,14 @@
 			<ul class="menu">
 				<li class="active"><a href="index">Home</a></li> |
 				<sec:authorize access="hasRole('ROLE_USER')">
+<!-- 					<li class="menu-item"> -->
+<!-- 						<a href="#">Profile</a> -->
+<!-- 						<ul class="menu"> -->
+<%-- 							<li><a href="profile?name=<%=SecurityContextHolder.getContext().getAuthentication().getName()%>"><span id="username">Profile</span></a></li> | --%>
+<!-- 							<li><a href="saved-searches"><span id="username">Saved Searches</span></a></li> | -->
+<!-- 							<li><a href="my-ads">My Ads</a></li> -->
+<!-- 						</ul> -->
+<!-- 					</li> -->
 				    <li><a href="bookmarks">Bookmarks</a></li> |
 					<li><a href="adcreation">create an Ad</a></li> |
 					<li><a href="profile?name=<%=SecurityContextHolder.getContext().getAuthentication().getName()%>"><span id="username">Profile</span></a></li> |
@@ -156,6 +164,7 @@
 					<li><c:if test="${pageContext.request.userPrincipal.name != null}">
 							<a onclick="javascript:logout();">Logout</a>
 						</c:if></li>
+					
 				</sec:authorize>
 				<sec:authorize access="!hasRole('ROLE_USER')">
 					<li><a href="login">login</a></li> |
