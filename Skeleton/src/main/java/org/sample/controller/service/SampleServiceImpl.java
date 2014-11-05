@@ -21,6 +21,7 @@ import org.sample.exceptions.InvalidUserException;
 import org.sample.model.Address;
 import org.sample.model.Advert;
 import org.sample.model.Bookmark;
+import org.sample.model.Enquiry;
 import org.sample.model.Notifies;
 import org.sample.model.Picture;
 import org.sample.model.Search;
@@ -28,6 +29,7 @@ import org.sample.model.UserRole;
 import org.sample.model.dao.AdDao;
 import org.sample.model.dao.AddressDao;
 import org.sample.model.dao.BookmarkDao;
+import org.sample.model.dao.EnquiryDao;
 import org.sample.model.dao.NotifiesDao;
 import org.sample.model.dao.PictureDao;
 import org.sample.model.dao.SearchDao;
@@ -69,6 +71,9 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
     BookmarkDao bookmarkDao;
     @Autowired
     NotifiesDao notifiesDao;
+    
+    @Autowired
+    EnquiryDao enquiryDao;
 
     @Autowired
     ServletContext context;
@@ -627,6 +632,42 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 		Notifies note = notifiesDao.findById(Long.parseLong(noteid));
 		note.setSeen(1);
 		notifiesDao.save(note);
+	}
+
+	public Object sendEnquiry(String enquirytext, String adid) {
+		Enquiry enquiry= new Enquiry();
+		Advert ad= adDao.findById(Long.parseLong(adid));
+		enquiry.setEnquiryText(enquirytext);
+		//enquiry.setEnquiryTitle("Enquiry from User "+ this.getLoggedInUser().getUsername() );
+		enquiry.setAdvert(ad);
+		enquiry.setUserFrom(this.getLoggedInUser());
+		enquiry.setUserTo(ad.getUser());
+		return enquiryDao.save(enquiry);
+	}
+
+	public boolean createNotificationEnquiry(Enquiry enq) {
+		
+		Notifies note = new Notifies();
+		note.setText(enq.getEnquiryText());
+		note.setToUser(enq.getUserTo());
+		note.setFromUser(enq.getUserFrom());
+		note.setAd(enq.getAdvert());
+		note.setDate(new Date());
+		note.setNotetype(Notifies.Type.ENQUIRY);
+		note.setSeen(0);
+		note = notifiesDao.save(note);
+		return (note!=null)? true : false;
+	}
+
+	public boolean checkSentEnquiry(Long id, org.sample.model.User loggedInUser) {
+		
+		Enquiry enq= enquiryDao.findByAdvertAndUserFrom(adDao.findById(id),loggedInUser);
+
+		if(enq!=null)
+		{
+			return true;
+		}
+		return false;
 	}
 	
 }

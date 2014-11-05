@@ -7,6 +7,7 @@ import org.sample.controller.pojos.SignupUser;
 import org.sample.exceptions.InvalidAdException;
 import org.sample.exceptions.InvalidSearchException;
 import org.sample.model.Advert;
+import org.sample.model.Enquiry;
 import org.sample.model.User;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +33,9 @@ public interface SampleService {
 	public Object findNotificationsForUser(User user);
 	public void createNotification(User user, String text);
 	public void setRead(String noteid);
+	public Object sendEnquiry(String enquirytext, String adid);
+	public boolean createNotificationEnquiry(Enquiry enq);
+	public boolean checkSentEnquiry(Long id, User loggedInUser);
 	
 }
  
