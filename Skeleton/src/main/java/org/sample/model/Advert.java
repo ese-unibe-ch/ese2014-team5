@@ -32,6 +32,7 @@ public class Advert {
     private Date fromDate;
     private Date toDate;
     private int numberOfPeople;
+    @Size(max = 2000)
     private String fusedSearch;
     
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)

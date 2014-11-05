@@ -17,6 +17,7 @@ import org.sample.controller.pojos.SearchForm;
 import org.sample.controller.service.SampleService;
 import org.sample.exceptions.InvalidAdException;
 import org.sample.exceptions.InvalidSearchException;
+import org.sample.model.Enquiry;
 import org.sample.model.Notifies;
 import org.sample.model.dao.NotifiesDao;
 import org.sample.model.dao.UserDao;
@@ -108,13 +109,32 @@ public class IndexController {
 		return "#";
 	}
     
+    @RequestMapping("/sendenquiry")
+	public ModelAndView sendenquiry(@RequestParam String enquirytext,@RequestParam String adid) {
+    	ModelAndView model = new ModelAndView("showad");
+    	model.addObject("ad", sampleService.getAd(Long.parseLong(adid))); 
+		Enquiry enq = (Enquiry) sampleService.sendEnquiry(enquirytext,adid);
+		if(enq!=null)
+		{
+			if(sampleService.createNotificationEnquiry(enq))
+				model.addObject("msg", "Your enquiry has been sent successfully.");
+			else
+				model.addObject("page_error", "Error! Couldn't send enquiry. Try again.");
+		}
+		return model;
+	}
+    
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView index() {
     	ModelAndView model = new ModelAndView("index");
-    	
-    	model.addObject("searchForm", new SearchForm());
+    	SearchForm searchForm = new SearchForm();
+    	model.addObject("searchForm", searchForm);
     	model.addObject("currentUser", (org.sample.model.User) userDao.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
-        return model;
+    	model.addObject("minPrice",searchForm.getFromPrice());
+		model.addObject("maxPrice",searchForm.getToPrice());
+		model.addObject("minSize",searchForm.getFromSize());
+		model.addObject("maxSize",searchForm.getToSize());
+    	return model;
     }
     
     /*Core of the page, starting point,search and search output in one
@@ -190,6 +210,12 @@ public class IndexController {
     		if(bookmarkid>0)
     			model.addObject("bookmarked", 1);
     	}
+    	
+    	if(sampleService.checkSentEnquiry(id,sampleService.getLoggedInUser()))
+    	{
+    		model.addObject("sentenquiry", 1);
+    	}
+    	
         return model;
     }
     

@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 //import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.Size;
 /**
 *
 */
@@ -25,6 +26,7 @@ public class Enquiry {
 	
 	private String enquiryTitle;
 
+	@Size(max = 501)
 	private String enquiryText;
 	
 	/*At least to receiver and person who wrote it...*/

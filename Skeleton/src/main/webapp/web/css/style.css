@@ -1184,8 +1184,8 @@ height: 40px;
 	margin-left: -100px;
 }
 img.gallery {
-	max-width: 150px;
-	max-height: 150px;
+	max-width: 100px;
+	max-height: 100px;
 }
 div.resultinfo
 {
@@ -1219,6 +1219,7 @@ div.resultinfo
 	width: 250px;
 	top: 0px;
 	background: #EFEFEF;
+	cursor:pointer;
 }
 
 #notifications ul

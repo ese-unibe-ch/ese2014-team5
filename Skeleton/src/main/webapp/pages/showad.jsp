@@ -9,9 +9,11 @@
 <script type="text/javascript">
 
 $(document).ready(function(){
-	
+	$("#enquiryFormDiv").hide();
 	$("#showEnquiryForm").click(function(){
-		$("#enquiryForm").show();
+		$("#enquiryFormDiv").show();
+        
+
 	});
 	
 });
@@ -22,7 +24,20 @@ $(document).ready(function(){
 			
 		</div>
 		<div class="reservation">
-
+<c:if test="${msg != null }">
+	<div class="alert alert-success">
+	    <button type="button" class="close" style="left:0;" data-dismiss="alert">&times;</button>
+<!-- 	    <h4>Success!</h4> -->
+	        ${msg}
+	</div>
+</c:if>
+<c:if test="${page_error != null }">
+	<div class="alert alert-error">
+	    <button type="button" class="close" style="left:0;" data-dismiss="alert">&times;</button>
+	    <h4>Error!</h4>
+	        ${page_error}
+	</div>
+</c:if>
 <fmt:formatDate value="${ad.fromDate}" var="dateFrom" pattern="MM/dd/yyyy" />
 	<fmt:formatDate value="${ad.toDate}" var="dateTo" pattern="MM/dd/yyyy" />
 <div class="fotorama">
@@ -42,6 +57,7 @@ $(document).ready(function(){
   <li>Address: ${ad.address.street }, ${ad.address.plz } ${ad.address.city }</li>
   </ul>
   
+  
   <%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
   <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 	  <c:if test="${ad.user.username!=currentUser.username && currentUser.username!=null && bookmarked!=1}" >
@@ -53,7 +69,18 @@ $(document).ready(function(){
 	  </c:if>
 
 <br />
-
+	<div>
+	<c:if test="${ad.user.username!=currentUser.username && currentUser.username!=null && sentenquiry!=1}" >
+	  <button id="showEnquiryForm">Send Enquiry</button>
+	  <div id="enquiryFormDiv">
+		<form:form action="sendenquiry" id="enquiryForm" method="post">
+		  	<textarea name="enquirytext" placeholder="e.g. I'd like to visit your room" rows="6" width="350px" style="resize:vertical;" tabindex="2" maxlength="500"/></textarea>
+		  	<input type="hidden" name="adid" value="${ad.id }" />
+		  	<button type="submit">Submit</button>
+		  </form:form>
+	  </div>
+	  </c:if>
+	</div>
 	<div width="100%">
 		<iframe width="100%" height="350px" 
 		src="http://maps.google.de/maps?hl=de&q=${ad.address.street }, ${ad.address.plz } ${ad.address.city }&ie=UTF8&t=&z=17&iwloc=B&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0">

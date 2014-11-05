@@ -6,43 +6,44 @@
 
 
 <c:import url="template/header.jsp" />
-
-<script type="text/javascript">
-	function open()
-	{
-		window.location.replace("/showad?value=1");
-	}
-	$(document).ready(function(){
-		$(document).on("click", "result", function(){
-			$(location).attr('href',"showad?value="+$(this).data("value"));
-		});
-		
-		<c:if test="${hasResults==1}" >
-		
-			$('html,body').animate({scrollTop: $("#resultTable").offset().top + 300},'slow');
-	
-		</c:if>
-		
-		$("#slider-range-price").slider('values',0,${minPrice}); // sets first handle (index 0) to 50
-		$("#slider-range-price").slider('values',1,${maxPrice}); // sets second handle (index 1) to 80
-		$( "#amountPrice" ).val( 	"CHF ${minPrice} - CHF ${maxPrice}"  );
-		$("#field-fromPrice").val(${minPrice});
-		$("#field-toPrice").val(${maxPrice});
-		
-		$("#slider-range-size").slider('values',0,${minSize}); // sets first handle (index 0) to 50
-		$("#slider-range-size").slider('values',1,${maxSize}); // sets second handle (index 1) to 80
-		$( "#amountSize" ).val(	"${minSize}m^2 - ${maxSize}m^2" );
-		$("#field-fromSize").val(${minSize});
-		$("#field-toSize").val(${maxSize});
-	
-	});
-</script>
 <script type="text/javascript"  src="js/bootstrap-datepicker.js"></script>
 <script type="text/javascript">
 
 var i = 1;
 
 $(document).ready(function() {
+	
+	$(document).on("click", "result", function(){
+		$(location).attr('href',"showad?value="+$(this).data("value"));
+	});
+	
+	<c:if test="${hasResults==1}" >
+	
+		$('html,body').animate({scrollTop: $("#resultTable").offset().top + 300},'slow');
+
+	</c:if>
+	
+	if(${maxPrice}==0)
+		maxPrice = 3000;
+	else
+		maxPrice = ${maxPrice};
+	if(${maxSize}==0)
+		maxSize = 200;
+	else
+		maxSize = ${maxSize};
+	
+	$("#slider-range-price").slider('values',0,0); // sets first handle (index 0) to 50
+	$("#slider-range-price").slider('values',1,maxPrice); // sets second handle (index 1) to 80
+	$( "#amountPrice" ).val( 	"CHF ${minPrice} - CHF " + maxPrice  );
+	$("#field-fromPrice").val(${minPrice});
+	$("#field-toPrice").val(maxPrice);
+	
+	$("#slider-range-size").slider('values',0,0); // sets first handle (index 0) to 50
+	$("#slider-range-size").slider('values',1,maxSize); // sets second handle (index 1) to 80
+	$( "#amountSize" ).val(	"${minSize}m^2 - " + maxSize +"m^2" );
+	$("#field-fromSize").val(${minSize});
+	$("#field-toSize").val(maxSize);
+	
     $("#add").click(function(){
     	$("#files").append("<div class=\"secfile\"> File to upload: <input type=\"file\" name=\"files["+ (i++) +"]\"><input type=\"button\" class=\"delete\" value=\"Delete\"></div>");
     });
@@ -125,7 +126,7 @@ $(document).ready(function() {
              
             <label class="control-label" for="amountPrice">Price</label>
             <div class="controls">
-			 <input type="text" id="amountPrice" readonly style="border:0; color:#f6931f; font-weight:bold;">
+			 <input type="text" id="amountPrice" readonly style="border:0; color:#f6931f; font-weight:bold;" value="CHF ${minPrice} - CHF ${maxPrice}">
             	<div id="slider-range-price"></div>
             	<form:input type="hidden"  path="fromPrice" id="field-fromPrice" tabindex="2" maxlength="35" placeholder="CHF"/>
             	<form:input type="hidden" path="toPrice" id="field-toPrice" tabindex="2" maxlength="35" placeholder="CHF"/>
@@ -133,7 +134,7 @@ $(document).ready(function() {
             
             <label class="control-label" for="amountSize">Size</label>
             <div class="controls">
-				  <input type="text" id="amountSize" readonly style="border:0; color:#f6931f; font-weight:bold;">
+				  <input type="text" id="amountSize" readonly style="border:0; color:#f6931f; font-weight:bold;" value="${minSize}m^2 - ${maxSize}m^2">
             	<div id="slider-range-size"></div>
             	<form:input type="hidden"  path="fromSize" id="field-fromSize" tabindex="2" maxlength="35" placeholder="CHF"/>
             	<form:input type="hidden" path="toSize" id="field-toSize" tabindex="2" maxlength="35" placeholder="CHF"/>
@@ -196,7 +197,7 @@ $(document).ready(function() {
 	    <div id="results" style="width:100%">
 			<c:forEach items="${searchResults}" var="ad">
 		     
-		    <div class="result" style="width:100%;height:150px;padding:10px;" onclick="javascript:location.href='showad?value=${ad.id}'">
+		    <div class="result" style="width:100%;height:100px;padding:10px;" onclick="javascript:location.href='showad?value=${ad.id}'">
 				<c:forEach items="${ad.pictures}" varStatus="loopCount" var="pic">
 				<c:if test="${loopCount.count eq 1}">
 					<div style="float:left;width:150px;"><img class="gallery" src="<c:url value="img/${pic.url}"/>"/></div>
@@ -204,8 +205,6 @@ $(document).ready(function() {
 				</c:forEach>
 				<div class="resultinfo" style="margin-left:10px;float:left">
 					<b style="font-family:Arial;font-size:14pt;">${ad.title}</b>
-					<br />
-					${ad.roomDesc}
 					<br />
 					Price: ${ad.roomPrice}CHF, Size: ${ad.roomSize}m&sup2;
 				</div>
