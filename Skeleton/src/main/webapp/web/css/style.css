@@ -1219,6 +1219,7 @@ div.resultinfo
 	width: 250px;
 	top: 0px;
 	background: #EFEFEF;
+	cursor:pointer;
 }
 
 #notifications ul

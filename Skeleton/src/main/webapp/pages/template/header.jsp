@@ -109,7 +109,7 @@
 	  	var items = [];
 	  	
 	  	data["Notifications"].forEach(function(entry) {
-	  		if(entry.read==1)
+	  		if(entry.read>=0)
 		  		items.push( "<li id='" + entry.id + "'><a onclick='setread(" + entry.id + ", \""+ entry.url +"\")'>" + entry.text + "</a></li>" );
 	  	});
 	   
@@ -162,7 +162,7 @@
 					<li><a href="saved-searches"><span id="username">Saved Searches</span></a></li> |
 					<li><a href="my-ads">My Ads</a></li> |
 					<li><c:if test="${pageContext.request.userPrincipal.name != null}">
-							<a onclick="javascript:logout();">Logout</a>
+							<a style="cursor:pointer;" onclick="javascript:logout();">Logout</a>
 						</c:if></li>
 					
 				</sec:authorize>
@@ -199,7 +199,7 @@
 					<li><a href="profile?name=<%=SecurityContextHolder.getContext().getAuthentication().getName()%>"><span id="username"><%=SecurityContextHolder.getContext().getAuthentication().getName().toLowerCase()%></span></a></li>
 					<li><a href="saved-searches"><span id="username">Saved Searches</span></a></li>
 					<li><a href="my-ads">My Ads</a></li>
-					<li><a onclick="javascript:logout();">Logout</a></li>
+					<li><a style="cursor:pointer;" onclick="javascript:logout();">Logout</a></li>
 				</sec:authorize>
 				<sec:authorize access="!hasRole('ROLE_USER')">
 					<li><a href="login">login</a></li>
