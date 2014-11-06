@@ -236,9 +236,11 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         	throw new InvalidUserException("Passwords are not equal.");
         }
         if(!password.isEmpty()){
-        	user.setPassword(password);
+        	BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            String hashedPassword = passwordEncoder.encode(password);
+            user.setPassword(hashedPassword);
         }
-
+        
         user = userDao.save(user);
 	}
     
