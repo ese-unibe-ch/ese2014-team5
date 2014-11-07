@@ -39,7 +39,6 @@
         <property name="releaseHelperThreads" value="3"/>
     </bean>
 
-	<context:property-placeholder properties-ref="deployProperties" />
     <!-- SPRING - JPA -->
     <jpa:repositories base-package="org.sample.model.dao" />
 	<tx:annotation-driven transaction-manager="transactionManager" />
@@ -71,7 +70,7 @@
 	
 	
 	  
-    <bean id="deployProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean" p:location="/WEB-INF/spring.properties" />
+    
     
 	<!--  OBSOLETE CODE AFTER THIS TITLE -->
  

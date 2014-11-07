@@ -33,6 +33,7 @@
  
     </bean>
     
+    <bean class="org.springframework.mock.web.MockServletContext"/>
     
     <!-- resources  -->
     <mvc:resources mapping="/assets/**" location="classpath:/META-INF/resources/webjars/"/>
