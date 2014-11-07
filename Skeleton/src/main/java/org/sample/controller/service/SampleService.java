@@ -30,7 +30,7 @@ public interface SampleService {
 	public Object findBookmarkedAdsForUser(User user);
 	public void deleteBookmark(String adid, String username);
         
-        public void updateAds(AdCreateForm updateForm);
+        public void updateAds(AdCreateForm updateForm, long id);
 
 }
  

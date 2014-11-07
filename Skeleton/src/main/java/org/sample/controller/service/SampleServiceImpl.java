@@ -44,7 +44,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-
 @Service
 @Transactional
 public class SampleServiceImpl implements SampleService, UserDetailsService {
@@ -62,7 +61,7 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
     PictureDao pictureDao;
     @Autowired
     SearchDao searchDao;
-    
+
     @Autowired
     BookmarkDao bookmarkDao;
 
@@ -146,8 +145,6 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
     @Transactional
     public SignupUser saveUser(SignupUser signupUser) throws InvalidUserException {
 
-        
-
         String firstName = signupUser.getFirstName();
         /*Controls to validate input of new User*/
         if (StringUtils.isEmpty(firstName)) {
@@ -163,12 +160,12 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         if (StringUtils.isEmpty(email)) {
             throw new InvalidUserException("Email must not be empty ");   // throw exception
         }
-        
-        for(org.sample.model.User existingUser : userDao.findAll()) {
-            if(existingUser.getEmail().equals(email)) {
+
+        for (org.sample.model.User existingUser : userDao.findAll()) {
+            if (existingUser.getEmail().equals(email)) {
                 throw new InvalidUserException("Email already used in database");
-        }
-            
+            }
+
         }
 
         if (StringUtils.isEmpty(signupUser.getpassword())) {
@@ -181,7 +178,6 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 
         if (signupUser.getpassword().equals(signupUser.getpasswordRepeat())) {
 
-
             org.sample.model.User user = new org.sample.model.User();
             user.setFirstName(signupUser.getFirstName());
             user.setLastName(signupUser.getLastName());
@@ -190,7 +186,7 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 
             String password = signupUser.getpassword();
             String passwordRepeat = signupUser.getpasswordRepeat();
-        	
+
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
             String hashedPassword = passwordEncoder.encode(password);
             user.setPassword(hashedPassword);
@@ -212,11 +208,11 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 
         return signupUser;
     }
-    
+
     /*User get's updated by this function*/
     @Transactional
     public void updateUser(SignupUser profileUpdateForm) throws InvalidUserException {
-    	org.sample.model.User user = (org.sample.model.User)getLoggedInUser();
+        org.sample.model.User user = (org.sample.model.User) getLoggedInUser();
         user.setFirstName(profileUpdateForm.getFirstName());
         user.setLastName(profileUpdateForm.getLastName());
         user.setEmail(profileUpdateForm.getEmail());
@@ -224,15 +220,14 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         String password = profileUpdateForm.getpassword();
         String passwordRepeat = profileUpdateForm.getpasswordRepeat();
         if (!password.equals(passwordRepeat)) {
-        	throw new InvalidUserException("Passwords are not equal.");
+            throw new InvalidUserException("Passwords are not equal.");
         }
-        if(!password.isEmpty()){
-        	user.setPassword(password);
+        if (!password.isEmpty()) {
+            user.setPassword(password);
         }
 
         user = userDao.save(user);
-	}
-    
+    }
 
     public static boolean isInteger(String s) {
         try {
@@ -256,7 +251,7 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         String roomSize = adForm.getRoomSize();
         String fromDate = adForm.getFromDate();
         String numberOfPeople = adForm.getNumberOfPeople();
-        
+
         SimpleDateFormat dateFormater = new SimpleDateFormat("MM/dd/yyyy");
         Date todayDate = new Date();
         Date fromDate2;
@@ -278,11 +273,11 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         } else if (peopleDesc.length() < 10) {
             throw new InvalidAdException("Please enter more information in your People Description");   // throw exception
         }
-        
-        if(StringUtils.isEmpty(numberOfPeople)) { 
+
+        if (StringUtils.isEmpty(numberOfPeople)) {
             throw new InvalidAdException("Number of people in the WG must be entered");  // throw exception
-        } 
-        
+        }
+
         if (StringUtils.isEmpty(roomSize) || !isInteger(roomSize)) {
             throw new InvalidAdException("Please enter a valid Room size");   // throw exception
         }
@@ -328,10 +323,10 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         ad.setRoomPrice(Integer.parseInt(adForm.getRoomPrice()));
         ad.setRoomSize(Integer.parseInt(adForm.getRoomSize()));
         ad.setNumberOfPeople(Integer.parseInt(adForm.getNumberOfPeople()));
-        System.out.println("USERNAME: " +adForm.getUsername());
-        System.out.println("USERNAME: " +userDao.findByUsername(adForm.getUsername()).getUsername());
+        System.out.println("USERNAME: " + adForm.getUsername());
+        System.out.println("USERNAME: " + userDao.findByUsername(adForm.getUsername()).getUsername());
         ad.setUser(userDao.findByUsername(adForm.getUsername()));
-        System.out.println("USERNAME: " +ad.getUser().getUsername());
+        System.out.println("USERNAME: " + ad.getUser().getUsername());
         // need to parse dates before
         SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
         Date dateFrom = null;
@@ -365,9 +360,9 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 
         return ad.getId();
     }
-    
+
     @Transactional
-    public void updateAds(AdCreateForm updateForm){
+    public void updateAds(AdCreateForm updateForm, long id) {
         /*Read in again all the values, difference to last time: */
         String street = updateForm.getStreet();
         String city = updateForm.getCity();
@@ -379,11 +374,55 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         String roomSize = updateForm.getRoomSize();
         String fromDate = updateForm.getFromDate();
         String numberOfPeople = updateForm.getNumberOfPeople();
-        
-        
-        
+
+        Address address = new Address();
+        address.setStreet(street);
+        address.setCity(city);
+        address.setPlz(updateForm.getPlz());
+
+        Advert ad = getAd(id);
+        ad.setAddress(address);
+        ad.setTitle(updateForm.getTitle());
+        ad.setPeopleDesc(updateForm.getPeopleDesc());
+        ad.setRoomDesc(updateForm.getRoomDesc());
+        ad.setFusedSearch(updateForm.getTitle() + " " + updateForm.getRoomDesc() + " " + updateForm.getPeopleDesc()); // Needed for making search simpler
+        ad.setRoomPrice(Integer.parseInt(updateForm.getRoomPrice()));
+        ad.setRoomSize(Integer.parseInt(updateForm.getRoomSize()));
+        ad.setNumberOfPeople(Integer.parseInt(updateForm.getNumberOfPeople()));
+
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+        Date dateFrom = null;
+        Date dateTo = null;
+        try {
+            dateFrom = formatter.parse(updateForm.getFromDate());
+            if (updateForm.getToDate() != null) {
+                dateTo = formatter.parse(updateForm.getToDate());
+            }
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            dateFrom = new Date();
+        }
+        ad.setFromDate(dateFrom);
+        if (updateForm.getToDate() != null) {
+            ad.setToDate(dateTo);
+        }
+
+        for (String file : updateForm.getFilenames()) {
+            Picture pic = new Picture();
+            pic.setUrl(file);
+
+            ad.addPicture(pic);
+
+            pic = pictureDao.save(pic);
+
+            address = addDao.save(address);
+            ad = adDao.save(ad);
+
+        }
+
     }
-    
+
     @Transactional
     public Long saveFromSearch(SearchForm searchForm, boolean saveToProfile) {
         String freetext = searchForm.getSearch();
@@ -393,16 +432,16 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         String sizeTo = searchForm.getToSize();
         String area = searchForm.getNearCity();
         String peopleAmount = searchForm.getNumberOfPeople();
-    	String fromDate = searchForm.getFromDate();
+        String fromDate = searchForm.getFromDate();
         String toDate = searchForm.getToDate();
-        
+
         //TODO Change this if search parameters change
-        if (!( !StringUtils.isEmpty(freetext) || !priceFrom.equals("0") || !priceTo.equals("0") || 
-        		!sizeFrom.equals("0") || !sizeTo.equals("0") || !StringUtils.isEmpty(area) || 
-        		!StringUtils.isEmpty(peopleAmount) || fromDate != null || toDate != null )) {
+        if (!(!StringUtils.isEmpty(freetext) || !priceFrom.equals("0") || !priceTo.equals("0")
+                || !sizeFrom.equals("0") || !sizeTo.equals("0") || !StringUtils.isEmpty(area)
+                || !StringUtils.isEmpty(peopleAmount) || fromDate != null || toDate != null)) {
             throw new InvalidSearchException("Search is not being saved because no filters are set.");
         }
-        
+
         Search search = new Search();
         search.setFreetext(freetext);
         search.setPriceFrom(priceFrom);
@@ -411,7 +450,7 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         search.setSizeTo(sizeTo);
         search.setArea(area);
         search.setPeopleAmount(peopleAmount);
-                SimpleDateFormat dateFormater = new SimpleDateFormat("MM/dd/yyyy");
+        SimpleDateFormat dateFormater = new SimpleDateFormat("MM/dd/yyyy");
         Date insertFromdate = null;
         try {
             insertFromdate = dateFormater.parse(fromDate);
@@ -426,10 +465,10 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         }
         search.setFromDate(insertFromdate);
         search.setToDate(insertTodate);
-        if(getLoggedInUser() != null && getLoggedInUser().getUserRole().getRole() == 1 && saveToProfile == true){
-        	search.setUser( userDao.findOne(searchForm.getUserId()) );
+        if (getLoggedInUser() != null && getLoggedInUser().getUserRole().getRole() == 1 && saveToProfile == true) {
+            search.setUser(userDao.findOne(searchForm.getUserId()));
         }
-        
+
         search = searchDao.save(search);
 
         return search.getId();
@@ -440,10 +479,9 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         return adDao.findOne(id);
     }
 
-    
     /* The search of the webpage, contains simple and complex mode for details.
-    The search is 
-    */
+     The search is 
+     */
     @Transactional
     public Iterable<Advert> findAds(SearchForm form) {
 
@@ -509,7 +547,7 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         boolean noDateRangeUp = false;
         boolean noDateRangeDown = false;
         int people = 0;
-        if (form.getNumberOfPeople()==null || form.getNumberOfPeople().equals("") || form.getNumberOfPeople().length() == 0) {
+        if (form.getNumberOfPeople() == null || form.getNumberOfPeople().equals("") || form.getNumberOfPeople().length() == 0) {
             people = 99;
         } else {
             people = Integer.parseInt(form.getNumberOfPeople());
@@ -524,10 +562,10 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         } catch (Exception e) {
             e.printStackTrace();
             try {
-				dateFrom = dateFormater.parse("01/01/1980");
-			} catch (ParseException e1) {
-				e1.printStackTrace();
-			}
+                dateFrom = dateFormater.parse("01/01/1980");
+            } catch (ParseException e1) {
+                e1.printStackTrace();
+            }
             noDateRangeDown = true;
         }
         try {
@@ -535,10 +573,10 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 
         } catch (Exception ex) {
             try {
-				dateTo = dateFormater.parse("01/01/2100");
-			} catch (ParseException e1) {
-				e1.printStackTrace();
-			}
+                dateTo = dateFormater.parse("01/01/2100");
+            } catch (ParseException e1) {
+                e1.printStackTrace();
+            }
             noDateRangeUp = true;
         }
 
@@ -566,51 +604,48 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         return ads;
     }
 
-
     public org.sample.model.User getLoggedInUser() {
-		return (org.sample.model.User) userDao.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-	}
+        return (org.sample.model.User) userDao.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+    }
 
-	public Iterable<Advert> findAdsForUser(org.sample.model.User user) {
-		return adDao.findByUserId(user.getId());
-	}
+    public Iterable<Advert> findAdsForUser(org.sample.model.User user) {
+        return adDao.findByUserId(user.getId());
+    }
 
-	public void removeSearch(Long searchId) {
-		Search search = searchDao.findOne(searchId);
-		search.setUser(null);
-		
-		search = searchDao.save(search);
-	}
+    public void removeSearch(Long searchId) {
+        Search search = searchDao.findOne(searchId);
+        search.setUser(null);
 
-	public Long bookmark(BookmarkForm bookmarkForm) {
-		
-		Bookmark bookmark = new Bookmark();
-		bookmark.setAd(adDao.findById((long) Integer.parseInt(bookmarkForm.getAdNumber())));
-		bookmark.setUser(userDao.findByUsername(bookmarkForm.getUsername()));
-		
-		
-		return bookmarkDao.save(bookmark).getId();
-	}
+        search = searchDao.save(search);
+    }
 
-	public boolean checkBookmarked(Long id, org.sample.model.User user) {
-		
-		return (bookmarkDao.findByAdAndUser(adDao.findById(id),user)!=null)? true : false;
-	}
+    public Long bookmark(BookmarkForm bookmarkForm) {
 
-	public Object findBookmarkedAdsForUser(org.sample.model.User user) {
-		
-		Iterable<Bookmark> bookmarks = bookmarkDao.findByUser(user);
-		ArrayList<Advert> ads = new ArrayList<Advert>();
-		for(Bookmark bm : bookmarks)
-		{
-			ads.add(bm.getAd());
-		}
-		return ads;
-	}
+        Bookmark bookmark = new Bookmark();
+        bookmark.setAd(adDao.findById((long) Integer.parseInt(bookmarkForm.getAdNumber())));
+        bookmark.setUser(userDao.findByUsername(bookmarkForm.getUsername()));
 
-	public void deleteBookmark(String adid, String username) {
-		bookmarkDao.delete(bookmarkDao.findByAdAndUser(adDao.findById(Long.parseLong(adid)), userDao.findByUsername(username)));
+        return bookmarkDao.save(bookmark).getId();
+    }
 
-	}
-	
+    public boolean checkBookmarked(Long id, org.sample.model.User user) {
+
+        return (bookmarkDao.findByAdAndUser(adDao.findById(id), user) != null) ? true : false;
+    }
+
+    public Object findBookmarkedAdsForUser(org.sample.model.User user) {
+
+        Iterable<Bookmark> bookmarks = bookmarkDao.findByUser(user);
+        ArrayList<Advert> ads = new ArrayList<Advert>();
+        for (Bookmark bm : bookmarks) {
+            ads.add(bm.getAd());
+        }
+        return ads;
+    }
+
+    public void deleteBookmark(String adid, String username) {
+        bookmarkDao.delete(bookmarkDao.findByAdAndUser(adDao.findById(Long.parseLong(adid)), userDao.findByUsername(username)));
+
+    }
+
 }

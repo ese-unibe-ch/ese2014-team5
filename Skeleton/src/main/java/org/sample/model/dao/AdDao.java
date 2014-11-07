@@ -19,6 +19,7 @@ public interface AdDao extends JpaRepository<Advert, Long> {
 
     Advert findById(Long id);
 
+    
     //The completeSearchString for the hardInfos like price range, etc... , Beware, Values could be 0...
     @Query
     List<Advert> findByroomPriceBetween(int roomPriceMin, int roomPriceMax);
