@@ -106,33 +106,34 @@ public class IndexController {
         return model;
     }
 
-    @RequestMapping(value = "/addediting")
-    public ModelAndView editadd(@RequestParam("value") Long id) {
+    @RequestMapping(value = "/addediting", method = RequestMethod.GET)
+    public ModelAndView addediting(@RequestParam("value") Long id) {
         ModelAndView model = new ModelAndView("addediting");
+        //AdCreateForm addUpdateForm = new AdCreateForm();
+        model.addObject("addUpdateForm", new AdCreateForm());
         model.addObject("currentUser", sampleService.getLoggedInUser());
         model.addObject("currentAdd", sampleService.getAd(id));
-        model.addObject("addUpdateForm", new AdCreateForm());
-        //sampleService.updateAds(addUpdateForm, id);
-
+        //sampleService.updateAds(addUpdateForm, id)
         return model;
     }
 
-    @RequestMapping(value = "/updateadd", method = RequestMethod.POST) 
-    public ModelAndView updateAddForm(@Valid AdCreateForm addUpdateForm , BindingResult result, RedirectAttributes redirectAttributes, @RequestParam("value") Long id) {
+    @RequestMapping(value = "/addUpdate", method = RequestMethod.POST) 
+    public ModelAndView addUpdate(@Valid AdCreateForm addUpdateForm , BindingResult result, RedirectAttributes redirectAttributes) {
         ModelAndView model;
         if (!result.hasErrors()) {
             try {
-                sampleService.updateAds(addUpdateForm, id);
+//                Long id = Long.parseLong("1");
+//                sampleService.updateAds(addUpdateForm, id);
+                 model = new ModelAndView("proflie");
 //                model.addObject("currentUser", sampleService.getLoggedInUser());
-//                model.addObject("currentAdd", sampleService.getAd(id));
-                model = new ModelAndView("showad");
-                model.addObject("msg", "You've updated your add successfully.");
+//                model.addObject("showad");
+//                model.addObject("msg", "You've updated your add successfully.");
             } catch (InvalidAdException e) {
                 model = new ModelAndView("addediting");
                 model.addObject("page_error", e.getMessage());
             }
         } else {
-            model = new ModelAndView("index");
+            model = new ModelAndView("addediting");
         }
         return model;
     }

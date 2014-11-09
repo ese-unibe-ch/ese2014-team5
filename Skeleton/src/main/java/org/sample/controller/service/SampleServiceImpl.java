@@ -362,7 +362,7 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
     }
 
     @Transactional
-    public void updateAds(AdCreateForm updateForm, long id) {
+    public void updateAds(AdCreateForm updateForm, long id) throws InvalidAdException {
         /*Read in again all the values, difference to last time: */
         String street = updateForm.getStreet();
         String city = updateForm.getCity();
@@ -374,6 +374,65 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         String roomSize = updateForm.getRoomSize();
         String fromDate = updateForm.getFromDate();
         String numberOfPeople = updateForm.getNumberOfPeople();
+
+        
+        
+          SimpleDateFormat dateFormater = new SimpleDateFormat("MM/dd/yyyy");
+        Date todayDate = new Date();
+        Date fromDate2;
+
+        if (StringUtils.isEmpty(title)) {
+            throw new InvalidAdException("Title must not be empty" + title);   // throw exception
+        } else if (title.length() < 4) {
+            throw new InvalidAdException("Please enter a meaningfull Title ");   // throw exception
+        }
+
+        if (StringUtils.isEmpty(roomDesc)) {
+            throw new InvalidAdException("Room description must not be empty");   // throw exception
+        } else if (roomDesc.length() < 10) {
+            throw new InvalidAdException("Please enter more information in your Room Description");   // throw exception
+        }
+
+        if (StringUtils.isEmpty(peopleDesc)) {
+            throw new InvalidAdException("People description must not be empty");   // throw exception
+        } else if (peopleDesc.length() < 10) {
+            throw new InvalidAdException("Please enter more information in your People Description");   // throw exception
+        }
+
+        if (StringUtils.isEmpty(numberOfPeople)) {
+            throw new InvalidAdException("Number of people in the WG must be entered");  // throw exception
+        }
+
+        if (StringUtils.isEmpty(roomSize) || !isInteger(roomSize)) {
+            throw new InvalidAdException("Please enter a valid Room size");   // throw exception
+        }
+
+        if (StringUtils.isEmpty(fromDate)) {
+            throw new InvalidAdException("Date must not be empty");   // throw exception
+        }
+        if (fromDate.length() != 10) {
+            throw new InvalidAdException("Please enter the date correctly MM/dd/yyyy");   // throw exception
+        }
+        try {
+            fromDate2 = dateFormater.parse(fromDate);
+        } catch (ParseException e1) {
+            throw new InvalidAdException("Please enter the date correctly MM/dd/yyyy");   // throw exception
+        }
+        if (todayDate.compareTo(fromDate2) > 0) {
+            throw new InvalidAdException("Please enter a future date or today");   // throw exception
+        }
+
+        if (StringUtils.isEmpty(street)) {
+            throw new InvalidAdException("Street must not be empty");   // throw exception
+        }
+
+        if (StringUtils.isEmpty(city)) {
+            throw new InvalidAdException("City must not be empty");   // throw exception
+        }
+
+        if (StringUtils.isEmpty(plz) || !isInteger(plz) || (plz.length() < 4) || (plz.length() > 5)) {
+            throw new InvalidAdException("Please enter a valid postcode");   // throw exception
+        }
 
         Address address = new Address();
         address.setStreet(street);
@@ -407,7 +466,7 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         if (updateForm.getToDate() != null) {
             ad.setToDate(dateTo);
         }
-
+        if(updateForm.getFilenames() != null){
         for (String file : updateForm.getFilenames()) {
             Picture pic = new Picture();
             pic.setUrl(file);
@@ -419,6 +478,7 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
             address = addDao.save(address);
             ad = adDao.save(ad);
 
+        }
         }
 
     }
