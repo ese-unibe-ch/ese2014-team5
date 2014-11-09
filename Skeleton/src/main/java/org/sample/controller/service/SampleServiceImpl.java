@@ -638,15 +638,18 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 	 * @param id The id of the advert that causes new notifications for saved searches.
 	 */
 	public void createNewSearchNotifications(Long id) {
-		List<Integer> possibleSearchIDsForNotification = userDao.findPossibleSearchIDsForNotification();
-		for (Integer searchId : possibleSearchIDsForNotification) {
-			searchDao.findOne(searchId);
+		Advert advert = adDao.findOne(id);
+		List<org.sample.model.User> possibleUsersForSearchNotification = userDao.findPossibleUsersForSearchNotification();
+		for (org.sample.model.User user : possibleUsersForSearchNotification) {
+			Search search = searchDao.findOne(user.getSelectedSearch());
+			if(advert.getRoomPrice() > Integer.parseInt(search.getPriceFrom()) && 
+					advert.getRoomPrice() < Integer.parseInt(search.getPriceTo()) &&
+					advert.getRoomSize() > Integer.parseInt(search.getSizeFrom()) &&
+					advert.getRoomSize() < Integer.parseInt(search.getSizeTo())){
+				//Notification generieren
+			}
 		}
 		
-		List<Search> searchesToBeNotified = null;
-		for (Search search : searchesToBeNotified) {
-			new Notifies(); //TODO set Notifies-Parameters
-		}
 	}
 
 	public Object sendEnquiry(String enquirytext, String adid) {

@@ -15,8 +15,8 @@ public interface UserDao extends JpaRepository<User, Long> {
         @Query(value = "SELECT * FROM User WHERE selectedSearch NOT NULL", nativeQuery = true)
 		List<User> findAllWithSelectedSearch();
         
-        @Query(value = "SELECT selectedSearch FROM User WHERE selectedSearch NOT NULL;", nativeQuery = true)
-        List<Integer> findPossibleSearchIDsForNotification();
+        @Query(value = "SELECT * FROM User WHERE selectedSearch NOT NULL;", nativeQuery = true)
+        List<User> findPossibleUsersForSearchNotification();
 
 }
 

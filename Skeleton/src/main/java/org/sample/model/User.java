@@ -29,7 +29,7 @@ public class User
     private String email;
     private String username;
     private boolean enabled;
-    private Integer selectedSearch;
+    private Long selectedSearch;
     @OneToOne
 	private UserRole userRole;
 
@@ -100,11 +100,11 @@ public class User
 		this.username = username;
 	}
 
-	public Integer getSelectedSearch() {
+	public Long getSelectedSearch() {
 		return selectedSearch;
 	}
 
-	public void setSelectedSearch(Integer selectedSearch) {
+	public void setSelectedSearch(Long selectedSearch) {
 		this.selectedSearch = selectedSearch;
 	}
 
