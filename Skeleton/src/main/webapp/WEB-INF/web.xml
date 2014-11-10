@@ -17,10 +17,7 @@
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>  <!-- Dispatcher Servlet -->
         <init-param>
             <param-name>contextConfigLocation</param-name>
-            <param-value>
-            	/WEB-INF/config/springMVC.xml
-            	/WEB-INF/config/spring-database.xml
-            	</param-value>
+            <param-value>/WEB-INF/config/springMVC.xml</param-value>		<!-- Servlet config -->
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
