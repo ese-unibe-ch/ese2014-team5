@@ -639,17 +639,26 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 	 */
 	public void createNewSearchNotifications(Long id) {
 		Advert advert = adDao.findOne(id);
-		List<org.sample.model.User> possibleUsersForSearchNotification = userDao.findPossibleUsersForSearchNotification();
+		List<org.sample.model.User> possibleUsersForSearchNotification = userDao.findByselectedSearchGreaterThanEqual(Long.valueOf(1));
+		
 		for (org.sample.model.User user : possibleUsersForSearchNotification) {
 			Search search = searchDao.findOne(user.getSelectedSearch());
-			if(advert.getRoomPrice() > Integer.parseInt(search.getPriceFrom()) && 
-					advert.getRoomPrice() < Integer.parseInt(search.getPriceTo()) &&
-					advert.getRoomSize() > Integer.parseInt(search.getSizeFrom()) &&
-					advert.getRoomSize() < Integer.parseInt(search.getSizeTo())){
-				//Notification generieren
+			if(
+					( search.getPriceFrom() == "" || advert.getRoomPrice() >= Integer.parseInt(search.getPriceFrom()) ) && 
+					( search.getPriceTo() == "" || advert.getRoomPrice() <= Integer.parseInt(search.getPriceTo()) ) &&
+					( search.getSizeFrom() == "" || advert.getRoomSize() >= Integer.parseInt(search.getSizeFrom()) ) &&
+					( search.getSizeTo() == "" || advert.getRoomSize() <= Integer.parseInt(search.getSizeTo()) ) 
+			){
+				
+				Notifies newNotification = new Notifies();
+				newNotification.setSearch(search);
+				newNotification.setAd(advert);
+				newNotification.setToUser(getLoggedInUser());
+				newNotification.setDate(new Date());
+				newNotification.setSeen(0);
+				notifiesDao.save(newNotification);
 			}
 		}
-		
 	}
 
 	public Object sendEnquiry(String enquirytext, String adid) {

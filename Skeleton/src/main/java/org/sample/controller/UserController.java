@@ -71,7 +71,7 @@ public class UserController {
      * @param value The id of the search that has to be deleted from the user profile.
      */
     @RequestMapping(value = "/saved-searches")
-    public ModelAndView showSearches(@RequestParam(required = false) Long value, Integer filter) {
+    public ModelAndView showSearches(@RequestParam(required = false) Long value, Long filter) {
     	System.out.println(value);
 	    ModelAndView model = new ModelAndView("profilesearches");
 	    

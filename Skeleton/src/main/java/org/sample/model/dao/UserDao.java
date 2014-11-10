@@ -8,16 +8,16 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface UserDao extends JpaRepository<User, Long> {
 
+	@Query
 	User findByUsername(String username);
+    
+	@Query
+    User findByEmail(String email);
         
-        User findByEmail(String email);
-
-        @Query(value = "SELECT * FROM User WHERE selectedSearch NOT NULL", nativeQuery = true)
-		List<User> findAllWithSelectedSearch();
+//    @Query(value = "SELECT u FROM User u WHERE u.selectedSearch NOT NULL;", nativeQuery = true)
+//    List<User> findPossibleUsersForSearchNotification();
         
-        @Query(value = "SELECT * FROM User WHERE selectedSearch NOT NULL;", nativeQuery = true)
-        List<User> findPossibleUsersForSearchNotification();
+    @Query
+    List<User> findByselectedSearchGreaterThanEqual(Long search);
 
 }
-
-//"SELECT * FROM User INNER JOIN Customers ON Orders.CustomerID=Customers.CustomerID;"

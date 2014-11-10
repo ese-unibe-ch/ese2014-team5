@@ -257,7 +257,6 @@ public class IndexController {
             	model = new ModelAndView("showad");
             	model.addObject("ad", sampleService.getAd(id));
             	
-            	//Create notifications for searches
 				sampleService.createNewSearchNotifications(id);
             	
             } catch (InvalidAdException e) {
