@@ -6,43 +6,44 @@
 
 
 <c:import url="template/header.jsp" />
-
-<script type="text/javascript">
-	function open()
-	{
-		window.location.replace("/showad?value=1");
-	}
-	$(document).ready(function(){
-		$(document).on("click", "result", function(){
-			$(location).attr('href',"showad?value="+$(this).data("value"));
-		});
-		
-		<c:if test="${hasResults==1}" >
-		
-			$('html,body').animate({scrollTop: $("#resultTable").offset().top + 300},'slow');
-	
-		</c:if>
-		
-		$("#slider-range-price").slider('values',0,${minPrice}); // sets first handle (index 0) to 50
-		$("#slider-range-price").slider('values',1,${maxPrice}); // sets second handle (index 1) to 80
-		$( "#amountPrice" ).val( 	"CHF ${minPrice} - CHF ${maxPrice}"  );
-		$("#field-fromPrice").val(${minPrice});
-		$("#field-toPrice").val(${maxPrice});
-		
-		$("#slider-range-size").slider('values',0,${minSize}); // sets first handle (index 0) to 50
-		$("#slider-range-size").slider('values',1,${maxSize}); // sets second handle (index 1) to 80
-		$( "#amountSize" ).val(	"${minSize}m^2 - ${maxSize}m^2" );
-		$("#field-fromSize").val(${minSize});
-		$("#field-toSize").val(${maxSize});
-	
-	});
-</script>
 <script type="text/javascript"  src="js/bootstrap-datepicker.js"></script>
 <script type="text/javascript">
 
 var i = 1;
 
 $(document).ready(function() {
+	
+	$(document).on("click", "result", function(){
+		$(location).attr('href',"showad?value="+$(this).data("value"));
+	});
+	
+	<c:if test="${hasResults==1}" >
+	
+		$('html,body').animate({scrollTop: $("#resultTable").offset().top + 300},'slow');
+
+	</c:if>
+	
+	if(${maxPrice}==0)
+		maxPrice = 3000;
+	else
+		maxPrice = ${maxPrice};
+	if(${maxSize}==0)
+		maxSize = 200;
+	else
+		maxSize = ${maxSize};
+	
+	$("#slider-range-price").slider('values',0,0); // sets first handle (index 0) to 50
+	$("#slider-range-price").slider('values',1,maxPrice); // sets second handle (index 1) to 80
+	$( "#amountPrice" ).val( 	"CHF ${minPrice} - CHF " + maxPrice  );
+	$("#field-fromPrice").val(${minPrice});
+	$("#field-toPrice").val(maxPrice);
+	
+	$("#slider-range-size").slider('values',0,0); // sets first handle (index 0) to 50
+	$("#slider-range-size").slider('values',1,maxSize); // sets second handle (index 1) to 80
+	$( "#amountSize" ).val(	"${minSize}m^2 - " + maxSize +"m^2" );
+	$("#field-fromSize").val(${minSize});
+	$("#field-toSize").val(maxSize);
+	
     $("#add").click(function(){
     	$("#files").append("<div class=\"secfile\"> File to upload: <input type=\"file\" name=\"files["+ (i++) +"]\"><input type=\"button\" class=\"delete\" value=\"Delete\"></div>");
     });
@@ -77,6 +78,18 @@ $(document).ready(function() {
     }).on('changeDate', function(ev) {
       checkout.hide();
     }).data('datepicker');
+    
+    $("#advanced_check").change(function(){
+
+    	if(!$("#advanced_check").is(":checked"))
+    	{	
+    		$("#advanced").animate({height:'0px'},200);
+    	}
+    	else
+    	{
+    		$("#advanced").animate({height:'200px'},200);
+    	}
+    });
 });
 </script>
 
@@ -113,7 +126,7 @@ $(document).ready(function() {
              
             <label class="control-label" for="amountPrice">Price</label>
             <div class="controls">
-			 <input type="text" id="amountPrice" readonly style="border:0; color:#f6931f; font-weight:bold;">
+			 <input type="text" id="amountPrice" readonly style="border:0; color:#f6931f; font-weight:bold;" value="CHF ${minPrice} - CHF ${maxPrice}">
             	<div id="slider-range-price"></div>
             	<form:input type="hidden"  path="fromPrice" id="field-fromPrice" tabindex="2" maxlength="35" placeholder="CHF"/>
             	<form:input type="hidden" path="toPrice" id="field-toPrice" tabindex="2" maxlength="35" placeholder="CHF"/>
@@ -121,7 +134,7 @@ $(document).ready(function() {
             
             <label class="control-label" for="amountSize">Size</label>
             <div class="controls">
-				  <input type="text" id="amountSize" readonly style="border:0; color:#f6931f; font-weight:bold;">
+				  <input type="text" id="amountSize" readonly style="border:0; color:#f6931f; font-weight:bold;" value="${minSize}m^2 - ${maxSize}m^2">
             	<div id="slider-range-size"></div>
             	<form:input type="hidden"  path="fromSize" id="field-fromSize" tabindex="2" maxlength="35" placeholder="CHF"/>
             	<form:input type="hidden" path="toSize" id="field-toSize" tabindex="2" maxlength="35" placeholder="CHF"/>
@@ -133,47 +146,46 @@ $(document).ready(function() {
                 <form:input path="nearCity" id="field-nearCity" tabindex="2" maxlength="35" placeholder="e.g. Bern"/>
             </div>
             
+
+            <label class="control-label">Advanced Search</label>
+            <div class="controls">
+            	<input type="checkbox" id="advanced_check"/>
+            </div><br />
+            <div style="float:left;"></div>
+            <div id="advanced" style="height: 0px; overflow:hidden;"> 
             
-                            <c:set var="numberOfPeopleErrors"><form:errors path="numberOfPeople"/></c:set>
-        <div class="control-group<c:if test="${not empty numberOfPeopleErrors}"> error</c:if>">
-            <label class="control-label" for="field-numberOfPeople">Persons</label>
+          
+            <label class="control-label" for="field-numberOfPeople">Number of People</label>
             <div class="controls">
                 <form:input path="numberOfPeople" id="field-numberOfPeople"  tabindex="2" maxlength="150" placeholder="e.g. 4"/>
-                <form:errors path="numberOfPeople" cssClass="help-inline" element="span"/>
             </div>
-        </div>
- 
-
-                    <c:set var="fromDateErrors"><form:errors path="fromDate"/></c:set>
-        <div class="control-group<c:if test="${not empty fromDateErrors}"> error</c:if>">
-            <label class="control-label" for="field-fromDate">from</label>
+   			<br />
+            <label class="control-label " for="field-fromDate">from</label>
             <div class="controls">
-                <form:input path="fromDate" id="field-fromDate" class="span2" tabindex="2" maxlength="150" placeholder="e.g. 02/23/14"/>
-                <form:errors path="fromDate" cssClass="help-inline" element="span"/>
+                <form:input path="fromDate" id="field-fromDate" class="span2" tabindex="2" maxlength="150" placeholder="e.g. 02/23/14"/>  
             </div> 
-        </div>
-        
-        <c:set var="toDateErrors"><form:errors path="toDate"/></c:set>
-        <div class="control-group<c:if test="${not empty toDateErrors}"> error</c:if>">
-            <label class="control-label" for="field-toDate">till</label>
+
+            <label class="control-label " for="field-toDate">till</label>
             <div class="controls">
                 <form:input path="toDate" id="field-toDate" class="span2" tabindex="2" maxlength="150" placeholder="e.g. 02/23/14"/> or leave empty for undefined
-                <form:errors path="toDate" cssClass="help-inline" element="span"/>
             </div>
-        </div>
+  
+            <div class="control-label" >Include favorites </div>
+            <div class="controls"><form:checkbox path="favorites" id="field-favorites"/></div>
 
+		 </div>
             
             
-            <div class="controlbox">
             
-                Include favorites<form:checkbox path="favorites" id="field-favorites"/>
-            </div>
+            
             
             <div class="form-actions">
             	<button type="submit" name="action" value="blist" class="btn btn-primary">Show List</button>
             	<button type="submit" name="action" value="bmap" class="btn btn-primary">Show Map</button>
             	<sec:authorize access="hasRole('ROLE_USER')">
-            		<button type="submit" name="action" value="bsave" class="btn btn-primary">Save Search</button>
+            		<c:if test="${hasResults ==1}">
+            			<button type="submit" name="action" value="bsave" class="btn btn-primary">Save Search</button>
+            		</c:if>
 				</sec:authorize>
         	</div>
         </fieldset>
@@ -185,14 +197,14 @@ $(document).ready(function() {
 	    <div id="results" style="width:100%">
 			<c:forEach items="${searchResults}" var="ad">
 		     
-		    <div class="result" style="width:100%;height:150px;padding:10px;" onclick="javascript:location.href='showad?value=${ad.id}'">
+		    <div class="result" style="width:100%;height:100px;padding:10px;" onclick="javascript:location.href='showad?value=${ad.id}'">
 				<c:forEach items="${ad.pictures}" varStatus="loopCount" var="pic">
-				<c:if test="${loopCount.count eq 1}"><img class="gallery" src="<c:url value="img/${pic.url}"/>"/></c:if>
+				<c:if test="${loopCount.count eq 1}">
+					<div style="float:left;width:150px;"><img class="gallery" src="<c:url value="img/${pic.url}"/>"/></div>
+				</c:if>
 				</c:forEach>
-				<div class="resultinfo">
+				<div class="resultinfo" style="margin-left:10px;float:left">
 					<b style="font-family:Arial;font-size:14pt;">${ad.title}</b>
-					<br />
-					${ad.roomDesc}
 					<br />
 					Price: ${ad.roomPrice}CHF, Size: ${ad.roomSize}m&sup2;
 				</div>

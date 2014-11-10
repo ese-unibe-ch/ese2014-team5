@@ -33,6 +33,18 @@
     
 
 	<script type="text/javascript">
+	
+	$(document).mouseup(function (e)
+	{
+	    var container = $("#notifications");
+
+	    if (!container.is(e.target) // if the target of the click isn't the container...
+	        && container.has(e.target).length === 0) // ... nor a descendant of the container
+	    {
+	        container.hide(200);
+	    }
+	});
+	
 	$(document).ready(function() {
 	
 		  $(document).on("click", ".close", function(){
@@ -86,9 +98,42 @@
 			    $( "#field-toSize" ).val($( "#slider-range-size" ).slider( "values", 1 ));
 			    /*if($( "#amountSize" ).val()==0)
 				    $( "#amountSize" ).val(	"10m^2 - 180m^2" );*/
-		
+
 	});
 
+	function toggle()
+	{
+		$("#notifications").toggle(200);
+	}
+	
+	
+
+	function setread(id,url)
+	{
+		$.get( "setread?noteid=" + id, function() {
+			
+		});
+		if(url!="")
+			window.location.href=url;
+	}
+	
+	$.getJSON( "getnotifications.htm", function( data ) {
+	  	//$("#notifications").text(data);
+	  	
+	  	var items = [];
+	  	
+	  	data["Notifications"].forEach(function(entry) {
+	  		if(entry.read>=0)
+		  		items.push( "<li id='" + entry.id + "'><a onclick='setread(" + entry.id + ", \""+ entry.url +"\")'>" + entry.text + "</a></li>" );
+	  	});
+	   
+	    $( "<ul/>", {
+	      "class": "my-new-list",
+	      html: items.join( "" )
+	    }).appendTo( "#notifications" );
+	    
+	 });
+   
 	</script>
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -117,14 +162,23 @@
 			<ul class="menu">
 				<li class="active"><a href="index">Home</a></li> |
 				<sec:authorize access="hasRole('ROLE_USER')">
+<!-- 					<li class="menu-item"> -->
+<!-- 						<a href="#">Profile</a> -->
+<!-- 						<ul class="menu"> -->
+<%-- 							<li><a href="profile?name=<%=SecurityContextHolder.getContext().getAuthentication().getName()%>"><span id="username">Profile</span></a></li> | --%>
+<!-- 							<li><a href="saved-searches"><span id="username">Saved Searches</span></a></li> | -->
+<!-- 							<li><a href="my-ads">My Ads</a></li> -->
+<!-- 						</ul> -->
+<!-- 					</li> -->
 				    <li><a href="bookmarks">Bookmarks</a></li> |
 					<li><a href="adcreation">create an Ad</a></li> |
 					<li><a href="profile?name=<%=SecurityContextHolder.getContext().getAuthentication().getName()%>"><span id="username">Profile</span></a></li> |
 					<li><a href="saved-searches"><span id="username">Saved Searches</span></a></li> |
 					<li><a href="my-ads">My Ads</a></li> |
 					<li><c:if test="${pageContext.request.userPrincipal.name != null}">
-							<a onclick="javascript:logout();">Logout</a>
+							<a style="cursor:pointer;" onclick="javascript:logout();">Logout</a>
 						</c:if></li>
+					
 				</sec:authorize>
 				<sec:authorize access="!hasRole('ROLE_USER')">
 					<li><a href="login">login</a></li> |
@@ -132,9 +186,23 @@
 				</sec:authorize>
 				<div class="clear"></div>
 			</ul>
-
+			<!--<form class="style-1 drp_dwn">
+				<div class="row">
+					<div class="grid_3 columns">
+						<select class="custom-select" id="select-1" style="display: none;">
+							<c:forEach items="${notifications}" varStatus="loopCount" var="notif">
+								<option>${notif.text }</option>
+							</c:forEach>
+							<div style="display:none"><option selected="selected"> </option></div>
+						</select>
+					</div>		
+				</div>		
+			</form>-->
+			
 		</div>
+		
 		<div class="clear"></div>
+		
 		<div class="top-nav">
 		<nav class="clearfix">
 				<ul>
@@ -143,7 +211,9 @@
 					<li><a href="bookmarks">Bookmarks</a></li>
 					<li><a href="adcreation">create an Ad</a></li>
 					<li><a href="profile?name=<%=SecurityContextHolder.getContext().getAuthentication().getName()%>"><span id="username"><%=SecurityContextHolder.getContext().getAuthentication().getName().toLowerCase()%></span></a></li>
-					<li><a onclick="javascript:logout();">Logout</a></li>
+					<li><a href="saved-searches"><span id="username">Saved Searches</span></a></li>
+					<li><a href="my-ads">My Ads</a></li>
+					<li><a style="cursor:pointer;" onclick="javascript:logout();">Logout</a></li>
 				</sec:authorize>
 				<sec:authorize access="!hasRole('ROLE_USER')">
 					<li><a href="login">login</a></li>
@@ -154,15 +224,22 @@
 				<a href="#" id="pull">Menu</a>
 			</nav>
 		</div>
+		
 	</div>
 </div>
+<sec:authorize access="hasRole('ROLE_USER')">
+<div id="notifybox" onclick="toggle()">
+	Notifications
+	<div id="notifications" style="display:none;"></div>
+</div>
+</sec:authorize>
 </div>
 <script type="text/javascript">
 function logout() {
 	document.getElementById("logoutForm").submit();
 }
 </script>
-<div class="topbox"><img src="web/images/slum.jpg"/></div>
+<div class="topbox"><img src="web/images/slum.jpg" onclick="getNotes()"/></div>
 
 <div id="container">
 <div class="wrap">

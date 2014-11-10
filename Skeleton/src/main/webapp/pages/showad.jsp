@@ -6,10 +6,45 @@
 
 
 <c:import url="template/header.jsp" />
+<script type="text/javascript">
 
+$(document).ready(function(){
+	$("#enquiryFormDiv").hide();
+	$("#showEnquiryForm").click(function(){
+		$("#enquiryFormDiv").show();
+        
+
+	});
+	
+});
+
+</script>
 <div class="booking_room">
-    <h4>${ad.title}</h4>
-
+			<h4>${ad.title}</h4>
+			
+		</div>
+		<div class="reservation">
+<c:if test="${msg != null }">
+	<div class="alert alert-success">
+	    <button type="button" class="close" style="left:0;" data-dismiss="alert">&times;</button>
+<!-- 	    <h4>Success!</h4> -->
+	        ${msg}
+	</div>
+</c:if>
+<c:if test="${page_error != null }">
+	<div class="alert alert-error">
+	    <button type="button" class="close" style="left:0;" data-dismiss="alert">&times;</button>
+	    <h4>Error!</h4>
+	        ${page_error}
+	</div>
+</c:if>
+<fmt:formatDate value="${ad.fromDate}" var="dateFrom" pattern="MM/dd/yyyy" />
+	<fmt:formatDate value="${ad.toDate}" var="dateTo" pattern="MM/dd/yyyy" />
+<div class="fotorama">
+ <c:forEach items="${ad.pictures}" var="pic">
+		<img style="float:left;" class="gallery" src="<c:url value="img/${pic.url}"/>"/>
+		<br />
+	</c:forEach>
 </div>
 <div class="reservation">
 
