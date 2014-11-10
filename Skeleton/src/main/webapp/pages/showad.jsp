@@ -57,9 +57,11 @@
         </iframe>
     </div>
 
-</div>
-</div>
-<div class="c</div>
+	</div>
+		</div>
+		<div class="clear"></div>
+		</div>
+	
 
 
 

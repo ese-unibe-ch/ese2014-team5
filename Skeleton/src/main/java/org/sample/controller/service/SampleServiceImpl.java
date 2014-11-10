@@ -362,7 +362,7 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
     }
 
     @Transactional
-    public void updateAds(AdCreateForm updateForm, long id) throws InvalidAdException {
+    public void updateAd(AdCreateForm updateForm, long id) throws InvalidAdException {
         /*Read in again all the values, difference to last time: */
         String street = updateForm.getStreet();
         String city = updateForm.getCity();
@@ -377,7 +377,7 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 
         
         
-          SimpleDateFormat dateFormater = new SimpleDateFormat("MM/dd/yyyy");
+        SimpleDateFormat dateFormater = new SimpleDateFormat("MM/dd/yyyy");
         Date todayDate = new Date();
         Date fromDate2;
 
@@ -438,8 +438,13 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         address.setStreet(street);
         address.setCity(city);
         address.setPlz(updateForm.getPlz());
+        address = addDao.save(address);
 
         Advert ad = getAd(id);
+        if(ad==null)
+        {
+        	throw new InvalidAdException("AD ID IS INCORRECT!");
+        }
         ad.setAddress(address);
         ad.setTitle(updateForm.getTitle());
         ad.setPeopleDesc(updateForm.getPeopleDesc());
@@ -474,12 +479,10 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
             ad.addPicture(pic);
 
             pic = pictureDao.save(pic);
-
-            address = addDao.save(address);
-            ad = adDao.save(ad);
-
         }
         }
+        ad = adDao.save(ad);
+        
 
     }
 

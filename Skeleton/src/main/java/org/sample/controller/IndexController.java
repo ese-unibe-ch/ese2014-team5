@@ -3,6 +3,7 @@ package org.sample.controller;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -110,21 +111,32 @@ public class IndexController {
     public ModelAndView addediting(@RequestParam("value") Long id) {
         ModelAndView model = new ModelAndView("addediting");
         //AdCreateForm addUpdateForm = new AdCreateForm();
-        model.addObject("addUpdateForm", new AdCreateForm());
+        model.addObject("adCreateForm", new AdCreateForm());
         model.addObject("currentUser", sampleService.getLoggedInUser());
         model.addObject("currentAdd", sampleService.getAd(id));
+        
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+        Advert ad = sampleService.getAd(id);
+        try {
+        	model.addObject("fromDate", formatter.format(ad.getFromDate()));
+        	model.addObject("toDate", formatter.format(ad.getToDate()));
+        }catch(Exception e)
+        {
+        	
+        }
+        model.addObject("idstring",id);
         //sampleService.updateAds(addUpdateForm, id)
         return model;
     }
 
-    @RequestMapping(value = "/addUpdate", method = RequestMethod.POST) 
-    public ModelAndView addUpdate(@Valid AdCreateForm addUpdateForm , BindingResult result, RedirectAttributes redirectAttributes) {
+    @RequestMapping(value = "/addUpdate") 
+    public ModelAndView addUpdate(@Valid AdCreateForm adCreateForm , @RequestParam("id") String idstring, BindingResult result, RedirectAttributes redirectAttributes) {
         ModelAndView model;
         if (!result.hasErrors()) {
             try {
-//                Long id = Long.parseLong("1");
-//                sampleService.updateAds(addUpdateForm, id);
-                 model = new ModelAndView("proflie");
+                Long id = Long.parseLong(idstring);
+                sampleService.updateAd(adCreateForm,id);
+                 model = new ModelAndView("profile");
 //                model.addObject("currentUser", sampleService.getLoggedInUser());
 //                model.addObject("showad");
 //                model.addObject("msg", "You've updated your add successfully.");

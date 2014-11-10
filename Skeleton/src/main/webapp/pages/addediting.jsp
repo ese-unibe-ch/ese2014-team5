@@ -51,8 +51,7 @@
 
 <div class="reservation">
 
-    <fmt:formatDate value="${ad.fromDate}" var="dateFrom" pattern="MM/dd/yyyy" />
-    <fmt:formatDate value="${ad.toDate}" var="dateTo" pattern="MM/dd/yyyy" />
+   
 
 
     <c:if test="${page_error != null }">
@@ -65,10 +64,10 @@
 
 
 
-    <form:form method="post" modelAttribute="addUpdateForm" action="addUpdate" id="addUpdateForm" cssClass="form-horizontal"
+    <form:form method="post" modelAttribute="adCreateForm" action="addUpdate?id=${idstring }" id="addUpdateForm" cssClass="form-horizontal"
                autocomplete="off">
 
-        <fieldset>addediting
+        <fieldset>
             <legend>General Info</legend>
 
             <c:set var="titleErrors"><form:errors path="title"/></c:set>
@@ -84,7 +83,7 @@
             <div class="control-group<c:if test="${not empty roomDescErrors}"> error</c:if>">
                     <label class="control-label" for="field-roomDesc">Room Description</label>
                     <div class="controls">
-                    <form:textarea path="roomDesc" id="field-roomDesc" width="350px" style="resize:vertical;" tabindex="2" maxlength="500" placeholder="${currentAdd.roomDesc}"/>
+                    <textarea name="roomDesc" id="field-roomDesc" width="350px" style="resize:vertical;" tabindex="2" maxlength="500">${currentAdd.roomDesc}</textarea>
                     <form:errors path="roomDesc" cssClass="help-inline" element="span"/>
                 </div>
             </div>
@@ -93,7 +92,7 @@
             <div class="control-group<c:if test="${not empty peopleDescErrors}"> error</c:if>">
                     <label class="control-label" for="field-peopleDesc">People Description</label>
                     <div class="controls">
-                    <form:textarea path="peopleDesc" id="field-peopleDesc" rows="6" width="350px" style="resize:vertical;" tabindex="2" maxlength="500" placeholder="${currentAdd.peopleDesc}"/>
+                    <textarea name="peopleDesc" id="field-peopleDesc" rows="6" width="350px" style="resize:vertical;" tabindex="2" maxlength="500">${currentAdd.peopleDesc}</textarea>
                     <form:errors path="peopleDesc" cssClass="help-inline" element="span"/>
                 </div>
             </div>
@@ -131,22 +130,21 @@
             <div class="control-group<c:if test="${not empty fromDateErrors}"> error</c:if>">
                     <label class="control-label" for="field-fromDate">from</label>
                     <div class="controls">
-                    <form:input path="fromDate" id="field-fromDate" class="span2" tabindex="2" maxlength="150" placeholder="${dateFrom}"/>
+                    <form:input path="fromDate" id="field-fromDate" class="span2" tabindex="2" maxlength="150" value="${fromDate}"/>
                     <form:errors path="fromDate" cssClass="help-inline" element="span"/>
-                </div>        <legend>Availability</legend>
+                </div>      
             </div>
 
             <c:set var="toDateErrors"><form:errors path="toDate"/></c:set>
             <div class="control-group<c:if test="${not empty toDateErrors}"> error</c:if>">
                     <label class="control-label" for="field-toDate">till</label>
                     <div class="controls">
-                    <form:input path="toDate" id="field-toDate" class="span2" tabindex="2" maxlength="150" placeholder="${dateTo}"/> or leave empty for undefined
+                    <form:input path="toDate" id="field-toDate" class="span2" tabindex="2" maxlength="150" value="${toDate}"/> or leave empty for undefined
                     <form:errors path="toDate" cssClass="help-inline" element="span"/>
                 </div>
             </div>
             <%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
             <form:input type="hidden" id="field-username" path="username" value="<%=SecurityContextHolder.getContext().getAuthentication().getName()%>"/>
-
             <style type="text/css">
                 #address_left {
                     width: 50%;
@@ -245,15 +243,16 @@
 
             <div class="form-actions">
                 <button type="submit" class="btn btn-primary">Change</button>
-                <button type="button" class="btn" onclick="javascript:location.href = 'showad?value=${currentAdd.id}'">Cancel</button>
+                <button type="button" class="btn" onclick="javascript:location.href='showad?value=${currentAdd.id}'">Cancel</button>
             </div>
         </fieldset>
     </form:form>
-</div>
 
 
-</div>
-<div class="clear"></div>
-</div>
+	</div>
+		</div>
+		<div class="clear"></div>
+		</div>
+	
 
 <c:import url="template/footer.jsp" />
