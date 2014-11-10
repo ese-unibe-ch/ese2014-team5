@@ -9,6 +9,14 @@
 			
 		</div>
 		<div class="reservation">
+		
+		<c:if test="${message != null }">
+	<div class="alert alert-error">
+	    <button type="button" class="close" style="left:0;" data-dismiss="alert">&times;</button>
+	    <h4>Error!</h4>
+	        ${message}
+	</div>
+</c:if>
 
 	<form:form class="login-form" action="j_spring_security_check" method="POST" >
 		<fieldset>
