@@ -129,7 +129,7 @@ public class UserController {
 	
 	@RequestMapping(value = "/login/failure")
  	public String loginFailure() {
-		String message = "Login Failure!";
+		String message = "User does not exist or password is incorrect!";
 		return "redirect:/login?message="+message;
 	}
 	

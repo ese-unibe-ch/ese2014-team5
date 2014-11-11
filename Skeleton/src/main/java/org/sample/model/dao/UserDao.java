@@ -13,10 +13,7 @@ public interface UserDao extends JpaRepository<User, Long> {
     
 	@Query
     User findByEmail(String email);
-        
-//    @Query(value = "SELECT u FROM User u WHERE u.selectedSearch NOT NULL;", nativeQuery = true)
-//    List<User> findPossibleUsersForSearchNotification();
-        
+    
     @Query
     List<User> findByselectedSearchGreaterThanEqual(Long search);
 
