@@ -695,6 +695,7 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
     public void removeSearch(Long searchId) {
         Search search = searchDao.findOne(searchId);
         search.setUser(null);
+    }
 
 	public Long bookmark(BookmarkForm bookmarkForm) {
 		
