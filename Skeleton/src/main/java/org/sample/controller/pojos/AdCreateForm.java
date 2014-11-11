@@ -8,7 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class AdCreateForm {
 
-    //private Long id;    
+    private Long id;    
     private String title;
     private String roomDesc;
     private String peopleDesc;
@@ -28,6 +28,7 @@ public class AdCreateForm {
     private List<MultipartFile> files;
     private List<String> filenames;
 
+    
     public String getRoomDesc() {
         return roomDesc;
     }

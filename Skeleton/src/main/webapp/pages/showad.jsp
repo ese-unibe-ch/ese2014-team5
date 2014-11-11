@@ -46,51 +46,59 @@ $(document).ready(function(){
 		<br />
 	</c:forEach>
 </div>
-  
-	<br />
-  <ul style="clear:left;">
-  <li>Room: ${ad.roomDesc }</li>
-  <li>People: ${ad.peopleDesc }</li>
-  <li>Number of People: ${ad.numberOfPeople} </li>
-  <li>Size: ${ad.roomSize }m&sup2;</li>
-  <li>Available from: ${dateFrom } to: ${dateTo } </li>
-  <li>Address: ${ad.address.street }, ${ad.address.plz } ${ad.address.city }</li>
-  </ul>
-  
-  
-  <%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
-  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-	  <c:if test="${ad.user.username!=currentUser.username && currentUser.username!=null && bookmarked!=1}" >
-		  <form:form action="showad?value=${ad.id }" modelAttribute="bookmarkForm" id="bookmarkForm" method="post">
-		  	<form:input path="username" type="hidden" id="field-username" value="${currentUser.username }" />
-		  	<form:input path="adNumber" type="hidden" id="field-adNumber" value="${ad.id }"/>
-		  	<button type="submit" value="Bookmark">Bookmark</button>
-		  </form:form>
-	  </c:if>
+<div class="reservation">
 
-<br />
-	<div>
-	<c:if test="${ad.user.username!=currentUser.username && currentUser.username!=null && sentenquiry!=1}" >
-	  <button id="showEnquiryForm">Send Enquiry</button>
-	  <div id="enquiryFormDiv">
-		<form:form action="sendenquiry" id="enquiryForm" method="post">
-		  	<textarea name="enquirytext" placeholder="e.g. I'd like to visit your room" rows="6" width="350px" style="resize:vertical;" tabindex="2" maxlength="500"/></textarea>
-		  	<input type="hidden" name="adid" value="${ad.id }" />
-		  	<button type="submit">Submit</button>
-		  </form:form>
-	  </div>
-	  </c:if>
+    <fmt:formatDate value="${ad.fromDate}" var="dateFrom" pattern="MM/dd/yyyy" />
+    <fmt:formatDate value="${ad.toDate}" var="dateTo" pattern="MM/dd/yyyy" />
+    <div class="fotorama">
+        <c:forEach items="${ad.pictures}" var="pic">
+            <img style="float:left;" class="gallery" src="<c:url value="img/${pic.url}"/>"/>
+            <br />
+        </c:forEach>
+    </div>
+
+    <br />
+    <ul style="clear:left;">
+        <li>Room: ${ad.roomDesc }</li>
+        <li>People: ${ad.peopleDesc }</li>
+        <li>Number of People: ${ad.numberOfPeople} </li>
+        <li>Size: ${ad.roomSize }m&sup2;</li>
+        <li>Available from: ${dateFrom } to: ${dateTo } </li>
+        <li>Address: ${ad.address.street }, ${ad.address.plz } ${ad.address.city }</li>
+
+    </ul>
+        
+<div class="reservation">
+    <button type="submit" onclick="location.href = 'addediting?value=${ad.id}'" class="btn btn-primary">Edit add</button>
+    </div>
+
+    <%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+    <c:if test="${ad.user.username!=currentUser.username && currentUser.username!=null && bookmarked!=1}" >
+        <form:form action="showad?value=${ad.id }" modelAttribute="bookmarkForm" id="bookmarkForm" method="post">
+            <form:input path="username" type="hidden" id="field-username" value="${currentUser.username }" />
+            <form:input path="adNumber" type="hidden" id="field-adNumber" value="${ad.id }"/>
+            <button type="submit" value="Bookmark">Bookmark</button> 
+        </form:form>
+
+
+
+    </c:if>
+
+
+    <div width="100%">
+        <iframe width="100%" height="350px" 
+                src="http://maps.google.de/maps?hl=de&q=${ad.address.street }, ${ad.address.plz } ${ad.address.city }&ie=UTF8&t=&z=17&iwloc=B&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0">
+        </iframe>
+    </div>
+
 	</div>
-	<div width="100%">
-		<iframe width="100%" height="350px" 
-		src="http://maps.google.de/maps?hl=de&q=${ad.address.street }, ${ad.address.plz } ${ad.address.city }&ie=UTF8&t=&z=17&iwloc=B&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0">
-		</iframe>
-	</div>
-  
-        </div>
 		</div>
 		<div class="clear"></div>
 		</div>
+	
 
 
-<c:import url="template/footer.jsp" />
+
+
+     <c:import url="template/footer.jsp" />

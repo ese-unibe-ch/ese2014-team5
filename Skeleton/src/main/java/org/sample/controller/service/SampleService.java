@@ -110,12 +110,9 @@ public interface SampleService {
 	 * @param username
 	 */
 	public void deleteBookmark(String adid, String username);
-	
-	/**
-	 * Retrieves all notifications for a given user
-	 * @param user
-	 * @return Iterable<Notifes> - List of all notifications for given user
-	 */
+        
+    public void updateAd(AdCreateForm updateForm, long id);
+
 	public Object findNotificationsForUser(User user);
 	
 	/**

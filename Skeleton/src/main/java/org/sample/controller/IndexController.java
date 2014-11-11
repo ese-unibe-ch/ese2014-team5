@@ -17,6 +17,8 @@ import org.sample.controller.pojos.SearchForm;
 import org.sample.controller.service.SampleService;
 import org.sample.exceptions.InvalidAdException;
 import org.sample.exceptions.InvalidSearchException;
+import org.sample.model.Advert;
+import org.sample.model.User;
 import org.sample.model.Enquiry;
 import org.sample.model.Notifies;
 import org.sample.model.dao.NotifiesDao;
@@ -37,16 +39,16 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class IndexController {
 
-	@Autowired
-	ServletContext servletContext;
+    @Autowired
+    ServletContext servletContext;
     @Autowired
     SampleService sampleService;
     @Autowired
     UserDao userDao;
-    
+
     @RequestMapping(value = "/siteowner", method = RequestMethod.GET)
     public ModelAndView siteowner() {
-    	ModelAndView model = new ModelAndView("siteowner");    
+        ModelAndView model = new ModelAndView("siteowner");
         return model;
     }
     
@@ -136,9 +138,9 @@ public class IndexController {
 		model.addObject("maxSize",searchForm.getToSize());
     	return model;
     }
-    
+
     /*Core of the page, starting point,search and search output in one
-    * is also containing an extended version of this search and a map version of the search */
+     * is also containing an extended version of this search and a map version of the search */
     @RequestMapping(value = "/index")
     public ModelAndView index(@Valid SearchForm searchForm, @RequestParam(required = false) String action, BindingResult result, RedirectAttributes redirectAttributes) {
 
@@ -187,14 +189,57 @@ public class IndexController {
 		
         return model;
     }
-    
+
     @RequestMapping(value = "/adcreation", method = RequestMethod.GET)
     public ModelAndView adcreation() {
-    	ModelAndView model = new ModelAndView("adcreation");
-    	model.addObject("adCreationForm", new AdCreateForm());    	
+        ModelAndView model = new ModelAndView("adcreation");
+        model.addObject("adCreationForm", new AdCreateForm());
         return model;
     }
-    
+
+    @RequestMapping(value = "/addediting", method = RequestMethod.GET)
+    public ModelAndView addediting(@RequestParam("value") Long id) {
+        ModelAndView model = new ModelAndView("addediting");
+        //AdCreateForm addUpdateForm = new AdCreateForm();
+        model.addObject("adCreateForm", new AdCreateForm());
+        model.addObject("currentUser", sampleService.getLoggedInUser());
+        model.addObject("currentAdd", sampleService.getAd(id));
+        
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+        Advert ad = sampleService.getAd(id);
+        try {
+        	model.addObject("fromDate", formatter.format(ad.getFromDate()));
+        	model.addObject("toDate", formatter.format(ad.getToDate()));
+        }catch(Exception e)
+        {
+        	
+        }
+        model.addObject("idstring",id);
+        //sampleService.updateAds(addUpdateForm, id)
+        return model;
+    }
+
+    @RequestMapping(value = "/addUpdate") 
+    public ModelAndView addUpdate(@Valid AdCreateForm adCreateForm , @RequestParam("id") String idstring, BindingResult result, RedirectAttributes redirectAttributes) {
+        ModelAndView model;
+        if (!result.hasErrors()) {
+            try {
+                Long id = Long.parseLong(idstring);
+                sampleService.updateAd(adCreateForm,id);
+                 model = new ModelAndView("profile");
+//                model.addObject("currentUser", sampleService.getLoggedInUser());
+//                model.addObject("showad");
+//                model.addObject("msg", "You've updated your add successfully.");
+            } catch (InvalidAdException e) {
+                model = new ModelAndView("addediting");
+                model.addObject("page_error", e.getMessage());
+            }
+        } else {
+            model = new ModelAndView("addediting");
+        }
+        return model;
+    }
+
     @RequestMapping(value = "/showad")
     public ModelAndView showad(@Valid BookmarkForm bookmarkForm, @RequestParam("value") Long id, BindingResult result, RedirectAttributes redirectAttributes) {
     	ModelAndView model = new ModelAndView("showad");
@@ -218,56 +263,56 @@ public class IndexController {
     	
         return model;
     }
-    
+
     @RequestMapping(value = "/newad", method = RequestMethod.POST)
     public ModelAndView createAd(@Valid AdCreateForm adCreationForm, BindingResult result, RedirectAttributes redirectAttributes) {
-    	ModelAndView model;    	
-    	if (!result.hasErrors()) {
+        ModelAndView model;
+        if (!result.hasErrors()) {
             try {
-            	
-            	for (int i = 0; i < adCreationForm.getFiles().size(); i++) {
-        			MultipartFile file = adCreationForm.getFiles().get(i);
-        			try {
-        				byte[] bytes = file.getBytes();
 
-        				// Creating the directory to store file
-        				 String rootPath = servletContext.getRealPath("/");//null; // PLACE THE RIGHT PATH HERE
-        				File dir = new File(rootPath + "/img");
-        				if (!dir.exists())
-        					dir.mkdirs();
+                for (int i = 0; i < adCreationForm.getFiles().size(); i++) {
+                    MultipartFile file = adCreationForm.getFiles().get(i);
+                    try {
+                        byte[] bytes = file.getBytes();
 
-        				String filename =  System.currentTimeMillis() + "_" + file.getOriginalFilename();
-        				
-        				// Create the file on server
-        				File serverFile = new File(dir.getAbsolutePath()
-        						+ File.separator + filename);
-        				BufferedOutputStream stream = new BufferedOutputStream(
-        						new FileOutputStream(serverFile));
-        				stream.write(bytes);
-        				stream.close();
-        				
-        				adCreationForm.addFile(filename);
-        			} catch (Exception e) {
-        				System.out.println("No files selected.");
-        			}
-        		}
-            	
-            	Long id = sampleService.saveFromAd(adCreationForm);
-            	model = new ModelAndView("showad");
-            	model.addObject("ad", sampleService.getAd(id)); 
+                        // Creating the directory to store file
+                        String rootPath = servletContext.getRealPath("/");//null; // PLACE THE RIGHT PATH HERE
+                        File dir = new File(rootPath + "/img");
+                        if (!dir.exists()) {
+                            dir.mkdirs();
+                        }
+
+                        String filename = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+
+                        // Create the file on server
+                        File serverFile = new File(dir.getAbsolutePath()
+                                + File.separator + filename);
+                        BufferedOutputStream stream = new BufferedOutputStream(
+                                new FileOutputStream(serverFile));
+                        stream.write(bytes);
+                        stream.close();
+
+                        adCreationForm.addFile(filename);
+                    } catch (Exception e) {
+                        System.out.println("No files selected.");
+                    }
+                }
+
+                Long id = sampleService.saveFromAd(adCreationForm);
+                model = new ModelAndView("showad");
+                model.addObject("ad", sampleService.getAd(id));
             } catch (InvalidAdException e) {
-            	//System.out.println("Invalidadexception raised");
-            	model = new ModelAndView("adcreation");
-            	model.addObject("adCreationForm", adCreationForm);
-            	model.addObject("page_error", e.getMessage());
+                //System.out.println("Invalidadexception raised");
+                model = new ModelAndView("adcreation");
+                model.addObject("adCreationForm", adCreationForm);
+                model.addObject("page_error", e.getMessage());
             }
         } else {
-        	model = new ModelAndView("adcreation");
-        }   	
-    	return model;
+            model = new ModelAndView("adcreation");
+        }
+        return model;
     }
-    
-    
+
     @RequestMapping(value = "/security-error", method = RequestMethod.GET)
     public String securityError(RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("page_error", "You do have no permission to do that!");
@@ -275,5 +320,3 @@ public class IndexController {
     }
 
 }
-
-
