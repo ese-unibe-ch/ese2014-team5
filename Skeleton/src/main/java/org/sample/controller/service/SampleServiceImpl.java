@@ -48,7 +48,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-
+/**
+ * 
+ * @author severin.zumbrunn, ramona.imhof, florentina.ziegler, ricardo.visini
+ *
+ *
+ */
 @Service
 @Transactional
 public class SampleServiceImpl implements SampleService, UserDetailsService {
