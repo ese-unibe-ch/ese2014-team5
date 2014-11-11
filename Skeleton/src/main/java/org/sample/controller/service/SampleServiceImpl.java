@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -435,9 +436,6 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         } catch (ParseException e1) {
             throw new InvalidAdException("Please enter the date correctly MM/dd/yyyy");   // throw exception
         }
-        if (todayDate.compareTo(fromDate2) > 0) {
-            throw new InvalidAdException("Please enter a future date or today");   // throw exception
-        }
 
         if (StringUtils.isEmpty(street)) {
             throw new InvalidAdException("Street must not be empty");   // throw exception
@@ -782,6 +780,20 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 		note = notifiesDao.save(note);
 		return (note!=null)? true : false;
 	}
+	
+public boolean createNotificationBookmark(Bookmark mark) {
+		
+		Notifies note = new Notifies();
+		note.setToUser(mark.getUser());
+		note.setFromUser(null);
+		note.setAd(mark.getAd());
+		note.setBookmark(mark);
+		note.setDate(new Date());
+		note.setNotetype(Notifies.Type.BOOKMARK);
+		note.setSeen(0);
+		note = notifiesDao.save(note);
+		return (note!=null)? true : false;
+	}
 
 	public boolean checkSentEnquiry(Long id, org.sample.model.User loggedInUser) {
 		
@@ -792,6 +804,32 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 			return true;
 		}
 		return false;
+	}
+
+	public Object findBookmarksForAd(Long id) {
+		
+		Iterable<Bookmark> bookmarks = bookmarkDao.findByAd(adDao.findById(id));
+		Iterator it = bookmarks.iterator();
+		ArrayList<Bookmark> marks = new ArrayList<Bookmark>();
+		if(!it.hasNext())
+			return null;
+		else
+		{
+			while(it.hasNext())
+			{
+				marks.add((Bookmark) it.next());
+			}
+			return marks;
+		}
+		
+	}
+
+	public void sendNotificationsForBookmarks(Object bookmarks) {
+		for(Bookmark mark : (List<Bookmark>)bookmarks)
+		{
+			createNotificationBookmark(mark);
+			
+		}
 	}
 	
 }

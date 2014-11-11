@@ -34,6 +34,8 @@
 
 	<script type="text/javascript">
 	
+	var unread_elements = 0;
+	
 	$(document).mouseup(function (e)
 	{
 	    var container = $("#notifications");
@@ -110,6 +112,11 @@
 
 	function setread(id,url)
 	{
+		unread_elements--;
+		if(unread_elements == 0)
+	  	{
+	  		$("#notifytitle").removeClass("unread_messages");
+	  	}
 		$.get( "setread?noteid=" + id, function() {
 			
 		});
@@ -123,9 +130,19 @@
 	  	var items = [];
 	  	
 	  	data["Notifications"].forEach(function(entry) {
-	  		if(entry.read>=0)
-		  		items.push( "<li id='" + entry.id + "'><a onclick='setread(" + entry.id + ", \""+ entry.url +"\")'>" + entry.text + "</a></li>" );
+	  		if(entry.read==0)
+	  			{
+		  			items.push( "<li id='" + entry.id + "'><a onclick='setread(" + entry.id + ", \""+ entry.url +"\")'>" + entry.text + "</a></li>" );
+	  				unread_elements++;
+	  			}
+		  		else
+	  				items.push( "<li id='" + entry.id + "'><a onclick='"+ entry.url +"'>" + entry.text + "</a></li>" );
 	  	});
+	  	
+	  	if(unread_elements > 0)
+	  	{
+	  		$("#notifytitle").addClass("unread_messages");
+	  	}
 	   
 	    $( "<ul/>", {
 	      "class": "my-new-list",
@@ -229,7 +246,8 @@
 </div>
 <sec:authorize access="hasRole('ROLE_USER')">
 <div id="notifybox" onclick="toggle()">
-	Notifications
+	<div id="notifytitle">Notifications</div>
+	
 	<div id="notifications" style="display:none;"></div>
 </div>
 </sec:authorize>

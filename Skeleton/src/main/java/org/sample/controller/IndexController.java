@@ -18,6 +18,7 @@ import org.sample.controller.service.SampleService;
 import org.sample.exceptions.InvalidAdException;
 import org.sample.exceptions.InvalidSearchException;
 import org.sample.model.Advert;
+import org.sample.model.Bookmark;
 import org.sample.model.User;
 import org.sample.model.Enquiry;
 import org.sample.model.Notifies;
@@ -226,10 +227,10 @@ public class IndexController {
             try {
                 Long id = Long.parseLong(idstring);
                 sampleService.updateAd(adCreateForm,id);
-                 model = new ModelAndView("profile");
-//                model.addObject("currentUser", sampleService.getLoggedInUser());
-//                model.addObject("showad");
-//                model.addObject("msg", "You've updated your add successfully.");
+                 model = new ModelAndView("profileadverts");
+                 model.addObject("currentUser", sampleService.getLoggedInUser());
+         	     model.addObject("adList", sampleService.findAdsForUser((User) sampleService.getLoggedInUser()));
+         	     sampleService.sendNotificationsForBookmarks(sampleService.findBookmarksForAd(id));
             } catch (InvalidAdException e) {
                 model = new ModelAndView("addediting");
                 model.addObject("page_error", e.getMessage());

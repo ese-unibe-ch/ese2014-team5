@@ -1240,3 +1240,13 @@ div.resultinfo
 	text-decoration: none;
 	color: black;
 }
+
+.unread_messages {
+	background-color: red;
+}
+
+#notifytitle {
+	clear:left;
+	padding:0;
+	margin:0px;
+}

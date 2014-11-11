@@ -7,6 +7,7 @@ import org.sample.controller.pojos.SignupUser;
 import org.sample.exceptions.InvalidAdException;
 import org.sample.exceptions.InvalidSearchException;
 import org.sample.model.Advert;
+import org.sample.model.Bookmark;
 import org.sample.model.Enquiry;
 import org.sample.model.User;
 import org.springframework.transaction.annotation.Transactional;
@@ -150,6 +151,21 @@ public interface SampleService {
 	 * @return true: if enquiry was already sent, false: if no enquiry was sent yet
 	 */
 	public boolean checkSentEnquiry(Long id, User loggedInUser);
+
+	/** 
+	 * Retrieves all bookmarks for ad id
+	 * @param id
+	 * @return
+	 */
+	public Object findBookmarksForAd(Long id);
+
+	/**
+	 * sends notifications to users who have bookmarked the given ad
+	 * @param findBookmarksForAd
+	 */
+	public void sendNotificationsForBookmarks(Object bookmarks);
+	
+	public boolean createNotificationBookmark(Bookmark mark);
 	
 }
  

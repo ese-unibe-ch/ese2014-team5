@@ -200,6 +200,7 @@
                 <script>
     var map;
     var geocoder;
+    var marker;
     function initialize() {
         geocoder = new google.maps.Geocoder();
         var mapOptions = {
@@ -208,6 +209,7 @@
         };
         map = new google.maps.Map(document.getElementById('map-canvas'),
                 mapOptions);
+        codeAddress();
     }
 
     function codeAddress() {
@@ -215,10 +217,17 @@
         geocoder.geocode({'address': address}, function (results, status) {
             if (status == google.maps.GeocoderStatus.OK) {
                 map.setCenter(results[0].geometry.location);
-                var marker = new google.maps.Marker({
-                    map: map,
-                    position: results[0].geometry.location
-                });
+                if(marker==null)
+                {
+                	marker = new google.maps.Marker({
+                    	map: map,
+                    	position: results[0].geometry.location
+                	});
+            	}	
+                else
+                {
+                	marker.setPosition(results[0].geometry.location);
+                }
                 map.setCenter(results[0].geometry.location);
                 map.setZoom(16);
             } else {
@@ -235,7 +244,7 @@
 
             <legend>Images</legend>
 
-            <div id="files">File to upload: <input type="file" name="files[0]"><br /> </div>id
+            <div id="files">File to upload: <input type="file" name="files[0]"><br /> </div>
 
             <input type="button" value="Add another file" id="add">
 
