@@ -644,16 +644,21 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 		for (org.sample.model.User user : possibleUsersForSearchNotification) {
 			Search search = searchDao.findOne(user.getSelectedSearch());
 			if(
+					( advert.getTitle().contains(search.getFreetext()) || advert.getRoomDesc().contains(search.getFreetext())) &&
 					( search.getPriceFrom() == "" || advert.getRoomPrice() >= Integer.parseInt(search.getPriceFrom()) ) && 
 					( search.getPriceTo() == "" || advert.getRoomPrice() <= Integer.parseInt(search.getPriceTo()) ) &&
 					( search.getSizeFrom() == "" || advert.getRoomSize() >= Integer.parseInt(search.getSizeFrom()) ) &&
-					( search.getSizeTo() == "" || advert.getRoomSize() <= Integer.parseInt(search.getSizeTo()) ) 
+					( search.getSizeTo() == "" || advert.getRoomSize() <= Integer.parseInt(search.getSizeTo()) ) &&
+					( search.getArea() == "" || advert.getAddress().getCity().equals(search.getArea())) &&
+					( search.getPeopleAmount() == "" || advert.getnumberOfPeople() == Integer.parseInt(search.getPeopleAmount()) ) &&
+					( search.getFromDate() == null || advert.getFromDate().equals(search.getFromDate()) || advert.getFromDate().after(search.getFromDate()) ) &&
+					( search.getToDate() == null || advert.getToDate().equals(search.getToDate()) || advert.getToDate().before(search.getToDate()) )
 			){
 				
 				Notifies newNotification = new Notifies();
 				newNotification.setSearch(search);
 				newNotification.setAd(advert);
-				newNotification.setToUser(getLoggedInUser());
+				newNotification.setToUser(user);
 				newNotification.setDate(new Date());
 				newNotification.setSeen(0);
 				notifiesDao.save(newNotification);
