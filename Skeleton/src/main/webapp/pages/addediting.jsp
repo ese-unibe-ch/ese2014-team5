@@ -13,7 +13,7 @@
 
     $(document).ready(function () {
         $("#add").click(function () {
-            $("#files").append("<div class=\"secfile\"> File to upload: <input type=\"file\" name=\"files[" + (i++) + "]\"><input type=\"button\" class=\"delete\" value=\"Delete\"></div>");
+            $("#files").append("<div class=\"secfile\"> File to upload: <input type=\"file\" name=\"files[" + (i++) + "]\"><button class=\"delete btn\" value=\"Delete\">Delete</button></div>");
         });
 
         $(document).on("click", ".delete", function () {
@@ -51,7 +51,7 @@
 
 <div class="reservation">
 
-   
+   <legend>Edit your ad</legend>
 
 
     <c:if test="${page_error != null }">
@@ -64,8 +64,8 @@
 
 
 
-    <form:form method="post" modelAttribute="adCreateForm" action="addUpdate?id=${idstring }" id="addUpdateForm" cssClass="form-horizontal"
-               autocomplete="off">
+    <form:form method="post" modelAttribute="adCreateForm" action="addupdate?${_csrf.parameterName}=${_csrf.token}&id=${idstring }"  id="addUpdateForm" cssClass="form-horizontal"
+               autocomplete="off" enctype="multipart/form-data">
 
         <fieldset>
             <legend>General Info</legend>
@@ -83,7 +83,7 @@
             <div class="control-group<c:if test="${not empty roomDescErrors}"> error</c:if>">
                     <label class="control-label" for="field-roomDesc">Room Description</label>
                     <div class="controls">
-                    <textarea name="roomDesc" id="field-roomDesc" width="350px" style="resize:vertical;" tabindex="2" maxlength="500">${currentAdd.roomDesc}</textarea>
+                    <textarea name="roomDesc" id="field-roomDesc" rows="6"  width="350px" style="resize:vertical;" tabindex="2" maxlength="500">${currentAdd.roomDesc}</textarea>
                     <form:errors path="roomDesc" cssClass="help-inline" element="span"/>
                 </div>
             </div>
@@ -99,7 +99,7 @@
 
             <c:set var="numberOfPeopleErrors"><form:errors path="numberOfPeople"/></c:set>
             <div class="control-group<c:if test="${not empty numberOfPeopleErrors}"> error</c:if>">
-                    <label class="control-label" for="field-numberOfPeople">Persons</label>
+                    <label class="control-label" for="field-numberOfPeople">Num. People</label>
                     <div class="controls">
                     <form:input path="numberOfPeople" id="field-numberOfPeople"  tabindex="2" maxlength="150" value="${currentAdd.numberOfPeople}"/>
                     <form:errors path="numberOfPeople" cssClass="help-inline" element="span"/>
@@ -243,10 +243,10 @@
             </div>
 
             <legend>Images</legend>
-
+            
             <div id="files">File to upload: <input type="file" name="files[0]"><br /> </div>
 
-            <input type="button" value="Add another file" id="add">
+            <button type="button" class="btn"  value="Add another file" id="add">Add another File</button>
 
             <div id="result">${result}</div>
 

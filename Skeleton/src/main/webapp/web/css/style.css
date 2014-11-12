@@ -33,7 +33,7 @@ input[type="text"]{
 }
 
 fieldset {
-	width: 60%;
+	width: 100%;
 }
 
 .topbox {
@@ -236,7 +236,7 @@ body {
 	font-family: 'Open Sans', sans-serif;
 	padding: 2%;
 	float: left;
-	width: 60%;
+	width: 90%;
 	background: #FFFFFF;
 }
 .reservation ul li{

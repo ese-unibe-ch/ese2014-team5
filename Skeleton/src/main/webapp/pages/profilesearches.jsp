@@ -7,12 +7,8 @@
 
 <c:import url="template/header.jsp" />
 
-<div class="booking_room">
-	<h3>Your saved searches</h3>
-</div>
-
 <div class="reservation">
-
+<legend>Your saved searches</legend>
 	<c:if test="${empty searchList}">
 		You don't have any saved searches.
 	</c:if>

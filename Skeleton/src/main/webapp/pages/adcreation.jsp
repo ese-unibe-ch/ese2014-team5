@@ -47,11 +47,10 @@ $(document).ready(function() {
     }).data('datepicker');
 });
 </script>
-<div class="booking_room">
-			<h4>Create a new ad</h4>
-		</div>
-		<div class="reservation">
 
+	
+		<div class="reservation">
+	<legend>Create a new Ad</legend>
 <c:if test="${page_error != null }">
         <div class="alert alert-error">
             <button type="button" class="close" style="left:0;" data-dismiss="alert">&times;</button>
@@ -128,7 +127,7 @@ $(document).ready(function() {
             <div class="controls">
                 <form:input path="fromDate" id="field-fromDate" class="span2" tabindex="2" maxlength="150" placeholder="e.g. 02/23/14"/>
                 <form:errors path="fromDate" cssClass="help-inline" element="span"/>
-            </div>        <legend>Availability</legend>
+            </div>   
         </div>
         
         <c:set var="toDateErrors"><form:errors path="toDate"/></c:set>

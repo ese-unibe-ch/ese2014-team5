@@ -8,13 +8,9 @@
 
 <c:import url="template/header.jsp" />
 
-<div class="booking_room">
-    <h4>Sign Up Here for the WG-Site!</h4>
-
-</div>
 <div class="reservation">
 
-
+<legend>Sign up now, it's free!</legend>
     <c:if test="${page_error != null }">
         <div class="alert alert-error">
             <button type="button" class="close" style="left:0;" data-dismiss="alert">&times;</button>
@@ -26,7 +22,7 @@
     <form:form method="post" modelAttribute="signupUser" action="createAccount" id="signupUser" cssClass="form-horizontal"
                autocomplete="off">
         <fieldset>
-            <legend>Enter Your Name, Email and your password</legend>
+            Enter Your Name, Email and your password<br/>
 
             <c:set var="FirstNameErrors"><form:errors path="FirstName"/></c:set>
             <div class="control-group<c:if test="${not empty firstNameErrors}"> error</c:if>">

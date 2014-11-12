@@ -70,7 +70,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
 	</div>
 </c:if>
 
-	<h4>${ad.title}</h4>
+	<legend>${ad.title}</legend>
 
 
     <fmt:formatDate value="${ad.fromDate}" var="dateFrom" pattern="MM/dd/yyyy" />
@@ -93,9 +93,10 @@ google.maps.event.addDomListener(window, 'load', initialize);
 	      
 	     .content_ul > li {
 	     	padding-bottom: 0.5em;
-	     	clear:left;
+	     	width: 100%;
 	     } 
 	</style>
+	<div>
     <ul style="text-indent:0;margin:0px;padding:0px;" class="content_ul">
         <li>Room: ${ad.roomDesc }</li>
         <li>People: ${ad.peopleDesc }</li>
@@ -105,7 +106,8 @@ google.maps.event.addDomListener(window, 'load', initialize);
         <li>Address: ${ad.address.street }, ${ad.address.plz } ${ad.address.city }</li>
 
     </ul>
-    
+    </div>
+    </br>
     <div id="map-canvas"></div>
         
     

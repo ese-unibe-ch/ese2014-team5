@@ -6,11 +6,8 @@
 
 <c:import url="template/header.jsp" />
 
-<div class="booking_room">
-	<h4>Bookmarks</h4>			
-</div>
-
 <div class="reservation">
+<legend>Bookmarks</legend>
 	<c:if test="${empty adList}">
 		You have no bookmarks yet.</br></br>
 	</c:if>

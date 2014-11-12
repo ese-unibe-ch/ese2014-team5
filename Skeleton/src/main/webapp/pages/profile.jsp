@@ -6,12 +6,8 @@
 
 <c:import url="template/header.jsp" />
 
-<div class="booking_room">
-	<h4>Profile</h4>			
-</div>
-
 <div class="reservation">
-	<h3>${currentUser.firstName} ${currentUser.lastName}'s profile</h3>
+<legend>${currentUser.firstName} ${currentUser.lastName}'s profile</legend>
 	<div>
 		<p>E-Mail: ${currentUser.email}</p>
 		</br>

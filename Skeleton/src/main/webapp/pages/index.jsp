@@ -109,11 +109,8 @@ $(document).ready(function() {
 	</div>
 </c:if>
 
-<div class="booking_room">
-	<h4>Search results</h4>
-</div>
-
 <div class="reservation">
+<legend>Find a wonderful room now!</legend>
 	
 	<form:form method="post" modelAttribute="searchForm" action="index" id="searchForm" cssClass="form-horizontal"
            autocomplete="off">

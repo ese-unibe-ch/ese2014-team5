@@ -6,11 +6,8 @@
 
 <c:import url="template/header.jsp" />
 
-<div class="booking_room">
-	<h4>My Adverts</h4>			
-</div>
-
 <div class="reservation">
+<legend>My Ads</legend>
 	<c:if test="${empty adList}">
 		You haven't placed an advert yet.</br></br>
 		<button type="submit" onclick="location.href='adcreation'" class="btn btn-primary">Create an add</button>
@@ -26,8 +23,7 @@
 					<div class="resultinfo" style="margin-left:10px;float:left;"><p>
 						<b style="font-family:Arial;font-size:14pt;">${ad.title}</b>
 						<br />
-						${ad.roomDesc}
-						<br />
+					
 						Price: ${ad.roomPrice}CHF, Size: ${ad.roomSize}m&sup2;</p>
 					</div>
 				</div>

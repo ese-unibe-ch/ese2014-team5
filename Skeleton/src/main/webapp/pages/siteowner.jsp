@@ -5,12 +5,8 @@
 
 
 <c:import url="template/header.jsp" />
-
-<div class="booking_room">
-			<h4>Legal notice</h4>
-			
-		</div>
 		<div class="reservation">
+		<legend>Legal notice</legend>
 			This site was created by Team5 of ESE2014. <br />Developers: 
 				<div style="float:right;">
 					Florentina Ziegler<br />

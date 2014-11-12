@@ -237,24 +237,58 @@ public class IndexController {
      * @param redirectAttributes
      * @return 
      */
-    @RequestMapping(value = "/addUpdate")
+    @RequestMapping(value = "/addupdate", method = RequestMethod.POST)
     public ModelAndView addUpdate(@Valid AdCreateForm adCreateForm, @RequestParam("id") String idstring, BindingResult result, RedirectAttributes redirectAttributes) {
         ModelAndView model;
         if (!result.hasErrors()) {
             try {
+            	try {
+
+                    for (int i = 0; i < adCreateForm.getFiles().size(); i++) {
+                        MultipartFile file = adCreateForm.getFiles().get(i);
+                        try {
+                            byte[] bytes = file.getBytes();
+
+                            // Creating the directory to store file
+                            String rootPath = servletContext.getRealPath("/");//null; // PLACE THE RIGHT PATH HERE
+                            File dir = new File(rootPath + "/img");
+                            if (!dir.exists()) {
+                                dir.mkdirs();
+                            }
+
+                            String filename = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+
+                            // Create the file on server
+                            File serverFile = new File(dir.getAbsolutePath()
+                                    + File.separator + filename);
+                            BufferedOutputStream stream = new BufferedOutputStream(
+                                    new FileOutputStream(serverFile));
+                            stream.write(bytes);
+                            stream.close();
+
+                            adCreateForm.addFile(filename);
+
+                        } catch (Exception e) {
+                            System.out.println("No files selected.");
+                        }
+                    }
                 Long id = Long.parseLong(idstring);
                 sampleService.updateAd(adCreateForm, id);
                 model = new ModelAndView("profileadverts");
                 model.addObject("currentUser", sampleService.getLoggedInUser());
                 model.addObject("adList", sampleService.findAdsForUser((User) sampleService.getLoggedInUser()));
                 sampleService.sendNotificationsForBookmarks(sampleService.findBookmarksForAd(id));
-            } catch (InvalidAdException e) {
-                model = new ModelAndView("addediting");
-                model.addObject("page_error", e.getMessage());
+	            } catch (InvalidAdException e) {
+	                model = new ModelAndView("addediting");
+	                model.addObject("page_error", e.getMessage());
+	            }
             }
-        } else {
+            finally{}
+        }
+        else {
             model = new ModelAndView("addediting");
         }
+        
         return model;
     }
     

@@ -6,11 +6,8 @@
 
 <c:import url="template/header.jsp" />
 
-<div class="booking_room">
-	<h3>${currentUser.firstName} ${currentUser.lastName}'s profile</h3>
-</div>
-
 <div class="reservation">
+<legend>Edit your profile</legend>
 	<form:form method="post" modelAttribute="profileUpdateForm" action="updateAccount" id="profileUpdateForm" cssClass="form-horizontal"
 	           autocomplete="off">
 	    <fieldset>

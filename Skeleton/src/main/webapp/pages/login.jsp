@@ -4,12 +4,9 @@
 
 <c:import url="template/header.jsp" />
 
-<div class="booking_room">
-			<h4>Login</h4>
-			
-		</div>
+
 		<div class="reservation">
-		
+		<legend>Login</legend>
 		<c:if test="${message != null }">
 	<div class="alert alert-error">
 	    <button type="button" class="close" style="left:0;" data-dismiss="alert">&times;</button>
@@ -20,7 +17,6 @@
 
 	<form:form class="login-form" action="j_spring_security_check" method="POST" >
 		<fieldset>
-			<legend>Login Here</legend>
 			
 			 
 			<label for="j_username">Username</label>

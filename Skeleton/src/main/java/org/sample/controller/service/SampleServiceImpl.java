@@ -168,6 +168,7 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
     public SignupUser saveUser(SignupUser signupUser) throws InvalidUserException {
 
         String firstName = signupUser.getFirstName();
+        
         /*Controls to validate input of new User*/
         if (StringUtils.isEmpty(firstName)) {
             throw new InvalidUserException("FirstName must not be empty");   // throw exception
@@ -282,6 +283,7 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
      */
     @Transactional
     public Long saveFromAd(AdCreateForm adForm) throws InvalidAdException {
+
         String street = adForm.getStreet();
         String city = adForm.getCity();
         String plz = adForm.getPlz();
@@ -295,6 +297,7 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 
         SimpleDateFormat dateFormater = new SimpleDateFormat("MM/dd/yyyy");
         Date todayDate = new Date();
+        todayDate.setTime(todayDate.getTime()-24*60*60*1000);
         Date fromDate2;
 
         if (StringUtils.isEmpty(title)) {
@@ -334,7 +337,7 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         } catch (ParseException e1) {
             throw new InvalidAdException("Please enter the date correctly MM/dd/yyyy");   // throw exception
         }
-        if (todayDate.compareTo(fromDate2) > 0) {
+        if (todayDate.getTime()>fromDate2.getTime()) {
             throw new InvalidAdException("Please enter a future date or today");   // throw exception
         }
 
@@ -364,10 +367,10 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         ad.setRoomPrice(Integer.parseInt(adForm.getRoomPrice()));
         ad.setRoomSize(Integer.parseInt(adForm.getRoomSize()));
         ad.setNumberOfPeople(Integer.parseInt(adForm.getNumberOfPeople()));
-        System.out.println("USERNAME: " + adForm.getUsername());
-        System.out.println("USERNAME: " + userDao.findByUsername(adForm.getUsername()).getUsername());
+      //  System.out.println("USERNAME: " + adForm.getUsername());
+      //  System.out.println("USERNAME: " + userDao.findByUsername(adForm.getUsername()).getUsername());
         ad.setUser(userDao.findByUsername(adForm.getUsername()));
-        System.out.println("USERNAME: " + ad.getUser().getUsername());
+      //  System.out.println("USERNAME: " + ad.getUser().getUsername());
         // need to parse dates before
         SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
         Date dateFrom = null;
@@ -500,18 +503,22 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
         Date dateFrom = null;
         Date dateTo = null;
-        try {
-            dateFrom = formatter.parse(updateForm.getFromDate());
-            if (updateForm.getToDate() != null) {
-                dateTo = formatter.parse(updateForm.getToDate());
+        if(updateForm.getFromDate()!="")
+        {
+        	try {
+                dateFrom = formatter.parse(updateForm.getFromDate());
+                if (updateForm.getToDate() != "") {
+                    dateTo = formatter.parse(updateForm.getToDate());
+                }
+            } catch (ParseException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                dateFrom = new Date();
             }
-        } catch (ParseException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            dateFrom = new Date();
         }
+        
         ad.setFromDate(dateFrom);
-        if (updateForm.getToDate() != null) {
+        if (updateForm.getToDate() != "") {
             ad.setToDate(dateTo);
         }
         if (updateForm.getFilenames() != null) {
@@ -610,7 +617,7 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
     @Transactional
     public Iterable<Advert> findAds(SearchForm form) {
 
-        /*Checking for simple forumula if content is correct, means not null, etc...*/
+        /*Checking for simple formula if content is correct, means not null, etc...*/
         if (form.getFromPrice() == (null)) { // No 0 allowed
             form.setFromPrice("0");
         }
@@ -682,22 +689,39 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         Date dateTo = null;
         SimpleDateFormat dateFormater = new SimpleDateFormat("MM/dd/yyyy");
 
-        try {
-            dateFrom = dateFormater.parse(form.getFromDate());
-        } catch (Exception e) {
-            e.printStackTrace();
-            try {
+        if(form.getFromDate()!=null && form.getFromDate()!="")
+        {
+        	try {
+                dateFrom = dateFormater.parse(form.getFromDate());
+            } catch (Exception e) {
+                e.printStackTrace();
+                
+            }
+        }
+        else
+        {
+        	try {
                 dateFrom = dateFormater.parse("01/01/1980");
             } catch (ParseException e1) {
                 e1.printStackTrace();
             }
             noDateRangeDown = true;
         }
-        try {
-            dateTo = dateFormater.parse(form.getToDate());
+        
+        
+        if(form.getToDate()!=null && form.getToDate()!="")
+        {
+        	try 
+        	{
+        		dateTo = dateFormater.parse(form.getToDate());
 
-        } catch (Exception ex) {
-            try {
+	        } catch (Exception ex) {
+	            
+	        }
+        }
+        else
+        {
+        	try {
                 dateTo = dateFormater.parse("01/01/2100");
             } catch (ParseException e1) {
                 e1.printStackTrace();
