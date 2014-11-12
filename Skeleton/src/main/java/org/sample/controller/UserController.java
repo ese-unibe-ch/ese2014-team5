@@ -31,7 +31,11 @@ public class UserController {
     
     @Autowired
     SearchDao searchDao;
-
+    
+    /**
+     * Shows the profile (of the given user)  Controller
+     * @return 
+     */
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public ModelAndView showProfile() {
 	    ModelAndView model = new ModelAndView("profile");
@@ -39,6 +43,11 @@ public class UserController {
 	    return model;
     }
     
+    /**
+     * Controller which takes the known profile info as default input and waits for changes to 
+     * send them to the database
+     * @return 
+     */
     @RequestMapping(value = "/edit-profile", method = RequestMethod.GET)
     public ModelAndView editProfile() {
 	    ModelAndView model = new ModelAndView("profileediting");
@@ -47,6 +56,13 @@ public class UserController {
 	    return model;
     }
     
+    /**
+     * Post function which takes all the changed Info about the profile/user and redirect that to the database
+     * @param profileUpdateForm
+     * @param result
+     * @param redirectAttributes
+     * @return 
+     */
     @RequestMapping(value = "/updateAccount", method = RequestMethod.POST)
     public ModelAndView updateProfile(@Valid SignupUser profileUpdateForm, BindingResult result, RedirectAttributes redirectAttributes) {
     	ModelAndView model;    	

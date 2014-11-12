@@ -52,92 +52,97 @@ public class IndexController {
         ModelAndView model = new ModelAndView("siteowner");
         return model;
     }
-    
+
+    /**
+     * Controller for output notifications
+     *
+     * @return
+     */
     @RequestMapping(value = "/getnotifications", method = RequestMethod.GET)
-    public @ResponseBody String getNotifications() {
-    	Iterable<Notifies> notifications = (Iterable<Notifies>) sampleService.findNotificationsForUser(sampleService.getLoggedInUser());
-    	
-    	    	
-    	String result = "{\"Notifications\":[";
-    	Iterator<Notifies> iterator = notifications.iterator();
-    	while(iterator.hasNext())
-    	{
-    		Notifies note = iterator.next();
-    		
-    		SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-    		String date = dateFormat.format(note.getDate());
-    		String txt = "";
-    		String url = "";
-    		try
-    		{
-	    		switch(note.getNotetype())
-	    		{
-	    			case BOOKMARK:
-	    				txt = "Bookmarked Ad " + note.getBookmark().getAd().getTitle() + " has changed - <span class='beside'>" + date +"</span>";
-	    				url = "showad?value=" + note.getBookmark().getAd().getId();
-	    				break;
-	    			case MESSAGE:
-	    				txt = note.getText() + " - " + "<span class='beside'>" + date +"</span>";
-	    				break;
-	    			case ENQUIRY:
-	    				txt = "New enquiry received from " + note.getFromUser().getUsername() + " - <span class='beside'>" + date +"</span>";
-	    				url = "";
-	    				break;
-	    			case SEARCHMATCH:
-	    				txt = "New matching ad for your search! - <span class='beside'>" + date +"</span>";
-	    				url = "";
-	    				break;
-	    			default:
-	    				txt =  note.getText() + " - <span class='beside'>" + date +"</span>";
-	    		}
-	    		result += "{\"id\": " + note.getId() + ",\"text\":\"" + txt + "\",\"url\":\"" + url + "\",\"read\":" + note.getSeen() + "}";
-	    		if(iterator.hasNext())
-	    		{
-	    			result += ",";
-	    		}
-    		}
-    		catch(NullPointerException e)
-    		{
-    			
-    		}
-    		
-    	}
-    	result += "]}";
+    public @ResponseBody
+    String getNotifications() {
+        Iterable<Notifies> notifications = (Iterable<Notifies>) sampleService.findNotificationsForUser(sampleService.getLoggedInUser());
+
+        String result = "{\"Notifications\":[";
+        Iterator<Notifies> iterator = notifications.iterator();
+        while (iterator.hasNext()) {
+            Notifies note = iterator.next();
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+            String date = dateFormat.format(note.getDate());
+            String txt = "";
+            String url = "";
+            try {
+                switch (note.getNotetype()) {
+                    case BOOKMARK:
+                        txt = "Bookmarked Ad " + note.getBookmark().getAd().getTitle() + " has changed - <span class='beside'>" + date + "</span>";
+                        url = "showad?value=" + note.getBookmark().getAd().getId();
+                        break;
+                    case MESSAGE:
+                        txt = note.getText() + " - " + "<span class='beside'>" + date + "</span>";
+                        break;
+                    case ENQUIRY:
+                        txt = "New enquiry received from " + note.getFromUser().getUsername() + " - <span class='beside'>" + date + "</span>";
+                        url = "";
+                        break;
+                    case SEARCHMATCH:
+                        txt = "New matching ad for your search! - <span class='beside'>" + date + "</span>";
+                        url = "";
+                        break;
+                    default:
+                        txt = note.getText() + " - <span class='beside'>" + date + "</span>";
+                }
+                result += "{\"id\": " + note.getId() + ",\"text\":\"" + txt + "\",\"url\":\"" + url + "\",\"read\":" + note.getSeen() + "}";
+                if (iterator.hasNext()) {
+                    result += ",";
+                }
+            } catch (NullPointerException e) {
+
+            }
+
+        }
+        result += "]}";
         return result;
     }
-    
+
     @RequestMapping("/setread")
-	public @ResponseBody String setread(Model model, @RequestParam String noteid) {
-		sampleService.setRead(noteid);
-		return "#";
-	}
-    
+    public @ResponseBody
+    String setread(Model model, @RequestParam String noteid) {
+        sampleService.setRead(noteid);
+        return "#";
+    }
+
     @RequestMapping("/sendenquiry")
-	public ModelAndView sendenquiry(@RequestParam String enquirytext,@RequestParam String adid) {
-    	ModelAndView model = new ModelAndView("showad");
-    	model.addObject("ad", sampleService.getAd(Long.parseLong(adid))); 
-		Enquiry enq = (Enquiry) sampleService.sendEnquiry(enquirytext,adid);
-		if(enq!=null)
-		{
-			if(sampleService.createNotificationEnquiry(enq))
-				model.addObject("msg", "Your enquiry has been sent successfully.");
-			else
-				model.addObject("page_error", "Error! Couldn't send enquiry. Try again.");
-		}
-		return model;
-	}
-    
+    public ModelAndView sendenquiry(@RequestParam String enquirytext, @RequestParam String adid) {
+        ModelAndView model = new ModelAndView("showad");
+        model.addObject("ad", sampleService.getAd(Long.parseLong(adid)));
+        Enquiry enq = (Enquiry) sampleService.sendEnquiry(enquirytext, adid);
+        if (enq != null) {
+            if (sampleService.createNotificationEnquiry(enq)) {
+                model.addObject("msg", "Your enquiry has been sent successfully.");
+            } else {
+                model.addObject("page_error", "Error! Couldn't send enquiry. Try again.");
+            }
+        }
+        return model;
+    }
+
+    /**
+     * Main start page controller, contains also search window
+     *
+     * @return
+     */
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView index() {
-    	ModelAndView model = new ModelAndView("index");
-    	SearchForm searchForm = new SearchForm();
-    	model.addObject("searchForm", searchForm);
-    	model.addObject("currentUser", (org.sample.model.User) userDao.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
-    	model.addObject("minPrice",searchForm.getFromPrice());
-		model.addObject("maxPrice",searchForm.getToPrice());
-		model.addObject("minSize",searchForm.getFromSize());
-		model.addObject("maxSize",searchForm.getToSize());
-    	return model;
+        ModelAndView model = new ModelAndView("index");
+        SearchForm searchForm = new SearchForm();
+        model.addObject("searchForm", searchForm);
+        model.addObject("currentUser", (org.sample.model.User) userDao.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
+        model.addObject("minPrice", searchForm.getFromPrice());
+        model.addObject("maxPrice", searchForm.getToPrice());
+        model.addObject("minSize", searchForm.getFromSize());
+        model.addObject("maxSize", searchForm.getToSize());
+        return model;
     }
 
     /*Core of the page, starting point,search and search output in one
@@ -145,59 +150,64 @@ public class IndexController {
     @RequestMapping(value = "/index")
     public ModelAndView index(@Valid SearchForm searchForm, @RequestParam(required = false) String action, BindingResult result, RedirectAttributes redirectAttributes) {
 
-    	ModelAndView model = new ModelAndView("index");
-    	model.addObject("currentUser", (org.sample.model.User) userDao.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
-    	model.addObject("searchResults", sampleService.findAds(searchForm));
-    	
-    	//model.addObject("notifications",sampleService.findNotificationsForUser(sampleService.getLoggedInUser()));
-    	boolean saveToProfile = false;
-    	if(action!=null && action.equals("bsave")){
-    		saveToProfile = true;
-    	}
-    	
-    	//When one of the save buttons is clicked, save search.
-    	if(action!=null){
-    		if (!result.hasErrors()) {
-	            try {
-	            	sampleService.saveFromSearch(searchForm, saveToProfile);
-	            	if(sampleService.getLoggedInUser() != null && sampleService.getLoggedInUser().getUserRole().getRole() == 1 && saveToProfile){
-	            		model.addObject("msg", "You can find your saved search in your profile.");
-	            	}
-	            } catch (InvalidSearchException e) {
-	            	if(sampleService.getLoggedInUser() != null && sampleService.getLoggedInUser().getUserRole().getRole() == 1 && saveToProfile){
-	            		model.addObject("page_error", e.getMessage());
-	            	}
-	            }
-	        }
-    	}
-    	
-    	if(action!=null && action.equals("bmap"))
-    	{
-    		model.addObject("displayMap",1);
-    		model.addObject("hasResults", 1);
-    	}
-    	else if(action!=null && action.equals("blist"))
-    	{
-    		model.addObject("displayMap",0);
-    		model.addObject("hasResults", 1);
-    	}
-    	
-    	
-		model.addObject("minPrice",searchForm.getFromPrice());
-		model.addObject("maxPrice",searchForm.getToPrice());
-		model.addObject("minSize",searchForm.getFromSize());
-		model.addObject("maxSize",searchForm.getToSize());
-		
+        ModelAndView model = new ModelAndView("index");
+        model.addObject("currentUser", (org.sample.model.User) userDao.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
+        model.addObject("searchResults", sampleService.findAds(searchForm));
+
+        //model.addObject("notifications",sampleService.findNotificationsForUser(sampleService.getLoggedInUser()));
+        boolean saveToProfile = false;
+        if (action != null && action.equals("bsave")) {
+            saveToProfile = true;
+        }
+
+        //When one of the save buttons is clicked, save search.
+        if (action != null) {
+            if (!result.hasErrors()) {
+                try {
+                    sampleService.saveFromSearch(searchForm, saveToProfile);
+                    if (sampleService.getLoggedInUser() != null && sampleService.getLoggedInUser().getUserRole().getRole() == 1 && saveToProfile) {
+                        model.addObject("msg", "You can find your saved search in your profile.");
+                    }
+                } catch (InvalidSearchException e) {
+                    if (sampleService.getLoggedInUser() != null && sampleService.getLoggedInUser().getUserRole().getRole() == 1 && saveToProfile) {
+                        model.addObject("page_error", e.getMessage());
+                    }
+                }
+            }
+        }
+
+        if (action != null && action.equals("bmap")) {
+            model.addObject("displayMap", 1);
+            model.addObject("hasResults", 1);
+        } else if (action != null && action.equals("blist")) {
+            model.addObject("displayMap", 0);
+            model.addObject("hasResults", 1);
+        }
+
+        model.addObject("minPrice", searchForm.getFromPrice());
+        model.addObject("maxPrice", searchForm.getToPrice());
+        model.addObject("minSize", searchForm.getFromSize());
+        model.addObject("maxSize", searchForm.getToSize());
+
         return model;
     }
-
+    
+    /**
+     * Controller which waits for entered new Ad Input
+     * @return 
+     */
     @RequestMapping(value = "/adcreation", method = RequestMethod.GET)
     public ModelAndView adcreation() {
         ModelAndView model = new ModelAndView("adcreation");
         model.addObject("adCreationForm", new AdCreateForm());
         return model;
     }
-
+    
+    /**
+     * Controller which shows the given ad found by id as output and waits for changes of this ad as Input
+     * @param id
+     * @return 
+     */
     @RequestMapping(value = "/addediting", method = RequestMethod.GET)
     public ModelAndView addediting(@RequestParam("value") Long id) {
         ModelAndView model = new ModelAndView("addediting");
@@ -205,32 +215,39 @@ public class IndexController {
         model.addObject("adCreateForm", new AdCreateForm());
         model.addObject("currentUser", sampleService.getLoggedInUser());
         model.addObject("currentAdd", sampleService.getAd(id));
-        
+
         SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
         Advert ad = sampleService.getAd(id);
         try {
-        	model.addObject("fromDate", formatter.format(ad.getFromDate()));
-        	model.addObject("toDate", formatter.format(ad.getToDate()));
-        }catch(Exception e)
-        {
-        	
+            model.addObject("fromDate", formatter.format(ad.getFromDate()));
+            model.addObject("toDate", formatter.format(ad.getToDate()));
+        } catch (Exception e) {
+
         }
-        model.addObject("idstring",id);
+        model.addObject("idstring", id);
         //sampleService.updateAds(addUpdateForm, id)
         return model;
     }
-
-    @RequestMapping(value = "/addUpdate") 
-    public ModelAndView addUpdate(@Valid AdCreateForm adCreateForm , @RequestParam("id") String idstring, BindingResult result, RedirectAttributes redirectAttributes) {
+    
+    /**
+     * Controller which waits for the changed ad from the addediting
+     * @param adCreateForm
+     * @param idstring
+     * @param result
+     * @param redirectAttributes
+     * @return 
+     */
+    @RequestMapping(value = "/addUpdate")
+    public ModelAndView addUpdate(@Valid AdCreateForm adCreateForm, @RequestParam("id") String idstring, BindingResult result, RedirectAttributes redirectAttributes) {
         ModelAndView model;
         if (!result.hasErrors()) {
             try {
                 Long id = Long.parseLong(idstring);
-                sampleService.updateAd(adCreateForm,id);
-                 model = new ModelAndView("profileadverts");
-                 model.addObject("currentUser", sampleService.getLoggedInUser());
-         	     model.addObject("adList", sampleService.findAdsForUser((User) sampleService.getLoggedInUser()));
-         	     sampleService.sendNotificationsForBookmarks(sampleService.findBookmarksForAd(id));
+                sampleService.updateAd(adCreateForm, id);
+                model = new ModelAndView("profileadverts");
+                model.addObject("currentUser", sampleService.getLoggedInUser());
+                model.addObject("adList", sampleService.findAdsForUser((User) sampleService.getLoggedInUser()));
+                sampleService.sendNotificationsForBookmarks(sampleService.findBookmarksForAd(id));
             } catch (InvalidAdException e) {
                 model = new ModelAndView("addediting");
                 model.addObject("page_error", e.getMessage());
@@ -240,31 +257,44 @@ public class IndexController {
         }
         return model;
     }
-
+    
+    /**
+     * Controller which shows the ad and waits for the signal of the user to change the ad, make a bookmark, etc...
+     * @param bookmarkForm
+     * @param id
+     * @param result
+     * @param redirectAttributes
+     * @return 
+     */
     @RequestMapping(value = "/showad")
     public ModelAndView showad(@Valid BookmarkForm bookmarkForm, @RequestParam("value") Long id, BindingResult result, RedirectAttributes redirectAttributes) {
-    	ModelAndView model = new ModelAndView("showad");
-    	model.addObject("currentUser", sampleService.getLoggedInUser());
-    	model.addObject("ad", sampleService.getAd(id));    	
-    	if(sampleService.checkBookmarked(id,sampleService.getLoggedInUser()))
-    	{
-    		model.addObject("bookmarked", 1);
-    	}
-    	if(bookmarkForm!=null && bookmarkForm.getAdNumber()!=null && !bookmarkForm.getAdNumber().equals(""))
-    	{
-    		Long bookmarkid = sampleService.bookmark(bookmarkForm);
-    		if(bookmarkid>0)
-    			model.addObject("bookmarked", 1);
-    	}
-    	
-    	if(sampleService.checkSentEnquiry(id,sampleService.getLoggedInUser()))
-    	{
-    		model.addObject("sentenquiry", 1);
-    	}
-    	
+        ModelAndView model = new ModelAndView("showad");
+        model.addObject("currentUser", sampleService.getLoggedInUser());
+        model.addObject("ad", sampleService.getAd(id));
+        if (sampleService.checkBookmarked(id, sampleService.getLoggedInUser())) {
+            model.addObject("bookmarked", 1);
+        }
+        if (bookmarkForm != null && bookmarkForm.getAdNumber() != null && !bookmarkForm.getAdNumber().equals("")) {
+            Long bookmarkid = sampleService.bookmark(bookmarkForm);
+            if (bookmarkid > 0) {
+                model.addObject("bookmarked", 1);
+            }
+        }
+
+        if (sampleService.checkSentEnquiry(id, sampleService.getLoggedInUser())) {
+            model.addObject("sentenquiry", 1);
+        }
+
         return model;
     }
-
+    
+    /**
+     * Post part of the controller for producing a new ad
+     * @param adCreationForm
+     * @param result
+     * @param redirectAttributes
+     * @return 
+     */
     @RequestMapping(value = "/newad", method = RequestMethod.POST)
     public ModelAndView createAd(@Valid AdCreateForm adCreationForm, BindingResult result, RedirectAttributes redirectAttributes) {
         ModelAndView model;
@@ -293,19 +323,19 @@ public class IndexController {
                         stream.write(bytes);
                         stream.close();
 
-        				adCreationForm.addFile(filename);
-        				
-        			} catch (Exception e) {
-        				System.out.println("No files selected.");
-        			}
-        		}
-            	
-            	Long id = sampleService.saveFromAd(adCreationForm);
-            	model = new ModelAndView("showad");
-            	model.addObject("ad", sampleService.getAd(id));
-            	
-				sampleService.createNewSearchNotifications(id);
-            	
+                        adCreationForm.addFile(filename);
+
+                    } catch (Exception e) {
+                        System.out.println("No files selected.");
+                    }
+                }
+
+                Long id = sampleService.saveFromAd(adCreationForm);
+                model = new ModelAndView("showad");
+                model.addObject("ad", sampleService.getAd(id));
+
+                sampleService.createNewSearchNotifications(id);
+
             } catch (InvalidAdException e) {
                 model = new ModelAndView("adcreation");
                 model.addObject("adCreationForm", adCreationForm);
@@ -317,6 +347,11 @@ public class IndexController {
         return model;
     }
 
+    /**
+     * Controller will be activated in case of security error
+     * @param redirectAttributes
+     * @return 
+     */
     @RequestMapping(value = "/security-error", method = RequestMethod.GET)
     public String securityError(RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("page_error", "You do have no permission to do that!");

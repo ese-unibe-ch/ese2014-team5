@@ -2,6 +2,12 @@ package org.sample.controller.pojos;
 
 import java.util.Date;
 
+
+/**
+ * Form which retrieves the data of the Search parameter from the Controller and the Jsp
+ * 
+ */
+
 public class SearchForm {
 
 

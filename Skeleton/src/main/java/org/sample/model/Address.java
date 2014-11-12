@@ -4,7 +4,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-
+/**
+ * This class is needed to save the correct date object to the database
+ */
 @Entity
 public class Address {
 	  @Id

@@ -25,6 +25,10 @@ public class RegisterController {
     @Autowired
     SampleService sampleService;
 
+    /**
+     * Controllerpart which waits for entered registration information
+     * @return 
+     */
    @RequestMapping(value = "/register", method = RequestMethod.GET)
     public ModelAndView register() {
     	ModelAndView model = new ModelAndView("register");
@@ -32,6 +36,13 @@ public class RegisterController {
         return model;
     }
 
+    /**
+     * Controllerpart which handles the Input of the Registration or brings you back if the registration is incorrect
+     * @param signupUser
+     * @param result
+     * @param redirectAttributes
+     * @return 
+     */
     @RequestMapping(value = "/createAccount", method = RequestMethod.POST)
     public ModelAndView createRegistration(@Valid SignupUser signupUser, BindingResult result, RedirectAttributes redirectAttributes) {
     	ModelAndView model;    	

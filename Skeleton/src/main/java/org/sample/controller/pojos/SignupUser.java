@@ -9,9 +9,10 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 /**
- *
+ * Form which retrieves the data of the user Registration from the Controller and the Jsp
  * 
  */
+
 public class SignupUser {
     
     private Long id;

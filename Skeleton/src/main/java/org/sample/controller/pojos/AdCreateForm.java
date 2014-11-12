@@ -6,6 +6,10 @@ import java.util.List;
 import org.sample.model.User;
 import org.springframework.web.multipart.MultipartFile;
 
+/**
+ * Form which retrieves the data of the ad from the Controller and the Jsp
+ * 
+ */
 public class AdCreateForm {
 
     private Long id;    

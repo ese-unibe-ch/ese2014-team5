@@ -50,7 +50,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 /**
- * 
+ *
  * @author severin.zumbrunn, ramona.imhof, florentina.ziegler, ricardo.visini
  *
  *
@@ -77,7 +77,7 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
     BookmarkDao bookmarkDao;
     @Autowired
     NotifiesDao notifiesDao;
-    
+
     @Autowired
     EnquiryDao enquiryDao;
 
@@ -158,6 +158,12 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         return authorities;
     }
 
+    /**
+     * Stores a given user in the database. Always creates a new User.
+     *
+     * @param signupUser - the user to store in the DB (has no ID)
+     * @return SignupUser - the exact user-object stored in the DB (has an ID)
+     */
     @Transactional
     public SignupUser saveUser(SignupUser signupUser) throws InvalidUserException {
 
@@ -225,7 +231,11 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         return signupUser;
     }
 
-    /*User get's updated by this function*/
+    /**
+     * Updates a given user with new data
+     *
+     * @param profileUpdateForm
+     */
     @Transactional
     public void updateUser(SignupUser profileUpdateForm) throws InvalidUserException {
         org.sample.model.User user = (org.sample.model.User) getLoggedInUser();
@@ -238,15 +248,21 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         if (!password.equals(passwordRepeat)) {
             throw new InvalidUserException("Passwords are not equal.");
         }
-        if(!password.isEmpty()){
-        	BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        if (!password.isEmpty()) {
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
             String hashedPassword = passwordEncoder.encode(password);
             user.setPassword(hashedPassword);
         }
-        
+
         user = userDao.save(user);
     }
 
+    /**
+     * Checks of the entered String s can be converted to an Integer
+     *
+     * @param s
+     * @return
+     */
     public static boolean isInteger(String s) {
         try {
             Integer.parseInt(s);
@@ -257,6 +273,13 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         return true;
     }
 
+    /**
+     * Checks the adForm and saves the ad to the database
+     *
+     * @param adForm
+     * @return
+     * @throws InvalidAdException
+     */
     @Transactional
     public Long saveFromAd(AdCreateForm adForm) throws InvalidAdException {
         String street = adForm.getStreet();
@@ -379,6 +402,14 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         return ad.getId();
     }
 
+    /**
+     * Takes the updateForm and the id of the user and changes his information
+     * on the database
+     *
+     * @param updateForm
+     * @param id
+     * @throws InvalidAdException
+     */
     @Transactional
     public void updateAd(AdCreateForm updateForm, long id) throws InvalidAdException {
         /*Read in again all the values, difference to last time: */
@@ -393,8 +424,6 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         String fromDate = updateForm.getFromDate();
         String numberOfPeople = updateForm.getNumberOfPeople();
 
-        
-        
         SimpleDateFormat dateFormater = new SimpleDateFormat("MM/dd/yyyy");
         Date todayDate = new Date();
         Date fromDate2;
@@ -456,9 +485,8 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         address = addDao.save(address);
 
         Advert ad = getAd(id);
-        if(ad==null)
-        {
-        	throw new InvalidAdException("AD ID IS INCORRECT!");
+        if (ad == null) {
+            throw new InvalidAdException("AD ID IS INCORRECT!");
         }
         ad.setAddress(address);
         ad.setTitle(updateForm.getTitle());
@@ -486,21 +514,28 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         if (updateForm.getToDate() != null) {
             ad.setToDate(dateTo);
         }
-        if(updateForm.getFilenames() != null){
-        for (String file : updateForm.getFilenames()) {
-            Picture pic = new Picture();
-            pic.setUrl(file);
+        if (updateForm.getFilenames() != null) {
+            for (String file : updateForm.getFilenames()) {
+                Picture pic = new Picture();
+                pic.setUrl(file);
 
-            ad.addPicture(pic);
+                ad.addPicture(pic);
 
-            pic = pictureDao.save(pic);
-        }
+                pic = pictureDao.save(pic);
+            }
         }
         ad = adDao.save(ad);
-        
 
     }
 
+    /**
+     * Takes the saveForm and checks the content. Saves the content of the
+     * search String
+     *
+     * @param searchForm
+     * @param saveToProfile
+     * @return
+     */
     @Transactional
     public Long saveFromSearch(SearchForm searchForm, boolean saveToProfile) {
         String freetext = searchForm.getSearch();
@@ -552,13 +587,25 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         return search.getId();
     }
 
+    /**
+     * Retrieves an ad from the database.
+     *
+     * @param id
+     * @return Advert - the advert returned from the database / Null, when there
+     * is no advert with the given id
+     */
     public Advert getAd(Long id) {
 
         return adDao.findOne(id);
     }
 
-    /* The search of the webpage, contains simple and complex mode for details.
-     The search is 
+    /**
+     * This function takes the search form and checks if the content is correct
+     * If yes then it commits a search. And retrieves the output The search is
+     * done by SQL-Querries
+     *
+     * @param form
+     * @return
      */
     @Transactional
     public Iterable<Advert> findAds(SearchForm form) {
@@ -682,183 +729,271 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         return ads;
     }
 
+    /**
+     * Retrieves the current logged in user from spring Security
+     *
+     * @return the logged in user
+     */
     public org.sample.model.User getLoggedInUser() {
         return (org.sample.model.User) userDao.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
     }
 
+    /**
+     * Retrieves all ads created by given user from the database.
+     *
+     * @param user - the user to look for ads
+     * @return Iterable<Adverts> - All ads created by the given user
+     */
     public Iterable<Advert> findAdsForUser(org.sample.model.User user) {
         return adDao.findByUserId(user.getId());
     }
 
+    /**
+     * Deletes a search with given id
+     *
+     * @param value - the id of the search to delete
+     */
     public void removeSearch(Long searchId) {
         Search search = searchDao.findOne(searchId);
         search.setUser(null);
     }
 
-	public Long bookmark(BookmarkForm bookmarkForm) {
-		
-		Bookmark bookmark = new Bookmark();
-		bookmark.setAd(adDao.findById((long) Integer.parseInt(bookmarkForm.getAdNumber())));
-		bookmark.setUser(userDao.findByUsername(bookmarkForm.getUsername()));
-		
-		
-		return bookmarkDao.save(bookmark).getId();
-	}
+    /**
+     * Bookmarks an ad specified in the bookmarkForm parameter
+     *
+     * @param bookmarkForm
+     * @return the id of the bookmark entry
+     */
+    public Long bookmark(BookmarkForm bookmarkForm) {
 
-	public boolean checkBookmarked(Long id, org.sample.model.User user) {
-		
-		return (bookmarkDao.findByAdAndUser(adDao.findById(id),user)!=null)? true : false;
-	}
+        Bookmark bookmark = new Bookmark();
+        bookmark.setAd(adDao.findById((long) Integer.parseInt(bookmarkForm.getAdNumber())));
+        bookmark.setUser(userDao.findByUsername(bookmarkForm.getUsername()));
 
-	public Object findBookmarkedAdsForUser(org.sample.model.User user) {
-		
-		Iterable<Bookmark> bookmarks = bookmarkDao.findByUser(user);
-		ArrayList<Advert> ads = new ArrayList<Advert>();
-		for(Bookmark bm : bookmarks)
-		{
-			ads.add(bm.getAd());
-		}
-		return ads;
-	}
+        return bookmarkDao.save(bookmark).getId();
+    }
 
-	public void deleteBookmark(String adid, String username) {
-		bookmarkDao.delete(bookmarkDao.findByAdAndUser(adDao.findById(Long.parseLong(adid)), userDao.findByUsername(username)));
+    public boolean checkBookmarked(Long id, org.sample.model.User user) {
 
-	}
+        return (bookmarkDao.findByAdAndUser(adDao.findById(id), user) != null) ? true : false;
+    }
 
-	public Object findNotificationsForUser(org.sample.model.User user) {
-		
-		return notifiesDao.findByToUser(user);
-	}
+    /**
+     * Retrieves a list of bookmarked ads for a given user
+     *
+     * @param user
+     * @return Iterable<Adverts> - List of bookmarked ads
+     */
+    public Object findBookmarkedAdsForUser(org.sample.model.User user) {
 
-	public void createNotification(org.sample.model.User user, String text) {
-		
-		Notifies note = new Notifies();
-		note.setText(text);
-		note.setToUser(user);
-		note.setDate(new Date());
-		note.setNotetype(Notifies.Type.MESSAGE);
-		note.setSeen(0);
-		notifiesDao.save(note);
-	}
-	
-	public static String getNotificationsForJSP()
-	{
-		SampleServiceImpl sV = new SampleServiceImpl();
-		
-		return sV.userDao.findByUsername("sz@tune-x.ch").getUsername();
-	}
+        Iterable<Bookmark> bookmarks = bookmarkDao.findByUser(user);
+        ArrayList<Advert> ads = new ArrayList<Advert>();
+        for (Bookmark bm : bookmarks) {
+            ads.add(bm.getAd());
+        }
+        return ads;
+    }
 
-	public void setRead(String noteid) {
-		
-		Notifies note = notifiesDao.findById(Long.parseLong(noteid));
-		note.setSeen(1);
-		notifiesDao.save(note);
-	}
+    /**
+     * Removes a bookmark in the db
+     *
+     * @param adid
+     * @param username
+     */
+    public void deleteBookmark(String adid, String username) {
+        bookmarkDao.delete(bookmarkDao.findByAdAndUser(adDao.findById(Long.parseLong(adid)), userDao.findByUsername(username)));
 
-	public void createNewSearchNotifications(Long id) {
-		Advert advert = adDao.findOne(id);
-		List<org.sample.model.User> possibleUsersForSearchNotification = userDao.findByselectedSearchGreaterThanEqual(Long.valueOf(1));
-		
-		for (org.sample.model.User user : possibleUsersForSearchNotification) {
-			Search search = searchDao.findOne(user.getSelectedSearch());
-			if(
-					( advert.getTitle().contains(search.getFreetext()) || advert.getRoomDesc().contains(search.getFreetext())) &&
-					( search.getPriceFrom() == "" || advert.getRoomPrice() >= Integer.parseInt(search.getPriceFrom()) ) && 
-					( search.getPriceTo() == "" || advert.getRoomPrice() <= Integer.parseInt(search.getPriceTo()) ) &&
-					( search.getSizeFrom() == "" || advert.getRoomSize() >= Integer.parseInt(search.getSizeFrom()) ) &&
-					( search.getSizeTo() == "" || advert.getRoomSize() <= Integer.parseInt(search.getSizeTo()) ) &&
-					( search.getArea() == "" || advert.getAddress().getCity().equals(search.getArea())) &&
-					( search.getPeopleAmount() == "" || advert.getnumberOfPeople() == Integer.parseInt(search.getPeopleAmount()) ) &&
-					( search.getFromDate() == null || advert.getFromDate().equals(search.getFromDate()) || advert.getFromDate().after(search.getFromDate()) ) &&
-					( search.getToDate() == null || advert.getToDate().equals(search.getToDate()) || advert.getToDate().before(search.getToDate()) )
-			){
-				
-				Notifies newNotification = new Notifies();
-				newNotification.setSearch(search);
-				newNotification.setAd(advert);
-				newNotification.setToUser(user);
-				newNotification.setDate(new Date());
-				newNotification.setSeen(0);
-				notifiesDao.save(newNotification);
-			}
-		}
-	}
+    }
 
-	public Object sendEnquiry(String enquirytext, String adid) {
-		Enquiry enquiry= new Enquiry();
-		Advert ad= adDao.findById(Long.parseLong(adid));
-		enquiry.setEnquiryText(enquirytext);
-		//enquiry.setEnquiryTitle("Enquiry from User "+ this.getLoggedInUser().getUsername() );
-		enquiry.setAdvert(ad);
-		enquiry.setUserFrom(this.getLoggedInUser());
-		enquiry.setUserTo(ad.getUser());
-		return enquiryDao.save(enquiry);
-	}
+    /**
+     * Finds the notifications of a given user
+     *
+     * @param user
+     * @return
+     */
+    public Object findNotificationsForUser(org.sample.model.User user) {
 
-	public boolean createNotificationEnquiry(Enquiry enq) {
-		
-		Notifies note = new Notifies();
-		note.setText(enq.getEnquiryText());
-		note.setToUser(enq.getUserTo());
-		note.setFromUser(enq.getUserFrom());
-		note.setAd(enq.getAdvert());
-		note.setDate(new Date());
-		note.setNotetype(Notifies.Type.ENQUIRY);
-		note.setSeen(0);
-		note = notifiesDao.save(note);
-		return (note!=null)? true : false;
-	}
-	
-public boolean createNotificationBookmark(Bookmark mark) {
-		
-		Notifies note = new Notifies();
-		note.setToUser(mark.getUser());
-		note.setFromUser(null);
-		note.setAd(mark.getAd());
-		note.setBookmark(mark);
-		note.setDate(new Date());
-		note.setNotetype(Notifies.Type.BOOKMARK);
-		note.setSeen(0);
-		note = notifiesDao.save(note);
-		return (note!=null)? true : false;
-	}
+        return notifiesDao.findByToUser(user);
+    }
 
-	public boolean checkSentEnquiry(Long id, org.sample.model.User loggedInUser) {
-		
-		Enquiry enq= enquiryDao.findByAdvertAndUserFrom(adDao.findById(id),loggedInUser);
+    /**
+     * Creates a new text notification, this is used for system messages to the
+     * user
+     *
+     * @param user - the user to whom to display the message
+     * @param text - the text you want to display to the user
+     */
+    public void createNotification(org.sample.model.User user, String text) {
 
-		if(enq!=null)
-		{
-			return true;
-		}
-		return false;
-	}
+        Notifies note = new Notifies();
+        note.setText(text);
+        note.setToUser(user);
+        note.setDate(new Date());
+        note.setNotetype(Notifies.Type.MESSAGE);
+        note.setSeen(0);
+        notifiesDao.save(note);
+    }
 
-	public Object findBookmarksForAd(Long id) {
-		
-		Iterable<Bookmark> bookmarks = bookmarkDao.findByAd(adDao.findById(id));
-		Iterator it = bookmarks.iterator();
-		ArrayList<Bookmark> marks = new ArrayList<Bookmark>();
-		if(!it.hasNext())
-			return null;
-		else
-		{
-			while(it.hasNext())
-			{
-				marks.add((Bookmark) it.next());
-			}
-			return marks;
-		}
-		
-	}
+    public static String getNotificationsForJSP() {
+        SampleServiceImpl sV = new SampleServiceImpl();
 
-	public void sendNotificationsForBookmarks(Object bookmarks) {
-		for(Bookmark mark : (List<Bookmark>)bookmarks)
-		{
-			createNotificationBookmark(mark);
-			
-		}
-	}
-	
+        return sV.userDao.findByUsername("sz@tune-x.ch").getUsername();
+    }
+
+    /**
+     * Sets a notification as read.
+     *
+     * @param noteid
+     */
+    public void setRead(String noteid) {
+
+        Notifies note = notifiesDao.findById(Long.parseLong(noteid));
+        note.setSeen(1);
+        notifiesDao.save(note);
+    }
+
+    /**
+     * According to the selected search (i.e. filter) in users' profiles, this
+     * creates notifications as soon as new (matching) ads are created.
+     *
+     * @param id The id of the advert that causes new notifications for saved
+     * searches.
+     */
+    public void createNewSearchNotifications(Long id) {
+        Advert advert = adDao.findOne(id);
+        List<org.sample.model.User> possibleUsersForSearchNotification = userDao.findByselectedSearchGreaterThanEqual(Long.valueOf(1));
+
+        for (org.sample.model.User user : possibleUsersForSearchNotification) {
+            Search search = searchDao.findOne(user.getSelectedSearch());
+            if ((advert.getTitle().contains(search.getFreetext()) || advert.getRoomDesc().contains(search.getFreetext()))
+                    && (search.getPriceFrom() == "" || advert.getRoomPrice() >= Integer.parseInt(search.getPriceFrom()))
+                    && (search.getPriceTo() == "" || advert.getRoomPrice() <= Integer.parseInt(search.getPriceTo()))
+                    && (search.getSizeFrom() == "" || advert.getRoomSize() >= Integer.parseInt(search.getSizeFrom()))
+                    && (search.getSizeTo() == "" || advert.getRoomSize() <= Integer.parseInt(search.getSizeTo()))
+                    && (search.getArea() == "" || advert.getAddress().getCity().equals(search.getArea()))
+                    && (search.getPeopleAmount() == "" || advert.getnumberOfPeople() == Integer.parseInt(search.getPeopleAmount()))
+                    && (search.getFromDate() == null || advert.getFromDate().equals(search.getFromDate()) || advert.getFromDate().after(search.getFromDate()))
+                    && (search.getToDate() == null || advert.getToDate().equals(search.getToDate()) || advert.getToDate().before(search.getToDate()))) {
+
+                Notifies newNotification = new Notifies();
+                newNotification.setSearch(search);
+                newNotification.setAd(advert);
+                newNotification.setToUser(user);
+                newNotification.setDate(new Date());
+                newNotification.setSeen(0);
+                notifiesDao.save(newNotification);
+            }
+        }
+    }
+
+    /**
+     * Creates an enquiry for a given ad with given text
+     *
+     * @param enquirytext
+     * @param adid
+     * @return the Enquiry object entered to the database
+     */
+    public Object sendEnquiry(String enquirytext, String adid) {
+        Enquiry enquiry = new Enquiry();
+        Advert ad = adDao.findById(Long.parseLong(adid));
+        enquiry.setEnquiryText(enquirytext);
+        //enquiry.setEnquiryTitle("Enquiry from User "+ this.getLoggedInUser().getUsername() );
+        enquiry.setAdvert(ad);
+        enquiry.setUserFrom(this.getLoggedInUser());
+        enquiry.setUserTo(ad.getUser());
+        return enquiryDao.save(enquiry);
+    }
+
+    /**
+     * Creates a new enquiry notification, to the user created the ad
+     *
+     * @param enq
+     * @return true: if notification was generated successfully
+     */
+    public boolean createNotificationEnquiry(Enquiry enq) {
+
+        Notifies note = new Notifies();
+        note.setText(enq.getEnquiryText());
+        note.setToUser(enq.getUserTo());
+        note.setFromUser(enq.getUserFrom());
+        note.setAd(enq.getAdvert());
+        note.setDate(new Date());
+        note.setNotetype(Notifies.Type.ENQUIRY);
+        note.setSeen(0);
+        note = notifiesDao.save(note);
+        return (note != null) ? true : false;
+    }
+
+    /**
+     * Creates a bookmark
+     *
+     * @param mark
+     * @return
+     */
+    public boolean createNotificationBookmark(Bookmark mark) {
+
+        Notifies note = new Notifies();
+        note.setToUser(mark.getUser());
+        note.setFromUser(null);
+        note.setAd(mark.getAd());
+        note.setBookmark(mark);
+        note.setDate(new Date());
+        note.setNotetype(Notifies.Type.BOOKMARK);
+        note.setSeen(0);
+        note = notifiesDao.save(note);
+        return (note != null) ? true : false;
+    }
+
+    /**
+     * Checks if enquiry was already sent for given ad (id) and user
+     *
+     * @param id
+     * @param loggedInUser
+     * @return true: if enquiry was already sent, false: if no enquiry was sent
+     * yet
+     */
+    public boolean checkSentEnquiry(Long id, org.sample.model.User loggedInUser) {
+
+        Enquiry enq = enquiryDao.findByAdvertAndUserFrom(adDao.findById(id), loggedInUser);
+
+        if (enq != null) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Retrieves all bookmarks for ad id
+     *
+     * @param id
+     * @return
+     */
+    public Object findBookmarksForAd(Long id) {
+
+        Iterable<Bookmark> bookmarks = bookmarkDao.findByAd(adDao.findById(id));
+        Iterator it = bookmarks.iterator();
+        ArrayList<Bookmark> marks = new ArrayList<Bookmark>();
+        if (!it.hasNext()) {
+            return null;
+        } else {
+            while (it.hasNext()) {
+                marks.add((Bookmark) it.next());
+            }
+            return marks;
+        }
+
+    }
+
+    /**
+     * sends notifications to users who have bookmarked the given ad
+     *
+     * @param findBookmarksForAd
+     */
+    public void sendNotificationsForBookmarks(Object bookmarks) {
+        for (Bookmark mark : (List<Bookmark>) bookmarks) {
+            createNotificationBookmark(mark);
+
+        }
+    }
+
 }

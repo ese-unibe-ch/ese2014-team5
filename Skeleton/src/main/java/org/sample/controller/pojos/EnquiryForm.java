@@ -5,6 +5,10 @@
 */
 package org.sample.controller.pojos;
 
+/**
+ * Form which retrieves the data of the Enquiry from the Controller and the Jsp
+ * 
+ */
 
 public class EnquiryForm {
     

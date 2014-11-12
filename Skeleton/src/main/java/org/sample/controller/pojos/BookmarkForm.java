@@ -1,6 +1,11 @@
 package org.sample.controller.pojos;
 
 
+/**
+ * Form which retrieves the data of the bookmark from the Controller and the Jsp
+ * 
+ */
+
 public class BookmarkForm 
 {
 	private String username;

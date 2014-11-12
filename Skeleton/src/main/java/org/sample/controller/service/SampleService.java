@@ -111,9 +111,19 @@ public interface SampleService {
 	 * @param username
 	 */
 	public void deleteBookmark(String adid, String username);
-        
+    
+    /**
+     * Updates and given add
+     * @param updateForm
+     * @param id 
+     */    
     public void updateAd(AdCreateForm updateForm, long id);
 
+        /**
+         * Finds the notifications of a given user
+         * @param user
+         * @return 
+         */
 	public Object findNotificationsForUser(User user);
 	
 	/**
@@ -173,6 +183,11 @@ public interface SampleService {
 	 */
 	public void sendNotificationsForBookmarks(Object bookmarks);
 	
+        /**
+         * Creates a bookmark
+         * @param mark
+         * @return 
+         */
 	public boolean createNotificationBookmark(Bookmark mark);
 	
 }
