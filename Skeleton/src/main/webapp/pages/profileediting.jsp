@@ -9,7 +9,7 @@
 <div class="reservation">
 <legend>Edit your profile</legend>
 	<form:form method="post" modelAttribute="profileUpdateForm" action="updateAccount?${_csrf.parameterName}=${_csrf.token}" id="profileUpdateForm" cssClass="form-horizontal"
-	           autocomplete="off">
+	           autocomplete="off" enctype="multipart/form-data">
 	    <fieldset>
 	        Make your changes, then confirm
 	
@@ -100,7 +100,7 @@
 	            </div>
 	        </div>
 	        
-	        <div id="files">File to upload: <input type="file" name="files[0]"><br /> </div>
+	        <div id="file">File to upload: <input type="file" name="file"><br /> </div>
 	
 	        <div class="form-actions">
 	            <button type="submit" class="btn btn-primary">Confirm</button>

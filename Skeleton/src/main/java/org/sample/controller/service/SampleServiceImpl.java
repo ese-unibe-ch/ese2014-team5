@@ -1,5 +1,8 @@
 package org.sample.controller.service;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -50,6 +53,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -61,6 +65,9 @@ import org.springframework.util.StringUtils;
 @Transactional
 public class SampleServiceImpl implements SampleService, UserDetailsService {
 
+
+    @Autowired
+    ServletContext servletContext;
     @Autowired
     UserRoleDao userRoleDao;
 
@@ -264,6 +271,38 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         if(data==null)
         {
         	data = new UserData();
+        }
+
+        MultipartFile file = profileUpdateForm.getFile();
+        try {
+            byte[] bytes = file.getBytes();
+
+            // Creating the directory to store file
+            String rootPath = servletContext.getRealPath("/");//null; // PLACE THE RIGHT PATH HERE
+            File dir = new File(rootPath + "/img");
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+
+            String filename = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+
+            // Create the file on server
+            File serverFile = new File(dir.getAbsolutePath()
+                    + File.separator + filename);
+            BufferedOutputStream stream = new BufferedOutputStream(
+                    new FileOutputStream(serverFile));
+            stream.write(bytes);
+            stream.close();
+
+            profileUpdateForm.setFilenames(filename);
+            
+            Picture pic = new Picture();
+            pic.setUrl(filename);
+            pic = pictureDao.save(pic);
+            data.setPicture(pic);
+
+        } catch (Exception e) {
+            System.out.println("Error uploading file");
         }
         
         data.setAge(profileUpdateForm.getAge());

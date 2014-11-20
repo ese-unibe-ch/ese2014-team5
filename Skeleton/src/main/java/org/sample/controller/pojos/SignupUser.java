@@ -5,11 +5,14 @@
  */
 package org.sample.controller.pojos;
 
+import java.util.List;
+
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.sample.model.Picture;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * Form which retrieves the data of the user Registration from the Controller and the Jsp
@@ -25,13 +28,26 @@ public class SignupUser {
     private String passwordRepeat;
     private String bio;
     private String hobbies;
-    private Picture picture;
     private int age;
     private String profession;
     private String quote;
 
+    private MultipartFile file;
+    private String filenames;
     
-    public String getPassword() {
+    public MultipartFile getFile() {
+		return file;
+	}
+	public void setFile(MultipartFile file) {
+		this.file = file;
+	}
+	public String getFilenames() {
+		return filenames;
+	}
+	public void setFilenames(String filenames) {
+		this.filenames = filenames;
+	}
+	public String getPassword() {
 		return password;
 	}
 	public void setPassword(String password) {
@@ -55,12 +71,7 @@ public class SignupUser {
 	public void setHobbies(String hobbies) {
 		this.hobbies = hobbies;
 	}
-	public Picture getPicture() {
-		return picture;
-	}
-	public void setPicture(Picture picture) {
-		this.picture = picture;
-	}
+
 	public int getAge() {
 		return age;
 	}
