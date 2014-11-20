@@ -17,4 +17,6 @@ public interface UserDao extends JpaRepository<User, Long> {
     @Query
     List<User> findByselectedSearchGreaterThanEqual(Long search);
 
+	User findById(Long id);
+
 }

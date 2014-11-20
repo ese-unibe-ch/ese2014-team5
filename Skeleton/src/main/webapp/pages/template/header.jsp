@@ -188,9 +188,10 @@
 <!-- 						</ul> -->
 <!-- 					</li> -->
 				    <li><a href="bookmarks">Bookmarks</a></li> |
+				    <li><a href="sentenquiries">Enquiries</a></li> |
 					<li><a href="adcreation">create an Ad</a></li> |
 					<li><a href="profile?name=<%=SecurityContextHolder.getContext().getAuthentication().getName()%>"><span id="username">Profile</span></a></li> |
-					<li><a href="saved-searches"><span id="username">Saved Searches</span></a></li> |
+					<li><a href="saved-searches"><span id="username">Searches</span></a></li> |
 					<li><a href="my-ads">My Ads</a></li> |
 					<li><c:if test="${pageContext.request.userPrincipal.name != null}">
 							<a style="cursor:pointer;" onclick="javascript:logout();">Logout</a>
@@ -226,9 +227,10 @@
 				<li class="active"><a href="index">Home</a></li>
 				<sec:authorize access="hasRole('ROLE_USER')">
 					<li><a href="bookmarks">Bookmarks</a></li>
+					<li><a href="sentenquiries">Enquiries</a></li>
 					<li><a href="adcreation">create an Ad</a></li>
 					<li><a href="profile?name=<%=SecurityContextHolder.getContext().getAuthentication().getName()%>"><span id="username"><%=SecurityContextHolder.getContext().getAuthentication().getName().toLowerCase()%></span></a></li>
-					<li><a href="saved-searches"><span id="username">Saved Searches</span></a></li>
+					<li><a href="saved-searches"><span id="username">Searches</span></a></li>
 					<li><a href="my-ads">My Ads</a></li>
 					<li><a style="cursor:pointer;" onclick="javascript:logout();">Logout</a></li>
 				</sec:authorize>

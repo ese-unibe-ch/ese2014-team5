@@ -10,4 +10,5 @@ public interface EnquiryDao extends JpaRepository<Enquiry, Long> {
     
 Enquiry findById(long id);
 Enquiry findByAdvertAndUserFrom(Advert ad, User user);
+Iterable<Enquiry> findByUserFrom(User user);
 }

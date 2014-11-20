@@ -1079,4 +1079,9 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         }
     }
 
+	public Object findSentEnquiriesForUser(org.sample.model.User loggedInUser) {
+		
+		return enquiryDao.findByUserFrom(loggedInUser);
+	}
+
 }

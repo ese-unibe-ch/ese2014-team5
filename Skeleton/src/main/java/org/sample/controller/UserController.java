@@ -37,9 +37,17 @@ public class UserController {
      * @return 
      */
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
-    public ModelAndView showProfile() {
+    public ModelAndView showProfile(@RequestParam("name") String username) {
 	    ModelAndView model = new ModelAndView("profile");
-	    model.addObject("currentUser", sampleService.getLoggedInUser());
+	    if(username=="")
+	    {
+	    	model.addObject("currentUser", sampleService.getLoggedInUser());
+	    }
+	    else
+	    {
+	    	model.addObject("currentUser", userDao.findByUsername(username));
+	    }
+	    model.addObject("loggedInUser", sampleService.getLoggedInUser());
 	    return model;
     }
     
@@ -122,6 +130,14 @@ public class UserController {
 	    ModelAndView model = new ModelAndView("bookmarks");
 	    model.addObject("currentUser", sampleService.getLoggedInUser());
 	    model.addObject("adList", sampleService.findBookmarkedAdsForUser(sampleService.getLoggedInUser()));
+	    return model;
+    }
+    
+    @RequestMapping(value = "/sentenquiries", method = RequestMethod.GET)
+    public ModelAndView showSentEnquiries() {
+	    ModelAndView model = new ModelAndView("showSentEnquiries");
+	    model.addObject("currentUser", sampleService.getLoggedInUser());
+	    model.addObject("enquiriesList", sampleService.findSentEnquiriesForUser(sampleService.getLoggedInUser()));
 	    return model;
     }
     

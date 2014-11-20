@@ -3,7 +3,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-
 <c:import url="template/header.jsp" />
 	
 <div class="reservation">
@@ -19,7 +18,9 @@
 		<p>Hobbies: ${currentUser.userData.hobbies}</p>
 		<p>Profession: ${currentUser.userData.profession}</p>
 		</br>
-		<button type="submit" onclick="location.href='edit-profile'" class="btn btn-primary">Edit profile</button>
+		<c:if test="${currentUser.email == loggedInUser.email}">
+			<button type="submit" onclick="location.href='edit-profile'" class="btn btn-primary">Edit profile</button>
+		</c:if>
 	
 </div>
 

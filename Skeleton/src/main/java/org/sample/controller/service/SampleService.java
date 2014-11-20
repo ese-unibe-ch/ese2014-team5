@@ -189,6 +189,8 @@ public interface SampleService {
          * @return 
          */
 	public boolean createNotificationBookmark(Bookmark mark);
+
+	public Object findSentEnquiriesForUser(User loggedInUser);
 	
 }
  
