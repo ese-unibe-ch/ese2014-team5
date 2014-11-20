@@ -104,7 +104,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
         <li>Size: ${ad.roomSize }m&sup2;</li>
         <li>Available from: ${dateFrom } to: ${dateTo } </li>
         <li>Address: ${ad.address.street }, ${ad.address.plz } ${ad.address.city }</li>
-
+		<li>Roommate(s): <a href="profile?name=${ad.user.username }">${ad.user.firstName } ${ad.user.lastName }</a></li>
     </ul>
     </div>
     </br>
