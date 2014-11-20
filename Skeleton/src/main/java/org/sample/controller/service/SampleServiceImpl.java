@@ -26,6 +26,7 @@ import org.sample.model.Enquiry;
 import org.sample.model.Notifies;
 import org.sample.model.Picture;
 import org.sample.model.Search;
+import org.sample.model.UserData;
 import org.sample.model.UserRole;
 import org.sample.model.dao.AdDao;
 import org.sample.model.dao.AddressDao;
@@ -35,6 +36,7 @@ import org.sample.model.dao.NotifiesDao;
 import org.sample.model.dao.PictureDao;
 import org.sample.model.dao.SearchDao;
 import org.sample.model.dao.UserDao;
+import org.sample.model.dao.UserDataDao;
 import org.sample.model.dao.UserRoleDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -66,6 +68,8 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
     private UserDao userDao;
     @Autowired
     AddressDao addDao;
+    @Autowired
+    UserDataDao userDataDao;
     @Autowired
     AdDao adDao;
     @Autowired
@@ -254,7 +258,23 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
             String hashedPassword = passwordEncoder.encode(password);
             user.setPassword(hashedPassword);
         }
-
+        
+        
+        UserData data = user.getUserData();
+        if(data==null)
+        {
+        	data = new UserData();
+        }
+        
+        data.setAge(profileUpdateForm.getAge());
+        data.setBio(profileUpdateForm.getBio());
+        data.setHobbies(profileUpdateForm.getHobbies());
+      //  data.setPicture(profileUpdateForm.getPicture());
+        data.setProfession(profileUpdateForm.getProfession());
+        data.setQuote(profileUpdateForm.getQuote());
+        
+        data = userDataDao.save(data);
+        user.setUserData(data);
         user = userDao.save(user);
     }
 

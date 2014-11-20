@@ -33,7 +33,17 @@ public class User
     @OneToOne
 	private UserRole userRole;
 
+    @OneToOne
+	private UserData userData;
     
+	public UserData getUserData() {
+		return userData;
+	}
+
+	public void setUserData(UserData userData) {
+		this.userData = userData;
+	}
+
 	public User(){}
 	
 	public UserRole getUserRole()

@@ -8,10 +8,10 @@
 
 <div class="reservation">
 <legend>Edit your profile</legend>
-	<form:form method="post" modelAttribute="profileUpdateForm" action="updateAccount" id="profileUpdateForm" cssClass="form-horizontal"
+	<form:form method="post" modelAttribute="profileUpdateForm" action="updateAccount?${_csrf.parameterName}=${_csrf.token}" id="profileUpdateForm" cssClass="form-horizontal"
 	           autocomplete="off">
 	    <fieldset>
-	        <legend>Make your changes, then confirm</legend>
+	        Make your changes, then confirm
 	
 	        <c:set var="FirstNameErrors"><form:errors path="FirstName"/></c:set>
 	        <div class="control-group<c:if test="${not empty firstNameErrors}"> error</c:if>">
@@ -51,7 +51,7 @@
 	            </div>
 	        </div>
 	        
-	                <c:set var="passwordRepeatErrors"><form:errors path="passwordRepeat"/></c:set>
+	        <c:set var="passwordRepeatErrors"><form:errors path="passwordRepeat"/></c:set>
 	        <div class="control-group<c:if test="${not empty passwordRepeatErrors}"> error</c:if>">
 	            <label class="control-label" for="field-passwordRepeat">Repeat Password</label>
 	            <div class="controls">
@@ -59,6 +59,48 @@
 	                <form:errors path="passwordRepeat" cssClass="help-inline" element="span"/>
 	            </div>
 	        </div>
+	       
+	        <div class="control-group">
+	            <label class="control-label" for="field-bio">Biography</label>
+	            <div class="controls">
+	                <textarea path="bio" id="field-bio" rows="6" width="350px" style="resize:vertical;" tabindex="2" maxlength="500" placeholder="Describe who you are">${currentUser.userData.bio}</textarea>
+	                <form:errors path="bio" cssClass="help-inline" element="span"/>
+	            </div>
+	        </div>
+	        
+	        <div class="control-group">
+	            <label class="control-label" for="field-hobbies">Hobbies</label>
+	            <div class="controls">
+	                <form:input path="hobbies" id="field-hobbies" tabindex="1" maxlength="45" value="${currentUser.userData.hobbies}"/>
+	                <form:errors path="hobbies" cssClass="help-inline" element="span"/>
+	            </div>
+	        </div>
+	        
+	        <div class="control-group">
+	            <label class="control-label" for="field-age">Age</label>
+	            <div class="controls">
+	                <form:input type="number" path="age" id="field-age" tabindex="1" maxlength="45" value="${currentUser.userData.age}"/>
+	                <form:errors path="age" cssClass="help-inline" element="span"/>
+	            </div>
+	        </div>
+	        
+	        <div class="control-group">
+	            <label class="control-label" for="field-profession">Profession</label>
+	            <div class="controls">
+	                <form:input path="profession" id="field-profession" tabindex="1" maxlength="45" value="${currentUser.userData.profession}"/>
+	                <form:errors path="profession" cssClass="help-inline" element="span"/>
+	            </div>
+	        </div>
+	        
+	        <div class="control-group">
+	            <label class="control-label" for="field-quote">Personal Quote</label>
+	            <div class="controls">
+	                <form:input path="quote" id="field-quote" tabindex="1" maxlength="45" value="${currentUser.userData.quote}"/>
+	                <form:errors path="quote" cssClass="help-inline" element="span"/>
+	            </div>
+	        </div>
+	        
+	        <div id="files">File to upload: <input type="file" name="files[0]"><br /> </div>
 	
 	        <div class="form-actions">
 	            <button type="submit" class="btn btn-primary">Confirm</button>
