@@ -46,6 +46,7 @@ public class Enquiry {
 	public void setId(Long id) {
 	this.id = id;
 	}
+        
 	public String getEnquiryTitle() {
 	return enquiryTitle;
 	}
