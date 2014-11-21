@@ -106,11 +106,6 @@
 				    $( "#amountSize" ).val(	"10m^2 - 180m^2" );*/
 
 	});
-
-	function toggle()
-	{
-		$("#notifications").toggle(200);
-	}
 	
 	function setreadBookmark(id, url)
 	{
@@ -314,11 +309,6 @@
 	</div>
 </div>
 <sec:authorize access="hasRole('ROLE_USER')">
-<div id="notifybox" onclick="toggle()">
-	<div id="notifytitle">Notifications</div>
-	
-	<div id="notifications" style="display:none;"></div>
-</div>
 </sec:authorize>
 </div>
 <script type="text/javascript">
