@@ -2,6 +2,7 @@ package org.sample.controller;
 
 import javax.validation.Valid;
 
+import org.sample.controller.pojos.BookmarkForm;
 import org.sample.controller.pojos.SignupUser;
 import org.sample.controller.service.SampleService;
 import org.sample.exceptions.InvalidUserException;
@@ -123,6 +124,15 @@ public class UserController {
 	    model.addObject("currentUser", sampleService.getLoggedInUser());
 	    model.addObject("adList", sampleService.findAdsForUser((User) sampleService.getLoggedInUser()));
 	    return model;
+    }
+    
+    @RequestMapping(value = "/showenquiries", method = RequestMethod.GET)
+    public ModelAndView showAdEnquiries(@RequestParam("value") Long id) {
+        ModelAndView model = new ModelAndView("showenquiries");
+        model.addObject("currentUser", sampleService.getLoggedInUser());
+        model.addObject("ad", sampleService.getAd(id));
+
+        return model;
     }
     
     @RequestMapping(value = "/bookmarks", method = RequestMethod.GET)
