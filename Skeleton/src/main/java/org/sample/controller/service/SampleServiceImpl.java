@@ -1084,4 +1084,15 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 		return enquiryDao.findByUserFrom(loggedInUser);
 	}
 
+	public void setReadBookmarkNote(String adid) {
+		
+		 Bookmark bm = bookmarkDao.findByAdAndUser(adDao.findById(Long.parseLong(adid)),getLoggedInUser());
+		 List<Notifies> notes = notifiesDao.findByToUserAndBookmark(getLoggedInUser(), bm);
+		 for(Notifies note : notes)
+		 {
+			 note.setSeen(1);
+			 notifiesDao.save(note);
+		 }
+	}
+
 }

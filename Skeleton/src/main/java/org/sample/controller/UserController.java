@@ -140,6 +140,7 @@ public class UserController {
 	    ModelAndView model = new ModelAndView("bookmarks");
 	    model.addObject("currentUser", sampleService.getLoggedInUser());
 	    model.addObject("adList", sampleService.findBookmarkedAdsForUser(sampleService.getLoggedInUser()));
+	    
 	    return model;
     }
     

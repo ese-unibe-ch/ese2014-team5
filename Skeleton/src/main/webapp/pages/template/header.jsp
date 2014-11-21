@@ -34,7 +34,10 @@
 
 	<script type="text/javascript">
 	
-	var unread_elements = 0;
+	var unread_enquiries = 0;
+	var unread_bookmarks = 0;
+	var unread_searches = 0;
+	var unread_invitations = 0;
 	
 	$(document).mouseup(function (e)
 	{
@@ -52,6 +55,7 @@
 		  $(document).on("click", ".close", function(){
 			 $(this).parent().remove();
 		  });
+		  	
 		  
 		  var pull 		= $('#pull');
 			menu 		= $('nav ul');
@@ -108,38 +112,101 @@
 		$("#notifications").toggle(200);
 	}
 	
-	
+	function setreadBookmark(id, url)
+	{
+		$.get( "setreadbookmark?id=" + id, function() {
+			
+		});
+		
+		if(unread_bookmarks>0)
+		{
+			unread_bookmarks--;
+			$(".bBookmarks").text("Bookmarks ("+unread_bookmarks+")");
+		}
+		else
+			$(".bBookmarks").text("Bookmarks");
+		
+		if(url!="")
+			window.location.href=url;
+		
+		
+	}
 
 	function setread(id,url)
 	{
-		unread_elements--;
-		if(unread_elements == 0)
-	  	{
-	  		$("#notifytitle").removeClass("unread_messages");
-	  	}
-		$.get( "setread?noteid=" + id, function() {
-			
-		});
-		if(url!="")
-			window.location.href=url;
+		
+  		if(unread_searches>0)
+  		{
+	  		unread_searches--;
+  			$(".bSearches").text("Searches ("+unread_searches+")");
+  		}
+  		else
+  			$(".bSearches").text("Searches");
+  		if(unread_enquiries>0)
+  		{
+  			unread_enquiries--;
+	  		$(".bEnquiries").text("My Ads ("+unread_enquiries+")");
+  		}
+  		else
+  			$(".bEnquiries").text("My Ads");
+  		if(unread_invitations>0)
+  		{
+  			unread_invitations--;
+	  		$(".bInvitations").text("Enquiries ("+unread_invitations+")");
+  		}
+  		else
+  			$(".bInvitations").text("Enquiries");
 	}
+/*	$.get("getnotifications.htm", function(data){
+		alert(data);
+	});*/
 	
 	$.getJSON( "getnotifications.htm", function( data ) {
-	  	//$("#notifications").text(data);
 	  	
-	  	var items = [];
+	  	
+	  	//var items = [];
 	  	
 	  	data["Notifications"].forEach(function(entry) {
 	  		if(entry.read==0)
 	  			{
-		  			items.push( "<li id='" + entry.id + "'><a onclick='setread(" + entry.id + ", \""+ entry.url +"\")'>" + entry.text + "</a></li>" );
-	  				unread_elements++;
+	  				switch(entry.type)
+	  				{
+	  					case "ENQUIRY":
+	  						unread_enquiries++;
+	  						break;
+	  					case "BOOKMARK":
+	  						unread_bookmarks++;
+	  						break;
+	  					case "INVITATION":
+	  						unread_invitations++;
+	  						break;
+	  					case "SEARCHMATCH":
+	  						unread_searches++;
+	  						break;
+	  					default:
+	  						break;
+	  				}
+		  			/*items.push( "<li id='" + entry.id + "'><a onclick='setread(" + entry.id + ", \""+ entry.url +"\")'>" + entry.text + "</a></li>" );
+	  				unread_elements++;*/
 	  			}
 		  		else
-	  				items.push( "<li id='" + entry.id + "'><a onclick='"+ entry.url +"'>" + entry.text + "</a></li>" );
+		  		{
+		  			
+		  		}
+	  		
+	  		if(unread_bookmarks>0)
+		  		$(".bBookmarks").text("Bookmarks ("+unread_bookmarks+")");
+	  		if(unread_searches>0)
+		  		$(".bSearches").text("Searches ("+unread_searches+")");
+	  		if(unread_enquiries>0)
+		  		$(".bEnquiries").text("My Ads ("+unread_enquiries+")");
+	  		if(unread_invitations>0)
+		  		$(".bInvitations").text("Enquiries ("+unread_invitations+")");
+	  				//items.push( "<li id='" + entry.id + "'><a onclick='"+ entry.url +"'>" + entry.text + "</a></li>" );
 	  	});
 	  	
-	  	if(unread_elements > 0)
+	  
+	  	/*if(unread_elements > 0)
 	  	{
 	  		$("#notifytitle").addClass("unread_messages");
 	  	}
@@ -147,7 +214,7 @@
 	    $( "<ul/>", {
 	      "class": "my-new-list",
 	      html: items.join( "" )
-	    }).appendTo( "#notifications" );
+	    }).appendTo( "#notifications" );*/
 	    
 	 });
    
@@ -187,12 +254,12 @@
 <!-- 							<li><a href="my-ads">My Ads</a></li> -->
 <!-- 						</ul> -->
 <!-- 					</li> -->
-				    <li><a href="bookmarks">Bookmarks</a></li> |
-				    <li><a href="sentenquiries">Enquiries</a></li> |
+				    <li><a class="bBookmarks" href="bookmarks">Bookmarks</a></li> |
+				    <li><a class="bInvitations" href="sentenquiries">Enquiries</a></li> |
 					<li><a href="adcreation">create an Ad</a></li> |
 					<li><a href="profile?name=<%=SecurityContextHolder.getContext().getAuthentication().getName()%>"><span id="username">Profile</span></a></li> |
-					<li><a href="saved-searches"><span id="username">Searches</span></a></li> |
-					<li><a href="my-ads">My Ads</a></li> |
+					<li><a class="bSearches" href="saved-searches"><span id="username">Searches</span></a></li> |
+					<li><a class="bEnquiries" href="my-ads">My Ads</a></li> |
 					<li><c:if test="${pageContext.request.userPrincipal.name != null}">
 							<a style="cursor:pointer;" onclick="javascript:logout();">Logout</a>
 						</c:if></li>
@@ -226,12 +293,12 @@
 				<ul>
 				<li class="active"><a href="index">Home</a></li>
 				<sec:authorize access="hasRole('ROLE_USER')">
-					<li><a href="bookmarks">Bookmarks</a></li>
-					<li><a href="sentenquiries">Enquiries</a></li>
+					<li><a class="bBookmarks" href="bookmarks">Bookmarks</a></li>
+				    <li><a class="bInvitations" href="sentenquiries">Enquiries</a></li>
 					<li><a href="adcreation">create an Ad</a></li>
-					<li><a href="profile?name=<%=SecurityContextHolder.getContext().getAuthentication().getName()%>"><span id="username"><%=SecurityContextHolder.getContext().getAuthentication().getName().toLowerCase()%></span></a></li>
-					<li><a href="saved-searches"><span id="username">Searches</span></a></li>
-					<li><a href="my-ads">My Ads</a></li>
+					<li><a href="profile?name=<%=SecurityContextHolder.getContext().getAuthentication().getName()%>"><span id="username">Profile</span></a></li>
+					<li><a class="bSearches" href="saved-searches"><span id="username">Searches</span></a></li>
+					<li><a class="bEnquiries" href="my-ads">My Ads</a></li>
 					<li><a style="cursor:pointer;" onclick="javascript:logout();">Logout</a></li>
 				</sec:authorize>
 				<sec:authorize access="!hasRole('ROLE_USER')">

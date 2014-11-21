@@ -15,7 +15,7 @@
 		
 		<c:forEach var="ad" items="${adList}">
 			<div id="profilead_result">
-				<div class="result" style="width:100%;height:100px;padding:10px;" onclick="javascript:location.href='showad?value=${ad.id}'">
+				<div class="result" style="width:100%;height:100px;padding:10px;" onclick="setreadBookmark(${ad.id},'showad?value=${ad.id}')">
 	       			<c:forEach items="${ad.pictures}" varStatus="loopCount" var="pic">
 	             		<c:if test="${loopCount.count eq 1}">
 	             			<div style="float:left;"><img class="gallery" src="<c:url value="img/${pic.url}"/>"/></div>

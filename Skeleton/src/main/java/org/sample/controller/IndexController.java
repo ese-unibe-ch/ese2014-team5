@@ -89,10 +89,14 @@ public class IndexController {
                         txt = "New matching ad for your search! - <span class='beside'>" + date + "</span>";
                         url = "";
                         break;
+                    case INVITATION:
+                        txt = "New Invitation for your enquiry! - <span class='beside'>" + date + "</span>";
+                        url = "";
+                        break;
                     default:
                         txt = note.getText() + " - <span class='beside'>" + date + "</span>";
                 }
-                result += "{\"id\": " + note.getId() + ",\"text\":\"" + txt + "\",\"url\":\"" + url + "\",\"read\":" + note.getSeen() + "}";
+                result += "{\"id\": " + note.getId() + ",\"type\":\"" + note.getNotetype() + "\",\"text\":\"" + txt + "\",\"url\":\"" + url + "\",\"read\":" + note.getSeen() + "}";
                 if (iterator.hasNext()) {
                     result += ",";
                 }
@@ -109,6 +113,13 @@ public class IndexController {
     public @ResponseBody
     String setread(Model model, @RequestParam String noteid) {
         sampleService.setRead(noteid);
+        return "#";
+    }
+    
+    @RequestMapping("/setreadbookmark")
+    public @ResponseBody
+    String setreadBookmark(Model model, @RequestParam String id) {
+        sampleService.setReadBookmarkNote(id);
         return "#";
     }
 

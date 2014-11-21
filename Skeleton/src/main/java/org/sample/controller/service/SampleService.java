@@ -191,6 +191,8 @@ public interface SampleService {
 	public boolean createNotificationBookmark(Bookmark mark);
 
 	public Object findSentEnquiriesForUser(User loggedInUser);
+
+	public void setReadBookmarkNote(String adid);
 	
 }
  

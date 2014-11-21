@@ -14,4 +14,6 @@ public interface BookmarkDao  extends JpaRepository<Bookmark,Long>
 
 	Iterable<Bookmark> findByAd(Advert findById);
 
+	Bookmark findById(long parseLong);
+
 }

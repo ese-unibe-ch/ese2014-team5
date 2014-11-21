@@ -22,7 +22,7 @@ public class Notifies {
 	private Integer seen;
 	
 	public enum Type {
-		BOOKMARK, MESSAGE, ENQUIRY, SEARCHMATCH
+		BOOKMARK, MESSAGE, ENQUIRY, SEARCHMATCH, INVITATION
 	}
 	
 	@Enumerated(EnumType.ORDINAL)
@@ -42,9 +42,17 @@ public class Notifies {
 	private Search search;
 	@OneToOne
 	private Advert ad;
+	@OneToOne
+	private Invitation invitation;
 	
 	
 	
+	public Invitation getInvitation() {
+		return invitation;
+	}
+	public void setInvitation(Invitation invitation) {
+		this.invitation = invitation;
+	}
 	public Integer getSeen() {
 		return seen;
 	}
