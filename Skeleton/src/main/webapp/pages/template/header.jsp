@@ -18,6 +18,7 @@
 	<link type="text/css" rel="stylesheet" href="web/css/JFFormStyle-1.css" />
 			<script type="text/javascript" src="web/js/JFCore.js"></script>
 			<script type="text/javascript" src="web/js/JFForms.js"></script>
+			<script type="text/javascript" src="web/js/moment.min.js"></script>
 			<!-- Set here the key for your domain in order to hide the watermark on the web server -->
 	<!--nav-->
 	</head>
@@ -30,7 +31,9 @@
     <script type="text/javascript"  src="dn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <link  href="http://fotorama.s3.amazonaws.com/4.6.2/fotorama.css" rel="stylesheet"> <!-- 3 KB -->
 	<script src="http://fotorama.s3.amazonaws.com/4.6.2/fotorama.js"></script> <!-- 16 KB -->
-    
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.2/fullcalendar.min.js"></script>
+<link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.2/fullcalendar.min.css">
+<link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.2/fullcalendar.print.css">
 
 	<script type="text/javascript">
 	
