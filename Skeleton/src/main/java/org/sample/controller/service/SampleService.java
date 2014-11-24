@@ -1,5 +1,7 @@
 package org.sample.controller.service;
 
+import java.util.List;
+
 import org.sample.controller.pojos.AdCreateForm;
 import org.sample.controller.pojos.BookmarkForm;
 import org.sample.controller.pojos.SearchForm;
@@ -9,6 +11,7 @@ import org.sample.exceptions.InvalidSearchException;
 import org.sample.model.Advert;
 import org.sample.model.Bookmark;
 import org.sample.model.Enquiry;
+import org.sample.model.Notifies;
 import org.sample.model.User;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -193,6 +196,12 @@ public interface SampleService {
 	public Object findSentEnquiriesForUser(User loggedInUser);
 
 	public void setReadBookmarkNote(String adid);
+
+	public Object findEnquiriesForAd(Advert ad);
+
+	public List<Notifies> findNotificationsEnquiryForAd(Advert ad);
+
+	public void setReadEnquiryNoteForAdId(String id);
 	
 }
  

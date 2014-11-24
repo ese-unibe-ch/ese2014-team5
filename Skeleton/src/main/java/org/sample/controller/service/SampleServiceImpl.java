@@ -27,6 +27,7 @@ import org.sample.model.Advert;
 import org.sample.model.Bookmark;
 import org.sample.model.Enquiry;
 import org.sample.model.Notifies;
+import org.sample.model.Notifies.Type;
 import org.sample.model.Picture;
 import org.sample.model.Search;
 import org.sample.model.UserData;
@@ -1093,6 +1094,25 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 			 note.setSeen(1);
 			 notifiesDao.save(note);
 		 }
+	}
+
+	public Object findEnquiriesForAd(Advert ad) {
+		
+		return enquiryDao.findByAdvert(ad);
+	}
+
+	public List<Notifies> findNotificationsEnquiryForAd(Advert ad) {
+		
+		return notifiesDao.findByAdAndNotetype(ad,Type.ENQUIRY);
+	}
+
+	public void setReadEnquiryNoteForAdId(String id) {
+		List<Notifies> notes = notifiesDao.findByAdAndNotetype(adDao.findById(Long.parseLong(id)), Type.ENQUIRY);
+		for(Notifies note : notes)
+		{
+			note.setSeen(1);
+			notifiesDao.save(note);
+		}
 	}
 
 }

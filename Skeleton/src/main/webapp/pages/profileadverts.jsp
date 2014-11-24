@@ -29,10 +29,20 @@
 						</p>
 					</div>
 					<div class="resultinfo" style="margin-left:10px;float:right;text-align: right;">
-						Enquiries: 5<br/>
-						<span style = "color:green;">New: 2</span><br/><br/>
+						
+						<span id="enqid${ad.id }"></span>
+						<script type="text/javascript"> 
+							$("#enqid${ad.id }").load("getnumenquiriesforad.htm?id=${ad.id }"); 
+							function setNotesReadForAdAndShowEnquiries(id)
+							{
+								$.get( "setreadenquiries?id=" + id, function() {
+									
+								});
+								window.location.href='showenquiries?value=${ad.id}';
+							}
+						</script>
 						<button type="button" onclick="location.href='showad?value=${ad.id}'" class="btn btn-primary">Preview</button>
-						<button type="button" onclick="location.href='showenquiries?value=${ad.id}'" class="btn btn-primary">Show enquiries</button>
+						<button type="button" onclick="setNotesReadForAdAndShowEnquiries(${ad.id})" class="btn btn-primary">Show enquiries</button>
 					</div>
 				</div>
 			</div>

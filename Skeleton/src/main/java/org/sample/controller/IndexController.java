@@ -53,75 +53,7 @@ public class IndexController {
         return model;
     }
 
-    /**
-     * Controller for output notifications
-     *
-     * @return
-     */
-    @RequestMapping(value = "/getnotifications", method = RequestMethod.GET)
-    public @ResponseBody
-    String getNotifications() {
-        Iterable<Notifies> notifications = (Iterable<Notifies>) sampleService.findNotificationsForUser(sampleService.getLoggedInUser());
-
-        String result = "{\"Notifications\":[";
-        Iterator<Notifies> iterator = notifications.iterator();
-        while (iterator.hasNext()) {
-            Notifies note = iterator.next();
-
-            SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-            String date = dateFormat.format(note.getDate());
-            String txt = "";
-            String url = "";
-            try {
-                switch (note.getNotetype()) {
-                    case BOOKMARK:
-                        txt = "Bookmarked Ad " + note.getBookmark().getAd().getTitle() + " has changed - <span class='beside'>" + date + "</span>";
-                        url = "showad?value=" + note.getBookmark().getAd().getId();
-                        break;
-                    case MESSAGE:
-                        txt = note.getText() + " - " + "<span class='beside'>" + date + "</span>";
-                        break;
-                    case ENQUIRY:
-                        txt = "New enquiry received from " + note.getFromUser().getUsername() + " - <span class='beside'>" + date + "</span>";
-                        url = "";
-                        break;
-                    case SEARCHMATCH:
-                        txt = "New matching ad for your search! - <span class='beside'>" + date + "</span>";
-                        url = "";
-                        break;
-                    case INVITATION:
-                        txt = "New Invitation for your enquiry! - <span class='beside'>" + date + "</span>";
-                        url = "";
-                        break;
-                    default:
-                        txt = note.getText() + " - <span class='beside'>" + date + "</span>";
-                }
-                result += "{\"id\": " + note.getId() + ",\"type\":\"" + note.getNotetype() + "\",\"text\":\"" + txt + "\",\"url\":\"" + url + "\",\"read\":" + note.getSeen() + "}";
-                if (iterator.hasNext()) {
-                    result += ",";
-                }
-            } catch (NullPointerException e) {
-
-            }
-
-        }
-        result += "]}";
-        return result;
-    }
-
-    @RequestMapping("/setread")
-    public @ResponseBody
-    String setread(Model model, @RequestParam String noteid) {
-        sampleService.setRead(noteid);
-        return "#";
-    }
     
-    @RequestMapping("/setreadbookmark")
-    public @ResponseBody
-    String setreadBookmark(Model model, @RequestParam String id) {
-        sampleService.setReadBookmarkNote(id);
-        return "#";
-    }
 
     @RequestMapping("/sendenquiry")
     public ModelAndView sendenquiry(@RequestParam String enquirytext, @RequestParam String adid) {
