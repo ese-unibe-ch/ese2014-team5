@@ -94,10 +94,10 @@ public class UserController {
     /**
      * Redirects to the 'saved searches' section in user profile
      * @param value The id of the search that has to be deleted from the user profile.
+     * @param filter The id of the search that is selected for notifications, or 0 for no notifications.
      */
     @RequestMapping(value = "/saved-searches")
     public ModelAndView showSearches(@RequestParam(required = false) Long value, Long filter) {
-    	System.out.println(value);
 	    ModelAndView model = new ModelAndView("profilesearches");
 	    
 	    if (value!=null){
@@ -114,7 +114,7 @@ public class UserController {
 	    }
 	    model.addObject("selectedSearch", currentUser.getSelectedSearch());
 	    model.addObject("currentUser", currentUser);
-	    model.addObject("searchList", searchDao.findByUserId(currentUser.getId())); //cast (User) ??
+	    model.addObject("searchList", searchDao.findByUserId(currentUser.getId()));
 	    return model;
     }
     

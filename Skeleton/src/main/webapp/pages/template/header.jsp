@@ -129,6 +129,24 @@
 		
 		
 	}
+	
+	function setreadSearch(id, url)
+	{
+		$.get( "setreadsearch?id=" + id, function() {
+			
+		});
+		
+		if(unread_searches>0)
+		{
+			unread_searches--;
+			$(".bSearches").text("Searches ("+unread_searches+")");
+		}
+		else
+			$(".bSearches").text("Searches");
+		
+		if(url!="")
+			window.location.href=url;
+	}
 
 	function setread(id,url)
 	{
