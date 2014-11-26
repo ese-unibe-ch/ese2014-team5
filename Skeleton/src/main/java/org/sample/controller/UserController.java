@@ -111,6 +111,7 @@ public class UserController {
 	    } else if (filter!=null){
 	    	currentUser.setSelectedSearch(filter);
 	    	userDao.save(currentUser);
+	    	model.addObject("msg", "You will be notified as soon as a new ad is uploaded that matches your search.");
 	    }
 	    model.addObject("selectedSearch", currentUser.getSelectedSearch());
 	    model.addObject("currentUser", currentUser);

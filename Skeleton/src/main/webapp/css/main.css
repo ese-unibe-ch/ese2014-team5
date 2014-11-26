@@ -820,8 +820,8 @@ dd {
 hr {
     margin: 20px 0;
     border: 0;
-    border-top: 1px solid #eee;
-    border-bottom: 1px solid #fff
+    border-top: 1px solid #e5e5e5 !important;
+/*     border-bottom: 1px solid #fff */
 }
 
 abbr[title], abbr[data-original-title] {

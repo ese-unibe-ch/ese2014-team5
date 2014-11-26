@@ -16,7 +16,7 @@
 		
 		<c:forEach var="ad" items="${adList}">
 			<div class="resultblock" id="profilead_result">
-				<div class="result">
+				<div class="result" onclick="location.href='showad?value=${ad.id}'">
 	       			<c:forEach items="${ad.pictures}" varStatus="loopCount" var="pic">
 	             		<c:if test="${loopCount.count eq 1}"><div style="float:left;"><img class="gallery" src="<c:url value="img/${pic.url}"/>"/></div></c:if>
 					</c:forEach>
@@ -39,10 +39,16 @@
 									
 								});
 								window.location.href='showenquiries?value=${ad.id}';
+								
+								var e = window.event;
+								e.cancelBubble = true;
+								if (e.stopPropagation) e.stopPropagation();
 							}
 						</script>
-						<button type="button" onclick="location.href='showad?value=${ad.id}'" class="btn btn-primary">Preview</button>
-						<button type="button" onclick="setNotesReadForAdAndShowEnquiries(${ad.id})" class="btn btn-primary">Show enquiries</button>
+						<div style="float:right;position:absolute;bottom:10px;right:10px;">
+							<button type="button" name="enquiries" onclick="setNotesReadForAdAndShowEnquiries(${ad.id})" class="btn btn-primary">Show enquiries</button>
+						</div>
+					
 					</div>
 				</div>
 			</div>

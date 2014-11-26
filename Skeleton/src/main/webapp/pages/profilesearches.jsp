@@ -7,8 +7,15 @@
 
 <c:import url="template/header.jsp" />
 
+<c:if test="${msg != null }">
+	<div class="alert alert-success">
+	    <button type="button" class="close" style="left:0;" data-dismiss="alert">&times;</button>
+	        ${msg}
+	</div>
+</c:if>
+
 <div class="reservation">
-<legend>Your saved searches</legend>
+<legend>My saved searches</legend>
 	<c:if test="${empty searchList}">
 		You don't have any saved searches.
 	</c:if>

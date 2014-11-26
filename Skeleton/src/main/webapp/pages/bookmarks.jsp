@@ -9,7 +9,7 @@
 <div class="reservation">
 <legend>Bookmarks</legend>
 	<c:if test="${empty adList}">
-		You have no bookmarks yet.</br></br>
+		You don't have any bookmarks yet.</br></br>
 	</c:if>
 	<c:if test="${not empty adList}">
 		
