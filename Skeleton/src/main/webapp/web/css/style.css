@@ -1196,8 +1196,19 @@ div.resultinfo
 .result {
 	background-color: #F1F1F1;
 	margin-bottom:5px;
+	width:100%;
+	height:auto;
+	padding:2%;
+	display:inline-block;
+	position:relative;
 	
 }
+
+.resultblock {
+	width:94%;
+	padding:2%;
+}
+
 .result:hover {
 	background-color: #E4E4E4;
 	

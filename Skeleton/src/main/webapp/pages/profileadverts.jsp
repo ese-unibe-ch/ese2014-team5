@@ -15,8 +15,8 @@
 	<c:if test="${not empty adList}">
 		
 		<c:forEach var="ad" items="${adList}">
-			<div id="profilead_result">
-				<div class="result" style="width:100%;height:100px;padding:10px;">
+			<div class="resultblock" id="profilead_result">
+				<div class="result">
 	       			<c:forEach items="${ad.pictures}" varStatus="loopCount" var="pic">
 	             		<c:if test="${loopCount.count eq 1}"><div style="float:left;"><img class="gallery" src="<c:url value="img/${pic.url}"/>"/></div></c:if>
 					</c:forEach>
