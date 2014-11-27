@@ -14,14 +14,11 @@
 	<!--end slider -->
 	<!---strat-date-piker---->
 	<!---/End-date-piker---->
-	  <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
-  <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 	<link type="text/css" rel="stylesheet" href="web/css/JFGrid.css" />
 	<link type="text/css" rel="stylesheet" href="web/css/JFFormStyle-1.css" />
 			<script type="text/javascript" src="web/js/JFCore.js"></script>
 			<script type="text/javascript" src="web/js/JFForms.js"></script>
 			<script type="text/javascript" src="web/js/moment.min.js"></script>
-			<script type="text/javascript" src="web/js/combodate.js"></script>
 			<!-- Set here the key for your domain in order to hide the watermark on the web server -->
 	<!--nav-->
 	</head>

@@ -8,20 +8,37 @@
 <div class="reservation">
 <legend>${currentUser.firstName} ${currentUser.lastName}'s profile</legend>
 
-	<img style="width: 250px;" class="pic" src="<c:url value="img/${currentUser.userData.picture.url}"/>"/>
-	<br />
-	<br />
-		<p>Quote: ${currentUser.userData.quote}</p>
-		<p>E-Mail: ${currentUser.email}</p>
-		<p>Age: ${currentUser.userData.age}</p>
-		<p>Biography: ${currentUser.userData.bio}</p>
-		<p>Hobbies: ${currentUser.userData.hobbies}</p>
-		<p>Profession: ${currentUser.userData.profession}</p>
-		</br>
+	<div style="width:100%;">
+		<div style="float:left;">
+			<img style="width: 150px;" class="pic" src="<c:url value="img/${currentUser.userData.picture.url}"/>"/>
+		</div>
+		<div style="padding-left:30px;float:left;">
+			</br>
+			<span style="font-weight:bold;font-size:18pt;font-family:Comic Sans MS,sans-serif;">"${currentUser.userData.quote}"</span>
+		</div>
+	</div>
+	
+	<div style="clear:both;padding-top:20px;">
+		<div style="float:left;">
+			<p><span style="font-weight:bold;">E-Mail: </span></p>
+			<p><span style="font-weight:bold;">Age: </span></p>
+			<p><span style="font-weight:bold;">Biography: </span></p>
+			<p><span style="font-weight:bold;">Hobbies: </span></p>
+			<p><span style="font-weight:bold;">Profession: </br></span></p>
+		</div>
+		<div style="padding-left:14px;float:left;">
+			<p>${currentUser.email}</br></p>
+			<p>${currentUser.userData.age}</br></p>
+			<p>${currentUser.userData.bio}</br></p>
+			<p>${currentUser.userData.hobbies}</br></p>
+			<p>${currentUser.userData.profession}</br></br></p>
+		</div>
+	</div>
+	<div class="form-actions" style="clear:both;padding-top:20px;">
 		<c:if test="${currentUser.email == loggedInUser.email}">
 			<button type="submit" onclick="location.href='edit-profile'" class="btn btn-primary">Edit profile</button>
 		</c:if>
-	
+	</div>
 </div>
 
 

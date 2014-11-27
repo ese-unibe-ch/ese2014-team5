@@ -19,10 +19,12 @@ import org.sample.exceptions.InvalidAdException;
 import org.sample.exceptions.InvalidSearchException;
 import org.sample.model.Advert;
 import org.sample.model.Bookmark;
+import org.sample.model.Search;
 import org.sample.model.User;
 import org.sample.model.Enquiry;
 import org.sample.model.Notifies;
 import org.sample.model.dao.NotifiesDao;
+import org.sample.model.dao.SearchDao;
 import org.sample.model.dao.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -46,6 +48,8 @@ public class IndexController {
     SampleService sampleService;
     @Autowired
     UserDao userDao;
+    @Autowired
+    SearchDao searchDao;
 
     @RequestMapping(value = "/siteowner", method = RequestMethod.GET)
     public ModelAndView siteowner() {
@@ -91,10 +95,36 @@ public class IndexController {
     /*Core of the page, starting point,search and search output in one
      * is also containing an extended version of this search and a map version of the search */
     @RequestMapping(value = "/index")
-    public ModelAndView index(@Valid SearchForm searchForm, @RequestParam(required = false) String action, BindingResult result, RedirectAttributes redirectAttributes) {
+    public ModelAndView index(@Valid SearchForm searchForm, @RequestParam(required = false) String action, @RequestParam(required = false) Long searchid, BindingResult result, RedirectAttributes redirectAttributes) {
 
         ModelAndView model = new ModelAndView("index");
         model.addObject("currentUser", (org.sample.model.User) userDao.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
+        
+        //When coming from 'Searches' page, autofill the search form.
+        if (searchid != null){
+	        Search search = searchDao.findOne(searchid);
+	    	searchForm = new SearchForm();
+	    	searchForm.setSearch(search.getFreetext());
+	    	searchForm.setFromPrice(search.getPriceFrom());
+	    	searchForm.setToPrice(search.getPriceTo());
+	    	searchForm.setFromSize(search.getSizeFrom());
+	    	searchForm.setToSize(search.getSizeTo());
+	    	searchForm.setNearCity(search.getArea());
+	    	searchForm.setNumberOfPeople(search.getPeopleAmount());
+	    	SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+	    	if(search.getFromDate()!=null){
+	    		searchForm.setFromDate(dateFormat.format(search.getFromDate()));
+	    	} else {
+	    		searchForm.setFromDate("");
+	    	}
+	    	if(search.getToDate()!=null){
+	    		searchForm.setToDate(dateFormat.format(search.getToDate()));
+	    	} else {
+	    		searchForm.setToDate("");
+	    	}
+        }
+        
+        model.addObject("searchForm", searchForm);
         model.addObject("searchResults", sampleService.findAds(searchForm));
 
         //model.addObject("notifications",sampleService.findNotificationsForUser(sampleService.getLoggedInUser()));
@@ -134,6 +164,7 @@ public class IndexController {
 
         return model;
     }
+    
     
     /**
      * Controller which waits for entered new Ad Input

@@ -9,6 +9,10 @@
 <div class="reservation">
 <legend>My sent enquiries</legend>
 
+<c:if test="${empty adList}">
+		You didn't send any enquiries yet.</br></br>
+</c:if>
+
 <ul id="enquiries">
 	<c:forEach items="${enquiriesList}" var="enq">
 		<li> <a href="showad?value=${enq.advert.id}">${enq.advert.title}</a>  </li>

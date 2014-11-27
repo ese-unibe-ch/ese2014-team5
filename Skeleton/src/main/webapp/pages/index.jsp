@@ -115,62 +115,78 @@ $(document).ready(function() {
 	<form:form method="post" modelAttribute="searchForm" action="index" id="searchForm" cssClass="form-horizontal"
            autocomplete="off">
    		<fieldset>
-            <label class="control-label" for="field-search">Search</label>
-            <div class="controls">
-                <form:input path="search" id="field-search" tabindex="2" maxlength="35" placeholder="Search for specifics (near shops, party-friendly, etc.).."/>
+   		
+   			<div class="control-group">
+	            <label class="control-label" for="field-search">Search</label>
+	            <div class="controls">
+	                <form:input path="search" id="field-search" tabindex="2" maxlength="35" placeholder="Search for specifics (near shops, party-friendly, etc.).."/>
+	            </div>
+	        </div>
+            
+            <div class="control-group">
+	            <label class="control-label" for="amountPrice">Price</label>
+	            <div class="controls">
+				 <input type="text" id="amountPrice" readonly style="border:0; color:#f6931f; font-weight:bold;" value="CHF ${minPrice} - CHF ${maxPrice}">
+	            	<div id="slider-range-price"></div>
+	            	<form:input type="hidden"  path="fromPrice" id="field-fromPrice" tabindex="2" maxlength="35" placeholder="CHF"/>
+	            	<form:input type="hidden" path="toPrice" id="field-toPrice" tabindex="2" maxlength="35" placeholder="CHF"/>
+	            </div>	 
             </div>
             
-             
-            <label class="control-label" for="amountPrice">Price</label>
-            <div class="controls">
-			 <input type="text" id="amountPrice" readonly style="border:0; color:#f6931f; font-weight:bold;" value="CHF ${minPrice} - CHF ${maxPrice}">
-            	<div id="slider-range-price"></div>
-            	<form:input type="hidden"  path="fromPrice" id="field-fromPrice" tabindex="2" maxlength="35" placeholder="CHF"/>
-            	<form:input type="hidden" path="toPrice" id="field-toPrice" tabindex="2" maxlength="35" placeholder="CHF"/>
-            </div>	 
-            
-            <label class="control-label" for="amountSize">Size</label>
-            <div class="controls">
-				  <input type="text" id="amountSize" readonly style="border:0; color:#f6931f; font-weight:bold;" value="${minSize}m^2 - ${maxSize}m^2">
-            	<div id="slider-range-size"></div>
-            	<form:input type="hidden"  path="fromSize" id="field-fromSize" tabindex="2" maxlength="35" placeholder="CHF"/>
-            	<form:input type="hidden" path="toSize" id="field-toSize" tabindex="2" maxlength="35" placeholder="CHF"/>
-            </div>	   
-            
-            
-            <label class="control-label" for="field-nearCity" style="clear:left;">Area</label>
-            <div class="controls">
-                <form:input path="nearCity" id="field-nearCity" tabindex="2" maxlength="35" placeholder="e.g. Bern"/>
+            <div class="control-group">
+	            <label class="control-label" for="amountSize">Size</label>
+	            <div class="controls">
+					  <input type="text" id="amountSize" readonly style="border:0; color:#f6931f; font-weight:bold;" value="${minSize}m^2 - ${maxSize}m^2">
+	            	<div id="slider-range-size"></div>
+	            	<form:input type="hidden"  path="fromSize" id="field-fromSize" tabindex="2" maxlength="35" placeholder="CHF"/>
+	            	<form:input type="hidden" path="toSize" id="field-toSize" tabindex="2" maxlength="35" placeholder="CHF"/>
+	            </div>	   
             </div>
             
+            <div class="control-group">
+	            <label class="control-label" for="field-nearCity" style="clear:left;">Area</label>
+	            <div class="controls">
+	                <form:input path="nearCity" id="field-nearCity" tabindex="2" maxlength="35" placeholder="e.g. Bern"/>
+	            </div>
+            </div>
 
+			<hr>
             <label class="control-label">Advanced Search</label>
             <div class="controls">
             	<input type="checkbox" id="advanced_check"/>
             </div><br />
             <div style="float:left;"></div>
-            <div id="advanced" style="height: 0px; overflow:hidden;"> 
+            <div id="advanced" style="height: 0px; overflow:hidden;"></br>
             
-          
-            <label class="control-label" for="field-numberOfPeople">Number of People</label>
-            <div class="controls">
-                <form:input path="numberOfPeople" id="field-numberOfPeople"  tabindex="2" maxlength="150" placeholder="e.g. 4"/>
-            </div>
-   			<br />
-            <label class="control-label " for="field-fromDate">from</label>
-            <div class="controls">
-                <form:input path="fromDate" id="field-fromDate" class="span2" tabindex="2" maxlength="150" placeholder="e.g. 02/23/14"/>  
-            </div> 
+	            <div class="control-group">
+		            <label class="control-label" for="field-numberOfPeople">No. of People</label>
+		            <div class="controls">
+		                <form:input path="numberOfPeople" id="field-numberOfPeople"  tabindex="2" maxlength="150" placeholder="e.g. 4"/>
+		            </div>
+		        </div>
+	   			
+	   			<div class="control-group">
+		            <label class="control-label" for="field-fromDate">From</label>
+		            <div class="controls">
+		                <form:input path="fromDate" id="field-fromDate" class="span2" tabindex="2" maxlength="150" placeholder="e.g. 02/23/14"/>  
+		            </div>
+		        </div>
+	
+				<div class="control-group">
+		            <label class="control-label" for="field-toDate">Till</label>
+		            <div class="controls">
+		                <form:input path="toDate" id="field-toDate" class="span2" tabindex="2" maxlength="150" placeholder="e.g. 02/23/14"/>
+		            </div>
+		        </div>
+		        
+		        <div class="control-group">
+		            <label class="control-label">Only Bookmarked</label>
+		            <div class="controls">
+		            	<form:checkbox path="favorites" id="field-favorites"/>
+		            </div>
+		        </div>
 
-            <label class="control-label " for="field-toDate">till</label>
-            <div class="controls">
-                <form:input path="toDate" id="field-toDate" class="span2" tabindex="2" maxlength="150" placeholder="e.g. 02/23/14"/> or leave empty for undefined
-            </div>
-  
-            <div class="control-label" >Include favorites </div>
-            <div class="controls"><form:checkbox path="favorites" id="field-favorites"/></div>
-
-		 </div>
+		 	</div>
             
             
             

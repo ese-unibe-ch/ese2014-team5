@@ -104,7 +104,7 @@
 	
 	        <div class="form-actions">
 	            <button type="submit" class="btn btn-primary">Confirm</button>
-	            <button type="button" onclick="location.href='profile?id=${currentUser.id}'" class="btn">Cancel</button>
+	            <button type="button" onclick="location.href='profile?name=${currentUser.username}'" class="btn">Cancel</button>
 	        </div>
 	
 	

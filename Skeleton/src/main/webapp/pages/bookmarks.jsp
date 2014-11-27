@@ -9,13 +9,13 @@
 <div class="reservation">
 <legend>Bookmarks</legend>
 	<c:if test="${empty adList}">
-		You have no bookmarks yet.</br></br>
+		You don't have any bookmarks yet.</br></br>
 	</c:if>
 	<c:if test="${not empty adList}">
 		
 		<c:forEach var="ad" items="${adList}">
-			<div id="profilead_result">
-				<div class="result" style="width:100%;height:100px;padding:10px;" onclick="setreadBookmark(${ad.id},'showad?value=${ad.id}')">
+			<div class="resultblock" id="profilead_result">
+				<div class="result" onclick="setreadBookmark(${ad.id},'showad?value=${ad.id}')">
 	       			<c:forEach items="${ad.pictures}" varStatus="loopCount" var="pic">
 	             		<c:if test="${loopCount.count eq 1}">
 	             			<div style="float:left;"><img class="gallery" src="<c:url value="img/${pic.url}"/>"/></div>

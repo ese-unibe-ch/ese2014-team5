@@ -26,18 +26,16 @@
 	<!--nav-->
 	</head>
 
+    <link rel="stylesheet" type="text/css" href="css/main.css" media="all"/>
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
-  	<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
-  	<script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+
    <!--  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">-->
     <script type="text/javascript"  src="dn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <link  href="http://fotorama.s3.amazonaws.com/4.6.2/fotorama.css" rel="stylesheet"> <!-- 3 KB -->
 	<script src="http://fotorama.s3.amazonaws.com/4.6.2/fotorama.js"></script> <!-- 16 KB -->
     <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.2/fullcalendar.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.2/fullcalendar.min.css">
-	<link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.2/fullcalendar.print.css">
-    <link rel="stylesheet" type="text/css" href="css/main.css" media="all"/>
-
+<link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.2/fullcalendar.min.css">
+<link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.2/fullcalendar.print.css">
 
 	<script type="text/javascript">
 	
@@ -132,24 +130,6 @@
 			window.location.href=url;
 		
 		
-	}
-	
-	function setreadSearch(id, url)
-	{
-		$.get( "setreadsearch?id=" + id, function() {
-			
-		});
-		
-		if(unread_searches>0)
-		{
-			unread_searches--;
-			$(".bSearches").text("Searches ("+unread_searches+")");
-		}
-		else
-			$(".bSearches").text("Searches");
-		
-		if(url!="")
-			window.location.href=url;
 	}
 
 	function setread(id,url)

@@ -344,7 +344,7 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
      * Checks the adForm and saves the ad to the database
      *
      * @param adForm
-     * @return
+     * @return the id of the new ad
      * @throws InvalidAdException
      */
     @Transactional
@@ -846,6 +846,7 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
     public void removeSearch(Long searchId) {
         Search search = searchDao.findOne(searchId);
         search.setUser(null);
+        searchDao.save(search);
     }
 
     /**
