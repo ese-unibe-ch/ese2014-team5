@@ -6,10 +6,13 @@
 package org.sample.model;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 //import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.Size;
@@ -39,6 +42,33 @@ public class Enquiry {
 	@OneToOne
 	private Advert advert;
 	
+	@ManyToOne(fetch=FetchType.LAZY)
+	private Invitation invitation;
+	
+	public Invitation getInvitation() {
+		return invitation;
+	}
+	public void setInvitation(Invitation invitation) {
+		this.invitation = invitation;
+	}
+	public int getRating() {
+		return rating;
+	}
+	public void setRating(int rating) {
+		this.rating = rating;
+	}
+	public InvitationStatus getStatus() {
+		return status;
+	}
+	public void setStatus(InvitationStatus status) {
+		this.status = status;
+	}
+	private int rating;
+	
+	public enum InvitationStatus {UNKNOWN,ACCEPTED,CANCELLED}
+
+    @Enumerated(EnumType.ORDINAL)
+	private InvitationStatus status;
 	
 	public Long getId() {
 	return id;

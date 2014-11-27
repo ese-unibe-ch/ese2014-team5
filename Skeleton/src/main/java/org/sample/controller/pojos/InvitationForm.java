@@ -3,13 +3,14 @@ package org.sample.controller.pojos;
 import java.util.Date;
 import java.util.Set;
 
+import org.sample.model.Enquiry;
 import org.sample.model.User;
 
 public class InvitationForm 
 {
 	private Long advertId;
     private Long userFromId;
-    private Set<User> users;
+    private Set<Enquiry> enquiries;
     private Date fromDate;
     private String duration;
     private String textOfInvitation;
@@ -26,11 +27,12 @@ public class InvitationForm
 	public void setUserFromId(Long userFrom) {
 		this.userFromId = userFrom;
 	}
-	public Set<User> getUsers() {
-		return users;
+	
+	public Set<Enquiry> getEnquiries() {
+		return enquiries;
 	}
-	public void setUsers(Set<User> users) {
-		this.users = users;
+	public void setEnquiries(Set<Enquiry> enquiries) {
+		this.enquiries = enquiries;
 	}
 	public Date getFromDate() {
 		return fromDate;

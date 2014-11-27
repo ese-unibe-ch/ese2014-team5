@@ -34,23 +34,9 @@ public class Invitation {
 
     @OneToOne
     private Advert advert;
-
-    @OneToOne
-    private User userFrom;
     
-    @OneToOne
-    private User userTo;
-    
-    private Long groupId;
-    private int rating;
-
     private Date fromDate;
     private Date toDate;
-
-    public enum InvitationStatus {UNKNOWN,ACCEPTED,CANCELLED}
-
-    @Enumerated(EnumType.ORDINAL)
-	private InvitationStatus status;
     
     private String textOfInvitation;
 
@@ -70,21 +56,6 @@ public class Invitation {
         this.advert = advert;
     }
 
-    public User getUserFrom() {
-        return userFrom;
-    }
-
-    public void setUserFrom(User userFrom) {
-        this.userFrom = userFrom;
-    }
-    
-    public User getUserTo() {
-		return userTo;
-	}
-
-	public void setUserTo(User userTo) {
-		this.userTo = userTo;
-	}
 
 	public Date getFromDate() {
         return fromDate;
@@ -101,30 +72,6 @@ public class Invitation {
     public void setToDate(Date toDate) {
         this.toDate = toDate;
     }
-
-    public Long getGroupId() {
-		return groupId;
-	}
-
-	public void setGroupId(Long groupId) {
-		this.groupId = groupId;
-	}
-
-	public int getRating() {
-		return rating;
-	}
-
-	public void setRating(int rating) {
-		this.rating = rating;
-	}
-
-	public InvitationStatus getStatus() {
-		return status;
-	}
-
-	public void setStatus(InvitationStatus status) {
-		this.status = status;
-	}
 
 	public String getTextOfInvitation() {
         return textOfInvitation;

@@ -29,7 +29,6 @@ import org.sample.model.Advert;
 import org.sample.model.Bookmark;
 import org.sample.model.Enquiry;
 import org.sample.model.Invitation;
-import org.sample.model.Invitation.InvitationStatus;
 import org.sample.model.Notifies;
 import org.sample.model.Notifies.Type;
 import org.sample.model.Picture;
@@ -1123,20 +1122,18 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 	}
 
 	public void createInvitation(InvitationForm invForm) throws InvalidDateParseException {
-		for(org.sample.model.User user : invForm.getUsers()) {
+		/*for(org.sample.model.User user : invForm.getUsers()) {
 			Invitation inv= new Invitation();
 			Advert ad = adDao.findById(invForm.getAdvertId());
+			
 			inv.setAdvert(ad);
 			inv.setFromDate(inv.getFromDate());
 			inv.setTextOfInvitation(inv.getTextOfInvitation());
 			inv.setToDate(calculateToDate(invForm));
-			inv.setUserFrom(userDao.findById(invForm.getUserFromId()));
-			inv.setUserTo(user);
-			inv.setStatus(InvitationStatus.UNKNOWN);
 			
 	        inv = invitationDao.save(inv);
 
-		}
+		}*/
 
 	}
 

@@ -80,8 +80,11 @@ $(document).ready(function() {
             maxYear: 2020
         });
         
-        $(document).on("click",".userlist_item",function(){
+        var selected_enqlist = [];
+        
+        $(".enqlist_item").click(function(){
         	$(this).css("background-color", "blue");
+        	//selected_enqlist
         });
 	});
 	</script>
@@ -107,10 +110,14 @@ $(document).ready(function() {
     	
     	<label class="control-label" for="field-userList">Select candidates</label>
     	<div class="controls">
-			<!--<form:input path="users" type="CHECKBOX" id= "userList"/> -->
 			<ul>
-				<c:forEach items="${enqList}" var="enq">
-					<li class="userlist_item" data-user="${ enq.userFrom.id}">${enq.userFrom.firstName} ${enq.userFrom.lastName}</li>
+				<c:forEach items="${enqlist}" var="enquiry">
+					<c:if test="${enquiry.invitation !=null}">
+						<li class="enqlist_item" data-user="${ enquiry.userFrom.id}">${enquiry.userFrom.firstName} ${enquiry.userFrom.lastName} ${enquiry.invitation.fromDate}</li>
+						</c:if>
+					<c:if test="${enquiry.invitation ==null}">
+						<li class="enqlist_item" data-user="${ enquiry.userFrom.id}">${enquiry.userFrom.firstName} ${enquiry.userFrom.lastName}</li>
+					</c:if>
 				</c:forEach>
 			</ul>
 		</div>
