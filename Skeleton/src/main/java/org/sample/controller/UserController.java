@@ -3,9 +3,12 @@ package org.sample.controller;
 import javax.validation.Valid;
 
 import org.sample.controller.pojos.BookmarkForm;
+import org.sample.controller.pojos.InvitationForm;
 import org.sample.controller.pojos.SignupUser;
 import org.sample.controller.service.SampleService;
+import org.sample.exceptions.InvalidDateParseException;
 import org.sample.exceptions.InvalidUserException;
+import org.sample.model.Advert;
 import org.sample.model.User;
 import org.sample.model.dao.SearchDao;
 import org.sample.model.dao.UserDao;
@@ -130,8 +133,23 @@ public class UserController {
     public ModelAndView showAdEnquiries(@RequestParam("value") Long id) {
         ModelAndView model = new ModelAndView("showenquiries");
         model.addObject("currentUser", sampleService.getLoggedInUser());
-        model.addObject("ad", sampleService.getAd(id));
-
+        Advert ad = sampleService.getAd(id);
+        model.addObject("ad", ad);
+        model.addObject("invitationForm", new InvitationForm());
+        model.addObject("enqList", sampleService.findEnquiriesForAd(ad));
+        return model;
+    }
+    
+    @RequestMapping(value = "/invite", method = RequestMethod.POST)
+    public ModelAndView invite(@Valid InvitationForm invForm, BindingResult result, RedirectAttributes redirectAttributes) throws InvalidDateParseException {
+        
+    	sampleService.createInvitation(invForm);
+    	Advert ad = sampleService.getAd(invForm.getAdvertId());
+    	ModelAndView model = new ModelAndView("showenquiries");
+        model.addObject("currentUser", sampleService.getLoggedInUser());
+        model.addObject("ad", sampleService.getAd(invForm.getAdvertId()));
+        model.addObject("invitationForm", new InvitationForm());
+        model.addObject("enqList", sampleService.findEnquiriesForAd(ad));
         return model;
     }
     
@@ -140,6 +158,7 @@ public class UserController {
 	    ModelAndView model = new ModelAndView("bookmarks");
 	    model.addObject("currentUser", sampleService.getLoggedInUser());
 	    model.addObject("adList", sampleService.findBookmarkedAdsForUser(sampleService.getLoggedInUser()));
+	   
 	    
 	    return model;
     }

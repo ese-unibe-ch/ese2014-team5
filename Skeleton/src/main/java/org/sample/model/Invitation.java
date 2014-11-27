@@ -8,13 +8,18 @@ package org.sample.model;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+
+import org.sample.model.Notifies.Type;
 
 /**
  *
@@ -32,15 +37,21 @@ public class Invitation {
 
     @OneToOne
     private User userFrom;
-
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
-    private Set<User> users;
+    
+    @OneToOne
+    private User userTo;
+    
+    private Long groupId;
+    private int rating;
 
     private Date fromDate;
     private Date toDate;
 
-    private boolean invited;
+    public enum InvitationStatus {UNKNOWN,ACCEPTED,CANCELLED}
 
+    @Enumerated(EnumType.ORDINAL)
+	private InvitationStatus status;
+    
     private String textOfInvitation;
 
     public Long getId() {
@@ -66,22 +77,16 @@ public class Invitation {
     public void setUserFrom(User userFrom) {
         this.userFrom = userFrom;
     }
+    
+    public User getUserTo() {
+		return userTo;
+	}
 
-    public Set<User> getUsers() {
-        return users;
-    }
+	public void setUserTo(User userTo) {
+		this.userTo = userTo;
+	}
 
-    public void setUsers(User user) {
-
-        if (users == null) {
-            users = new HashSet<User>();
-
-        }
-
-        this.users.add(user);
-    }
-
-    public Date getFromDate() {
+	public Date getFromDate() {
         return fromDate;
     }
 
@@ -97,15 +102,31 @@ public class Invitation {
         this.toDate = toDate;
     }
 
-    public boolean getInvited() {
-        return invited;
-    }
+    public Long getGroupId() {
+		return groupId;
+	}
 
-    public void setInvited(boolean invited) {
-        this.invited = invited;
-    }
+	public void setGroupId(Long groupId) {
+		this.groupId = groupId;
+	}
 
-    public String getTextOfInvitation() {
+	public int getRating() {
+		return rating;
+	}
+
+	public void setRating(int rating) {
+		this.rating = rating;
+	}
+
+	public InvitationStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(InvitationStatus status) {
+		this.status = status;
+	}
+
+	public String getTextOfInvitation() {
         return textOfInvitation;
     }
 

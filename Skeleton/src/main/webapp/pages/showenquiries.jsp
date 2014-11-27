@@ -50,7 +50,14 @@ $(document).ready(function() {
 		});
 
 		$("td.fc-day-number").click(function(){
+			$("td.fc-day-number").removeClass("selectedCell");
 			 $(this).addClass("selectedCell");
+			 $("#datetime24").combodate('setValue', $(this).data("date") + " 12:00");
+		});
+		
+		$("#datetime24").change(function(){
+	
+			$("#calendar").fullCalendar('gotoDate', $("#datetime24").data("value"));
 		});
 		
 		$("#Button1").click( function () {
@@ -59,14 +66,57 @@ $(document).ready(function() {
         $("#Button2").click( function () {
             $('#calendar').fullCalendar('prev');
         });
+
+        $('#time').combodate({
+	        firstItem: 'name', //show 'hour' and 'minute' string at first item of dropdown
+	        minuteStep: 1
+	    });
+        $('#datetime24').combodate({
+        	minYear: 2014,
+            maxYear: 2020
+        });
+        $('#userList').combodate({
+        	minYear: 2014,
+            maxYear: 2020
+        });
+        
+        $(document).on("click",".userlist_item",function(){
+        	$(this).css("background-color", "blue");
+        });
 	});
 	</script>
 	
 	<input id="Button2" type="button" value="prev" />
 	<input id="Button1" type="button" value="next" />
 <div id="calendar"></div>
+	<form:form modelAttribute="invitationForm" cssClass="form-horizontal" autocomplete="off" action="invite" method="post">
+		<form:input path="advertId" type="hidden" value="${ad.id }"/>
+		<form:input path="userFromId" type="hidden" value="${currentUser.id }"/>
+		<label class="control-label" for="field-message">Message</label>
+        <div class="controls">
+        	<textarea name="textOfInvitation" id="field-message" rows="6" width="350px" style="resize:vertical;" tabindex="2" maxlength="500"></textarea>
+    	</div>
+    	<label class="control-label" for="field-dateFrom">From</label>
+    	<div class="controls">
+        	<form:input path="fromDate" type="text" id="datetime24" data-format="YYYY-MM-DD HH:mm" data-template="DD / MM / YYYY     HH : mm" name="datetime" value="2015-01-01 00:00"/>
+    	</div>
+    	<label class="control-label" for="field-fromTime">Duration</label>
+        <div class="controls">
+        	<form:input type="text" id="time" path="duration" data-format="HH:mm" data-template="HH : mm" name="datetime"/>
+    	</div>
+    	
+    	<label class="control-label" for="field-userList">Select candidates</label>
+    	<div class="controls">
+			<!--<form:input path="users" type="CHECKBOX" id= "userList"/> -->
+			<ul>
+				<c:forEach items="${enqList}" var="enq">
+					<li class="userlist_item" data-user="${ enq.userFrom.id}">${enq.userFrom.firstName} ${enq.userFrom.lastName}</li>
+				</c:forEach>
+			</ul>
+		</div>
+		    
+	</form:form>
 </div>
-
 
 </div>
 <div class="clear"></div>

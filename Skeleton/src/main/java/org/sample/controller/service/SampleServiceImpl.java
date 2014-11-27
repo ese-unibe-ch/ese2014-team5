@@ -17,15 +17,19 @@ import javax.servlet.ServletContext;
 
 import org.sample.controller.pojos.AdCreateForm;
 import org.sample.controller.pojos.BookmarkForm;
+import org.sample.controller.pojos.InvitationForm;
 import org.sample.controller.pojos.SearchForm;
 import org.sample.controller.pojos.SignupUser;
 import org.sample.exceptions.InvalidAdException;
+import org.sample.exceptions.InvalidDateParseException;
 import org.sample.exceptions.InvalidSearchException;
 import org.sample.exceptions.InvalidUserException;
 import org.sample.model.Address;
 import org.sample.model.Advert;
 import org.sample.model.Bookmark;
 import org.sample.model.Enquiry;
+import org.sample.model.Invitation;
+import org.sample.model.Invitation.InvitationStatus;
 import org.sample.model.Notifies;
 import org.sample.model.Notifies.Type;
 import org.sample.model.Picture;
@@ -36,6 +40,7 @@ import org.sample.model.dao.AdDao;
 import org.sample.model.dao.AddressDao;
 import org.sample.model.dao.BookmarkDao;
 import org.sample.model.dao.EnquiryDao;
+import org.sample.model.dao.InvitationDao;
 import org.sample.model.dao.NotifiesDao;
 import org.sample.model.dao.PictureDao;
 import org.sample.model.dao.SearchDao;
@@ -89,6 +94,8 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
     BookmarkDao bookmarkDao;
     @Autowired
     NotifiesDao notifiesDao;
+    @Autowired
+    InvitationDao invitationDao;
 
     @Autowired
     EnquiryDao enquiryDao;
@@ -1113,6 +1120,40 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 			note.setSeen(1);
 			notifiesDao.save(note);
 		}
+	}
+
+	public void createInvitation(InvitationForm invForm) throws InvalidDateParseException {
+		for(org.sample.model.User user : invForm.getUsers()) {
+			Invitation inv= new Invitation();
+			Advert ad = adDao.findById(invForm.getAdvertId());
+			inv.setAdvert(ad);
+			inv.setFromDate(inv.getFromDate());
+			inv.setTextOfInvitation(inv.getTextOfInvitation());
+			inv.setToDate(calculateToDate(invForm));
+			inv.setUserFrom(userDao.findById(invForm.getUserFromId()));
+			inv.setUserTo(user);
+			inv.setStatus(InvitationStatus.UNKNOWN);
+			
+	        inv = invitationDao.save(inv);
+
+		}
+
+	}
+
+	public Date calculateToDate(InvitationForm invForm) throws InvalidDateParseException {
+		
+		Date durationDate=new Date();
+		Date toDate=new Date();
+		Date fromDate= invForm.getFromDate();
+        SimpleDateFormat toDateFormater = new SimpleDateFormat("HH:mm");
+        try {
+			durationDate = toDateFormater.parse(invForm.getDuration());
+		} catch (ParseException e) {
+			throw new InvalidDateParseException("no parse possible");
+		}
+        toDate.setTime(fromDate.getTime() + durationDate.getTime());
+        return toDate;
+		
 	}
 
 }
