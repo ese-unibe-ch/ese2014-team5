@@ -10,7 +10,7 @@ public class InvitationForm
 {
 	private Long advertId;
     private Long userFromId;
-    private Set<Enquiry> enquiries;
+    private String selected_enquiries;
     private Date fromDate;
     private String duration;
     private String textOfInvitation;
@@ -28,11 +28,11 @@ public class InvitationForm
 		this.userFromId = userFrom;
 	}
 	
-	public Set<Enquiry> getEnquiries() {
-		return enquiries;
+	public String getSelected_enquiries() {
+		return selected_enquiries;
 	}
-	public void setEnquiries(Set<Enquiry> enquiries) {
-		this.enquiries = enquiries;
+	public void setSelected_enquiries(String selected_enquiries) {
+		this.selected_enquiries = selected_enquiries;
 	}
 	public Date getFromDate() {
 		return fromDate;
