@@ -16,6 +16,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -32,7 +33,7 @@ public class Invitation {
     @GeneratedValue
     private Long id;
 
-    @OneToOne
+    @ManyToOne(fetch=FetchType.EAGER)
     private Advert advert;
     
     private Date fromDate;

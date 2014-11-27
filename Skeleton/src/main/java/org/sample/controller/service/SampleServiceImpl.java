@@ -1170,4 +1170,8 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 		
 	}
 
+	public List<Invitation> findInvitationsForAd(Advert ad) {
+		return (List<Invitation>) invitationDao.findByAdvert(ad);
+	}
+
 }

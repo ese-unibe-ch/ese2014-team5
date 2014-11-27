@@ -13,6 +13,7 @@ import org.sample.exceptions.InvalidSearchException;
 import org.sample.model.Advert;
 import org.sample.model.Bookmark;
 import org.sample.model.Enquiry;
+import org.sample.model.Invitation;
 import org.sample.model.Notifies;
 import org.sample.model.User;
 import org.springframework.transaction.annotation.Transactional;
@@ -206,6 +207,8 @@ public interface SampleService {
 	public void setReadEnquiryNoteForAdId(String id);
 
 	public void createInvitation(InvitationForm invForm) throws InvalidDateParseException;
+
+	public List<Invitation> findInvitationsForAd(Advert ad);
 	
 }
  

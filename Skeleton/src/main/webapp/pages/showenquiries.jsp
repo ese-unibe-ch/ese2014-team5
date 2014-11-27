@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
 <c:import url="template/header.jsp" />
 	
@@ -20,9 +20,9 @@
 	}
 
 	#calendar {
-		max-width: 200px;
+		max-width: 500px;
 		margin: 0 0;
-		width: 200px;
+		width: 500px;
 	}
 	
 	.fc-left > h2 {
@@ -38,19 +38,31 @@
 	}
 	
 	#enquirylist > li {
-	clear: left;
+		clear: left;
+		width: 100%;
+		height: 32px;
+		border: #52ABDF solid 1px;
+		border-radius: 4px;
+		margin-bottom: 0.8em;
+		padding: 0.4em;
+	}
+	
+	#enquirylist > li > div {
+		float:left;
+		margin-right: auto;
+		
 	}
 	
 	.favorize
 	{
-		clear: left;
+		float:right !important;
 	}
 	
 	.star 
 	{
 		width: 32px;
 		height: 32px;
-		background: url("../web/images/icon/favorite.png") transparent;
+		background: url("web/images/icon/favorite.png") transparent;
 		opacity: 0.3;
 		float: left;
 		margin-right: 3px;
@@ -60,7 +72,7 @@
 	{
 		width: 32px;
 		height: 32px;
-		background: url("../web/images/icon/help.png") transparent;
+		background: url("web/images/icon/help.png");
 		float: left;
 		margin-right: 3px;
 	}
@@ -69,7 +81,7 @@
 	{
 		width: 32px;
 		height: 32px;
-		background: url("../web/images/icon/accept.png") transparent;
+		background: url("web/images/icon/accept.png");
 		float: left;
 		margin-right: 3px;
 	}
@@ -78,7 +90,7 @@
 	{
 		width: 32px;
 		height: 32px;
-		background: url("../web/images/delete/help.png") transparent;
+		background: url("web/images/delete/help.png");
 		float: left;
 		margin-right: 3px;
 	}
@@ -91,13 +103,22 @@
 </style>
 <script>
 $(document).ready(function() {
-
+	
+		$( document ).tooltip();
 		$("#calendar").fullCalendar({
+			events:[
+			        <c:forEach items="${invitationsList}" var="inv">
+			        	{
+			        		title  : 'Visit',
+			                start  : '${inv.fromDate}'
+			        	},
+			        </c:forEach>
+			       ]
 		});
 
-		$("td.fc-day-number").click(function(){
+		$(document).on("click", ".fc-day-number", function(event){
 			$("td.fc-day-number").removeClass("selectedCell");
-			 $(this).addClass("selectedCell");
+			$(event.currentTarget).addClass("selectedCell");
 			 $("#datetime24").combodate('setValue', $(this).data("date") + " 12:00");
 		});
 		
@@ -128,7 +149,7 @@ $(document).ready(function() {
         
         var selected_enqlist = [];
         
-        $(".enqlist_item").click(function(){
+        $(".not_invited").click(function(){
         	index = selected_enqlist.indexOf($(this).data("enqid"));
         	if (index > -1) {
         		selected_enqlist.splice(index, 1);
@@ -136,7 +157,7 @@ $(document).ready(function() {
         	}
         	else
         	{
-        		$(this).css("background-color", "blue");
+        		$(this).css("background-color", "#AAAAFF");
         		selected_enqlist.push($(this).data("enqid"));
         	}
         	
@@ -210,15 +231,18 @@ $(document).ready(function() {
 		<br/>
 			<ul id="enquirylist">
 				<c:forEach items="${enqlist}" var="enquiry">
+					<fmt:formatDate value="${enquiry.invitation.fromDate}" var="formatDate" pattern="MM/dd/yyyy HH:mm" />
 					<c:if test="${enquiry.invitation !=null}">
-						<li class="enqlist_item_invited" data-enqid="${ enquiry.id}">${enquiry.userFrom.firstName} ${enquiry.userFrom.lastName} ${enquiry.invitation.fromDate} 
-							<c:if test="${enquiry.status == ACCEPTED}">
-								<div class="accepted"></div></c:if>
-							<c:if test="${enquiry.status == CANCELLED}">
-								<div class=cancelled></div></c:if>
-						    <c:if test="${enquiry.status == UNKNOWN}">
-								<div class="unknown"></div>
-								</c:if>
+						<li class="enqlist_item_invited enqlist_item"><div>${enquiry.userFrom.firstName} ${enquiry.userFrom.lastName} ${formatDate }</div>
+							<c:if test="${enquiry.status == 'ACCEPTED'}">
+								<div class="accepted" title="The Invitation has been accepted."></div>
+							</c:if>
+							<c:if test="${enquiry.status == 'CANCELLED'}">
+								<div class=cancelled title="The Invitation was not accepted."></div>
+							</c:if>
+						    <c:if test="${enquiry.status == 'UNKNOWN'}">
+								<div class="unknown" title="An Invitation has been sent, and is waiting to be answered."></div>
+							</c:if>
 							
 							<div class="favorize" data-amount="1">
 								<div class="star star_5" data-number="5"></div>
@@ -230,7 +254,7 @@ $(document).ready(function() {
 						</li>
 						</c:if>
 					<c:if test="${enquiry.invitation ==null}">
-						<li class="enqlist_item" data-enqid="${ enquiry.id}">${enquiry.userFrom.firstName} ${enquiry.userFrom.lastName}</li>
+						<li title="Click to select this user for invitation." class="enqlist_item not_invited" data-enqid="${ enquiry.id}">${enquiry.userFrom.firstName} ${enquiry.userFrom.lastName}</li>
 					</c:if>
 				</c:forEach>
 			</ul>

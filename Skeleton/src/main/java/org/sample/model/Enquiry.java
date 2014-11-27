@@ -42,9 +42,12 @@ public class Enquiry {
 	@OneToOne
 	private Advert advert;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	private Invitation invitation;
 	
+    @Enumerated(EnumType.ORDINAL)
+	private InvitationStatus status;
+	  
 	public Invitation getInvitation() {
 		return invitation;
 	}
@@ -67,8 +70,7 @@ public class Enquiry {
 	
 	public enum InvitationStatus {UNKNOWN,ACCEPTED,CANCELLED}
 
-    @Enumerated(EnumType.ORDINAL)
-	private InvitationStatus status;
+  
 	
 	public Long getId() {
 	return id;

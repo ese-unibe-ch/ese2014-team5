@@ -14,7 +14,7 @@
 	<!--end slider -->
 	<!---strat-date-piker---->
 	<!---/End-date-piker---->
-	  <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+	  <script src="web/js/jquery-2.1.1.js"></script>
   <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 	<link type="text/css" rel="stylesheet" href="web/css/JFGrid.css" />
 	<link type="text/css" rel="stylesheet" href="web/css/JFFormStyle-1.css" />
