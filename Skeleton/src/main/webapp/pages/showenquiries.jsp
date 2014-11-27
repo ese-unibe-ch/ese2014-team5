@@ -56,6 +56,33 @@
 		margin-right: 3px;
 	}
 	
+	.unknown 
+	{
+		width: 32px;
+		height: 32px;
+		background: url("../web/images/icon/help.png") transparent;
+		float: left;
+		margin-right: 3px;
+	}
+	
+	.accepted 
+	{
+		width: 32px;
+		height: 32px;
+		background: url("../web/images/icon/accept.png") transparent;
+		float: left;
+		margin-right: 3px;
+	}
+	
+	.cancelled 
+	{
+		width: 32px;
+		height: 32px;
+		background: url("../web/images/delete/help.png") transparent;
+		float: left;
+		margin-right: 3px;
+	}
+	
 	.star:last-child
 	{
 		clear:right;
@@ -185,6 +212,14 @@ $(document).ready(function() {
 				<c:forEach items="${enqlist}" var="enquiry">
 					<c:if test="${enquiry.invitation !=null}">
 						<li class="enqlist_item_invited" data-enqid="${ enquiry.id}">${enquiry.userFrom.firstName} ${enquiry.userFrom.lastName} ${enquiry.invitation.fromDate} 
+							<c:if test="${enquiry.status == ACCEPTED}">
+								<div class="accepted"></div></c:if>
+							<c:if test="${enquiry.status == CANCELLED}">
+								<div class=cancelled></div></c:if>
+						    <c:if test="${enquiry.status == UNKNOWN}">
+								<div class="unknown"></div>
+								</c:if>
+							
 							<div class="favorize" data-amount="1">
 								<div class="star star_5" data-number="5"></div>
 								<div class="star star_4" data-number="4"></div>
