@@ -11,8 +11,11 @@ public class InvitationForm
 	private Long advertId;
     private Long userFromId;
     private String selected_enquiries;
-    private Date fromDate;
-    private String duration;
+    private String fromDate;
+    public void setFromDate(String fromDate) {
+		this.fromDate = fromDate;
+	}
+	private String duration;
     private String textOfInvitation;
 
     public Long getAdvertId() {
@@ -34,11 +37,9 @@ public class InvitationForm
 	public void setSelected_enquiries(String selected_enquiries) {
 		this.selected_enquiries = selected_enquiries;
 	}
-	public Date getFromDate() {
+	
+	public String getFromDate() {
 		return fromDate;
-	}
-	public void setFromDate(Date fromDate) {
-		this.fromDate = fromDate;
 	}
 	public String getDuration() {
 		return duration;

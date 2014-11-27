@@ -28,6 +28,7 @@ import org.sample.model.Address;
 import org.sample.model.Advert;
 import org.sample.model.Bookmark;
 import org.sample.model.Enquiry;
+import org.sample.model.Enquiry.InvitationStatus;
 import org.sample.model.Invitation;
 import org.sample.model.Notifies;
 import org.sample.model.Notifies.Type;
@@ -641,13 +642,13 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         try {
             insertFromdate = dateFormater.parse(fromDate);
         } catch (ParseException ex) {
-            Logger.getLogger(SampleServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(SampleServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         Date insertTodate = null;
         try {
             insertTodate = dateFormater.parse(toDate);
         } catch (ParseException ex) {
-            Logger.getLogger(SampleServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(SampleServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         search.setFromDate(insertFromdate);
         search.setToDate(insertTodate);
@@ -1123,29 +1124,44 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 	}
 
 	public void createInvitation(InvitationForm invForm) throws InvalidDateParseException {
-		/*for(org.sample.model.User user : invForm.getUsers()) {
-			Invitation inv= new Invitation();
-			Advert ad = adDao.findById(invForm.getAdvertId());
-			
-			inv.setAdvert(ad);
-			inv.setFromDate(inv.getFromDate());
-			inv.setTextOfInvitation(inv.getTextOfInvitation());
-			inv.setToDate(calculateToDate(invForm));
-			
-	        inv = invitationDao.save(inv);
+		Invitation inv = new Invitation();
+		Advert ad = adDao.findById(invForm.getAdvertId());
+		
+		inv.setAdvert(ad);
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
-		}*/
+		try {
+			inv.setFromDate(formatter.parse(invForm.getFromDate()));
+		} catch (ParseException e) {
+			throw new InvalidDateParseException("no parse possible");
+		}
+		inv.setTextOfInvitation(invForm.getTextOfInvitation());
+		inv.setToDate(calculateToDate(invForm));
+		
+        inv = invitationDao.save(inv);
+	    
+		for(String id : invForm.getSelected_enquiries().split(",")) {
+
+	        Enquiry enq = enquiryDao.findById(Long.parseLong(id));
+	        enq.setStatus(InvitationStatus.UNKNOWN);
+	        enq.setRating(1);
+	        enq.setInvitation(inv);
+	        enq = enquiryDao.save(enq);
+		}
 
 	}
 
 	public Date calculateToDate(InvitationForm invForm) throws InvalidDateParseException {
 		
-		Date durationDate=new Date();
+		Date durationDate=null;
 		Date toDate=new Date();
-		Date fromDate= invForm.getFromDate();
-        SimpleDateFormat toDateFormater = new SimpleDateFormat("HH:mm");
+		Date fromDate=null;
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
+
         try {
-			durationDate = toDateFormater.parse(invForm.getDuration());
+			durationDate = formatter.parse(invForm.getDuration());
+			formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+			fromDate = formatter.parse(invForm.getFromDate());
 		} catch (ParseException e) {
 			throw new InvalidDateParseException("no parse possible");
 		}

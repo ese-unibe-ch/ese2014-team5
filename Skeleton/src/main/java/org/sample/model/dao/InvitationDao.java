@@ -5,6 +5,4 @@ import org.sample.model.Invitation;
 
 public interface InvitationDao extends JpaRepository<Invitation, Long> {
 
-    Invitation findById(long parseLong);
-
 }

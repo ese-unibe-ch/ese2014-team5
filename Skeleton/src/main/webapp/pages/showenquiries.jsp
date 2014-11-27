@@ -194,20 +194,20 @@ $(document).ready(function() {
 		<form:input path="advertId" type="hidden" value="${ad.id }"/>
 		<form:input path="userFromId" type="hidden" value="${currentUser.id }"/>
 		<label class="control-label" for="field-message">Message</label>
-        <div class="controls">
+  
         	<textarea name="textOfInvitation" id="field-message" rows="6" width="350px" style="resize:vertical;" tabindex="2" maxlength="500"></textarea>
-    	</div>
+<br/>
     	<label class="control-label" for="field-dateFrom">From</label>
-    	<div class="controls">
+
         	<form:input path="fromDate" type="text" id="datetime24" data-format="YYYY-MM-DD HH:mm" data-template="DD / MM / YYYY     HH : mm" name="datetime" value="2015-01-01 00:00"/>
-    	</div>
+		<br/>
     	<label class="control-label" for="field-fromTime">Duration</label>
-        <div class="controls">
+
         	<form:input type="text" id="time" path="duration" data-format="HH:mm" data-template="HH : mm" name="datetime"/>
-    	</div>
+		<br/>
     	<form:input type="hidden" path="selected_enquiries" name="selected_enquiries" id="selected_enquiries"/> 
     	<label class="control-label" for="field-userList">Select candidates</label>
-    	<div class="controls">
+		<br/>
 			<ul id="enquirylist">
 				<c:forEach items="${enqlist}" var="enquiry">
 					<c:if test="${enquiry.invitation !=null}">
@@ -234,7 +234,10 @@ $(document).ready(function() {
 					</c:if>
 				</c:forEach>
 			</ul>
-		</div>
+		<br>
+		<div class="form-actions">
+      	  <button type="submit" class="btn btn-primary">Send Invitation</button>
+      	</div>
 		    
 	</form:form>
 </div>
