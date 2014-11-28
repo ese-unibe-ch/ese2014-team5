@@ -1147,9 +1147,25 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 	        enq.setRating(1);
 	        enq.setInvitation(inv);
 	        enq = enquiryDao.save(enq);
+	        createNotificationInvitation(enq,inv);
+	        
 		}
 
 	}
+	
+    public boolean createNotificationInvitation(Enquiry enq, Invitation inv) {
+
+        Notifies note = new Notifies();
+        note.setText(inv.getTextOfInvitation());
+        note.setToUser(enq.getUserFrom());
+        note.setFromUser(enq.getUserTo());
+        note.setAd(enq.getAdvert());
+        note.setDate(new Date());
+        note.setNotetype(Notifies.Type.INVITATION);
+        note.setSeen(0);
+        note = notifiesDao.save(note);
+        return (note != null) ? true : false;
+    }
 
 	public Date calculateToDate(InvitationForm invForm) throws InvalidDateParseException {
 		
