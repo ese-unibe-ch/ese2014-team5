@@ -242,14 +242,14 @@
     <![endif]-->
 </head>
 <body>
-<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:url var="logoutUrl" value="/logout"/>
 <form action="${logoutUrl}" method="post" style="display:none;" id="logoutForm">
-  <input type="submit" value="logout" />
-  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+	<input type="submit" value="logout" />
+	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 </form>
 <!-- start header -->
 <div class="header_bg">
@@ -273,7 +273,6 @@
 <!-- 					</li> -->
 				    <li><a class="bBookmarks" href="bookmarks">Bookmarks</a></li> |
 				    <li><a class="bInvitations" href="sentenquiries">Enquiries</a></li> |
-					<li><a href="adcreation">create an Ad</a></li> |
 					<li><a href="profile?name=<%=SecurityContextHolder.getContext().getAuthentication().getName()%>"><span id="username">Profile</span></a></li> |
 					<li><a class="bSearches" href="saved-searches"><span id="username">Searches</span></a></li> |
 					<li><a class="bEnquiries" href="my-ads">My Ads</a></li> |
@@ -312,7 +311,6 @@
 				<sec:authorize access="hasRole('ROLE_USER')">
 					<li><a class="bBookmarks" href="bookmarks">Bookmarks</a></li>
 				    <li><a class="bInvitations" href="sentenquiries">Enquiries</a></li>
-					<li><a href="adcreation">create an Ad</a></li>
 					<li><a href="profile?name=<%=SecurityContextHolder.getContext().getAuthentication().getName()%>"><span id="username">Profile</span></a></li>
 					<li><a class="bSearches" href="saved-searches"><span id="username">Searches</span></a></li>
 					<li><a class="bEnquiries" href="my-ads">My Ads</a></li>
@@ -333,6 +331,7 @@
 <sec:authorize access="hasRole('ROLE_USER')">
 </sec:authorize>
 </div>
+
 <script type="text/javascript">
 function logout() {
 	document.getElementById("logoutForm").submit();

@@ -204,13 +204,13 @@ $(document).ready(function() {
         </fieldset>
         <form:input type="hidden" path="userId" id="field-user" value="${currentUser.id}"/>
 	</form:form>
-    <div id="resultTable">
+    <div id="resultTable" class="resultblock">
 		<c:choose>
 	    <c:when test="${displayMap==0 && hasResults==1}">
 	    <div id="results" style="width:100%">
 			<c:forEach items="${searchResults}" var="ad">
 		     
-		    <div class="result" style="width:100%;height:100px;padding:10px;" onclick="javascript:location.href='showad?value=${ad.id}'">
+		    <div class="result" onclick="javascript:location.href='showad?value=${ad.id}'">
 				<c:forEach items="${ad.pictures}" varStatus="loopCount" var="pic">
 				<c:if test="${loopCount.count eq 1}">
 					<div style="float:left;width:150px;"><img class="gallery" src="<c:url value="img/${pic.url}"/>"/></div>

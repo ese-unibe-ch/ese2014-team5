@@ -13,9 +13,12 @@
 		<button type="submit" onclick="location.href='adcreation'" class="btn btn-primary">Create an add</button>
 	</c:if>
 	<c:if test="${not empty adList}">
-		
-		<c:forEach var="ad" items="${adList}">
-			<div class="resultblock" id="profilead_result">
+
+		<div class="resultblock" id="profilead_result">
+			<div style="width:101%;padding:0px 1% 20px 2%;text-align:right;display:inline-block;">
+				<button type="submit" onclick="location.href='adcreation'" class="btn btn-primary" style="float:right;">Create an add</button>
+			</div>
+			<c:forEach var="ad" items="${adList}">
 				<div class="result" onclick="location.href='showad?value=${ad.id}'">
 	       			<c:forEach items="${ad.pictures}" varStatus="loopCount" var="pic">
 	             		<c:if test="${loopCount.count eq 1}"><div style="float:left;"><img class="gallery" src="<c:url value="img/${pic.url}"/>"/></div></c:if>
@@ -51,8 +54,8 @@
 					
 					</div>
 				</div>
-			</div>
-		</c:forEach>
+			</c:forEach>
+		</div>
 	</c:if>
 </div>
 

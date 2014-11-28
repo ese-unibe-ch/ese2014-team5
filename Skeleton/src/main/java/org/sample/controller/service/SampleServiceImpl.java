@@ -10,8 +10,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.servlet.ServletContext;
 
@@ -635,13 +633,13 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         try {
             insertFromdate = dateFormater.parse(fromDate);
         } catch (ParseException ex) {
-            Logger.getLogger(SampleServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(SampleServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         Date insertTodate = null;
         try {
             insertTodate = dateFormater.parse(toDate);
         } catch (ParseException ex) {
-            Logger.getLogger(SampleServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(SampleServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         search.setFromDate(insertFromdate);
         search.setToDate(insertTodate);
