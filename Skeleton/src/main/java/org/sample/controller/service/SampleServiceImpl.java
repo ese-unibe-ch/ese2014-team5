@@ -12,6 +12,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.mail.MessagingException;
 
 import javax.servlet.ServletContext;
 
@@ -95,6 +96,8 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 
     @Autowired
     ServletContext context;
+    
+    EmailSender email;
 
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
 
@@ -1006,6 +1009,13 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         note.setNotetype(Notifies.Type.ENQUIRY);
         note.setSeen(0);
         note = notifiesDao.save(note);
+        
+        try {
+            /*Place to directly send an email to the user as notification*/
+            email.GenerateAnEmail(note);
+        } catch (MessagingException ex) {
+            Logger.getLogger(SampleServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return (note != null) ? true : false;
     }
 
@@ -1115,5 +1125,13 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 			notifiesDao.save(note);
 		}
 	}
+        
+        public void setReadInvitationForUser(String id) {
+         List<Notifies> notes = notifiesDao.findByToUserAndNotetype(userDao.findById(Long.parseLong(id)), Type.ENQUIRY);
+         for(Notifies note : notes) {
+             note.setSeen(1);
+             notifiesDao.saveAndFlush(note);
+         }
+        }
 
 }

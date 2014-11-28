@@ -202,6 +202,8 @@ public interface SampleService {
 	public List<Notifies> findNotificationsEnquiryForAd(Advert ad);
 
 	public void setReadEnquiryNoteForAdId(String id);
+        
+        public void setReadInvitationForUser(String id);
 	
 }
  

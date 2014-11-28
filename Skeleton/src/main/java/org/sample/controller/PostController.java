@@ -133,4 +133,11 @@ public class PostController {
         sampleService.setReadEnquiryNoteForAdId(id);
         return "#";
     }
+    
+    @RequestMapping("/setreadInvitation")
+    public @ResponseBody
+    String setreadInvitation(Model model, @ RequestParam String id) {
+        sampleService.setReadInvitationForUser(id);
+        return "#";
+    }
 }
