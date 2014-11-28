@@ -1,7 +1,13 @@
 package org.sample.model.dao;
 
+import java.util.Date;
+
+import javax.net.ssl.SSLEngineResult.Status;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.sample.model.Enquiry.InvitationStatus;
+import org.sample.model.Invitation;
 import org.sample.model.User;
 import org.sample.model.UserRole;
 import org.sample.model.Enquiry;
@@ -12,6 +18,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.Assert.*;
+
 import org.junit.Before;
 import org.sample.model.Advert;
 import org.sample.model.Notifies;
@@ -45,6 +52,11 @@ public class EnquiryDaoIntegrationTest {
     String enqText = " blabla bla bla";
     String enqTitle = "love your Advert";
     String advertTitle = "castle";
+    InvitationStatus invStatus=InvitationStatus.UNKNOWN;
+    
+    Invitation invitation= new Invitation();
+    String invitationtest = "invite me, invite me";
+    Date date = new Date();
 
     @Before
     public void init() {
@@ -63,12 +75,20 @@ public class EnquiryDaoIntegrationTest {
         advert.setTitle(advertTitle);
         advert.setUser(user);
         advert = adDao.save(advert);
+        
+        invitation.setAdvert(advert);
+        invitation.setTextOfInvitation(invitationtest);
+        invitation.setFromDate(date);
+        invitation.setToDate(date);
 
         enquiry.setAdvert(advert);
         enquiry.setEnquiryText(enqText);
         enquiry.setEnquiryTitle(enqTitle);
         enquiry.setUserTo(user);
         enquiry.setUserFrom(userFrom);
+        enquiry.setInvitation(invitation);
+        enquiry.setRating(0);
+        enquiry.setStatus(invStatus);
         enquiry = enquiryDAO.save(enquiry);
     }
 

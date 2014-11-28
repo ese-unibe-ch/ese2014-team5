@@ -72,13 +72,9 @@ public class InvitationIntegrationTest {
         advert = adDao.save(advert);
         
         invitation.setAdvert(advert);
-        invitation.setInvited(true);
         invitation.setTextOfInvitation(invitationtest);
         invitation.setToDate(date);
         invitation.setFromDate(date);
-        invitation.setUserFrom(userFrom);
-        invitation.setUserTo(user);
-        invitation.setUserTo(user2);
         invitation = invitationDao.save(invitation);
     }
     
@@ -91,24 +87,12 @@ public class InvitationIntegrationTest {
     @Test
     public void testfindById() {
         
-        Invitation invitationCheck = invitationDao.findById(invitation.getId());
+        Invitation invitationCheck = invitationDao.findOne(invitation.getId());
         
-        assertTrue(invitationCheck.getInvited());
         assertTrue(invitationCheck.getTextOfInvitation().equals(invitationtest));
         assertTrue(invitationCheck.getAdvert().getTitle().equals(advertTitle));
         assertTrue(invitationCheck.getToDate().equals(date));
         assertTrue(invitationCheck.getFromDate().equals(date));
-        assertTrue(invitationCheck.getUserFrom().getEmail().equals(username3));
     }
-    
-    /*@Test
-    public void testfindByUser() {
-        User allUsers = invitation.getUserTo();        
-        
-        for (User testUser : allUsers) {
-            assertTrue(testUser.getPassword().equals(password2));
-            
-        }
-    }*/
     
 }
