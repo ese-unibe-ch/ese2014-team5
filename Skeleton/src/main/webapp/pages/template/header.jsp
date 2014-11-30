@@ -14,27 +14,28 @@
 	<!--end slider -->
 	<!---strat-date-piker---->
 	<!---/End-date-piker---->
+	  <script src="web/js/jquery-2.1.1.js"></script>
+  <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 	<link type="text/css" rel="stylesheet" href="web/css/JFGrid.css" />
 	<link type="text/css" rel="stylesheet" href="web/css/JFFormStyle-1.css" />
 			<script type="text/javascript" src="web/js/JFCore.js"></script>
 			<script type="text/javascript" src="web/js/JFForms.js"></script>
 			<script type="text/javascript" src="web/js/moment.min.js"></script>
+			<script type="text/javascript" src="web/js/combodate.js"></script>
 			<!-- Set here the key for your domain in order to hide the watermark on the web server -->
 	<!--nav-->
 	</head>
 
+    <link rel="stylesheet" type="text/css" href="css/main.css" media="all"/>
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
-  	<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
-  	<script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+
    <!--  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">-->
     <script type="text/javascript"  src="dn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <link  href="http://fotorama.s3.amazonaws.com/4.6.2/fotorama.css" rel="stylesheet"> <!-- 3 KB -->
 	<script src="http://fotorama.s3.amazonaws.com/4.6.2/fotorama.js"></script> <!-- 16 KB -->
     <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.2/fullcalendar.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.2/fullcalendar.min.css">
-	<link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.2/fullcalendar.print.css">
-    <link rel="stylesheet" type="text/css" href="css/main.css" media="all"/>
-
+<link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.2/fullcalendar.min.css">
+<link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.2/fullcalendar.print.css">
 
 	<script type="text/javascript">
 	
@@ -124,26 +125,6 @@
 		}
 		else
 			$(".bBookmarks").text("Bookmarks");
-		
-		if(url!="")
-			window.location.href=url;
-		
-		
-	}
-	
-	function setreadSearch(id, url)
-	{
-		$.get( "setreadsearch?id=" + id, function() {
-			
-		});
-		
-		if(unread_searches>0)
-		{
-			unread_searches--;
-			$(".bSearches").text("Searches ("+unread_searches+")");
-		}
-		else
-			$(".bSearches").text("Searches");
 		
 		if(url!="")
 			window.location.href=url;
@@ -345,4 +326,5 @@ function logout() {
 	<div class="online_reservation">
 	<div class="b_room">
 		    <div class="main_bg">
+		           
 		           

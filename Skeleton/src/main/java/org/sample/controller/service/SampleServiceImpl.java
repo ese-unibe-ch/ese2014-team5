@@ -18,15 +18,19 @@ import javax.servlet.ServletContext;
 
 import org.sample.controller.pojos.AdCreateForm;
 import org.sample.controller.pojos.BookmarkForm;
+import org.sample.controller.pojos.InvitationForm;
 import org.sample.controller.pojos.SearchForm;
 import org.sample.controller.pojos.SignupUser;
 import org.sample.exceptions.InvalidAdException;
+import org.sample.exceptions.InvalidDateParseException;
 import org.sample.exceptions.InvalidSearchException;
 import org.sample.exceptions.InvalidUserException;
 import org.sample.model.Address;
 import org.sample.model.Advert;
 import org.sample.model.Bookmark;
 import org.sample.model.Enquiry;
+import org.sample.model.Enquiry.InvitationStatus;
+import org.sample.model.Invitation;
 import org.sample.model.Notifies;
 import org.sample.model.Notifies.Type;
 import org.sample.model.Picture;
@@ -37,6 +41,7 @@ import org.sample.model.dao.AdDao;
 import org.sample.model.dao.AddressDao;
 import org.sample.model.dao.BookmarkDao;
 import org.sample.model.dao.EnquiryDao;
+import org.sample.model.dao.InvitationDao;
 import org.sample.model.dao.NotifiesDao;
 import org.sample.model.dao.PictureDao;
 import org.sample.model.dao.SearchDao;
@@ -89,6 +94,8 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
     BookmarkDao bookmarkDao;
     @Autowired
     NotifiesDao notifiesDao;
+    @Autowired
+    InvitationDao invitationDao;
 
     @Autowired
     EnquiryDao enquiryDao;
@@ -634,13 +641,13 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         try {
             insertFromdate = dateFormater.parse(fromDate);
         } catch (ParseException ex) {
-//            Logger.getLogger(SampleServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(SampleServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         Date insertTodate = null;
         try {
             insertTodate = dateFormater.parse(toDate);
         } catch (ParseException ex) {
-//            Logger.getLogger(SampleServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(SampleServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         search.setFromDate(insertFromdate);
         search.setToDate(insertTodate);
@@ -1103,45 +1110,146 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         }
     }
 
-    public Object findSentEnquiriesForUser(org.sample.model.User loggedInUser) {
+	public Object findSentEnquiriesForUser(org.sample.model.User loggedInUser) {
+		
+		return enquiryDao.findByUserFrom(loggedInUser);
+	}
 
-        return enquiryDao.findByUserFrom(loggedInUser);
+	public void setReadBookmarkNote(String adid) {
+		
+		 Bookmark bm = bookmarkDao.findByAdAndUser(adDao.findById(Long.parseLong(adid)),getLoggedInUser());
+		 List<Notifies> notes = notifiesDao.findByToUserAndBookmark(getLoggedInUser(), bm);
+		 for(Notifies note : notes)
+		 {
+			 note.setSeen(1);
+			 notifiesDao.save(note);
+		 }
+	}
+
+	public Object findEnquiriesForAd(Advert ad) {
+		
+		return enquiryDao.findByAdvert(ad);
+	}
+
+	public List<Notifies> findNotificationsEnquiryForAd(Advert ad) {
+		
+		return notifiesDao.findByAdAndNotetype(ad,Type.ENQUIRY);
+	}
+
+	public void setReadEnquiryNoteForAdId(String id) {
+		List<Notifies> notes = notifiesDao.findByAdAndNotetype(adDao.findById(Long.parseLong(id)), Type.ENQUIRY);
+		for(Notifies note : notes)
+		{
+			note.setSeen(1);
+			notifiesDao.save(note);
+		}
+	}
+
+	public void createInvitation(InvitationForm invForm) throws InvalidDateParseException {
+		Invitation inv = new Invitation();
+		Advert ad = adDao.findById(invForm.getAdvertId());
+		
+		inv.setAdvert(ad);
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+
+		try {
+			inv.setFromDate(formatter.parse(invForm.getFromDate()));
+		} catch (ParseException e) {
+			throw new InvalidDateParseException("no parse possible");
+		}
+		inv.setTextOfInvitation(invForm.getTextOfInvitation());
+		inv.setToDate(calculateToDate(invForm));
+		
+        inv = invitationDao.save(inv);
+	    
+		for(String id : invForm.getSelected_enquiries().split(",")) {
+
+	        Enquiry enq = enquiryDao.findById(Long.parseLong(id));
+	        enq.setStatus(InvitationStatus.UNKNOWN);
+	        enq.setRating(1);
+	        enq.setInvitation(inv);
+	        enq = enquiryDao.save(enq);
+	        createNotificationInvitation(enq,inv);   
+		}
+	}
+	
+    public boolean createNotificationInvitation(Enquiry enq, Invitation inv) {
+
+        Notifies note = new Notifies();
+        note.setText(inv.getTextOfInvitation());
+        note.setToUser(enq.getUserFrom());
+        note.setFromUser(enq.getUserTo());
+        note.setAd(enq.getAdvert());
+        note.setDate(new Date());
+        note.setNotetype(Notifies.Type.INVITATION);
+        note.setInvitation(inv);
+        note.setSeen(0);
+        note = notifiesDao.save(note);
+        return (note != null) ? true : false;
     }
 
-    public void setReadBookmarkNote(String adid) {
+	public Date calculateToDate(InvitationForm invForm) throws InvalidDateParseException {
+		
+		Date durationDate=null;
+		Date toDate=new Date();
+		Date fromDate=null;
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
 
-        Bookmark bm = bookmarkDao.findByAdAndUser(adDao.findById(Long.parseLong(adid)), getLoggedInUser());
-        List<Notifies> notes = notifiesDao.findByToUserAndBookmark(getLoggedInUser(), bm);
-        for (Notifies note : notes) {
-            note.setSeen(1);
-            notifiesDao.save(note);
-        }
-    }
+        try {
+			durationDate = formatter.parse(invForm.getDuration());
+			formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+			fromDate = formatter.parse(invForm.getFromDate());
+		} catch (ParseException e) {
+			throw new InvalidDateParseException("no parse possible");
+		}
+        toDate.setTime(fromDate.getTime() + durationDate.getTime());
+        return toDate;
+		
+	}
 
-    public Object findEnquiriesForAd(Advert ad) {
+	public List<Invitation> findInvitationsForAd(Advert ad) {
+		return (List<Invitation>) invitationDao.findByAdvert(ad);
+	}
 
-        return enquiryDao.findByAdvert(ad);
-    }
-
-    public List<Notifies> findNotificationsEnquiryForAd(Advert ad) {
-
-        return notifiesDao.findByAdAndNotetype(ad, Type.ENQUIRY);
-    }
-
-    public void setReadEnquiryNoteForAdId(String id) {
-        List<Notifies> notes = notifiesDao.findByAdAndNotetype(adDao.findById(Long.parseLong(id)), Type.ENQUIRY);
-        for (Notifies note : notes) {
-            note.setSeen(1);
-            notifiesDao.save(note);
-        }
-    }
-
-    public void setReadInvitationForUser(String id) {
-        List<Notifies> notes = notifiesDao.findByToUserAndNotetype(userDao.findById(Long.parseLong(id)), Type.ENQUIRY);
-        for (Notifies note : notes) {
-            note.setSeen(1);
-            notifiesDao.saveAndFlush(note);
-        }
-    }
+	public void cancelInvitation(Long id) {
+		Invitation inv = invitationDao.findById(id);
+		for(Enquiry enq : enquiryDao.findByInvitation(inv))
+		{
+			createNotification(enq.getUserFrom(), "The invitation for advert '" + enq.getAdvert().getTitle() + "' was cancelled.");
+		}
+		inv.setCancelled(true);
+		inv = invitationDao.save(inv);
+	}
+	
+	public void setNotificationForEnquiryRead(Enquiry enq)
+	{
+		List<Notifies> notes = (List<Notifies>) notifiesDao.findByToUser(enq.getUserFrom());
+		for(Notifies note : notes)
+		{
+			if(note.getAd().equals(enq.getAdvert()))
+			{
+				note.setSeen(1);
+				note = notifiesDao.save(note);
+			}
+		}
+	}
+	
+	public void acceptInvitationForEnquiryId(Long id)
+	{
+		Enquiry enq = enquiryDao.findById(id);
+		enq.setStatus(InvitationStatus.ACCEPTED);
+		enq = enquiryDao.save(enq);
+		createNotificationEnquiry(enq);
+		setNotificationForEnquiryRead(enq);
+	}
+	
+	public void cancelInvitationForEnquiryId(Long id)
+	{
+		Enquiry enq = enquiryDao.findById(id);
+		enq.setStatus(InvitationStatus.CANCELLED);
+		enq = enquiryDao.save(enq);
+		createNotificationEnquiry(enq);
+		setNotificationForEnquiryRead(enq);
+	}
 
 }

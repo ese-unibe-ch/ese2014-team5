@@ -8,13 +8,19 @@ package org.sample.model;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+
+import org.sample.model.Notifies.Type;
 
 /**
  *
@@ -27,21 +33,15 @@ public class Invitation {
     @GeneratedValue
     private Long id;
 
-    @OneToOne
+    @ManyToOne(fetch=FetchType.EAGER)
     private Advert advert;
-
-    @OneToOne
-    private User userFrom;
-
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
-    private Set<User> users;
-
+    
     private Date fromDate;
     private Date toDate;
-
-    private boolean invited;
-
+    
     private String textOfInvitation;
+    
+    private boolean cancelled;
 
     public Long getId() {
         return id;
@@ -59,29 +59,8 @@ public class Invitation {
         this.advert = advert;
     }
 
-    public User getUserFrom() {
-        return userFrom;
-    }
 
-    public void setUserFrom(User userFrom) {
-        this.userFrom = userFrom;
-    }
-
-    public Set<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(User user) {
-
-        if (users == null) {
-            users = new HashSet<User>();
-
-        }
-
-        this.users.add(user);
-    }
-
-    public Date getFromDate() {
+	public Date getFromDate() {
         return fromDate;
     }
 
@@ -97,20 +76,20 @@ public class Invitation {
         this.toDate = toDate;
     }
 
-    public boolean getInvited() {
-        return invited;
-    }
-
-    public void setInvited(boolean invited) {
-        this.invited = invited;
-    }
-
-    public String getTextOfInvitation() {
+	public String getTextOfInvitation() {
         return textOfInvitation;
     }
 
     public void setTextOfInvitation(String textOfInvitation) {
         this.textOfInvitation = textOfInvitation;
     }
+
+	public boolean getCancelled() {
+		return cancelled;
+	}
+
+	public void setCancelled(boolean cancelled) {
+		this.cancelled = cancelled;
+	}
 
 }

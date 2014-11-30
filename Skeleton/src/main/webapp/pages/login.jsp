@@ -19,9 +19,9 @@
 		<fieldset>
 			
 			 
-			<label for="j_username">Username</label>
+			<label for="j_username">E-Mail</label>
 			<div class="controls">
-				<input id="j_username" name="j_username" size="20" maxlength="50" type="text"/>
+				<input id="j_username" name="j_username" size="20" maxlength="50" type="text" autofocus/>
 			</div>
 			
 			

@@ -5,13 +5,15 @@ import java.util.List;
 
 import org.sample.model.Advert;
 import org.sample.model.Enquiry;
+import org.sample.model.Invitation;
 import org.sample.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface EnquiryDao extends JpaRepository<Enquiry, Long> {
     
-Enquiry findById(long id);
-Enquiry findByAdvertAndUserFrom(Advert ad, User user);
-Iterable<Enquiry> findByUserFrom(User user);
-List<Enquiry> findByAdvert(Advert ad);
+	Enquiry findById(long id);
+	Enquiry findByAdvertAndUserFrom(Advert ad, User user);
+	Iterable<Enquiry> findByUserFrom(User user);
+	List<Enquiry> findByAdvert(Advert ad);
+	List<Enquiry> findByInvitation(Invitation inv);
 }

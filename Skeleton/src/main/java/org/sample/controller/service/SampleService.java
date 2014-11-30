@@ -4,15 +4,19 @@ import java.util.List;
 
 import org.sample.controller.pojos.AdCreateForm;
 import org.sample.controller.pojos.BookmarkForm;
+import org.sample.controller.pojos.InvitationForm;
 import org.sample.controller.pojos.SearchForm;
 import org.sample.controller.pojos.SignupUser;
 import org.sample.exceptions.InvalidAdException;
+import org.sample.exceptions.InvalidDateParseException;
 import org.sample.exceptions.InvalidSearchException;
 import org.sample.model.Advert;
 import org.sample.model.Bookmark;
 import org.sample.model.Enquiry;
+import org.sample.model.Invitation;
 import org.sample.model.Notifies;
 import org.sample.model.User;
+import org.sample.model.Enquiry.InvitationStatus;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -202,8 +206,15 @@ public interface SampleService {
 	public List<Notifies> findNotificationsEnquiryForAd(Advert ad);
 
 	public void setReadEnquiryNoteForAdId(String id);
-        
-        public void setReadInvitationForUser(String id);
+
+	public void createInvitation(InvitationForm invForm) throws InvalidDateParseException;
+
+	public List<Invitation> findInvitationsForAd(Advert ad);
+
+	public void cancelInvitation(Long id);
 	
+	public void acceptInvitationForEnquiryId(Long id);
+	
+	public void cancelInvitationForEnquiryId(Long id);
 }
  
