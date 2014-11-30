@@ -18,4 +18,6 @@ public interface NotifiesDao  extends JpaRepository<Notifies,Long>
 	List<Notifies> findByToUserAndBookmark(org.sample.model.User user, Bookmark bookmark);
 
 	List<Notifies> findByAdAndNotetype(Advert ad, Type enquiry);
+        
+        List<Notifies> findByToUserAndNotetype(User user, Type invitation);
 }

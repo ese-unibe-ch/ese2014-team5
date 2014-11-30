@@ -10,6 +10,9 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.mail.MessagingException;
 
 import javax.servlet.ServletContext;
 
@@ -64,7 +67,6 @@ import org.springframework.web.multipart.MultipartFile;
 @Transactional
 public class SampleServiceImpl implements SampleService, UserDetailsService {
 
-
     @Autowired
     ServletContext servletContext;
     @Autowired
@@ -93,6 +95,8 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 
     @Autowired
     ServletContext context;
+
+    EmailSender email = new EmailSender();
 
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
 
@@ -178,7 +182,7 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
     public SignupUser saveUser(SignupUser signupUser) throws InvalidUserException {
 
         String firstName = signupUser.getFirstName();
-        
+
         /*Controls to validate input of new User*/
         if (StringUtils.isEmpty(firstName)) {
             throw new InvalidUserException("FirstName must not be empty");   // throw exception
@@ -264,12 +268,10 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
             String hashedPassword = passwordEncoder.encode(password);
             user.setPassword(hashedPassword);
         }
-        
-        
+
         UserData data = user.getUserData();
-        if(data==null)
-        {
-        	data = new UserData();
+        if (data == null) {
+            data = new UserData();
         }
 
         MultipartFile file = profileUpdateForm.getFile();
@@ -294,7 +296,7 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
             stream.close();
 
             profileUpdateForm.setFilenames(filename);
-            
+
             Picture pic = new Picture();
             pic.setUrl(filename);
             pic = pictureDao.save(pic);
@@ -303,14 +305,14 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         } catch (Exception e) {
             System.out.println("Error uploading file");
         }
-        
+
         data.setAge(profileUpdateForm.getAge());
         data.setBio(profileUpdateForm.getBio());
         data.setHobbies(profileUpdateForm.getHobbies());
-      //  data.setPicture(profileUpdateForm.getPicture());
+        //  data.setPicture(profileUpdateForm.getPicture());
         data.setProfession(profileUpdateForm.getProfession());
         data.setQuote(profileUpdateForm.getQuote());
-        
+
         data = userDataDao.save(data);
         user.setUserData(data);
         user = userDao.save(user);
@@ -355,7 +357,7 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 
         SimpleDateFormat dateFormater = new SimpleDateFormat("MM/dd/yyyy");
         Date todayDate = new Date();
-        todayDate.setTime(todayDate.getTime()-24*60*60*1000);
+        todayDate.setTime(todayDate.getTime() - 24 * 60 * 60 * 1000);
         Date fromDate2;
 
         if (StringUtils.isEmpty(title)) {
@@ -395,7 +397,7 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         } catch (ParseException e1) {
             throw new InvalidAdException("Please enter the date correctly MM/dd/yyyy");   // throw exception
         }
-        if (todayDate.getTime()>fromDate2.getTime()) {
+        if (todayDate.getTime() > fromDate2.getTime()) {
             throw new InvalidAdException("Please enter a future date or today");   // throw exception
         }
 
@@ -425,10 +427,10 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         ad.setRoomPrice(Integer.parseInt(adForm.getRoomPrice()));
         ad.setRoomSize(Integer.parseInt(adForm.getRoomSize()));
         ad.setNumberOfPeople(Integer.parseInt(adForm.getNumberOfPeople()));
-      //  System.out.println("USERNAME: " + adForm.getUsername());
-      //  System.out.println("USERNAME: " + userDao.findByUsername(adForm.getUsername()).getUsername());
+        //  System.out.println("USERNAME: " + adForm.getUsername());
+        //  System.out.println("USERNAME: " + userDao.findByUsername(adForm.getUsername()).getUsername());
         ad.setUser(userDao.findByUsername(adForm.getUsername()));
-      //  System.out.println("USERNAME: " + ad.getUser().getUsername());
+        //  System.out.println("USERNAME: " + ad.getUser().getUsername());
         // need to parse dates before
         SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
         Date dateFrom = null;
@@ -561,9 +563,8 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
         Date dateFrom = null;
         Date dateTo = null;
-        if(updateForm.getFromDate()!="")
-        {
-        	try {
+        if (updateForm.getFromDate() != "") {
+            try {
                 dateFrom = formatter.parse(updateForm.getFromDate());
                 if (updateForm.getToDate() != "") {
                     dateTo = formatter.parse(updateForm.getToDate());
@@ -574,7 +575,7 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
                 dateFrom = new Date();
             }
         }
-        
+
         ad.setFromDate(dateFrom);
         if (updateForm.getToDate() != "") {
             ad.setToDate(dateTo);
@@ -747,39 +748,31 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         Date dateTo = null;
         SimpleDateFormat dateFormater = new SimpleDateFormat("MM/dd/yyyy");
 
-        if(form.getFromDate()!=null && form.getFromDate()!="")
-        {
-        	try {
+        if (form.getFromDate() != null && form.getFromDate() != "") {
+            try {
                 dateFrom = dateFormater.parse(form.getFromDate());
             } catch (Exception e) {
                 e.printStackTrace();
-                
+
             }
-        }
-        else
-        {
-        	try {
+        } else {
+            try {
                 dateFrom = dateFormater.parse("01/01/1980");
             } catch (ParseException e1) {
                 e1.printStackTrace();
             }
             noDateRangeDown = true;
         }
-        
-        
-        if(form.getToDate()!=null && form.getToDate()!="")
-        {
-        	try 
-        	{
-        		dateTo = dateFormater.parse(form.getToDate());
 
-	        } catch (Exception ex) {
-	            
-	        }
-        }
-        else
-        {
-        	try {
+        if (form.getToDate() != null && form.getToDate() != "") {
+            try {
+                dateTo = dateFormater.parse(form.getToDate());
+
+            } catch (Exception ex) {
+
+            }
+        } else {
+            try {
                 dateTo = dateFormater.parse("01/01/2100");
             } catch (ParseException e1) {
                 e1.printStackTrace();
@@ -915,6 +908,14 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         note.setNotetype(Notifies.Type.MESSAGE);
         note.setSeen(0);
         notifiesDao.save(note);
+
+        try {
+            /*Place to directly send an email to the user as notification*/
+            email.GenerateAnEmail(note);
+        } catch (MessagingException ex) {
+            Logger.getLogger(SampleServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     public static String getNotificationsForJSP() {
@@ -965,6 +966,14 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
                 newNotification.setDate(new Date());
                 newNotification.setSeen(0);
                 notifiesDao.save(newNotification);
+
+                try {
+                    /*Place to directly send an email to the user as notification*/
+                    email.GenerateAnEmail(newNotification);
+                } catch (MessagingException ex) {
+                    Logger.getLogger(SampleServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
             }
         }
     }
@@ -1004,6 +1013,13 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         note.setNotetype(Notifies.Type.ENQUIRY);
         note.setSeen(0);
         note = notifiesDao.save(note);
+
+        try {
+            /*Place to directly send an email to the user as notification*/
+            email.GenerateAnEmail(note);
+        } catch (MessagingException ex) {
+            Logger.getLogger(SampleServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return (note != null) ? true : false;
     }
 
@@ -1024,6 +1040,14 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         note.setNotetype(Notifies.Type.BOOKMARK);
         note.setSeen(0);
         note = notifiesDao.save(note);
+
+        try {
+            /*Place to directly send an email to the user as notification*/
+            email.GenerateAnEmail(note);
+        } catch (MessagingException ex) {
+            Logger.getLogger(SampleServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         return (note != null) ? true : false;
     }
 
@@ -1079,39 +1103,45 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         }
     }
 
-	public Object findSentEnquiriesForUser(org.sample.model.User loggedInUser) {
-		
-		return enquiryDao.findByUserFrom(loggedInUser);
-	}
+    public Object findSentEnquiriesForUser(org.sample.model.User loggedInUser) {
 
-	public void setReadBookmarkNote(String adid) {
-		
-		 Bookmark bm = bookmarkDao.findByAdAndUser(adDao.findById(Long.parseLong(adid)),getLoggedInUser());
-		 List<Notifies> notes = notifiesDao.findByToUserAndBookmark(getLoggedInUser(), bm);
-		 for(Notifies note : notes)
-		 {
-			 note.setSeen(1);
-			 notifiesDao.save(note);
-		 }
-	}
+        return enquiryDao.findByUserFrom(loggedInUser);
+    }
 
-	public Object findEnquiriesForAd(Advert ad) {
-		
-		return enquiryDao.findByAdvert(ad);
-	}
+    public void setReadBookmarkNote(String adid) {
 
-	public List<Notifies> findNotificationsEnquiryForAd(Advert ad) {
-		
-		return notifiesDao.findByAdAndNotetype(ad,Type.ENQUIRY);
-	}
+        Bookmark bm = bookmarkDao.findByAdAndUser(adDao.findById(Long.parseLong(adid)), getLoggedInUser());
+        List<Notifies> notes = notifiesDao.findByToUserAndBookmark(getLoggedInUser(), bm);
+        for (Notifies note : notes) {
+            note.setSeen(1);
+            notifiesDao.save(note);
+        }
+    }
 
-	public void setReadEnquiryNoteForAdId(String id) {
-		List<Notifies> notes = notifiesDao.findByAdAndNotetype(adDao.findById(Long.parseLong(id)), Type.ENQUIRY);
-		for(Notifies note : notes)
-		{
-			note.setSeen(1);
-			notifiesDao.save(note);
-		}
-	}
+    public Object findEnquiriesForAd(Advert ad) {
+
+        return enquiryDao.findByAdvert(ad);
+    }
+
+    public List<Notifies> findNotificationsEnquiryForAd(Advert ad) {
+
+        return notifiesDao.findByAdAndNotetype(ad, Type.ENQUIRY);
+    }
+
+    public void setReadEnquiryNoteForAdId(String id) {
+        List<Notifies> notes = notifiesDao.findByAdAndNotetype(adDao.findById(Long.parseLong(id)), Type.ENQUIRY);
+        for (Notifies note : notes) {
+            note.setSeen(1);
+            notifiesDao.save(note);
+        }
+    }
+
+    public void setReadInvitationForUser(String id) {
+        List<Notifies> notes = notifiesDao.findByToUserAndNotetype(userDao.findById(Long.parseLong(id)), Type.ENQUIRY);
+        for (Notifies note : notes) {
+            note.setSeen(1);
+            notifiesDao.saveAndFlush(note);
+        }
+    }
 
 }
