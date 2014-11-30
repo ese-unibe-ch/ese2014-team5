@@ -1207,6 +1207,7 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 			if(note.getAd().equals(enq.getAdvert()))
 			{
 				note.setSeen(1);
+				note = notifiesDao.save(note);
 			}
 		}
 	}
