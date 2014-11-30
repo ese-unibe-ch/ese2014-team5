@@ -8,15 +8,13 @@
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
 	<link href="web/css/style.css" rel="stylesheet" type="text/css" media="all" />
 	<!--start slider -->
-	<link rel="stylesheet" href="web/css/fwslider.css" media="all">
+	<script src="web/js/jquery-2.1.1.js"></script>
 	<script src="web/js/css3-mediaqueries.js"></script>
-	<script src="web/js/fwslider.js"></script>
 	<!--end slider -->
-	<!---strat-date-piker---->
-	<!---/End-date-piker---->
-	  <script src="web/js/jquery-2.1.1.js"></script>
+	  
   <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
-	<link type="text/css" rel="stylesheet" href="web/css/JFGrid.css" />
+  <!-- <link id="bs-css" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet"> -->
+<!-- 	<link type="text/css" rel="stylesheet" href="web/css/JFGrid.css" /> -->
 	<link type="text/css" rel="stylesheet" href="web/css/JFFormStyle-1.css" />
 			<script type="text/javascript" src="web/js/JFCore.js"></script>
 			<script type="text/javascript" src="web/js/JFForms.js"></script>
@@ -29,6 +27,10 @@
     <link rel="stylesheet" type="text/css" href="css/main.css" media="all"/>
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
 
+   <!--  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">-->
+   <!-- <script type="text/javascript"  src="dn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script> --> 
+   <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+  <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
    <!--  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">-->
     <script type="text/javascript"  src="dn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <link  href="http://fotorama.s3.amazonaws.com/4.6.2/fotorama.css" rel="stylesheet"> <!-- 3 KB -->
@@ -77,39 +79,6 @@
   			menu.removeAttr('style');
   		}
 		});
-		    $( "#slider-range-price" ).slider({
-		      range: true,
-		      min: 0,
-		      max: 3000,
-		      values: [ 75, 750 ],
-		      slide: function( event, ui ) {
-		        $( "#field-fromPrice" ).val(ui.values[ 0 ]);
-		        $( "#field-toPrice" ).val(ui.values[ 1 ]);
-		        $( "#amountPrice" ).val("CHF " + ui.values[ 0 ] + " - CHF " + ui.values[ 1 ] );
-		      }
-		    });
-		    $( "#field-fromPrice" ).val($( "#slider-range-price" ).slider( "values", 0 ));
-		    $( "#field-toPrice" ).val($( "#slider-range-price" ).slider( "values", 1 ));
-		    
-		  /*  if($( "#amountPrice" ).val()==0)
-		    	$( "#amountPrice" ).val( 	"CHF 75 - CHF 750"  );*/
-		    
-		    $( "#slider-range-size" ).slider({
-			      range: true,
-			      min: 0,
-			      max: 200,
-			      values: [ 10, 180 ],
-			      slide: function( event, ui ) {
-			        $( "#field-fromSize" ).val(ui.values[ 0 ]);
-			        $( "#field-toSize" ).val(ui.values[ 1 ]);
-			        $( "#amountSize" ).val( ui.values[ 0 ] + "m^2 - " + ui.values[ 1 ] + "m^2" );
-			      }
-			    });
-			    $( "#field-fromSize" ).val($( "#slider-range-size" ).slider( "values", 0 ));
-			    $( "#field-toSize" ).val($( "#slider-range-size" ).slider( "values", 1 ));
-			    /*if($( "#amountSize" ).val()==0)
-				    $( "#amountSize" ).val(	"10m^2 - 180m^2" );*/
-
 	});
 	
 	function setreadBookmark(id, url)
@@ -202,17 +171,6 @@
 		  		$(".bInvitations").text("Enquiries ("+unread_invitations+")");
 	  				//items.push( "<li id='" + entry.id + "'><a onclick='"+ entry.url +"'>" + entry.text + "</a></li>" );
 	  	});
-	  	
-	  
-	  	/*if(unread_elements > 0)
-	  	{
-	  		$("#notifytitle").addClass("unread_messages");
-	  	}
-	   
-	    $( "<ul/>", {
-	      "class": "my-new-list",
-	      html: items.join( "" )
-	    }).appendTo( "#notifications" );*/
 	    
 	 });
    
@@ -242,7 +200,7 @@
 		<div class="h_right">
 			<!--start menu -->
 			<ul class="menu">
-				<li class="active"><a href="index">Home</a></li> |
+				<li><a href="index">Home</a></li> |
 				<sec:authorize access="hasRole('ROLE_USER')">
 <!-- 					<li class="menu-item"> -->
 <!-- 						<a href="#">Profile</a> -->
@@ -288,7 +246,7 @@
 		<div class="top-nav">
 		<nav class="clearfix">
 				<ul>
-				<li class="active"><a href="index">Home</a></li>
+				<li><a href="index">Home</a></li>
 				<sec:authorize access="hasRole('ROLE_USER')">
 					<li><a class="bBookmarks" href="bookmarks">Bookmarks</a></li>
 				    <li><a class="bInvitations" href="sentenquiries">Enquiries</a></li>

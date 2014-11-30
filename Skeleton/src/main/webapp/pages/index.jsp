@@ -6,7 +6,11 @@
 
 
 <c:import url="template/header.jsp" />
-<script type="text/javascript"  src="js/bootstrap-datepicker.js"></script>
+<script type="text/javascript"  src="web/js/bootstrap-datepicker.js"></script>
+<style>
+.day {
+cursor: pointer;}
+</style>
 <script type="text/javascript">
 
 var i = 1;
@@ -23,6 +27,7 @@ $(document).ready(function() {
 
 	</c:if>
 	
+	<c:if test="${maxPrize != null}">
 	if(${maxPrice}==0)
 		maxPrice = 3000;
 	else
@@ -31,18 +36,52 @@ $(document).ready(function() {
 		maxSize = 200;
 	else
 		maxSize = ${maxSize};
+	</c:if>
+	
+	<c:if test="${maxPrize == null}">
+	var maxPrice = 3000;
+	var minPrice = 0;
+	var maxSize = 200;
+	var minSize = 0;
+	</c:if>
+	
+	$( "#slider-range-price" ).slider({
+	      range: true,
+	      min: minPrice,
+	      max: maxPrice,
+	      values: [ minPrice, maxPrice ],
+	      slide: function( event, ui ) {
+	        $( "#field-fromPrice" ).val(ui.values[ 0 ]);
+	        $( "#field-toPrice" ).val(ui.values[ 1 ]);
+	        $( "#amountPrice" ).val(ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+	      }
+	    });
+	
+
+	$( "#slider-range-size" ).slider({
+	      range: true,
+	      min: minSize,
+	      max: maxSize,
+	      values: [ minSize, maxSize ],
+	      slide: function( event, ui ) {
+	        $( "#field-fromSize" ).val(ui.values[ 0 ]);
+	        $( "#field-toSize" ).val(ui.values[ 1 ]);
+	        $( "#amountSize" ).val( ui.values[ 0 ] + " - " + ui.values[ 1 ]);
+	      }
+	    });
 	
 	$("#slider-range-price").slider('values',0,0); // sets first handle (index 0) to 50
 	$("#slider-range-price").slider('values',1,maxPrice); // sets second handle (index 1) to 80
-	$( "#amountPrice" ).val( 	"CHF ${minPrice} - CHF " + maxPrice  );
-	$("#field-fromPrice").val(${minPrice});
+	$( "#amountPrice" ).val(minPrice + " - " + maxPrice  );
+	$("#field-fromPrice").val(minPrice);
 	$("#field-toPrice").val(maxPrice);
 	
 	$("#slider-range-size").slider('values',0,0); // sets first handle (index 0) to 50
 	$("#slider-range-size").slider('values',1,maxSize); // sets second handle (index 1) to 80
-	$( "#amountSize" ).val(	"${minSize}m^2 - " + maxSize +"m^2" );
-	$("#field-fromSize").val(${minSize});
+	$( "#amountSize" ).val(	minSize + " - " + maxSize );
+	$("#field-fromSize").val(minSize);
 	$("#field-toSize").val(maxSize);
+	
 	
     $("#add").click(function(){
     	$("#files").append("<div class=\"secfile\"> File to upload: <input type=\"file\" name=\"files["+ (i++) +"]\"><input type=\"button\" class=\"delete\" value=\"Delete\"></div>");
@@ -59,25 +98,7 @@ $(document).ready(function() {
     var nowTemp = new Date();
     var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
      
-    var checkin = $('#field-fromDate').datepicker({
-      onRender: function(date) {
-        return date.valueOf() < now.valueOf() ? 'disabled' : '';
-      }
-    }).on('changeDate', function(ev) {
-      if (ev.date.valueOf() > checkout.date.valueOf()) {
-        var newDate = new Date(ev.date)
-        newDate.setDate(newDate.getDate() + 1);
-      }
-      checkin.hide();
-      $('#field-toDate')[0].focus();
-    }).data('datepicker');
-    var checkout = $('#field-toDate').datepicker({
-      onRender: function(date) {
-        return date.valueOf() <= checkin.date.valueOf() ? 'disabled' : '';
-      }
-    }).on('changeDate', function(ev) {
-      checkout.hide();
-    }).data('datepicker');
+    
     
     $("#advanced_check").change(function(){
 
@@ -90,6 +111,29 @@ $(document).ready(function() {
     		$("#advanced").animate({height:'200px'},200);
     	}
     });
+    
+   $('#field-fromDate').datepicker({});/*
+	      onRender: function(date) {
+	        return date.valueOf() < now.valueOf() ? 'disabled' : '';
+	      }
+	    }).on('changeDate', function(ev) {
+	      if (ev.date.valueOf() > checkout.date.valueOf()) {
+	        var newDate = new Date(ev.date)
+	        newDate.setDate(newDate.getDate() + 1);
+	      }
+	      checkin.hide();
+	      $('#field-toDate')[0].focus();
+	    }).data('datepicker');*/
+	    $('#field-toDate').datepicker({});/*
+	      onRender: function(date) {
+	        return date.valueOf() <= checkin.date.valueOf() ? 'disabled' : '';
+	      }
+	    }).on('changeDate', function(ev) {
+	      checkout.hide();
+	    }).data('datepicker');*/
+    
+    $('#field-fromDate').attr('readonly', true);
+    $('#field-toDate').attr('readonly', true);
 });
 </script>
 
@@ -124,9 +168,9 @@ $(document).ready(function() {
 	        </div>
             
             <div class="control-group">
-	            <label class="control-label" for="amountPrice">Price</label>
+	            <label class="control-label" for="amountPrice">Price [CHF]</label>
 	            <div class="controls">
-				 <input type="text" id="amountPrice" readonly style="border:0; color:#f6931f; font-weight:bold;" value="CHF ${minPrice} - CHF ${maxPrice}">
+				 <input type="text" id="amountPrice" readonly style="border:0; color:#f6931f; font-weight:bold;" value="${minPrice} - ${maxPrice}">
 	            	<div id="slider-range-price"></div>
 	            	<form:input type="hidden"  path="fromPrice" id="field-fromPrice" tabindex="2" maxlength="35" placeholder="CHF"/>
 	            	<form:input type="hidden" path="toPrice" id="field-toPrice" tabindex="2" maxlength="35" placeholder="CHF"/>
@@ -134,9 +178,9 @@ $(document).ready(function() {
             </div>
             
             <div class="control-group">
-	            <label class="control-label" for="amountSize">Size</label>
+	            <label class="control-label" for="amountSize">Size [m^2]</label>
 	            <div class="controls">
-					  <input type="text" id="amountSize" readonly style="border:0; color:#f6931f; font-weight:bold;" value="${minSize}m^2 - ${maxSize}m^2">
+					  <input type="text" id="amountSize" readonly style="border:0; color:#f6931f; font-weight:bold;" value="${minSize} - ${maxSize}">
 	            	<div id="slider-range-size"></div>
 	            	<form:input type="hidden"  path="fromSize" id="field-fromSize" tabindex="2" maxlength="35" placeholder="CHF"/>
 	            	<form:input type="hidden" path="toSize" id="field-toSize" tabindex="2" maxlength="35" placeholder="CHF"/>
@@ -168,21 +212,14 @@ $(document).ready(function() {
 	   			<div class="control-group">
 		            <label class="control-label" for="field-fromDate">From</label>
 		            <div class="controls">
-		                <form:input path="fromDate" id="field-fromDate" class="span2" tabindex="2" maxlength="150" placeholder="e.g. 02/23/14"/>  
+		                <form:input path="fromDate" readonly="readonly" id="field-fromDate" class="span2" tabindex="2" maxlength="150" placeholder="e.g. 02/23/14"/>  
 		            </div>
 		        </div>
 	
 				<div class="control-group">
 		            <label class="control-label" for="field-toDate">Till</label>
 		            <div class="controls">
-		                <form:input path="toDate" id="field-toDate" class="span2" tabindex="2" maxlength="150" placeholder="e.g. 02/23/14"/>
-		            </div>
-		        </div>
-		        
-		        <div class="control-group">
-		            <label class="control-label">Only Bookmarked</label>
-		            <div class="controls">
-		            	<form:checkbox path="favorites" id="field-favorites"/>
+		                <form:input path="toDate" readonly="readonly" id="field-toDate" class="span2" tabindex="2" maxlength="150" placeholder="e.g. 02/23/14"/>
 		            </div>
 		        </div>
 
@@ -220,10 +257,15 @@ $(document).ready(function() {
 					<b style="font-family:Arial;font-size:14pt;">${ad.title}</b>
 					<br />
 					Price: ${ad.roomPrice}CHF, Size: ${ad.roomSize}m&sup2;
+					<br />
+					${ad.address.street },  ${ad.address.plz }
 				</div>
 			</div>
 			    			
 			</c:forEach>
+			<c:if test="${empty searchResults }">
+			No results found.
+			</c:if>
 	    </div>
 	    </c:when>
 		<c:when test="${displayMap==1 && hasResults==1}">

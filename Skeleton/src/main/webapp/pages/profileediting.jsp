@@ -11,7 +11,6 @@
 	<form:form method="post" modelAttribute="profileUpdateForm" action="updateAccount?${_csrf.parameterName}=${_csrf.token}" id="profileUpdateForm" cssClass="form-horizontal"
 	           autocomplete="off" enctype="multipart/form-data">
 	    <fieldset>
-	        Make your changes, then confirm
 	
 	        <c:set var="FirstNameErrors"><form:errors path="FirstName"/></c:set>
 	        <div class="control-group<c:if test="${not empty firstNameErrors}"> error</c:if>">

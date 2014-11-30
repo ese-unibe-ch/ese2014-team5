@@ -46,6 +46,9 @@
         }).on('changeDate', function (ev) {
             checkout.hide();
         }).data('datepicker');
+        
+        $('#field-fromDate').attr('readonly', true);
+        $('#field-toDate').attr('readonly', true);
     });
 </script>
 

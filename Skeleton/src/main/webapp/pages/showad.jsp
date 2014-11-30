@@ -13,7 +13,7 @@ $(document).ready(function(){
 	$("#enquiryFormDiv").hide();
 	$("#showEnquiryForm").click(function(){
 		$("#enquiryFormDiv").show();
-        
+        $(this).hide();
 
 	});
 	

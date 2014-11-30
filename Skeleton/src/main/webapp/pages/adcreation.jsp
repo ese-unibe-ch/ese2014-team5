@@ -12,10 +12,10 @@ var i = 1;
 
 $(document).ready(function() {
     $("#add").click(function(){
-    	$("#files").append("<div class=\"secfile\"> File to upload: <input type=\"file\" name=\"files["+ (i++) +"]\"><input type=\"button\" class=\"delete\" value=\"Delete\"></div>");
+    	$("#files").append("<div class=\"secfile\"> File to upload: <input type=\"file\" name=\"files["+ (i++) +"]\"><input type=\"button\" class=\" btn delete\" value=\"Delete\"></div>");
     });
     
-    $(document).on("click", ".delete", function() {
+    $(document.body).on("click", ".delete", function() {
     	$(this).parent().remove();
     });
     
@@ -45,6 +45,9 @@ $(document).ready(function() {
     }).on('changeDate', function(ev) {
       checkout.hide();
     }).data('datepicker');
+    
+    $('#field-fromDate').attr('readonly', true);
+    $('#field-toDate').attr('readonly', true);
 });
 </script>
 
@@ -94,7 +97,7 @@ $(document).ready(function() {
             
                 <c:set var="numberOfPeopleErrors"><form:errors path="numberOfPeople"/></c:set>
         <div class="control-group<c:if test="${not empty numberOfPeopleErrors}"> error</c:if>">
-            <label class="control-label" for="field-numberOfPeople">Persons</label>
+            <label class="control-label" for="field-numberOfPeople">Nr. of People</label>
             <div class="controls">
                 <form:input path="numberOfPeople" id="field-numberOfPeople"  tabindex="2" maxlength="150" placeholder="e.g. 4"/>
                 <form:errors path="numberOfPeople" cssClass="help-inline" element="span"/>
@@ -233,7 +236,7 @@ $(document).ready(function() {
 
 		<div id="files">File to upload: <input type="file" name="files[0]"><br /> </div>
          
-         <input type="button" value="Add another file" id="add">
+         <button type="button" class="btn" id="add">Add another file</button>
     
    <div id="result">${result}</div>
         
