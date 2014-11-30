@@ -2,18 +2,11 @@ package org.sample.controller.service;
 
 import java.text.SimpleDateFormat;
 import java.util.Properties;
-import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 
 import javax.mail.internet.MimeMessage;
 import org.sample.model.Notifies;
-import org.sample.model.User;
-import org.springframework.mail.MailException;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.mail.javamail.MimeMessageHelper;
 
 /**
@@ -71,18 +64,16 @@ public class EmailSender {
                 default:
                     text = notes.getText() + " - " + date + "";
             }
-        
-        
-        /*The real message*/
-        String username = notes.getToUser().getUsername();
-        type = notes.getNotetype().toString();
-        helper.setTo(username);
-        helper.setFrom(username);
-        helper.setSubject(type);
-        helper.setText(text);
 
-        sender.send(message);
-        
+            /*The real message*/
+            String username = notes.getToUser().getUsername();
+            type = notes.getNotetype().toString();
+            helper.setTo(username);
+            helper.setSubject(type);
+            helper.setText(text);
+
+            sender.send(message);
+
         } catch (NullPointerException e) {
 
         }
