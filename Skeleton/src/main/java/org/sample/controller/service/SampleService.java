@@ -16,6 +16,7 @@ import org.sample.model.Enquiry;
 import org.sample.model.Invitation;
 import org.sample.model.Notifies;
 import org.sample.model.User;
+import org.sample.model.Enquiry.InvitationStatus;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -209,6 +210,11 @@ public interface SampleService {
 	public void createInvitation(InvitationForm invForm) throws InvalidDateParseException;
 
 	public List<Invitation> findInvitationsForAd(Advert ad);
+
+	public void cancelInvitation(Long id);
 	
+	public void acceptInvitationForEnquiryId(Long id);
+	
+	public void cancelInvitationForEnquiryId(Long id);
 }
  

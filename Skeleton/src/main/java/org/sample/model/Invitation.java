@@ -40,6 +40,8 @@ public class Invitation {
     private Date toDate;
     
     private String textOfInvitation;
+    
+    private boolean cancelled;
 
     public Long getId() {
         return id;
@@ -81,5 +83,13 @@ public class Invitation {
     public void setTextOfInvitation(String textOfInvitation) {
         this.textOfInvitation = textOfInvitation;
     }
+
+	public boolean getCancelled() {
+		return cancelled;
+	}
+
+	public void setCancelled(boolean cancelled) {
+		this.cancelled = cancelled;
+	}
 
 }

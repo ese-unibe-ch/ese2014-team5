@@ -9,4 +9,6 @@ import org.sample.model.Invitation;
 public interface InvitationDao extends JpaRepository<Invitation, Long> {
 
 	List<Invitation> findByAdvert(Advert ad);
+
+	Invitation findById(Long id);
 }

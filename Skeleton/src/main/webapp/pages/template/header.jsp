@@ -128,8 +128,6 @@
 		
 		if(url!="")
 			window.location.href=url;
-		
-		
 	}
 
 	function setread(id,url)

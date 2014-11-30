@@ -12,13 +12,6 @@
 
 <style>
 
-	body {
-		margin: 40px 10px;
-		padding: 0;
-		font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
-		font-size: 14px;
-	}
-
 	#calendar {
 		max-width: 500px;
 		margin: 0 0;
@@ -108,20 +101,33 @@ $(document).ready(function() {
 		$("#calendar").fullCalendar({
 			events:[
 			        <c:forEach items="${invitationsList}" var="inv">
+			        	<c:if test="${inv.cancelled == false}">
 			        	{
+			        		id: '${inv.id}',
 			        		title  : 'Visit',
 			                start  : '${inv.fromDate}'
 			        	},
+			        	</c:if>
 			        </c:forEach>
-			       ]
-		});
+			       ],
+			       eventClick: function(calEvent, jsEvent, view) {
 
-		$(document).on("click", ".fc-day-number", function(event){
-			$("td.fc-day-number").removeClass("selectedCell");
-			$(event.currentTarget).addClass("selectedCell");
-			 $("#datetime24").combodate('setValue', $(this).data("date") + " 12:00");
+			           if (confirm('Do you really want to cancel this event?')) {
+			        	   deleteEvent(calEvent.id);
+			        	   $(this).fullCalendar( 'removeEvent', calEvent.id );
+			        	} else {
+			        	    // Do nothing!
+			        	}
+			       }
 		});
 		
+		function deleteEvent(id)
+		{
+			$.get( "deleteinvitation?id=" + id, function() {
+				
+			});
+		}
+
 		$("#datetime24").change(function(){
 	
 			$("#calendar").fullCalendar('gotoDate', $("#datetime24").data("value"));

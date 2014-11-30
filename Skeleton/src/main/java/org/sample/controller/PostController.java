@@ -133,4 +133,25 @@ public class PostController {
         sampleService.setReadEnquiryNoteForAdId(id);
         return "#";
     }
+    
+    @RequestMapping("/deleteinvitation")
+    public @ResponseBody
+    String deleteInvitation(Model model, @RequestParam Long id) {
+        sampleService.cancelInvitation(id);
+        return "#";
+    }
+    
+    @RequestMapping("/acceptinvitation")
+    public @ResponseBody
+    String setAcceptInvitation(Model model, @RequestParam Long id) {
+        sampleService.acceptInvitationForEnquiryId(id);
+        return "#";
+    }
+    
+    @RequestMapping("/cancelinvitation")
+    public @ResponseBody
+    String setCancelInvitation(Model model, @RequestParam Long id) {
+        sampleService.cancelInvitationForEnquiryId(id);
+        return "#";
+    }
 }

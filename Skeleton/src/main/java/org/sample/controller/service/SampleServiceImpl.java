@@ -1147,10 +1147,8 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 	        enq.setRating(1);
 	        enq.setInvitation(inv);
 	        enq = enquiryDao.save(enq);
-	        createNotificationInvitation(enq,inv);
-	        
+	        createNotificationInvitation(enq,inv);   
 		}
-
 	}
 	
     public boolean createNotificationInvitation(Enquiry enq, Invitation inv) {
@@ -1162,6 +1160,7 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         note.setAd(enq.getAdvert());
         note.setDate(new Date());
         note.setNotetype(Notifies.Type.INVITATION);
+        note.setInvitation(inv);
         note.setSeen(0);
         note = notifiesDao.save(note);
         return (note != null) ? true : false;
@@ -1188,6 +1187,46 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 
 	public List<Invitation> findInvitationsForAd(Advert ad) {
 		return (List<Invitation>) invitationDao.findByAdvert(ad);
+	}
+
+	public void cancelInvitation(Long id) {
+		Invitation inv = invitationDao.findById(id);
+		for(Enquiry enq : enquiryDao.findByInvitation(inv))
+		{
+			createNotification(enq.getUserFrom(), "The invitation for advert '" + enq.getAdvert().getTitle() + "' was cancelled.");
+		}
+		inv.setCancelled(true);
+		inv = invitationDao.save(inv);
+	}
+	
+	public void setNotificationForEnquiryRead(Enquiry enq)
+	{
+		List<Notifies> notes = (List<Notifies>) notifiesDao.findByToUser(enq.getUserFrom());
+		for(Notifies note : notes)
+		{
+			if(note.getAd().equals(enq.getAdvert()))
+			{
+				note.setSeen(1);
+			}
+		}
+	}
+	
+	public void acceptInvitationForEnquiryId(Long id)
+	{
+		Enquiry enq = enquiryDao.findById(id);
+		enq.setStatus(InvitationStatus.ACCEPTED);
+		enq = enquiryDao.save(enq);
+		createNotificationEnquiry(enq);
+		setNotificationForEnquiryRead(enq);
+	}
+	
+	public void cancelInvitationForEnquiryId(Long id)
+	{
+		Enquiry enq = enquiryDao.findById(id);
+		enq.setStatus(InvitationStatus.CANCELLED);
+		enq = enquiryDao.save(enq);
+		createNotificationEnquiry(enq);
+		setNotificationForEnquiryRead(enq);
 	}
 
 }
