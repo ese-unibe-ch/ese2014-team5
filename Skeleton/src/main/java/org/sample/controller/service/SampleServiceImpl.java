@@ -1216,6 +1216,9 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 		for(Enquiry enq : enquiryDao.findByInvitation(inv))
 		{
 			createNotification(enq.getUserFrom(), "The invitation for advert '" + enq.getAdvert().getTitle() + "' was cancelled.");
+			enq.setInvitation(null);
+			enq.setStatus(InvitationStatus.UNKNOWN);
+			enq = enquiryDao.save(enq);
 		}
 		inv.setCancelled(true);
 		inv = invitationDao.save(inv);

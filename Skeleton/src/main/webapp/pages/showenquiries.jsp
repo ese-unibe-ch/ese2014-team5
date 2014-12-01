@@ -124,7 +124,7 @@ $(document).ready(function() {
 		function deleteEvent(id)
 		{
 			$.get( "deleteinvitation?id=" + id, function() {
-				
+				location.reload();
 			});
 		}
 

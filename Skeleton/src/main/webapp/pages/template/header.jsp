@@ -59,7 +59,7 @@
 	
 	$(document).ready(function() {
 	
-		  $(document).on("click", ".close", function(){
+		  $(document.body).on("click", ".close", function(){
 			 $(this).parent().remove();
 		  });
 		  	
