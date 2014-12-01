@@ -33,7 +33,7 @@ $(document).ready(function(){
 			
 			<c:forEach items="${searchList}" var="listValue">
 		    	<div id="profilesearches_result">
-				    <div class="result" onclick="setreadSearch(${listValue.id},'index?action=blist&searchid=${listValue.id}')">
+				    <div class="result" onclick="setread(${listValue.id},'index?action=blist&searchid=${listValue.id}')">
 				    	<div style="width:50px;float:left;display:inline-block;">
 				    		<input type="radio" name="notifySearch" id="${listValue.id}" onclick="javascript:location.href='saved-searches?filter=${listValue.id}';var e = window.event;e.cancelBubble = true;if (e.stopPropagation) e.stopPropagation();" <c:if test="${selectedSearch == listValue.id}">checked</c:if>>
 				    	</div>

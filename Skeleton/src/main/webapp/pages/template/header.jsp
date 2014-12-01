@@ -123,6 +123,9 @@
   		}
   		else
   			$(".bInvitations").text("Enquiries");
+  		
+  		if(url!="")
+			window.location.href=url;
 	}
 /*	$.get("getnotifications.htm", function(data){
 		alert(data);
