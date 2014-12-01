@@ -472,15 +472,21 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
             ad.setToDate(dateTo);
         }
 
-        for (String file : adForm.getFilenames()) {
-            Picture pic = new Picture();
-            pic.setUrl(file);
-
-            ad.addPicture(pic);
-
+        if (!adForm.getFilenames().isEmpty()){
+	        for (String file : adForm.getFilenames()) {
+	            Picture pic = new Picture();
+	            pic.setUrl(file);
+	
+	            ad.addPicture(pic);
+	            pic = pictureDao.save(pic);
+	        }
+        } else {
+        	Picture pic = new Picture();
+            pic.setUrl("../web/images/icon/home.png");
             pic = pictureDao.save(pic);
+            ad.addPicture(pic);
         }
-
+        
         address = addDao.save(address);
         ad = adDao.save(ad);
 
