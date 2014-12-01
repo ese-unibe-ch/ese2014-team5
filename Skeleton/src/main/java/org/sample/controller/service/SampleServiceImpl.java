@@ -222,7 +222,11 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 
         if (signupUser.getpassword().equals(signupUser.getpasswordRepeat())) {
 
-            org.sample.model.User user = new org.sample.model.User();
+        	Picture pic = new Picture();
+            pic.setUrl("../web/images/icon/user.png");
+            pic = pictureDao.save(pic);
+        	
+        	org.sample.model.User user = new org.sample.model.User();
             user.setFirstName(signupUser.getFirstName());
             user.setLastName(signupUser.getLastName());
             user.setEmail(signupUser.getEmail());
@@ -235,16 +239,25 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
             String hashedPassword = passwordEncoder.encode(password);
             user.setPassword(hashedPassword);
             user.setEnabled(true);
-
+            
+            //set default picture
+            UserData userData = user.getUserData();
+            if (userData == null) {
+            	userData = new UserData();
+            }
+            userData.setPicture(pic);
+            userDataDao.save(userData);
+            user.setUserData(userData);
+            
             UserRole role = new UserRole();
             role.setRole(1);
 
             role = userRoleDao.save(role);
             user.setUserRole(role);
             user = userDao.save(user);
+            
 
             org.sample.model.User user2 = userDao.findByUsername(signupUser.getEmail());
-            System.out.println("User found! " + user2.getUsername());
             signupUser.setId(user2.getId());
         } else {
             throw new InvalidUserException("password must be repeated correctly ");

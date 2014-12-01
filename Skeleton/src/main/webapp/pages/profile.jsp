@@ -15,11 +15,13 @@ $(document).ready(function(){
 
 	<div style="width:100%;">
 		<div style="float:left;">
-			<img style="width: 150px;" class="pic" src="<c:url value="img/${currentUser.userData.picture.url}"/>"/>
+			<img style="padding:5px;border: solid #e5e5e5 1px;" class="pic" src="<c:url value="img/${currentUser.userData.picture.url}"/>"/>
 		</div>
 		<div style="padding-left:30px;float:left;">
 			</br>
-			<span style="font-weight:bold;font-size:18pt;font-family:Comic Sans MS,sans-serif;">"${currentUser.userData.quote}"</span>
+			<span style="font-weight:bold;font-size:18pt;font-family:Comic Sans MS,sans-serif;">
+				<c:if test="${currentUser.userData.quote}">"${currentUser.userData.quote}"</c:if>
+			</span>
 		</div>
 	</div>
 	
