@@ -154,4 +154,11 @@ public class PostController {
         sampleService.cancelInvitationForEnquiryId(id);
         return "#";
     }
+    
+    @RequestMapping("/setrank")
+    public @ResponseBody
+    String setRank(Model model, @RequestParam Long id, @RequestParam int rank) {
+        sampleService.setRatingForEnquiry(id,rank);
+        return "#";
+    }
 }

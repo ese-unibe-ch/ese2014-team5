@@ -216,5 +216,7 @@ public interface SampleService {
 	public void acceptInvitationForEnquiryId(Long id);
 	
 	public void cancelInvitationForEnquiryId(Long id);
+
+	public void setRatingForEnquiry(Long id, int rank);
 }
  

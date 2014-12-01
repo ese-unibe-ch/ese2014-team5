@@ -12,8 +12,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.mail.MessagingException;
 
+import javax.mail.MessagingException;
 import javax.servlet.ServletContext;
 
 import org.sample.controller.pojos.AdCreateForm;
@@ -1253,6 +1253,12 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 		enq = enquiryDao.save(enq);
 		createNotificationEnquiry(enq);
 		setNotificationForEnquiryRead(enq);
+	}
+
+	public void setRatingForEnquiry(Long id, int rank) {
+		Enquiry enq = enquiryDao.findById(id);
+		enq.setRating(rank);
+		enq = enquiryDao.save(enq);
 	}
 
 }

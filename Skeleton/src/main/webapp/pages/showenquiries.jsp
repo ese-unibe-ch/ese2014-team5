@@ -205,10 +205,29 @@ $(document).ready(function() {
 				}
 			}
 		});
-		
+	
 		$(".star").click(function(){
 			$(this).parent().data("amount",$(this).data("number"));
 			// USE THIS TRIGGER TO UPDATE DATABASE!!!
+			$.get( "setrank?id=" + $(this).parent().data("id") + "&rank=" + $(this).data("number"), function() {
+				location.reload();
+			});
+		});
+		
+		$( ".favorize" ).each(function( index ) {
+			var i,a;
+			a = $(this).data("amount");
+			for(i=2;i<=5;i++)
+			{
+				if(i<=a)
+				{
+					$(this).children(".star_" + i).css("opacity", "1.0");
+				}
+				else
+				{
+					$(this).children(".star_" + i).css("opacity", "0.3");
+				}
+			}
 		});
         
 	});
@@ -250,7 +269,7 @@ $(document).ready(function() {
 								<div class="unknown" title="An Invitation has been sent, and is waiting to be answered."></div>
 							</c:if>
 							
-							<div class="favorize" data-amount="1">
+							<div class="favorize" data-amount="${enquiry.rating }" data-id="${enquiry.id }">
 								<div class="star star_5" data-number="5"></div>
 								<div class="star star_4" data-number="4"></div>
 								<div class="star star_3" data-number="3"></div>
