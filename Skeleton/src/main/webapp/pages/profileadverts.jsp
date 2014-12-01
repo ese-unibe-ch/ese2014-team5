@@ -7,6 +7,11 @@
 <c:import url="template/header.jsp" />
 
 <div class="reservation">
+<script>
+$(document).ready(function(){
+	$("#lEnq").parent().addClass("active");
+});
+</script>
 <legend>My Ads</legend>
 	<c:if test="${empty adList}">
 		You haven't placed an advert yet.</br></br>

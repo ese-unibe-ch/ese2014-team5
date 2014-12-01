@@ -11,7 +11,10 @@
 var i = 1;
 
 $(document).ready(function() {
-    $("#add").click(function(){
+		
+	$("#lEnq").parent().addClass("active");
+    
+	$("#add").click(function(){
     	$("#files").append("<div class=\"secfile\"> File to upload: <input type=\"file\" name=\"files["+ (i++) +"]\"><input type=\"button\" class=\" btn delete\" value=\"Delete\"></div>");
     });
     

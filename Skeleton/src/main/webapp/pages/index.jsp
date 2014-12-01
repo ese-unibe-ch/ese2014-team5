@@ -13,10 +13,11 @@ cursor: pointer;}
 </style>
 <script type="text/javascript">
 
-var i = 1;
-
 $(document).ready(function() {
 	
+	$("#lHome").parent().addClass("active");
+	
+	var i = 1;
 	$(document).on("click", "result", function(){
 		$(location).attr('href',"showad?value="+$(this).data("value"));
 	});

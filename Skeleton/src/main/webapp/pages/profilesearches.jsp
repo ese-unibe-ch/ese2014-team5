@@ -13,7 +13,11 @@
 	        ${msg}
 	</div>
 </c:if>
-
+<script>
+$(document).ready(function(){
+	$("#lSear").parent().addClass("active");
+});
+</script>
 <div class="reservation">
 <legend>My saved searches</legend>
 	<c:if test="${empty searchList}">

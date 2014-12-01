@@ -10,6 +10,8 @@
 <script type="text/javascript">
 
 $(document).ready(function(){
+
+	$("#lBook").parent().addClass("active");
 	$("#enquiryFormDiv").hide();
 	$("#showEnquiryForm").click(function(){
 		$("#enquiryFormDiv").show();

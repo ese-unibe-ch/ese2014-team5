@@ -7,6 +7,11 @@
 <c:import url="template/header.jsp" />
 
 <div class="reservation">
+<script>
+$(document).ready(function(){
+	$("#lBook").parent().addClass("active");
+});
+</script>
 <legend>Bookmarks</legend>
 	<c:if test="${empty adList}">
 		You don't have any bookmarks yet.</br></br>

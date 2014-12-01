@@ -200,7 +200,7 @@
 		<div class="h_right">
 			<!--start menu -->
 			<ul class="menu">
-				<li><a href="index">Home</a></li> |
+				<li><a id="lHome" href="index">Home</a></li> |
 				<sec:authorize access="hasRole('ROLE_USER')">
 <!-- 					<li class="menu-item"> -->
 <!-- 						<a href="#">Profile</a> -->
@@ -210,19 +210,19 @@
 <!-- 							<li><a href="my-ads">My Ads</a></li> -->
 <!-- 						</ul> -->
 <!-- 					</li> -->
-				    <li><a class="bBookmarks" href="bookmarks">Bookmarks</a></li> |
-				    <li><a class="bInvitations" href="sentenquiries">Enquiries</a></li> |
-					<li><a href="profile?name=<%=SecurityContextHolder.getContext().getAuthentication().getName()%>"><span id="username">Profile</span></a></li> |
-					<li><a class="bSearches" href="saved-searches"><span id="username">Saved Searches</span></a></li> |
-					<li><a class="bEnquiries" href="my-ads">My Ads</a></li> |
+				    <li><a id="lBook" class="bBookmarks" href="bookmarks">Bookmarks</a></li> |
+				    <li><a id="lInv" class="bInvitations" href="sentenquiries">Enquiries</a></li> |
+					<li><a id="lProf" href="profile?name=<%=SecurityContextHolder.getContext().getAuthentication().getName()%>"><span id="username">Profile</span></a></li> |
+					<li><a id="lSear" class="bSearches" href="saved-searches"><span id="username">Saved Searches</span></a></li> |
+					<li><a id="lEnq" class="bEnquiries" href="my-ads">My Ads</a></li> |
 					<li><c:if test="${pageContext.request.userPrincipal.name != null}">
 							<a style="cursor:pointer;" onclick="javascript:logout();">Logout</a>
 						</c:if></li>
 					
 				</sec:authorize>
 				<sec:authorize access="!hasRole('ROLE_USER')">
-					<li><a href="login">login</a></li> |
-					<li><a href="register">register</a></li>
+					<li><a id="lLog" href="login">login</a></li> |
+					<li><a id="lReg" href="register">register</a></li>
 				</sec:authorize>
 				<div class="clear"></div>
 			</ul>
@@ -246,18 +246,18 @@
 		<div class="top-nav">
 		<nav class="clearfix">
 				<ul>
-				<li><a href="index">Home</a></li>
+				<li><a id="lHome" href="index">Home</a></li>
 				<sec:authorize access="hasRole('ROLE_USER')">
-					<li><a class="bBookmarks" href="bookmarks">Bookmarks</a></li>
-				    <li><a class="bInvitations" href="sentenquiries">Enquiries</a></li>
-					<li><a href="profile?name=<%=SecurityContextHolder.getContext().getAuthentication().getName()%>"><span id="username">Profile</span></a></li>
-					<li><a class="bSearches" href="saved-searches"><span id="username">Saved Searches</span></a></li>
-					<li><a class="bEnquiries" href="my-ads">My Ads</a></li>
+					<li><a id="lBook" class="bBookmarks" href="bookmarks">Bookmarks</a></li>
+				    <li><a id="lInv" class="bInvitations" href="sentenquiries">Enquiries</a></li>
+					<li><a id="lProf" href="profile?name=<%=SecurityContextHolder.getContext().getAuthentication().getName()%>"><span id="username">Profile</span></a></li>
+					<li><a id="lSear" class="bSearches" href="saved-searches"><span id="username">Saved Searches</span></a></li>
+					<li><a id="lEnq" class="bEnquiries" href="my-ads">My Ads</a></li>
 					<li><a style="cursor:pointer;" onclick="javascript:logout();">Logout</a></li>
 				</sec:authorize>
 				<sec:authorize access="!hasRole('ROLE_USER')">
-					<li><a href="login">login</a></li>
-					<li><a href="register">register</a></li>
+					<li><a id="lLog" href="login">login</a></li>
+					<li><a id="lReg" href="register">register</a></li>
 				</sec:authorize>
 				</ul>
 				

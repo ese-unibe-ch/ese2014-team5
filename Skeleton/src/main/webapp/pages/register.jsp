@@ -9,7 +9,11 @@
 <c:import url="template/header.jsp" />
 
 <div class="reservation">
-
+<script>
+$(document).ready(function(){
+	$("#lReg").parent().addClass("active");
+});
+</script>
 <legend>Sign up now, it's free!</legend>
     <c:if test="${page_error != null }">
         <div class="alert alert-error">

@@ -4,7 +4,11 @@
 
 <c:import url="template/header.jsp" />
 
-
+<script>
+$(document).ready(function(){
+	$("#lLog").parent().addClass("active");
+});
+</script>
 		<div class="reservation">
 		<legend>Login</legend>
 		<c:if test="${message != null }">

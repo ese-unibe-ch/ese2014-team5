@@ -7,6 +7,11 @@
 <c:import url="template/header.jsp" />
 
 <div class="reservation">
+<script>
+$(document).ready(function(){
+	$("#lProf").parent().addClass("active");
+});
+</script>
 <legend>Edit your profile</legend>
 	<form:form method="post" modelAttribute="profileUpdateForm" action="updateAccount?${_csrf.parameterName}=${_csrf.token}" id="profileUpdateForm" cssClass="form-horizontal"
 	           autocomplete="off" enctype="multipart/form-data">

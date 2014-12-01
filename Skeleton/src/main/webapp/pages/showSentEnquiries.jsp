@@ -30,6 +30,7 @@ width: 300px;
 <script type="text/javascript">
 
 $(document).ready(function(){
+	$("#lInv").parent().addClass("active");
 	$.get("setenquirynotificationsread?id=${currentUser.id}", function(){
 		
 	});

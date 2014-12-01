@@ -6,6 +6,7 @@
 
 <c:import url="template/header.jsp" />
 		<div class="reservation">
+		
 		<legend>Legal notice</legend>
 			This site was created by Team5 of ESE2014. <br />Developers: 
 				<div style="float:right;">

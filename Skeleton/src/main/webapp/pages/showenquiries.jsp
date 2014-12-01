@@ -8,6 +8,11 @@
 	
 
 <div class="reservation">
+<script>
+$(document).ready(function(){
+	$("#lEnq").parent().addClass("active");
+});
+</script>
 <legend>Enquiries for my ad: ${ad.title}</legend>
 
 <style>
