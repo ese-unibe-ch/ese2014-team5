@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 
-	<title>WG-Site</title>
+	<title>RoomFinder</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
@@ -195,7 +195,7 @@
 <div class="wrap">
 	<div class="header">
 		<div class="logo1">
-			<a href="index"><h3 class="logotext">WG-Site</h3></a>
+			<img style="width:auto;max-height:50px;" alt="RoomFinder" src="web/images/icon/RoomFinder.png">
 		</div>
 		<div class="h_right">
 			<!--start menu -->
