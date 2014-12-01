@@ -138,7 +138,7 @@ public class UserController {
         model.addObject("ad", ad);
         model.addObject("invitationForm", new InvitationForm());
         model.addObject("enqlist", sampleService.findEnquiriesForAd(ad));
-        model.addObject("invitationsList",sampleService.findInvitationsForAd(ad));
+        model.addObject("invitationsList",sampleService.findNotCancelledInvitationsForAd(ad));
         return model;
     }
     
@@ -152,6 +152,7 @@ public class UserController {
         model.addObject("ad", sampleService.getAd(invForm.getAdvertId()));
         model.addObject("invitationForm", new InvitationForm());
         model.addObject("enqlist", sampleService.findEnquiriesForAd(ad));
+        model.addObject("invitationsList",sampleService.findNotCancelledInvitationsForAd(ad));
         return model;
     }
     

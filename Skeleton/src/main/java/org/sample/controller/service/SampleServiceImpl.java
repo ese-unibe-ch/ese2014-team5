@@ -1176,7 +1176,7 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
     public boolean createNotificationInvitation(Enquiry enq, Invitation inv) {
 
         Notifies note = new Notifies();
-        note.setText(inv.getTextOfInvitation());
+        note.setText("You are invited to visit the room " + enq.getAdvert().getTitle() + ", on " + inv.getFromDate() + "<br/><br/> " + inv.getTextOfInvitation());
         note.setToUser(enq.getUserFrom());
         note.setFromUser(enq.getUserTo());
         note.setAd(enq.getAdvert());
@@ -1185,6 +1185,14 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         note.setInvitation(inv);
         note.setSeen(0);
         note = notifiesDao.save(note);
+        
+        try {
+            /*Place to directly send an email to the user as notification*/
+            email.GenerateAnEmail(note);
+        } catch (MessagingException ex) {
+            Logger.getLogger(SampleServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         return (note != null) ? true : false;
     }
 
@@ -1209,6 +1217,19 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 
 	public List<Invitation> findInvitationsForAd(Advert ad) {
 		return (List<Invitation>) invitationDao.findByAdvert(ad);
+	}
+	
+	public List<Invitation> findNotCancelledInvitationsForAd(Advert ad) {
+		List<Invitation> invs = (List<Invitation>) invitationDao.findByAdvert(ad);
+		ArrayList<Invitation> notCInvs = new ArrayList<Invitation>();
+		for(Invitation inv : invs)
+		{
+			if(!inv.getCancelled())
+			{
+				notCInvs.add(inv);
+			}
+		}
+		return notCInvs;
 	}
 
 	public void cancelInvitation(Long id) {

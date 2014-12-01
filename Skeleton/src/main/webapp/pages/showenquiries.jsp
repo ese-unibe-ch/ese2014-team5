@@ -101,13 +101,11 @@ $(document).ready(function() {
 		$("#calendar").fullCalendar({
 			events:[
 			        <c:forEach items="${invitationsList}" var="inv">
-			        	<c:if test="${inv.cancelled == false}">
 			        	{
 			        		id: '${inv.id}',
 			        		title  : 'Visit',
 			                start  : '${inv.fromDate}'
 			        	},
-			        	</c:if>
 			        </c:forEach>
 			       ],
 			       eventClick: function(calEvent, jsEvent, view) {
@@ -232,10 +230,11 @@ $(document).ready(function() {
         
 	});
 	</script>
-	
-	<input id="Button2" type="button" value="prev" />
-	<input id="Button1" type="button" value="next" />
-<div id="calendar"></div>
+	<c:if test="${not empty invitationsList }">
+		<input id="Button2" type="button" value="prev" />
+		<input id="Button1" type="button" value="next" />
+		<div id="calendar"></div>
+	</c:if>
 	<form:form modelAttribute="invitationForm" cssClass="form-horizontal" autocomplete="off" action="invite" method="post">
 		<form:input path="advertId" type="hidden" value="${ad.id }"/>
 		<form:input path="userFromId" type="hidden" value="${currentUser.id }"/>
