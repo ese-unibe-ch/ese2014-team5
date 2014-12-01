@@ -29,18 +29,26 @@ width: 300px;
 	
 <script type="text/javascript">
 
+$(document).ready(function(){
+	$.get("setenquirynotificationsread?id=${currentUser.id}", function(){
+		
+	});
+});
+
 function acceptinvitation(id)
 {
 	$.get( "acceptinvitation?id=" + id, function() {
-		location.reload();
+		
 	});
+	location.reload();
 }
 
 function cancelinvitation(id)
 {
 	$.get( "cancelinvitation?id=" + id, function() {
-		location.reload();
+		
 	});
+	location.reload();
 }
 </script>
 <div class="reservation">

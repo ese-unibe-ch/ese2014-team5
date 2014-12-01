@@ -1245,12 +1245,12 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 		inv = invitationDao.save(inv);
 	}
 	
-	public void setNotificationForEnquiryRead(Enquiry enq)
+	public void setEnquiryNotificationsReadForUserId(Long userid)
 	{
-		List<Notifies> notes = (List<Notifies>) notifiesDao.findByToUser(enq.getUserFrom());
+		List<Notifies> notes = (List<Notifies>) notifiesDao.findByToUser(userDao.findById(userid));
 		for(Notifies note : notes)
 		{
-			if(note.getAd().equals(enq.getAdvert()))
+			if(note.getNotetype().equals(Notifies.Type.INVITATION))
 			{
 				note.setSeen(1);
 				note = notifiesDao.save(note);
@@ -1264,7 +1264,6 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 		enq.setStatus(InvitationStatus.ACCEPTED);
 		enq = enquiryDao.save(enq);
 		createNotificationEnquiry(enq);
-		setNotificationForEnquiryRead(enq);
 	}
 	
 	public void cancelInvitationForEnquiryId(Long id)
@@ -1273,7 +1272,6 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 		enq.setStatus(InvitationStatus.CANCELLED);
 		enq = enquiryDao.save(enq);
 		createNotificationEnquiry(enq);
-		setNotificationForEnquiryRead(enq);
 	}
 
 	public void setRatingForEnquiry(Long id, int rank) {

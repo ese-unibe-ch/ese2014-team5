@@ -161,4 +161,11 @@ public class PostController {
         sampleService.setRatingForEnquiry(id,rank);
         return "#";
     }
+    
+    @RequestMapping("/setenquirynotificationsread")
+    public @ResponseBody
+    String setRank(Model model, @RequestParam Long id) {
+        sampleService.setEnquiryNotificationsReadForUserId(id);
+        return "#";
+    }
 }

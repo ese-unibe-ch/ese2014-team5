@@ -218,6 +218,8 @@ public interface SampleService {
 	public void cancelInvitationForEnquiryId(Long id);
 
 	public void setRatingForEnquiry(Long id, int rank);
+	
+	public void setEnquiryNotificationsReadForUserId(Long userid);
 
 	public List<Invitation> findNotCancelledInvitationsForAd(Advert ad);
 }

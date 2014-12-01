@@ -83,7 +83,7 @@
 	{
 		width: 32px;
 		height: 32px;
-		background: url("web/images/delete/help.png");
+		background: url("web/images/icon/delete.png");
 		float: left;
 		margin-right: 3px;
 	}
@@ -140,7 +140,8 @@ $(document).ready(function() {
 
         $('#time').combodate({
 	        firstItem: 'name', //show 'hour' and 'minute' string at first item of dropdown
-	        minuteStep: 1
+	        minuteStep: 30,
+	        firstItem: 'none'
 	    });
         $('#datetime24').combodate({
         	minYear: 2014,
