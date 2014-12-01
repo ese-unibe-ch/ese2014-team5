@@ -105,10 +105,10 @@
   		if(unread_searches>0)
   		{
 	  		unread_searches--;
-  			$(".bSearches").text("Searches ("+unread_searches+")");
+  			$(".bSearches").text("Saved Searches ("+unread_searches+")");
   		}
   		else
-  			$(".bSearches").text("Searches");
+  			$(".bSearches").text("Saved Searches");
   		if(unread_enquiries>0)
   		{
   			unread_enquiries--;
@@ -164,7 +164,7 @@
 	  		if(unread_bookmarks>0)
 		  		$(".bBookmarks").text("Bookmarks ("+unread_bookmarks+")");
 	  		if(unread_searches>0)
-		  		$(".bSearches").text("Searches ("+unread_searches+")");
+		  		$(".bSearches").text("Saved Searches ("+unread_searches+")");
 	  		if(unread_enquiries>0)
 		  		$(".bEnquiries").text("My Ads ("+unread_enquiries+")");
 	  		if(unread_invitations>0)
@@ -213,7 +213,7 @@
 				    <li><a class="bBookmarks" href="bookmarks">Bookmarks</a></li> |
 				    <li><a class="bInvitations" href="sentenquiries">Enquiries</a></li> |
 					<li><a href="profile?name=<%=SecurityContextHolder.getContext().getAuthentication().getName()%>"><span id="username">Profile</span></a></li> |
-					<li><a class="bSearches" href="saved-searches"><span id="username">Searches</span></a></li> |
+					<li><a class="bSearches" href="saved-searches"><span id="username">Saved Searches</span></a></li> |
 					<li><a class="bEnquiries" href="my-ads">My Ads</a></li> |
 					<li><c:if test="${pageContext.request.userPrincipal.name != null}">
 							<a style="cursor:pointer;" onclick="javascript:logout();">Logout</a>
@@ -251,7 +251,7 @@
 					<li><a class="bBookmarks" href="bookmarks">Bookmarks</a></li>
 				    <li><a class="bInvitations" href="sentenquiries">Enquiries</a></li>
 					<li><a href="profile?name=<%=SecurityContextHolder.getContext().getAuthentication().getName()%>"><span id="username">Profile</span></a></li>
-					<li><a class="bSearches" href="saved-searches"><span id="username">Searches</span></a></li>
+					<li><a class="bSearches" href="saved-searches"><span id="username">Saved Searches</span></a></li>
 					<li><a class="bEnquiries" href="my-ads">My Ads</a></li>
 					<li><a style="cursor:pointer;" onclick="javascript:logout();">Logout</a></li>
 				</sec:authorize>
