@@ -283,8 +283,10 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 
         MultipartFile file = profileUpdateForm.getFile();
         try {
-            byte[] bytes = file.getBytes();
 
+            byte[] bytes = file.getBytes();
+            if(bytes.length<=0)
+            	throw new Exception();
             // Creating the directory to store file
             String rootPath = servletContext.getRealPath("/");//null; // PLACE THE RIGHT PATH HERE
             File dir = new File(rootPath + "/img");
