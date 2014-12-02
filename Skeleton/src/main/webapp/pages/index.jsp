@@ -113,25 +113,8 @@ $(document).ready(function() {
     	}
     });
     
-   $('#field-fromDate').datepicker({});/*
-	      onRender: function(date) {
-	        return date.valueOf() < now.valueOf() ? 'disabled' : '';
-	      }
-	    }).on('changeDate', function(ev) {
-	      if (ev.date.valueOf() > checkout.date.valueOf()) {
-	        var newDate = new Date(ev.date)
-	        newDate.setDate(newDate.getDate() + 1);
-	      }
-	      checkin.hide();
-	      $('#field-toDate')[0].focus();
-	    }).data('datepicker');*/
-	    $('#field-toDate').datepicker({});/*
-	      onRender: function(date) {
-	        return date.valueOf() <= checkin.date.valueOf() ? 'disabled' : '';
-	      }
-	    }).on('changeDate', function(ev) {
-	      checkout.hide();
-	    }).data('datepicker');*/
+    $('#field-fromDate').datepicker({});
+	$('#field-toDate').datepicker({});
     
     $('#field-fromDate').attr('readonly', true);
     $('#field-toDate').attr('readonly', true);
