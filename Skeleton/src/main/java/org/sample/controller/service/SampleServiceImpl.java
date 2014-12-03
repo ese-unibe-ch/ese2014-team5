@@ -192,17 +192,17 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 
         /*Controls to validate input of new User*/
         if (StringUtils.isEmpty(firstName)) {
-            throw new InvalidUserException("First name must not be empty.");   // throw exception
+            throw new InvalidUserException("First name must not be empty.");
         }
 
         String lastName = signupUser.getLastName();
         if (StringUtils.isEmpty(lastName)) {
-            throw new InvalidUserException("Last name must not be empty.");   // throw exception
+            throw new InvalidUserException("Last name must not be empty.");
         }
 
         String email = signupUser.getEmail();
         if (StringUtils.isEmpty(email)) {
-            throw new InvalidUserException("Email must not be empty.");   // throw exception
+            throw new InvalidUserException("Email must not be empty.");
         }
 
         for (org.sample.model.User existingUser : userDao.findAll()) {
@@ -213,11 +213,11 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         }
 
         if (StringUtils.isEmpty(signupUser.getpassword())) {
-            throw new InvalidUserException("Password must not be empty.");   // throw exception
+            throw new InvalidUserException("Password must not be empty.");
         }
 
         if (StringUtils.isEmpty(signupUser.getpasswordRepeat())) {
-            throw new InvalidUserException("Password aren't equal.");   // throw exception
+            throw new InvalidUserException("Password aren't equal.");
         }
 
         if (signupUser.getpassword().equals(signupUser.getpasswordRepeat())) {
@@ -352,7 +352,6 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         } catch (NumberFormatException e) {
             return false;
         }
-        // only got here if we didn't return false
         return true;
     }
 
@@ -383,52 +382,52 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         Date fromDate2;
 
         if (StringUtils.isEmpty(title)) {
-            throw new InvalidAdException("Title must not be empty" + title);   // throw exception
+            throw new InvalidAdException("Title must not be empty" + title);
         } else if (title.length() < 4) {
-            throw new InvalidAdException("Please enter a meaningfull Title ");   // throw exception
+            throw new InvalidAdException("Please enter a meaningfull Title ");
         }
 
         if (StringUtils.isEmpty(roomDesc)) {
-            throw new InvalidAdException("Room description must not be empty");   // throw exception
+            throw new InvalidAdException("Room description must not be empty");
         } else if (roomDesc.length() < 10) {
-            throw new InvalidAdException("Please enter more information in your Room Description");   // throw exception
+            throw new InvalidAdException("Please enter more information in your Room Description");
         }
 
         if (StringUtils.isEmpty(peopleDesc)) {
-            throw new InvalidAdException("People description must not be empty");   // throw exception
+            throw new InvalidAdException("People description must not be empty");
         } else if (peopleDesc.length() < 10) {
-            throw new InvalidAdException("Please enter more information in your People Description");   // throw exception
+            throw new InvalidAdException("Please enter more information in your People Description");
         }
 
         if (StringUtils.isEmpty(numberOfPeople)) {
-            throw new InvalidAdException("Number of people in the WG must be entered");  // throw exception
+            throw new InvalidAdException("Number of people in the WG must be entered");
         }
 
         if (StringUtils.isEmpty(roomSize) || !isInteger(roomSize)) {
-            throw new InvalidAdException("Please enter a valid Room size");   // throw exception
+            throw new InvalidAdException("Please enter a valid Room size");
         }
 
         if (!fromDate.equals("")) {
 	        try {
 	            fromDate2 = dateFormater.parse(fromDate);
 	        } catch (ParseException e1) {
-	            throw new InvalidAdException("Please enter the date correctly MM/dd/yyyy");   // throw exception
+	            throw new InvalidAdException("Please enter the date correctly MM/dd/yyyy");
 	        }
 	        if (todayDate.getTime() > fromDate2.getTime()) {
-	            throw new InvalidAdException("Please enter a future date or today");   // throw exception
+	            throw new InvalidAdException("Please enter a future date or today");
 	        }
         }
 
         if (StringUtils.isEmpty(street)) {
-            throw new InvalidAdException("Street must not be empty");   // throw exception
+            throw new InvalidAdException("Street must not be empty");
         }
 
         if (StringUtils.isEmpty(city)) {
-            throw new InvalidAdException("City must not be empty");   // throw exception
+            throw new InvalidAdException("City must not be empty");
         }
 
         if (StringUtils.isEmpty(plz) || !isInteger(plz) || (plz.length() < 4) || (plz.length() > 5)) {
-            throw new InvalidAdException("Please enter a valid postcode");   // throw exception
+            throw new InvalidAdException("Please enter a valid postcode");
         }
 
         Address address = new Address();
@@ -441,15 +440,12 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         ad.setTitle(adForm.getTitle());
         ad.setPeopleDesc(adForm.getPeopleDesc());
         ad.setRoomDesc(adForm.getRoomDesc());
-        ad.setFusedSearch(adForm.getTitle() + " " + adForm.getRoomDesc() + " " + adForm.getPeopleDesc()); // Needed for making search simpler
+        ad.setFusedSearch(adForm.getTitle() + " " + adForm.getRoomDesc() + " " + adForm.getPeopleDesc());
         ad.setRoomPrice(Integer.parseInt(adForm.getRoomPrice()));
         ad.setRoomSize(Integer.parseInt(adForm.getRoomSize()));
         ad.setNumberOfPeople(Integer.parseInt(adForm.getNumberOfPeople()));
-        //  System.out.println("USERNAME: " + adForm.getUsername());
-        //  System.out.println("USERNAME: " + userDao.findByUsername(adForm.getUsername()).getUsername());
         ad.setUser(userDao.findByUsername(adForm.getUsername()));
-        //  System.out.println("USERNAME: " + ad.getUser().getUsername());
-        // need to parse dates before
+
         SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
         Date dateFrom = null;
         Date dateTo = null;
@@ -501,7 +497,6 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
      */
     @Transactional
     public void updateAd(AdCreateForm updateForm, long id) throws InvalidAdException {
-        /*Read in again all the values, difference to last time: */
         String street = updateForm.getStreet();
         String city = updateForm.getCity();
         String plz = updateForm.getPlz();
@@ -518,53 +513,53 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         Date fromDate2;
 
         if (StringUtils.isEmpty(title)) {
-            throw new InvalidAdException("Title must not be empty" + title);   // throw exception
+            throw new InvalidAdException("Title must not be empty" + title);
         } else if (title.length() < 4) {
-            throw new InvalidAdException("Please enter a meaningfull Title ");   // throw exception
+            throw new InvalidAdException("Please enter a meaningfull Title ");
         }
 
         if (StringUtils.isEmpty(roomDesc)) {
-            throw new InvalidAdException("Room description must not be empty");   // throw exception
+            throw new InvalidAdException("Room description must not be empty");
         } else if (roomDesc.length() < 10) {
-            throw new InvalidAdException("Please enter more information in your Room Description");   // throw exception
+            throw new InvalidAdException("Please enter more information in your Room Description");
         }
 
         if (StringUtils.isEmpty(peopleDesc)) {
-            throw new InvalidAdException("People description must not be empty");   // throw exception
+            throw new InvalidAdException("People description must not be empty");
         } else if (peopleDesc.length() < 10) {
-            throw new InvalidAdException("Please enter more information in your People Description");   // throw exception
+            throw new InvalidAdException("Please enter more information in your People Description");
         }
 
         if (StringUtils.isEmpty(numberOfPeople)) {
-            throw new InvalidAdException("Number of people in the WG must be entered");  // throw exception
+            throw new InvalidAdException("Number of people in the WG must be entered");
         }
 
         if (StringUtils.isEmpty(roomSize) || !isInteger(roomSize)) {
-            throw new InvalidAdException("Please enter a valid Room size");   // throw exception
+            throw new InvalidAdException("Please enter a valid Room size");
         }
 
         if (StringUtils.isEmpty(fromDate)) {
-            throw new InvalidAdException("Date must not be empty");   // throw exception
+            throw new InvalidAdException("Date must not be empty");
         }
         if (fromDate.length() != 10) {
-            throw new InvalidAdException("Please enter the date correctly MM/dd/yyyy");   // throw exception
+            throw new InvalidAdException("Please enter the date correctly MM/dd/yyyy");
         }
         try {
             fromDate2 = dateFormater.parse(fromDate);
         } catch (ParseException e1) {
-            throw new InvalidAdException("Please enter the date correctly MM/dd/yyyy");   // throw exception
+            throw new InvalidAdException("Please enter the date correctly MM/dd/yyyy");
         }
 
         if (StringUtils.isEmpty(street)) {
-            throw new InvalidAdException("Street must not be empty");   // throw exception
+            throw new InvalidAdException("Street must not be empty");
         }
 
         if (StringUtils.isEmpty(city)) {
-            throw new InvalidAdException("City must not be empty");   // throw exception
+            throw new InvalidAdException("City must not be empty");
         }
 
         if (StringUtils.isEmpty(plz) || !isInteger(plz) || (plz.length() < 4) || (plz.length() > 5)) {
-            throw new InvalidAdException("Please enter a valid postcode");   // throw exception
+            throw new InvalidAdException("Please enter a valid postcode");
         }
 
         Address address = new Address();
@@ -581,7 +576,7 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         ad.setTitle(updateForm.getTitle());
         ad.setPeopleDesc(updateForm.getPeopleDesc());
         ad.setRoomDesc(updateForm.getRoomDesc());
-        ad.setFusedSearch(updateForm.getTitle() + " " + updateForm.getRoomDesc() + " " + updateForm.getPeopleDesc()); // Needed for making search simpler
+        ad.setFusedSearch(updateForm.getTitle() + " " + updateForm.getRoomDesc() + " " + updateForm.getPeopleDesc());
         ad.setRoomPrice(Integer.parseInt(updateForm.getRoomPrice()));
         ad.setRoomSize(Integer.parseInt(updateForm.getRoomSize()));
         ad.setNumberOfPeople(Integer.parseInt(updateForm.getNumberOfPeople()));
@@ -596,7 +591,6 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
                     dateTo = formatter.parse(updateForm.getToDate());
                 }
             } catch (ParseException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
                 dateFrom = new Date();
             }
@@ -640,7 +634,6 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         String fromDate = searchForm.getFromDate();
         String toDate = searchForm.getToDate();
 
-        //TODO Change this if search parameters change
         if (!(!StringUtils.isEmpty(freetext) || !priceFrom.equals("0") || !priceTo.equals("0")
                 || !sizeFrom.equals("0") || !sizeTo.equals("0") || !StringUtils.isEmpty(area)
                 || !StringUtils.isEmpty(peopleAmount) || fromDate != null || toDate != null)) {
@@ -702,8 +695,7 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
     @Transactional
     public Iterable<Advert> findAds(SearchForm form) {
 
-        /*Checking for simple formula if content is correct, means not null, etc...*/
-        if (form.getFromPrice() == (null)) { // No 0 allowed
+        if (form.getFromPrice() == (null)) {
             form.setFromPrice("0");
         }
         if (form.getToPrice() == (null)) {
@@ -715,7 +707,7 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
             priceMin = Integer.parseInt(form.getFromPrice());
             priceMax = Integer.parseInt(form.getToPrice());
 
-            if (priceMax < priceMin) { // This would crash the database...
+            if (priceMax < priceMin) {
                 int placeholder = priceMax;
                 priceMax = priceMin;
                 priceMin = placeholder;
@@ -737,7 +729,7 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
             roomSizeMin = Integer.parseInt(form.getFromSize());
             roomSizeMax = Integer.parseInt(form.getToSize());
 
-            if (roomSizeMax < roomSizeMin) { // This would crash the database...
+            if (roomSizeMax < roomSizeMin) {
                 int placeholder = roomSizeMax;
                 roomSizeMax = roomSizeMin;
                 roomSizeMin = placeholder;
@@ -750,13 +742,13 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 
         String town = form.getNearCity();
         if (town == null || town.length() == 0) {
-            town = "";    /*This handels errors and makes that the Search finds everything if no city is given*/
+            town = "";
 
         }
 
         String textSearch = form.getSearch();
         if (textSearch == null || textSearch.length() == 0) {
-            textSearch = "";  //Is like empty search, contains is always true...  
+            textSearch = "";
         }
 
         boolean simpleSearch = false;
@@ -813,16 +805,13 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
             dateFrom = placeholder;
         }
 
-        /*This is needed because the datarange would exclude everything if you search  all with the longest function, or you must turn the logic for the dates.*/
         if (noDateRangeDown == false && noDateRangeUp == false) {
-            /*Very complex complex search, searches for ranges , full text, number of persons, etc... Don't touch!*/
             ads = adDao.findByFromDateBeforeAndToDateAfterAndNumberOfPeopleLessThanEqualAndRoomPriceBetweenAndRoomSizeBetweenAndAddressCityContainingAndFusedSearchContaining(dateFrom, dateTo, people, priceMin, priceMax, roomSizeMin, roomSizeMax, town, textSearch);
         } else if (noDateRangeDown == true && noDateRangeUp == false) {
             ads = adDao.findByToDateAfterAndNumberOfPeopleLessThanEqualAndRoomPriceBetweenAndRoomSizeBetweenAndAddressCityContainingAndFusedSearchContaining(dateTo, people, priceMin, priceMax, roomSizeMin, roomSizeMax, town, textSearch);
         } else if (noDateRangeDown == false && noDateRangeUp == true) {
             ads = adDao.findByFromDateBeforeAndToDateAfterAndNumberOfPeopleLessThanEqualAndRoomPriceBetweenAndRoomSizeBetweenAndAddressCityContainingAndFusedSearchContaining(dateFrom, dateFrom, people, priceMin, priceMax, roomSizeMin, roomSizeMax, town, textSearch);
         } else if (noDateRangeDown == true && noDateRangeUp == true) {
-            /*Searches strictly in range Price and Bigness of room, searches fuzzy in part, is just here in case that needed again later */
             ads = adDao.findByroomPriceBetweenAndRoomSizeBetweenAndAddressCityContainingAndFusedSearchContaining(priceMin, priceMax, roomSizeMin, roomSizeMax, town, textSearch);
 
         }
@@ -994,7 +983,6 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
                 notifiesDao.save(newNotification);
 
                 try {
-                    /*Place to directly send an email to the user as notification*/
                     email.GenerateAnEmail(newNotification);
                 } catch (MessagingException ex) {
                     Logger.getLogger(SampleServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -1041,7 +1029,6 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         note = notifiesDao.save(note);
 
         try {
-            /*Place to directly send an email to the user as notification*/
             email.GenerateAnEmail(note);
         } catch (MessagingException ex) {
             Logger.getLogger(SampleServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -1068,7 +1055,6 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         note = notifiesDao.save(note);
 
         try {
-            /*Place to directly send an email to the user as notification*/
             email.GenerateAnEmail(note);
         } catch (MessagingException ex) {
             Logger.getLogger(SampleServiceImpl.class.getName()).log(Level.SEVERE, null, ex);

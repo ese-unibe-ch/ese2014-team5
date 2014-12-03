@@ -71,14 +71,14 @@ $(document).ready(function() {
 	      }
 	    });
 	
-	$("#slider-range-price").slider('values',0,0); // sets first handle (index 0) to 50
-	$("#slider-range-price").slider('values',1,maxPrice); // sets second handle (index 1) to 80
+	$("#slider-range-price").slider('values',0,0);
+	$("#slider-range-price").slider('values',1,maxPrice);
 	$( "#amountPrice" ).val(minPrice + " - " + maxPrice  );
 	$("#field-fromPrice").val(minPrice);
 	$("#field-toPrice").val(maxPrice);
 	
-	$("#slider-range-size").slider('values',0,0); // sets first handle (index 0) to 50
-	$("#slider-range-size").slider('values',1,maxSize); // sets second handle (index 1) to 80
+	$("#slider-range-size").slider('values',0,0);
+	$("#slider-range-size").slider('values',1,maxSize);
 	$( "#amountSize" ).val(	minSize + " - " + maxSize );
 	$("#field-fromSize").val(minSize);
 	$("#field-toSize").val(maxSize);
@@ -147,7 +147,7 @@ $(document).ready(function() {
    			<div class="control-group">
 	            <label class="control-label" for="field-search">Search</label>
 	            <div class="controls">
-	                <form:input path="search" id="field-search" tabindex="2" maxlength="35" placeholder="Search for specifics (near shops, party-friendly, etc.).."/>
+	                <form:input path="search" id="field-search" tabindex="2" maxlength="35" placeholder="Search for specifics (near shops, art nouveau, etc.)"/>
 	            </div>
 	        </div>
             
@@ -308,12 +308,10 @@ $(document).ready(function() {
 				});
 				
 				var bounds = new google.maps.LatLngBounds ();
-				//  Go through each...
+
 				for (var i = 0, LtLgLen = qmarkers.length; i < LtLgLen; i++) {
-					//  And increase the bounds to take this point
 					bounds.extend (qmarkers[i]);
 				}
-				//  Fit these bounds to the map
 				map.fitBounds (bounds);
 			}
 

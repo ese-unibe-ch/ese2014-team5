@@ -111,7 +111,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
     </div>
     
     <div style="text-align:center;">
-    	<div id="map-canvas"></div>
+    	<div id="map-canvas" style="margin-bottom:30px;"></div>
 	</div>
 
     <%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
@@ -123,7 +123,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
             <button type="submit" class="btn btn-primary" value="Bookmark">Bookmark</button> 
         </form:form>
     </c:if>
-    </br>
+
     <c:if test="${ad.user.username!=currentUser.username && currentUser.username!=null && sentenquiry!=1}" >
 	  <button class="btn btn-primary" id="showEnquiryForm">Send Enquiry</button>
 	  <div id="enquiryFormDiv" style="width:94%;">
