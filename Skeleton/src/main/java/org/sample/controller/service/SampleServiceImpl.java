@@ -408,19 +408,15 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
             throw new InvalidAdException("Please enter a valid Room size");   // throw exception
         }
 
-        if (StringUtils.isEmpty(fromDate)) {
-            throw new InvalidAdException("Date must not be empty");   // throw exception
-        }
-        if (fromDate.length() != 10) {
-            throw new InvalidAdException("Please enter the date correctly MM/dd/yyyy");   // throw exception
-        }
-        try {
-            fromDate2 = dateFormater.parse(fromDate);
-        } catch (ParseException e1) {
-            throw new InvalidAdException("Please enter the date correctly MM/dd/yyyy");   // throw exception
-        }
-        if (todayDate.getTime() > fromDate2.getTime()) {
-            throw new InvalidAdException("Please enter a future date or today");   // throw exception
+        if (!fromDate.equals("")) {
+	        try {
+	            fromDate2 = dateFormater.parse(fromDate);
+	        } catch (ParseException e1) {
+	            throw new InvalidAdException("Please enter the date correctly MM/dd/yyyy");   // throw exception
+	        }
+	        if (todayDate.getTime() > fromDate2.getTime()) {
+	            throw new InvalidAdException("Please enter a future date or today");   // throw exception
+	        }
         }
 
         if (StringUtils.isEmpty(street)) {
@@ -458,12 +454,14 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         Date dateFrom = null;
         Date dateTo = null;
         try {
-            dateFrom = formatter.parse(adForm.getFromDate());
+        	if (adForm.getFromDate() != null) {
+        		dateFrom = formatter.parse(adForm.getFromDate());
+        	} else
+        		dateFrom = todayDate;
             if (adForm.getToDate() != null) {
                 dateTo = formatter.parse(adForm.getToDate());
             }
         } catch (ParseException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             dateFrom = new Date();
         }
