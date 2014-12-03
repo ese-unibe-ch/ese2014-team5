@@ -10,7 +10,20 @@
 <script>
 $(document).ready(function(){
 	$("#lEnq").parent().addClass("active");
+	
 });
+
+function setNotesReadForAdAndShowEnquiries(id)
+{
+	$.get( "setreadenquiries?id=" + id, function() {
+		
+	});
+	window.location.href='showenquiries?value=' + id;
+	
+	var e = window.event;
+	e.cancelBubble = true;
+	if (e.stopPropagation) e.stopPropagation();
+}
 </script>
 <legend>My Ads</legend>
 	<c:if test="${empty adList}">
@@ -41,17 +54,7 @@ $(document).ready(function(){
 						<span id="enqid${ad.id }"></span>
 						<script type="text/javascript"> 
 							$("#enqid${ad.id }").load("getnumenquiriesforad.htm?id=${ad.id }"); 
-							function setNotesReadForAdAndShowEnquiries(id)
-							{
-								$.get( "setreadenquiries?id=" + id, function() {
-									
-								});
-								window.location.href='showenquiries?value=${ad.id}';
-								
-								var e = window.event;
-								e.cancelBubble = true;
-								if (e.stopPropagation) e.stopPropagation();
-							}
+							
 						</script>
 						<div style="float:right;position:absolute;bottom:10px;right:10px;">
 							<button type="button" name="enquiries" onclick="setNotesReadForAdAndShowEnquiries(${ad.id})" class="btn btn-primary">Show enquiries</button>
