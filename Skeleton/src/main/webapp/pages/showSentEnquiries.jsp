@@ -55,9 +55,9 @@ function cancelinvitation(id)
 <div class="reservation">
 <legend>My sent enquiries</legend>
 
-<ul id="enquiries">
+<div class="resultblock" id="sent_enquiries_list">
 	<c:forEach items="${enquiriesList}" var="enq">
-		<li style="clear:left"> 
+		<div class="result">
 			<div class="leftdiv"><a href="showad?value=${enq.advert.id}">${enq.advert.title}</a></div>
 			<div class="invit">
 				<c:if test="${enq.status=='ACCEPTED' }">You are invited on ${enq.invitation.fromDate }</c:if>
@@ -69,9 +69,9 @@ function cancelinvitation(id)
 					You have rejected the invitation.
 				</c:if>
 			</div>
-		</li>
+		</div>
 	</c:forEach>
-</ul>
+</div>
 	
 </div>
 

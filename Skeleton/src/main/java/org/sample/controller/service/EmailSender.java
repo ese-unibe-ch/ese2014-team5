@@ -39,7 +39,7 @@ public class EmailSender {
         MimeMessage message = sender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         String date = dateFormat.format(notes.getDate());
         String text = "";
         String type = "";
@@ -47,7 +47,7 @@ public class EmailSender {
         try {
             switch (notes.getNotetype()) {
                 case BOOKMARK:
-                    text = "Bookmarked Ad " + notes.getBookmark().getAd().getTitle() + " has changed - " + date + "";
+                    text = "Bookmarked ad \"" + notes.getBookmark().getAd().getTitle() + "\" has changed on " + date + "";
                     break;
                 case MESSAGE:
                     text = notes.getText() + " - " + date + "";

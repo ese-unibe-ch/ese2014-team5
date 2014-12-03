@@ -23,10 +23,13 @@ $(document).ready(function(){
         </div>
     </c:if>
 
+	<div style="">
+		With RoomFinder you will only get the best proposals for WG rooms. All advertisements are verified and your data is secure.
+	</div>
+	</br></br>
     <form:form method="post" modelAttribute="signupUser" action="createAccount" id="signupUser" cssClass="form-horizontal"
                autocomplete="off">
         <fieldset>
-            Enter Your Name, Email and your password<br/>
 
             <c:set var="FirstNameErrors"><form:errors path="FirstName"/></c:set>
             <div class="control-group<c:if test="${not empty firstNameErrors}"> error</c:if>">

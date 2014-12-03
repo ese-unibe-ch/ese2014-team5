@@ -35,7 +35,7 @@ $(document).ready(function(){
 		</div>
 		<div style="padding-left:14px;float:left;">
 			<p>${currentUser.email}</br></p>
-			<p>${currentUser.userData.age}</br></p>
+			<p><c:if test="${currentUser.userData.age}==0">"${currentUser.userData.age}"</c:if></br></p>
 			<p>${currentUser.userData.bio}</br></p>
 			<p>${currentUser.userData.hobbies}</br></p>
 			<p>${currentUser.userData.profession}</br></br></p>

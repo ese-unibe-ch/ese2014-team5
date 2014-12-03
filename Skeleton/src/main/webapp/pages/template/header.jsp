@@ -22,16 +22,12 @@
 			<script type="text/javascript" src="web/js/combodate.js"></script>
 			<!-- Set here the key for your domain in order to hide the watermark on the web server -->
 	<!--nav-->
-	</head>
 
     <link rel="stylesheet" type="text/css" href="css/main.css" media="all"/>
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
-
-   <!--  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">-->
-   <!-- <script type="text/javascript"  src="dn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script> --> 
-   <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
-  <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
-   <!--  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">-->
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+	<script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+	<!--  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">-->
     <script type="text/javascript"  src="dn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <link  href="http://fotorama.s3.amazonaws.com/4.6.2/fotorama.css" rel="stylesheet"> <!-- 3 KB -->
 	<script src="http://fotorama.s3.amazonaws.com/4.6.2/fotorama.js"></script> <!-- 16 KB -->

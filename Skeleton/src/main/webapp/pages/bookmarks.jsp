@@ -26,7 +26,7 @@ $(document).ready(function(){
 	             			<div style="float:left;"><img class="gallery" src="<c:url value="img/${pic.url}"/>"/></div>
 	             		</c:if>
 					</c:forEach>
-					<div class="resultinfo" style="margin-left:10px;float:left;">
+					<div class="resultinfo" style="margin-left:10px;float:left;display:inline-block;">
 						<b style="font-family:Arial;font-size:14pt;">${ad.title}</b>
 						<br />
 						Price: ${ad.roomPrice}CHF, Size: ${ad.roomSize}m&sup2;

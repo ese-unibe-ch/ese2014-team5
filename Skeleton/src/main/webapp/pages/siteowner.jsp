@@ -8,19 +8,20 @@
 		<div class="reservation">
 		
 		<legend>Legal notice</legend>
-			This site was created by Team5 of ESE2014. <br />Developers: 
-				<div style="float:right;">
-					Florentina Ziegler<br />
-					Ricardo Visini<br />
-					Ramona Imhof<br />
-					Severin Zumbrunn<br />	
-				</div>
-				<br />
-				<br />
-			All rights reserved.
+			This site was created by Team5 of ESE2014. <br /><br />
+			<div style="float:left;">Developers: </div>
+			<div style="padding-left:30px;float:left;">
+				Florentina Ziegler<br />
+				Ricardo Visini<br />
+				Ramona Imhof<br />
+				Severin Zumbrunn<br />	
+			</div>
+			
+			<div style="clear:both;"><br />All rights reserved.</div>
 		</div>
-		</div>
-		<div class="clear"></div>
-		</div>
+		
+	</div>
+	<div class="clear"></div>
+	</div>
 
 <c:import url="template/footer.jsp" />

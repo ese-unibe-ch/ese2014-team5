@@ -192,32 +192,32 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 
         /*Controls to validate input of new User*/
         if (StringUtils.isEmpty(firstName)) {
-            throw new InvalidUserException("FirstName must not be empty");   // throw exception
+            throw new InvalidUserException("First name must not be empty.");   // throw exception
         }
 
         String lastName = signupUser.getLastName();
         if (StringUtils.isEmpty(lastName)) {
-            throw new InvalidUserException("LastName must not be empty ");   // throw exception
+            throw new InvalidUserException("Last name must not be empty.");   // throw exception
         }
 
         String email = signupUser.getEmail();
         if (StringUtils.isEmpty(email)) {
-            throw new InvalidUserException("Email must not be empty ");   // throw exception
+            throw new InvalidUserException("Email must not be empty.");   // throw exception
         }
 
         for (org.sample.model.User existingUser : userDao.findAll()) {
             if (existingUser.getEmail().equals(email)) {
-                throw new InvalidUserException("Email already used in database");
+                throw new InvalidUserException("Email already exists.");
             }
 
         }
 
         if (StringUtils.isEmpty(signupUser.getpassword())) {
-            throw new InvalidUserException("password must not be empty ");   // throw exception
+            throw new InvalidUserException("Password must not be empty.");   // throw exception
         }
 
         if (StringUtils.isEmpty(signupUser.getpasswordRepeat())) {
-            throw new InvalidUserException("passwordRepeat must not be empty ");   // throw exception
+            throw new InvalidUserException("Password aren't equal.");   // throw exception
         }
 
         if (signupUser.getpassword().equals(signupUser.getpasswordRepeat())) {
@@ -1125,10 +1125,11 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
      * @param findBookmarksForAd
      */
     public void sendNotificationsForBookmarks(Object bookmarks) {
-        for (Bookmark mark : (List<Bookmark>) bookmarks) {
-            createNotificationBookmark(mark);
-
-        }
+    	if(bookmarks != null){
+	        for (Bookmark mark : (List<Bookmark>) bookmarks) {
+	            createNotificationBookmark(mark);
+	        }
+    	}
     }
 
 	public Object findSentEnquiriesForUser(org.sample.model.User loggedInUser) {

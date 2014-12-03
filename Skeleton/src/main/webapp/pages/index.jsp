@@ -152,7 +152,7 @@ $(document).ready(function() {
 	        </div>
             
             <div class="control-group">
-	            <label class="control-label" for="amountPrice">Price [CHF]</label>
+	            <label class="control-label" for="amountPrice">Price (CHF)</label>
 	            <div class="controls">
 				 <input type="text" id="amountPrice" readonly style="border:0; color:#f6931f; font-weight:bold;" value="${minPrice} - ${maxPrice}">
 	            	<div id="slider-range-price"></div>
@@ -162,7 +162,7 @@ $(document).ready(function() {
             </div>
             
             <div class="control-group">
-	            <label class="control-label" for="amountSize">Size [m^2]</label>
+	            <label class="control-label" for="amountSize">Size (m&sup2;)</label>
 	            <div class="controls">
 					  <input type="text" id="amountSize" readonly style="border:0; color:#f6931f; font-weight:bold;" value="${minSize} - ${maxSize}">
 	            	<div id="slider-range-size"></div>
@@ -189,7 +189,7 @@ $(document).ready(function() {
 	            <div class="control-group">
 		            <label class="control-label" for="field-numberOfPeople">No. of People</label>
 		            <div class="controls">
-		                <form:input path="numberOfPeople" id="field-numberOfPeople"  tabindex="2" maxlength="150" placeholder="e.g. 4"/>
+		                <form:input path="numberOfPeople" id="field-numberOfPeople" tabindex="2" maxlength="150" placeholder="e.g. 4"/>
 		            </div>
 		        </div>
 	   			
@@ -240,9 +240,9 @@ $(document).ready(function() {
 				<div class="resultinfo" style="margin-left:10px;float:left">
 					<b style="font-family:Arial;font-size:14pt;">${ad.title}</b>
 					<br />
-					Price: ${ad.roomPrice}CHF, Size: ${ad.roomSize}m&sup2;
+					Price: CHF ${ad.roomPrice}, Size: ${ad.roomSize}m&sup2;
 					<br />
-					${ad.address.street },  ${ad.address.plz }
+					${ad.address.street},  ${ad.address.plz} ${ad.address.city}
 				</div>
 			</div>
 			    			

@@ -17,6 +17,7 @@
 		<intercept-url pattern="/my-ads" access="hasRole('ROLE_USER')"/>
 		<intercept-url pattern="/showenquiries" access="hasRole('ROLE_USER')"/>
 		<intercept-url pattern="/bookmarks" access="hasRole('ROLE_USER')"/>
+		<intercept-url pattern="/addediting" access="hasRole('ROLE_USER')"/>
 		
 		<form-login login-page="/login" 
 			authentication-failure-url="/login/failure" 
