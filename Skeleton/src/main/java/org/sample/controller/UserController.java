@@ -122,6 +122,10 @@ public class UserController {
 	    return model;
     }
     
+    /**
+     * Shows a list of the adverts of a user
+     * @return 
+     */
     @RequestMapping(value = "/my-ads", method = RequestMethod.GET)
     public ModelAndView showMyAds() {
 	    ModelAndView model = new ModelAndView("profileadverts");
@@ -130,6 +134,11 @@ public class UserController {
 	    return model;
     }
     
+    /**
+     * This shows the enquiries one advert received, is also the screen for sending invitations
+     * @param id
+     * @return 
+     */
     @RequestMapping(value = "/showenquiries", method = RequestMethod.GET)
     public ModelAndView showAdEnquiries(@RequestParam("value") Long id) {
         ModelAndView model = new ModelAndView("showenquiries");
@@ -142,6 +151,14 @@ public class UserController {
         return model;
     }
     
+    /**
+     * The post class for sending an invitation to the wanted users
+     * @param invForm
+     * @param result
+     * @param redirectAttributes
+     * @return
+     * @throws InvalidDateParseException 
+     */
     @RequestMapping(value = "/invite", method = RequestMethod.POST)
     public ModelAndView invite(@Valid InvitationForm invForm, BindingResult result, RedirectAttributes redirectAttributes) throws InvalidDateParseException {
         
@@ -156,6 +173,10 @@ public class UserController {
         return model;
     }
     
+    /**
+     * This shows the bookmarks which an user has done
+     * @return 
+     */
     @RequestMapping(value = "/bookmarks", method = RequestMethod.GET)
     public ModelAndView showBookmarks() {
 	    ModelAndView model = new ModelAndView("bookmarks");
@@ -166,6 +187,10 @@ public class UserController {
 	    return model;
     }
     
+    /**
+     * This cotroller part send the enquiries which an user send to the screen
+     * @return 
+     */
     @RequestMapping(value = "/sentenquiries", method = RequestMethod.GET)
     public ModelAndView showSentEnquiries() {
 	    ModelAndView model = new ModelAndView("showSentEnquiries");
@@ -174,12 +199,25 @@ public class UserController {
 	    return model;
     }
     
+    /**
+     * Allows to delete a bookmark
+     * @param model
+     * @param adid
+     * @param username
+     * @return 
+     */
     @RequestMapping("/removeBookmark")
 	public String removeBookmark(Model model, @RequestParam String adid,@RequestParam String username) {
 		sampleService.deleteBookmark(adid,username);
 		return "/bookmarks";
 	}
-        
+    
+    /**
+     * The login function is controlled by this method
+     * @param model
+     * @param message
+     * @return 
+     */    
     @RequestMapping("/login")
 	public String login(Model model, @RequestParam(required=false) String message) {
 		model.addAttribute("message", message);
@@ -187,17 +225,29 @@ public class UserController {
 		return "/login";
 	}
 	
+        /**
+         * This is showning up when the user want's to access things he should not
+         * @return 
+         */
 	@RequestMapping(value = "/denied")
  	public String denied() {
 		return "access/denied";
 	}
 	
+        /**
+         * Warning if the login fails
+         * @return 
+         */
 	@RequestMapping(value = "/login/failure")
  	public String loginFailure() {
 		String message = "User does not exist or password is incorrect!";
 		return "redirect:/login?message="+message;
 	}
 	
+        /**
+         * Showing up when login was sucessful
+         * @return 
+         */
 	@RequestMapping(value = "/logout/success")
  	public String logoutSuccess() {
 		String message = "Logout Success!";

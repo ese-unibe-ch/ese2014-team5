@@ -105,6 +105,13 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 
     EmailSender email = new EmailSender();
 
+    /**
+     * Is loading the details of the user, the user is found by his username
+     *
+     * @param username
+     * @return
+     * @throws UsernameNotFoundException
+     */
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
 
         try {
@@ -222,40 +229,37 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 
         if (signupUser.getpassword().equals(signupUser.getpasswordRepeat())) {
 
-        	Picture pic = new Picture();
+            Picture pic = new Picture();
             pic.setUrl("../web/images/icon/user.png");
             pic = pictureDao.save(pic);
-        	
-        	org.sample.model.User user = new org.sample.model.User();
+
+            org.sample.model.User user = new org.sample.model.User();
             user.setFirstName(signupUser.getFirstName());
             user.setLastName(signupUser.getLastName());
             user.setEmail(signupUser.getEmail());
             user.setUsername(signupUser.getEmail());
 
             String password = signupUser.getpassword();
-            String passwordRepeat = signupUser.getpasswordRepeat();
 
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
             String hashedPassword = passwordEncoder.encode(password);
             user.setPassword(hashedPassword);
             user.setEnabled(true);
-            
-            //set default picture
+
             UserData userData = user.getUserData();
             if (userData == null) {
-            	userData = new UserData();
+                userData = new UserData();
             }
             userData.setPicture(pic);
             userDataDao.save(userData);
             user.setUserData(userData);
-            
+
             UserRole role = new UserRole();
             role.setRole(1);
 
             role = userRoleDao.save(role);
             user.setUserRole(role);
             user = userDao.save(user);
-            
 
             org.sample.model.User user2 = userDao.findByUsername(signupUser.getEmail());
             signupUser.setId(user2.getId());
@@ -298,8 +302,9 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         try {
 
             byte[] bytes = file.getBytes();
-            if(bytes.length<=0)
-            	throw new Exception();
+            if (bytes.length <= 0) {
+                throw new Exception();
+            }
             // Creating the directory to store file
             String rootPath = servletContext.getRealPath("/");//null; // PLACE THE RIGHT PATH HERE
             File dir = new File(rootPath + "/img");
@@ -331,7 +336,6 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         data.setAge(profileUpdateForm.getAge());
         data.setBio(profileUpdateForm.getBio());
         data.setHobbies(profileUpdateForm.getHobbies());
-        //  data.setPicture(profileUpdateForm.getPicture());
         data.setProfession(profileUpdateForm.getProfession());
         data.setQuote(profileUpdateForm.getQuote());
 
@@ -408,14 +412,14 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         }
 
         if (!fromDate.equals("")) {
-	        try {
-	            fromDate2 = dateFormater.parse(fromDate);
-	        } catch (ParseException e1) {
-	            throw new InvalidAdException("Please enter the date correctly MM/dd/yyyy");
-	        }
-	        if (todayDate.getTime() > fromDate2.getTime()) {
-	            throw new InvalidAdException("Please enter a future date or today");
-	        }
+            try {
+                fromDate2 = dateFormater.parse(fromDate);
+            } catch (ParseException e1) {
+                throw new InvalidAdException("Please enter the date correctly MM/dd/yyyy");
+            }
+            if (todayDate.getTime() > fromDate2.getTime()) {
+                throw new InvalidAdException("Please enter a future date or today");
+            }
         }
 
         if (StringUtils.isEmpty(street)) {
@@ -450,10 +454,11 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         Date dateFrom = null;
         Date dateTo = null;
         try {
-        	if (adForm.getFromDate() != null) {
-        		dateFrom = formatter.parse(adForm.getFromDate());
-        	} else
-        		dateFrom = todayDate;
+            if (adForm.getFromDate() != null) {
+                dateFrom = formatter.parse(adForm.getFromDate());
+            } else {
+                dateFrom = todayDate;
+            }
             if (adForm.getToDate() != null) {
                 dateTo = formatter.parse(adForm.getToDate());
             }
@@ -466,21 +471,21 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
             ad.setToDate(dateTo);
         }
 
-        if (!adForm.getFilenames().isEmpty()){
-	        for (String file : adForm.getFilenames()) {
-	            Picture pic = new Picture();
-	            pic.setUrl(file);
-	
-	            ad.addPicture(pic);
-	            pic = pictureDao.save(pic);
-	        }
+        if (!adForm.getFilenames().isEmpty()) {
+            for (String file : adForm.getFilenames()) {
+                Picture pic = new Picture();
+                pic.setUrl(file);
+
+                ad.addPicture(pic);
+                pic = pictureDao.save(pic);
+            }
         } else {
-        	Picture pic = new Picture();
+            Picture pic = new Picture();
             pic.setUrl("../web/images/icon/home.png");
             pic = pictureDao.save(pic);
             ad.addPicture(pic);
         }
-        
+
         address = addDao.save(address);
         ad = adDao.save(ad);
 
@@ -1109,76 +1114,116 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
      * @param findBookmarksForAd
      */
     public void sendNotificationsForBookmarks(Object bookmarks) {
-    	if(bookmarks != null){
-	        for (Bookmark mark : (List<Bookmark>) bookmarks) {
-	            createNotificationBookmark(mark);
-	        }
-    	}
+        if (bookmarks != null) {
+            for (Bookmark mark : (List<Bookmark>) bookmarks) {
+                createNotificationBookmark(mark);
+            }
+        }
     }
 
-	public Object findSentEnquiriesForUser(org.sample.model.User loggedInUser) {
-		
-		return enquiryDao.findByUserFrom(loggedInUser);
-	}
+    /**
+     * This finds the enquiries a user received
+     *
+     * @param loggedInUser the user which is logged in
+     * @return
+     */
+    public Object findSentEnquiriesForUser(org.sample.model.User loggedInUser) {
 
-	public void setReadBookmarkNote(String adid) {
-		
-		 Bookmark bm = bookmarkDao.findByAdAndUser(adDao.findById(Long.parseLong(adid)),getLoggedInUser());
-		 List<Notifies> notes = notifiesDao.findByToUserAndBookmark(getLoggedInUser(), bm);
-		 for(Notifies note : notes)
-		 {
-			 note.setSeen(1);
-			 notifiesDao.save(note);
-		 }
-	}
+        return enquiryDao.findByUserFrom(loggedInUser);
+    }
 
-	public Object findEnquiriesForAd(Advert ad) {
-		
-		return enquiryDao.findByAdvert(ad);
-	}
+    /**
+     * This method set the bookmark as readed
+     *
+     * @param adid
+     */
+    public void setReadBookmarkNote(String adid) {
 
-	public List<Notifies> findNotificationsEnquiryForAd(Advert ad) {
-		
-		return notifiesDao.findByAdAndNotetype(ad,Type.ENQUIRY);
-	}
+        Bookmark bm = bookmarkDao.findByAdAndUser(adDao.findById(Long.parseLong(adid)), getLoggedInUser());
+        List<Notifies> notes = notifiesDao.findByToUserAndBookmark(getLoggedInUser(), bm);
+        for (Notifies note : notes) {
+            note.setSeen(1);
+            notifiesDao.save(note);
+        }
+    }
 
-	public void setReadEnquiryNoteForAdId(String id) {
-		List<Notifies> notes = notifiesDao.findByAdAndNotetype(adDao.findById(Long.parseLong(id)), Type.ENQUIRY);
-		for(Notifies note : notes)
-		{
-			note.setSeen(1);
-			notifiesDao.save(note);
-		}
-	}
+    /**
+     * This method finds the enquiries which are send for one advert
+     *
+     * @param ad
+     * @return
+     */
+    public Object findEnquiriesForAd(Advert ad) {
 
-	public void createInvitation(InvitationForm invForm) throws InvalidDateParseException {
-		Invitation inv = new Invitation();
-		Advert ad = adDao.findById(invForm.getAdvertId());
-		
-		inv.setAdvert(ad);
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        return enquiryDao.findByAdvert(ad);
+    }
 
-		try {
-			inv.setFromDate(formatter.parse(invForm.getFromDate()));
-		} catch (ParseException e) {
-			throw new InvalidDateParseException("no parse possible");
-		}
-		inv.setTextOfInvitation(invForm.getTextOfInvitation());
-		inv.setToDate(calculateToDate(invForm));
-		
+    /**
+     * This method finds the notfications of type enquiry for one advert
+     *
+     * @param ad
+     * @return
+     */
+    public List<Notifies> findNotificationsEnquiryForAd(Advert ad) {
+
+        return notifiesDao.findByAdAndNotetype(ad, Type.ENQUIRY);
+    }
+
+    /**
+     * This method set an enquiry note as readed
+     *
+     * @param id
+     */
+    public void setReadEnquiryNoteForAdId(String id) {
+        List<Notifies> notes = notifiesDao.findByAdAndNotetype(adDao.findById(Long.parseLong(id)), Type.ENQUIRY);
+        for (Notifies note : notes) {
+            note.setSeen(1);
+            notifiesDao.save(note);
+        }
+    }
+
+    /**
+     * This method generates with the invForm the invitation on database level
+     *
+     * @param invForm
+     * @throws InvalidDateParseException
+     */
+    public void createInvitation(InvitationForm invForm) throws InvalidDateParseException {
+        Invitation inv = new Invitation();
+        Advert ad = adDao.findById(invForm.getAdvertId());
+
+        inv.setAdvert(ad);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+
+        try {
+            inv.setFromDate(formatter.parse(invForm.getFromDate()));
+        } catch (ParseException e) {
+            throw new InvalidDateParseException("no parse possible");
+        }
+        inv.setTextOfInvitation(invForm.getTextOfInvitation());
+        inv.setToDate(calculateToDate(invForm));
+
         inv = invitationDao.save(inv);
-	    
-		for(String id : invForm.getSelected_enquiries().split(",")) {
 
-	        Enquiry enq = enquiryDao.findById(Long.parseLong(id));
-	        enq.setStatus(InvitationStatus.UNKNOWN);
-	        enq.setRating(1);
-	        enq.setInvitation(inv);
-	        enq = enquiryDao.save(enq);
-	        createNotificationInvitation(enq,inv);   
-		}
-	}
-	
+        for (String id : invForm.getSelected_enquiries().split(",")) {
+
+            Enquiry enq = enquiryDao.findById(Long.parseLong(id));
+            enq.setStatus(InvitationStatus.UNKNOWN);
+            enq.setRating(1);
+            enq.setInvitation(inv);
+            enq = enquiryDao.save(enq);
+            createNotificationInvitation(enq, inv);
+        }
+    }
+
+    /**
+     * Creates an notification for an invitation, starts also the class to send
+     * an email of this notification
+     *
+     * @param enq
+     * @param inv
+     * @return
+     */
     public boolean createNotificationInvitation(Enquiry enq, Invitation inv) {
 
         Notifies note = new Notifies();
@@ -1191,99 +1236,138 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         note.setInvitation(inv);
         note.setSeen(0);
         note = notifiesDao.save(note);
-        
+
         try {
             /*Place to directly send an email to the user as notification*/
             email.GenerateAnEmail(note);
         } catch (MessagingException ex) {
             Logger.getLogger(SampleServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return (note != null) ? true : false;
     }
 
-	public Date calculateToDate(InvitationForm invForm) throws InvalidDateParseException {
-		
-		Date durationDate=null;
-		Date toDate=new Date();
-		Date fromDate=null;
+    /**
+     * Calculates the toDate of the invitation, generates a date of format:
+     * "yyyy-MM-dd HH:mm"
+     *
+     * @param invForm
+     * @return
+     * @throws InvalidDateParseException
+     */
+    public Date calculateToDate(InvitationForm invForm) throws InvalidDateParseException {
+
+        Date durationDate = null;
+        Date toDate = new Date();
+        Date fromDate = null;
         SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
 
         try {
-			durationDate = formatter.parse(invForm.getDuration());
-			formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-			fromDate = formatter.parse(invForm.getFromDate());
-		} catch (ParseException e) {
-			throw new InvalidDateParseException("no parse possible");
-		}
+            durationDate = formatter.parse(invForm.getDuration());
+            formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            fromDate = formatter.parse(invForm.getFromDate());
+        } catch (ParseException e) {
+            throw new InvalidDateParseException("no parse possible");
+        }
         toDate.setTime(fromDate.getTime() + durationDate.getTime());
         return toDate;
-		
-	}
 
-	public List<Invitation> findInvitationsForAd(Advert ad) {
-		return (List<Invitation>) invitationDao.findByAdvert(ad);
-	}
-	
-	public List<Invitation> findNotCancelledInvitationsForAd(Advert ad) {
-		List<Invitation> invs = (List<Invitation>) invitationDao.findByAdvert(ad);
-		ArrayList<Invitation> notCInvs = new ArrayList<Invitation>();
-		for(Invitation inv : invs)
-		{
-			if(!inv.getCancelled())
-			{
-				notCInvs.add(inv);
-			}
-		}
-		return notCInvs;
-	}
+    }
 
-	public void cancelInvitation(Long id) {
-		Invitation inv = invitationDao.findById(id);
-		for(Enquiry enq : enquiryDao.findByInvitation(inv))
-		{
-			createNotification(enq.getUserFrom(), "The invitation for advert '" + enq.getAdvert().getTitle() + "' was cancelled.");
-			enq.setInvitation(null);
-			enq.setStatus(InvitationStatus.UNKNOWN);
-			enq = enquiryDao.save(enq);
-		}
-		inv.setCancelled(true);
-		inv = invitationDao.save(inv);
-	}
-	
-	public void setEnquiryNotificationsReadForUserId(Long userid)
-	{
-		List<Notifies> notes = (List<Notifies>) notifiesDao.findByToUser(userDao.findById(userid));
-		for(Notifies note : notes)
-		{
-			if(note.getNotetype().equals(Notifies.Type.INVITATION))
-			{
-				note.setSeen(1);
-				note = notifiesDao.save(note);
-			}
-		}
-	}
-	
-	public void acceptInvitationForEnquiryId(Long id)
-	{
-		Enquiry enq = enquiryDao.findById(id);
-		enq.setStatus(InvitationStatus.ACCEPTED);
-		enq = enquiryDao.save(enq);
-		createNotificationEnquiry(enq);
-	}
-	
-	public void cancelInvitationForEnquiryId(Long id)
-	{
-		Enquiry enq = enquiryDao.findById(id);
-		enq.setStatus(InvitationStatus.CANCELLED);
-		enq = enquiryDao.save(enq);
-		createNotificationEnquiry(enq);
-	}
+    /**
+     * This method finds the invitations for one advert
+     *
+     * @param ad
+     * @return
+     */
+    public List<Invitation> findInvitationsForAd(Advert ad) {
+        return (List<Invitation>) invitationDao.findByAdvert(ad);
+    }
 
-	public void setRatingForEnquiry(Long id, int rank) {
-		Enquiry enq = enquiryDao.findById(id);
-		enq.setRating(rank);
-		enq = enquiryDao.save(enq);
-	}
+    /**
+     * Is finding all invitation which are not cancelled for one advert
+     *
+     * @param ad
+     * @return
+     */
+    public List<Invitation> findNotCancelledInvitationsForAd(Advert ad) {
+        List<Invitation> invs = (List<Invitation>) invitationDao.findByAdvert(ad);
+        ArrayList<Invitation> notCInvs = new ArrayList<Invitation>();
+        for (Invitation inv : invs) {
+            if (!inv.getCancelled()) {
+                notCInvs.add(inv);
+            }
+        }
+        return notCInvs;
+    }
+
+    /**
+     * This method deletes an invitation, it also send a note about that to
+     * inform the people which were invited before.
+     *
+     * @param id
+     */
+    public void cancelInvitation(Long id) {
+        Invitation inv = invitationDao.findById(id);
+        for (Enquiry enq : enquiryDao.findByInvitation(inv)) {
+            createNotification(enq.getUserFrom(), "The invitation for advert '" + enq.getAdvert().getTitle() + "' was cancelled.");
+            enq.setInvitation(null);
+            enq.setStatus(InvitationStatus.UNKNOWN);
+            enq = enquiryDao.save(enq);
+        }
+        inv.setCancelled(true);
+        inv = invitationDao.save(inv);
+    }
+
+    /**
+     * Is setting all enquiry notification to status readed
+     *
+     * @param userid
+     */
+    public void setEnquiryNotificationsReadForUserId(Long userid) {
+        List<Notifies> notes = (List<Notifies>) notifiesDao.findByToUser(userDao.findById(userid));
+        for (Notifies note : notes) {
+            if (note.getNotetype().equals(Notifies.Type.INVITATION)) {
+                note.setSeen(1);
+                note = notifiesDao.save(note);
+            }
+        }
+    }
+
+    /**
+     * This method allows sets the status of the invitation to accepted
+     *
+     * @param id
+     */
+    public void acceptInvitationForEnquiryId(Long id) {
+        Enquiry enq = enquiryDao.findById(id);
+        enq.setStatus(InvitationStatus.ACCEPTED);
+        enq = enquiryDao.save(enq);
+        createNotificationEnquiry(enq);
+    }
+
+    /**
+     * This method sets the status of the invitation to not accepted
+     *
+     * @param id
+     */
+    public void cancelInvitationForEnquiryId(Long id) {
+        Enquiry enq = enquiryDao.findById(id);
+        enq.setStatus(InvitationStatus.CANCELLED);
+        enq = enquiryDao.save(enq);
+        createNotificationEnquiry(enq);
+    }
+
+    /**
+     * Is setting a rank for an enquiry with a given id.
+     *
+     * @param id
+     * @param rank
+     */
+    public void setRatingForEnquiry(Long id, int rank) {
+        Enquiry enq = enquiryDao.findById(id);
+        enq.setRating(rank);
+        enq = enquiryDao.save(enq);
+    }
 
 }

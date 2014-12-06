@@ -4,9 +4,6 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.validation.Valid;
@@ -18,23 +15,18 @@ import org.sample.controller.service.SampleService;
 import org.sample.exceptions.InvalidAdException;
 import org.sample.exceptions.InvalidSearchException;
 import org.sample.model.Advert;
-import org.sample.model.Bookmark;
 import org.sample.model.Search;
 import org.sample.model.User;
 import org.sample.model.Enquiry;
-import org.sample.model.Notifies;
-import org.sample.model.dao.NotifiesDao;
 import org.sample.model.dao.SearchDao;
 import org.sample.model.dao.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -92,8 +84,15 @@ public class IndexController {
         return model;
     }
 
-    /*Core of the page, starting point,search and search output in one
-     * is also containing an extended version of this search and a map version of the search */
+    /**
+     * Index page, central part of the apllication, the controller is listening for searches and has several buttons to create account, etc..
+     * @param searchForm
+     * @param action
+     * @param searchid
+     * @param result
+     * @param redirectAttributes
+     * @return 
+     */
     @RequestMapping(value = "/index")
     public ModelAndView index(@Valid SearchForm searchForm, @RequestParam(required = false) String action, @RequestParam(required = false) Long searchid, BindingResult result, RedirectAttributes redirectAttributes) {
 

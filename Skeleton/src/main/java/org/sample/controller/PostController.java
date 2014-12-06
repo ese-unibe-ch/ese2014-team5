@@ -90,6 +90,11 @@ public class PostController {
         return result;
     }
     
+    /**
+     * Is looking fir the enquiries in the database for one add and counts the number
+     * @param id
+     * @return 
+     */
     @RequestMapping(value = "/getnumenquiriesforad", method = RequestMethod.GET)
     public @ResponseBody
     String getNumEnquiriesForAd(@RequestParam("id") Long id) {
@@ -113,6 +118,12 @@ public class PostController {
         return result;
     }
 
+    /**
+     * Controllerpart which is setting a notification to status readed
+     * @param model
+     * @param noteid
+     * @return 
+     */
     @RequestMapping("/setread")
     public @ResponseBody
     String setread(Model model, @RequestParam String noteid) {
@@ -120,6 +131,12 @@ public class PostController {
         return "#";
     }
     
+    /**
+     * Controllerpart which is setting a notification type bookmark to status readed
+     * @param model
+     * @param id
+     * @return 
+     */
     @RequestMapping("/setreadbookmark")
     public @ResponseBody
     String setreadBookmark(Model model, @RequestParam String id) {
@@ -127,6 +144,12 @@ public class PostController {
         return "#";
     }
     
+    /**
+     * Controllerpart which is setting a notification type enquiries to status readed
+     * @param model
+     * @param id
+     * @return 
+     */
     @RequestMapping("/setreadenquiries")
     public @ResponseBody
     String setreadEnquiries(Model model, @RequestParam String id) {
@@ -134,6 +157,12 @@ public class PostController {
         return "#";
     }
     
+    /**
+     * Cancels the invitation
+     * @param model
+     * @param id
+     * @return 
+     */
     @RequestMapping("/deleteinvitation")
     public @ResponseBody
     String deleteInvitation(Model model, @RequestParam Long id) {
@@ -141,6 +170,12 @@ public class PostController {
         return "#";
     }
     
+    /**
+     * Set the invitations to the mode accepted after event on jsp
+     * @param model
+     * @param id
+     * @return 
+     */
     @RequestMapping("/acceptinvitation")
     public @ResponseBody
     String setAcceptInvitation(Model model, @RequestParam Long id) {
@@ -148,6 +183,13 @@ public class PostController {
         return "#";
     }
     
+    
+    /**
+     * Sends a deleted invitation message after event cancel
+     * @param model
+     * @param id
+     * @return 
+     */
     @RequestMapping("/cancelinvitation")
     public @ResponseBody
     String setCancelInvitation(Model model, @RequestParam Long id) {
@@ -155,6 +197,13 @@ public class PostController {
         return "#";
     }
     
+    /**
+     * Listens for the parameter rank, if entered, then he will be set
+     * @param model
+     * @param id
+     * @param rank
+     * @return 
+     */
     @RequestMapping("/setrank")
     public @ResponseBody
     String setRank(Model model, @RequestParam Long id, @RequestParam int rank) {
@@ -162,6 +211,12 @@ public class PostController {
         return "#";
     }
     
+    /**
+     * If the webpage is started, the events type enquiry are set to status read.
+     * @param model
+     * @param id
+     * @return 
+     */
     @RequestMapping("/setenquirynotificationsread")
     public @ResponseBody
     String setRank(Model model, @RequestParam Long id) {

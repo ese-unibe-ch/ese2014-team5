@@ -197,30 +197,90 @@ public interface SampleService {
          */
 	public boolean createNotificationBookmark(Bookmark mark);
 
+        /**
+         * This finds the enquiries a user received
+         * @param loggedInUser the user which is logged in
+         * @return 
+         */
 	public Object findSentEnquiriesForUser(User loggedInUser);
 
+        /**
+         * This method set the bookmark as readed
+         * @param adid 
+         */
 	public void setReadBookmarkNote(String adid);
 
+        /**
+         * This method finds the enquiries which are send for one advert
+         * @param ad
+         * @return 
+         */
 	public Object findEnquiriesForAd(Advert ad);
 
+        /**
+         * This method finds the notfications of type enquiry for one advert
+         * @param ad
+         * @return 
+         */
 	public List<Notifies> findNotificationsEnquiryForAd(Advert ad);
 
+        /**
+         * This method set an enquiry note as readed
+         * @param id 
+         */
 	public void setReadEnquiryNoteForAdId(String id);
 
+        /**
+         * This method generates with the invForm the invitation on database level
+         * @param invForm
+         * @throws InvalidDateParseException 
+         */
 	public void createInvitation(InvitationForm invForm) throws InvalidDateParseException;
 
+        /**
+         * This method finds the invitations for one advert
+         * @param ad
+         * @return 
+         */
 	public List<Invitation> findInvitationsForAd(Advert ad);
 
+        /**
+         * This method deletes an invitation, it also send a note about that
+         * to inform the people which were invited before.
+         * @param id 
+         */
 	public void cancelInvitation(Long id);
 	
+        /**
+         * This method allows sets the status of the invitation to accepted
+         * @param id 
+         */
 	public void acceptInvitationForEnquiryId(Long id);
 	
+        /**
+         * This method sets the status of the invitation to not accepted
+         * @param id 
+         */
 	public void cancelInvitationForEnquiryId(Long id);
 
+        /**
+         * Is setting a rank for an enquiry with a given id.
+         * @param id
+         * @param rank 
+         */
 	public void setRatingForEnquiry(Long id, int rank);
 	
+        /**
+         * Is setting all enquiry notification to status readed
+         * @param userid 
+         */
 	public void setEnquiryNotificationsReadForUserId(Long userid);
 
+        /**
+         * Is finding all invitation which are not cancelled for one advert
+         * @param ad
+         * @return 
+         */
 	public List<Invitation> findNotCancelledInvitationsForAd(Advert ad);
 }
  

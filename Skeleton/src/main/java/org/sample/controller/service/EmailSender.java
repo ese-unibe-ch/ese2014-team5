@@ -14,7 +14,13 @@ import org.springframework.mail.javamail.MimeMessageHelper;
  *
  */
 public class EmailSender {
-
+    
+    /**
+     * This class makes a connection with an gmail Email-server over SSL.
+     * Then a in this class by the notecntent generated message is send.
+     * @param notes a note, which is now send by Email
+     * @throws MessagingException 
+     */
     public void GenerateAnEmail(Notifies notes) throws MessagingException {
 
         Properties props = new Properties();
