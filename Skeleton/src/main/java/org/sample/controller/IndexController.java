@@ -239,7 +239,10 @@ public class IndexController {
                             stream.write(bytes);
                             stream.close();
 
-                            adCreateForm.addFile(filename);
+                            if(file.getOriginalFilename().length()>4) // "must be more than just .jpg"
+                            {
+                            	adCreateForm.addFile(filename);
+                            }
 
                         } catch (Exception e) {
                             System.out.println("No files selected.");
@@ -330,7 +333,10 @@ public class IndexController {
                         stream.write(bytes);
                         stream.close();
 
-                        adCreationForm.addFile(filename);
+                        if(file.getOriginalFilename().length()>4) // "must be more than just .jpg"
+                        {
+                        	adCreationForm.addFile(filename);
+                        }
 
                     } catch (Exception e) {
                         System.out.println("No files selected.");

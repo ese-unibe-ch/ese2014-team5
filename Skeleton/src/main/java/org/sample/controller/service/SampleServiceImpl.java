@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -596,7 +597,6 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
                     dateTo = formatter.parse(updateForm.getToDate());
                 }
             } catch (ParseException e) {
-                e.printStackTrace();
                 dateFrom = new Date();
             }
         }
@@ -1384,6 +1384,26 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 		Iterable<Bookmark> bms = bookmarkDao.findByAd(ad);
 		bookmarkDao.deleteInBatch(bms);
 		adDao.delete(ad);
+	}
+
+	public void deletePic(Long picid,Long adid) {
+		Advert ad = adDao.findById(adid);
+		Set<Picture> pics = ad.getPictures();
+		Picture picToRemove = null;
+		for(Picture p : pics)
+		{
+			if(p.getId()==picid)
+			{
+				picToRemove = p;
+			}
+		}
+		if(picToRemove!=null)
+		{
+			pics.remove(picToRemove);
+			ad.setPictures(pics);
+			adDao.save(ad);
+			pictureDao.delete(picToRemove);
+		}
 	}
 
 }

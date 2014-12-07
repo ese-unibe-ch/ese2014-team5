@@ -62,6 +62,13 @@
      	    // Do nothing!
      	}
     }
+    
+    function deletePic(picid,adid)
+    {
+   		$.get( "deletepic?picid=" + picid + "&adid=" + adid, function() {
+			location.reload();
+		});
+    }
 </script>
 
 <div class="reservation">
@@ -171,6 +178,7 @@
                     float:left;
                     margin-left: 30px;
                 }
+                
             </style>
             <legend>Address</legend>
             <div id="address_left">
@@ -258,6 +266,13 @@
             </div>
 
             <legend>Images</legend>
+            
+            <c:forEach items="${currentAd.pictures}" var="pic">
+            	<img style="max-width:100px;height:auto;" data-id="${pic.id }" class="gallery" src="<c:url value="img/${pic.url}"/>"/>
+            	<button class="btn" onclick="deletePic(${pic.id},${currentAd.id})">Delete Image</button>
+            	<br />
+            	<br />
+        	</c:forEach>
             
             <div id="files">File to upload: <input type="file" name="files[0]"><br /> </div>
 

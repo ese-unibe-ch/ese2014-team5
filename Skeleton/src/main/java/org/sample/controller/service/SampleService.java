@@ -288,5 +288,12 @@ public interface SampleService {
 	 * @param id
 	 */
 	public void deleteAd(Long id);
+ 
+	/**
+	 * Finds a picture and removes it from the database
+	 * @param picid
+	 * @param adid
+	 */
+	public void deletePic(Long picid, Long adid);
 }
  

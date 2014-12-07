@@ -184,6 +184,19 @@ public class PostController {
     }
     
     /**
+     * Deletes a Picture of an ad
+     * @param model
+     * @param id
+     * @return 
+     */
+    @RequestMapping("/deletepic")
+    public @ResponseBody
+    String deletePic(Model model, @RequestParam Long picid, @RequestParam Long adid) {
+        sampleService.deletePic(picid,adid);
+        return "#";
+    }
+    
+    /**
      * Set the invitations to the mode accepted after event on jsp
      * @param model
      * @param id
