@@ -1,10 +1,5 @@
 package org.sample.controller.pojos;
 
-import java.util.Date;
-import java.util.Set;
-
-import org.sample.model.Enquiry;
-import org.sample.model.User;
 
 public class InvitationForm 
 {

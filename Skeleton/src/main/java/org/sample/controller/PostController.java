@@ -51,7 +51,8 @@ public class PostController {
     @RequestMapping(value = "/getnotifications", method = RequestMethod.GET)
     public @ResponseBody
     String getNotifications() {
-        Iterable<Notifies> notifications = (Iterable<Notifies>) userService.findNotificationsForUser(userService.getLoggedInUser());
+        @SuppressWarnings("unchecked")
+		Iterable<Notifies> notifications = (Iterable<Notifies>) userService.findNotificationsForUser(userService.getLoggedInUser());
 
         String result = "{\"Notifications\":[";
         Iterator<Notifies> iterator = notifications.iterator();
@@ -110,7 +111,8 @@ public class PostController {
         String result = "Enquiries: ";
         int numNewNotes = 0;
     	Advert ad = advertService.getAd(id);
-    	List<Enquiry> enqs = (List<Enquiry>) enquiryService.findEnquiriesForAd(ad);
+    	@SuppressWarnings("unchecked")
+		List<Enquiry> enqs = (List<Enquiry>) enquiryService.findEnquiriesForAd(ad);
     	List<Notifies> notes = enquiryService.findNotificationsEnquiryForAd(ad);
     	for(Notifies note : notes)
     	{

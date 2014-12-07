@@ -8,7 +8,8 @@ import org.junit.runner.RunWith;
 import static org.junit.Assert.*;
 
 import org.sample.controller.pojos.AdCreateForm;
-import org.sample.controller.service.UserServiceImpl;
+import org.sample.controller.service.AdvertService;
+import org.sample.controller.service.AdvertServiceImpl;
 import org.sample.exceptions.InvalidAdException;
 import org.sample.model.User;
 import org.sample.model.dao.UserDao;
@@ -22,14 +23,15 @@ import org.springframework.transaction.annotation.Transactional;
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/config/springMVC.xml","file:src/main/webapp/WEB-INF/config/spring-database.xml"})
 public class RestrictionTest {
 
-	UserServiceImpl service;
+	AdvertService advertService;
 	AdCreateForm adForm;
 	String eMessage;
 	
 	@Before
 	public void setUp() {
 
-		service = new UserServiceImpl();
+		advertService = new AdvertServiceImpl();
+		
 		adForm = new AdCreateForm();
 
 		adForm.setTitle("Room");
@@ -54,7 +56,7 @@ public class RestrictionTest {
 		adForm.setTitle("");
 
 		try {
-			service.saveFromAd(adForm);
+			advertService.saveFromAd(adForm);
 		} catch (InvalidAdException e) {
 			assertEquals(eMessage, e.getMessage());
 		}
@@ -67,7 +69,7 @@ public class RestrictionTest {
 		adForm.setTitle("abc");
 
 		try {
-			service.saveFromAd(adForm);
+			advertService.saveFromAd(adForm);
 		} catch (InvalidAdException e) {
 			assertEquals(eMessage, e.getMessage());
 		}
@@ -80,7 +82,7 @@ public class RestrictionTest {
 		adForm.setRoomDesc("");
 		
 		try {
-			service.saveFromAd(adForm);
+			advertService.saveFromAd(adForm);
 		} catch (InvalidAdException e) {
 			assertEquals(eMessage, e.getMessage());
 		}
@@ -93,7 +95,7 @@ public class RestrictionTest {
 		adForm.setRoomDesc("asdfghjkl");
 		
 		try {
-			service.saveFromAd(adForm);
+			advertService.saveFromAd(adForm);
 		} catch (InvalidAdException e) {
 			assertEquals(eMessage, e.getMessage());
 		}
@@ -106,7 +108,7 @@ public class RestrictionTest {
 		adForm.setPeopleDesc("");
 
 		try {
-			service.saveFromAd(adForm);
+			advertService.saveFromAd(adForm);
 		} catch (InvalidAdException e) {
 			assertEquals(eMessage, e.getMessage());
 		}
@@ -119,7 +121,7 @@ public class RestrictionTest {
 		adForm.setPeopleDesc("asdfghjkl");
 		
 		try {
-			service.saveFromAd(adForm);
+			advertService.saveFromAd(adForm);
 		} catch (InvalidAdException e) {
 			assertEquals(eMessage, e.getMessage());
 		}
@@ -132,7 +134,7 @@ public class RestrictionTest {
 		adForm.setNumberOfPeople("");
 
 		try {
-			service.saveFromAd(adForm);
+			advertService.saveFromAd(adForm);
 		} catch (InvalidAdException e) {
 			assertEquals(eMessage, e.getMessage());
 		}
@@ -145,7 +147,7 @@ public class RestrictionTest {
 		adForm.setRoomSize("");
 
 		try {
-			service.saveFromAd(adForm);
+			advertService.saveFromAd(adForm);
 		} catch (InvalidAdException e) {
 			assertEquals(eMessage, e.getMessage());
 		}
@@ -157,7 +159,7 @@ public class RestrictionTest {
 		eMessage = "Please enter a valid Room size";
 		adForm.setRoomSize("a,b.c");
 		try {
-			service.saveFromAd(adForm);
+			advertService.saveFromAd(adForm);
 		} catch (InvalidAdException e) {
 			assertEquals(eMessage, e.getMessage());
 		}
@@ -170,7 +172,7 @@ public class RestrictionTest {
 		adForm.setFromDate("");
 
 		try {
-			service.saveFromAd(adForm);
+			advertService.saveFromAd(adForm);
 		} catch (InvalidAdException e) {
 			assertEquals(eMessage, e.getMessage());
 		}
@@ -184,7 +186,7 @@ public class RestrictionTest {
 		adForm.setFromDate("1/1/2000");
 		
 		try {
-			service.saveFromAd(adForm);
+			advertService.saveFromAd(adForm);
 		} catch (InvalidAdException e) {
 			assertEquals(eMessage, e.getMessage());
 		}
@@ -197,7 +199,7 @@ public class RestrictionTest {
 		adForm.setFromDate("01/01/1999");
 		
 		try {
-			service.saveFromAd(adForm);
+			advertService.saveFromAd(adForm);
 		} catch (InvalidAdException e) {
 			assertEquals(eMessage, e.getMessage());
 		}
@@ -211,7 +213,7 @@ public class RestrictionTest {
 		adForm.setStreet("");
 		
 		try {
-			service.saveFromAd(adForm);
+			advertService.saveFromAd(adForm);
 		} catch (InvalidAdException e) {
 			assertEquals(eMessage, e.getMessage());
 		}
@@ -224,7 +226,7 @@ public class RestrictionTest {
 		adForm.setCity("");
 
 		try {
-			service.saveFromAd(adForm);
+			advertService.saveFromAd(adForm);
 		} catch (InvalidAdException e) {
 			assertEquals(eMessage, e.getMessage());
 		}
@@ -236,7 +238,7 @@ public class RestrictionTest {
 		adForm.setPlz("");
 
 		try {
-			service.saveFromAd(adForm);
+			advertService.saveFromAd(adForm);
 		} catch (InvalidAdException e) {
 			assertEquals(eMessage, e.getMessage());
 		}
@@ -248,7 +250,7 @@ public class RestrictionTest {
 		adForm.setPlz("a.b,c");
 		
 		try {
-			service.saveFromAd(adForm);
+			advertService.saveFromAd(adForm);
 		} catch (InvalidAdException e) {
 			assertEquals(eMessage, e.getMessage());
 		}
@@ -260,7 +262,7 @@ public class RestrictionTest {
 		adForm.setPlz("123");
 		
 		try {
-			service.saveFromAd(adForm);
+			advertService.saveFromAd(adForm);
 		} catch (InvalidAdException e) {
 			assertEquals(eMessage, e.getMessage());
 		}
@@ -272,7 +274,7 @@ public class RestrictionTest {
 		adForm.setPlz("123456");
 		
 		try {
-			service.saveFromAd(adForm);
+			advertService.saveFromAd(adForm);
 		} catch (InvalidAdException e) {
 			assertEquals(eMessage, e.getMessage());
 		}

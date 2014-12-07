@@ -1,6 +1,5 @@
 package org.sample.controller.pojos;
 
-import java.util.Date;
 
 
 /**

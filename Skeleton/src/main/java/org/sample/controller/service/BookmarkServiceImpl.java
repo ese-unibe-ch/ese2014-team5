@@ -185,7 +185,9 @@ public class BookmarkServiceImpl implements BookmarkService {
      *
      * @param findBookmarksForAd
      */
-    public void sendNotificationsForBookmarks(Object bookmarks) {
+    @SuppressWarnings("unchecked")
+	public void sendNotificationsForBookmarks(Object bookmarks) {
+    	assert(bookmarks instanceof List);
         if (bookmarks != null) {
             for (Bookmark mark : (List<Bookmark>) bookmarks) {
                 createNotificationBookmark(mark);

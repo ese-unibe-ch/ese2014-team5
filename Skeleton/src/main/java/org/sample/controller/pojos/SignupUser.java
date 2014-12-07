@@ -5,13 +5,9 @@
  */
 package org.sample.controller.pojos;
 
-import java.util.List;
-
-import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
-import org.sample.model.Picture;
 import org.springframework.web.multipart.MultipartFile;
 
 /**

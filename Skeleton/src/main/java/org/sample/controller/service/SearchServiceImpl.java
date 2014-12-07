@@ -1,43 +1,20 @@
 package org.sample.controller.service;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.mail.MessagingException;
 import javax.servlet.ServletContext;
 
-import org.sample.controller.pojos.AdCreateForm;
-import org.sample.controller.pojos.BookmarkForm;
-import org.sample.controller.pojos.InvitationForm;
 import org.sample.controller.pojos.SearchForm;
-import org.sample.controller.pojos.SignupUser;
-import org.sample.exceptions.InvalidAdException;
-import org.sample.exceptions.InvalidDateParseException;
 import org.sample.exceptions.InvalidSearchException;
-import org.sample.exceptions.InvalidUserException;
-import org.sample.model.Address;
 import org.sample.model.Advert;
-import org.sample.model.Bookmark;
-import org.sample.model.Enquiry;
-import org.sample.model.Enquiry.InvitationStatus;
-import org.sample.model.Invitation;
 import org.sample.model.Notifies;
-import org.sample.model.Notifies.Type;
-import org.sample.model.Picture;
 import org.sample.model.Search;
-import org.sample.model.UserData;
-import org.sample.model.UserRole;
 import org.sample.model.dao.AdDao;
 import org.sample.model.dao.AddressDao;
 import org.sample.model.dao.BookmarkDao;
@@ -50,18 +27,10 @@ import org.sample.model.dao.UserDao;
 import org.sample.model.dao.UserDataDao;
 import org.sample.model.dao.UserRoleDao;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -246,7 +215,6 @@ public class SearchServiceImpl implements SearchService {
             textSearch = "";
         }
 
-        boolean simpleSearch = false;
         Iterable<org.sample.model.Advert> ads = null;
         boolean noDateRangeUp = false;
         boolean noDateRangeDown = false;

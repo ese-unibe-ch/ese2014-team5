@@ -3,7 +3,6 @@ package org.sample.controller.pojos;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.sample.model.User;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -11,8 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
  * 
  */
 public class AdCreateForm {
-
-    private Long id;    
+    
     private String title;
     private String roomDesc;
     private String peopleDesc;

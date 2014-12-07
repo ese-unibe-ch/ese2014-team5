@@ -7,7 +7,7 @@
     <distributable/>
 
     <welcome-file-list>
-        <welcome-file>index</welcome-file>
+        <welcome-file>/sample/index</welcome-file>
     </welcome-file-list>
         
         

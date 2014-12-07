@@ -2,7 +2,6 @@ package org.sample.controller;
 
 import javax.validation.Valid;
 
-import org.sample.controller.pojos.BookmarkForm;
 import org.sample.controller.pojos.InvitationForm;
 import org.sample.controller.pojos.SignupUser;
 import org.sample.controller.service.AdvertService;
