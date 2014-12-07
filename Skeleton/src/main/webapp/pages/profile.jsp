@@ -13,16 +13,14 @@ $(document).ready(function(){
 </script>
 <legend>${currentUser.firstName} ${currentUser.lastName}'s profile</legend>
 
-	<div style="width:100%;">
-		<div style="float:left;">
-			<img style="padding:5px;border: solid #e5e5e5 1px;" class="pic" src="<c:url value="img/${currentUser.userData.picture.url}"/>"/>
-		</div>
-		<div style="padding-left:30px;float:left;">
-			</br>
-			<span style="font-weight:bold;font-size:18pt;font-family:Comic Sans MS,sans-serif;">
-				<c:if test="${currentUser.userData.quote}">"${currentUser.userData.quote}"</c:if>
-			</span>
-		</div>
+	<div style="float:left;">
+		<img style="padding:5px;border: solid #e5e5e5 1px; max-width:300px" src="<c:url value="img/${currentUser.userData.picture.url}"/>"/>
+	</div>
+	<div style="padding-left:30px;float:left;">
+		</br>
+		<span style="font-weight:bold;font-size:18pt;font-family:Comic Sans MS,sans-serif;">
+			<c:if test="${currentUser.userData.quote}">"${currentUser.userData.quote}"</c:if>
+		</span>
 	</div>
 	
 	<div style="clear:both;padding-top:20px;">

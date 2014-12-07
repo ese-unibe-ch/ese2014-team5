@@ -187,7 +187,7 @@ public class IndexController {
         //AdCreateForm addUpdateForm = new AdCreateForm();
         model.addObject("adCreateForm", new AdCreateForm());
         model.addObject("currentUser", sampleService.getLoggedInUser());
-        model.addObject("currentAdd", sampleService.getAd(id));
+        model.addObject("currentAd", sampleService.getAd(id));
 
         SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
         Advert ad = sampleService.getAd(id);

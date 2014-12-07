@@ -17,7 +17,7 @@
             $("#files").append("<div class=\"secfile\"> File to upload: <input type=\"file\" name=\"files[" + (i++) + "]\"><button class=\"delete btn\" value=\"Delete\">Delete</button></div>");
         });
 
-        $(document).on("click", ".delete", function () {
+        $(document.body).on("click", ".delete", function () {
             $(this).parent().remove();
         });
 
@@ -51,6 +51,17 @@
         $('#field-fromDate').attr('readonly', true);
         $('#field-toDate').attr('readonly', true);
     });
+    
+    function deleteAd(id)
+    {
+    	if (confirm('Do you really want to delete this ad?')) {
+    		$.get( "deletead?id=" + id, function() {
+				location.href="my-ads";
+			});
+     	} else {
+     	    // Do nothing!
+     	}
+    }
 </script>
 
 <div class="reservation">
@@ -78,7 +89,7 @@
             <div class="control-group<c:if test="${not empty titleErrors}"> error</c:if>">
                     <label class="control-label" for="field-title">Title</label>
                     <div class="controls">
-                    <form:input path="title" id="field-title" tabindex="2" maxlength="150" width="350px" value="${currentAdd.title}"/>
+                    <form:input path="title" id="field-title" tabindex="2" maxlength="150" width="350px" value="${currentAd.title}"/>
                     <form:errors path="title" cssClass="help-inline" element="span"/>
                 </div>
             </div>
@@ -87,7 +98,7 @@
             <div class="control-group<c:if test="${not empty roomDescErrors}"> error</c:if>">
                     <label class="control-label" for="field-roomDesc">Room Description</label>
                     <div class="controls">
-                    <textarea name="roomDesc" id="field-roomDesc" rows="6"  width="350px" style="resize:vertical;" tabindex="2" maxlength="500">${currentAdd.roomDesc}</textarea>
+                    <textarea name="roomDesc" id="field-roomDesc" rows="6"  width="350px" style="resize:vertical;" tabindex="2" maxlength="500">${currentAd.roomDesc}</textarea>
                     <form:errors path="roomDesc" cssClass="help-inline" element="span"/>
                 </div>
             </div>
@@ -96,7 +107,7 @@
             <div class="control-group<c:if test="${not empty peopleDescErrors}"> error</c:if>">
                     <label class="control-label" for="field-peopleDesc">People Description</label>
                     <div class="controls">
-                    <textarea name="peopleDesc" id="field-peopleDesc" rows="6" width="350px" style="resize:vertical;" tabindex="2" maxlength="500">${currentAdd.peopleDesc}</textarea>
+                    <textarea name="peopleDesc" id="field-peopleDesc" rows="6" width="350px" style="resize:vertical;" tabindex="2" maxlength="500">${currentAd.peopleDesc}</textarea>
                     <form:errors path="peopleDesc" cssClass="help-inline" element="span"/>
                 </div>
             </div>
@@ -105,7 +116,7 @@
             <div class="control-group<c:if test="${not empty numberOfPeopleErrors}"> error</c:if>">
                     <label class="control-label" for="field-numberOfPeople">Num. People</label>
                     <div class="controls">
-                    <form:input path="numberOfPeople" id="field-numberOfPeople"  tabindex="2" maxlength="150" value="${currentAdd.numberOfPeople}"/>
+                    <form:input path="numberOfPeople" id="field-numberOfPeople"  tabindex="2" maxlength="150" value="${currentAd.numberOfPeople}"/>
                     <form:errors path="numberOfPeople" cssClass="help-inline" element="span"/>
                 </div>
             </div>
@@ -115,7 +126,7 @@
             <div class="control-group<c:if test="${not empty roomSizeErrors}"> error</c:if>">
                     <label class="control-label" for="field-roomSize">Size</label>
                     <div class="controls">
-                    <form:input path="roomSize" id="field-roomSize"  tabindex="2" maxlength="150" value="${currentAdd.roomSize}"/> m&sup2;
+                    <form:input path="roomSize" id="field-roomSize"  tabindex="2" maxlength="150" value="${currentAd.roomSize}"/> m&sup2;
                     <form:errors path="roomSize" cssClass="help-inline" element="span"/>
                 </div>
             </div>
@@ -124,7 +135,7 @@
             <div class="control-group<c:if test="${not empty roomPriceErrors}"> error</c:if>">
                     <label class="control-label" for="field-roomPrice">Price</label>
                     <div class="controls">
-                    <form:input path="roomPrice" id="field-roomPrice"  tabindex="2" maxlength="150" value="${currentAdd.roomPrice}"/> CHF
+                    <form:input path="roomPrice" id="field-roomPrice"  tabindex="2" maxlength="150" value="${currentAd.roomPrice}"/> CHF
                     <form:errors path="roomPrice" cssClass="help-inline" element="span"/>
                 </div>
             </div>
@@ -167,7 +178,7 @@
                 <div class="control-group<c:if test="${not empty streetErrors}"> error</c:if>">
                         <label class="control-label" for="field-street">Street</label>
                         <div class="controls">
-                        <form:input path="street" onblur="codeAddress()" id="field-street" tabindex="2" maxlength="150" value="${currentAdd.address.street}"/>
+                        <form:input path="street" onblur="codeAddress()" id="field-street" tabindex="2" maxlength="150" value="${currentAd.address.street}"/>
                         <form:errors path="street" cssClass="help-inline" element="span"/>
                     </div>
                 </div>
@@ -176,7 +187,7 @@
                 <div class="control-group<c:if test="${not empty plzErrors}"> error</c:if>">
                         <label class="control-label" for="field-plz">Postcode</label>
                         <div class="controls">
-                        <form:input path="plz" onblur="codeAddress()" id="field-plz" tabindex="2" maxlength="150" value="${currentAdd.address.plz}"/>
+                        <form:input path="plz" onblur="codeAddress()" id="field-plz" tabindex="2" maxlength="150" value="${currentAd.address.plz}"/>
                         <form:errors path="plz" cssClass="help-inline" element="span"/>
                     </div>
                 </div>
@@ -185,7 +196,7 @@
                 <div class="control-group<c:if test="${not empty cityErrors}"> error</c:if>">
                         <label class="control-label" for="field-city">City</label>
                         <div class="controls">
-                        <form:input path="city" onblur="codeAddress()" id="field-city" tabindex="2" maxlength="150" value="${currentAdd.address.city}"/>
+                        <form:input path="city" onblur="codeAddress()" id="field-city" tabindex="2" maxlength="150" value="${currentAd.address.city}"/>
                         <form:errors path="city" cssClass="help-inline" element="span"/>
                     </div>
                 </div>
@@ -256,7 +267,8 @@
 
             <div class="form-actions">
                 <button type="submit" class="btn btn-primary">Change</button>
-                <button type="button" class="btn" onclick="javascript:location.href='showad?value=${currentAdd.id}'">Cancel</button>
+                <button type="button" onclick="deleteAd(${currentAd.id})" class="btn btn-primary">Delete</button>
+                <button type="button" class="btn" onclick="javascript:location.href='showad?value=${currentAd.id}'">Cancel</button>
             </div>
         </fieldset>
     </form:form>

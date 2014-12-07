@@ -154,7 +154,7 @@ $(document).ready(function() {
             <div class="control-group">
 	            <label class="control-label" for="amountPrice">Price (CHF)</label>
 	            <div class="controls">
-				 <input type="text" id="amountPrice" readonly style="border:0; color:#f6931f; font-weight:bold;" value="${minPrice} - ${maxPrice}">
+				 <input type="text" id="amountPrice" readonly style="border:1px solid #ccc; color:#f6931f; font-weight:bold;" value="${minPrice} - ${maxPrice}">
 	            	<div id="slider-range-price"></div>
 	            	<form:input type="hidden"  path="fromPrice" id="field-fromPrice" tabindex="2" maxlength="35" placeholder="CHF"/>
 	            	<form:input type="hidden" path="toPrice" id="field-toPrice" tabindex="2" maxlength="35" placeholder="CHF"/>
@@ -164,7 +164,7 @@ $(document).ready(function() {
             <div class="control-group">
 	            <label class="control-label" for="amountSize">Size (m&sup2;)</label>
 	            <div class="controls">
-					  <input type="text" id="amountSize" readonly style="border:0; color:#f6931f; font-weight:bold;" value="${minSize} - ${maxSize}">
+					  <input type="text" id="amountSize" readonly style="border:1px solid #ccc; color:#f6931f; font-weight:bold;" value="${minSize} - ${maxSize}">
 	            	<div id="slider-range-size"></div>
 	            	<form:input type="hidden"  path="fromSize" id="field-fromSize" tabindex="2" maxlength="35" placeholder="CHF"/>
 	            	<form:input type="hidden" path="toSize" id="field-toSize" tabindex="2" maxlength="35" placeholder="CHF"/>

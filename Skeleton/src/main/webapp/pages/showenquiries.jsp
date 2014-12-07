@@ -58,39 +58,47 @@ $(document).ready(function(){
 	
 	.star 
 	{
-		width: 32px;
-		height: 32px;
+		width: 24px;
+		height: 24px;
 		background: url("web/images/icon/favorite.png") transparent;
+		background-size: 24px 24px;
 		opacity: 0.3;
 		float: left;
 		margin-right: 3px;
+		
 	}
 	
 	.unknown 
 	{
-		width: 32px;
-		height: 32px;
+		width: 28px;
+		height: 28px;
 		background: url("web/images/icon/help.png");
+		background-size: 28px 28px;
 		float: left;
 		margin-right: 3px;
+		margin-left: 25%;
 	}
 	
 	.accepted 
 	{
-		width: 32px;
-		height: 32px;
+		width: 24px;
+		height: 24px;
 		background: url("web/images/icon/accept.png");
+		background-size: 24px 24px;
 		float: left;
 		margin-right: 3px;
+		margin-left: 25%;
 	}
 	
 	.cancelled 
 	{
-		width: 32px;
-		height: 32px;
+		width: 24px;
+		height: 24px;
 		background: url("web/images/icon/delete.png");
+		background-size: 24px 24px;
 		float: left;
 		margin-right: 3px;
+		margin-left: 25%;
 	}
 	
 	.star:last-child

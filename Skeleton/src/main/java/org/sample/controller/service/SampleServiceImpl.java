@@ -1370,4 +1370,20 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
         enq = enquiryDao.save(enq);
     }
 
+    /**
+     * finds all dependencies of given ad id and removes them
+     */
+	public void deleteAd(Long id) {
+		Advert ad = adDao.findById(id);
+		Iterable<Notifies> notes = notifiesDao.findByAd(ad);
+		notifiesDao.deleteInBatch(notes);
+		Iterable<Enquiry> enqs = enquiryDao.findByAdvert(ad);
+		enquiryDao.deleteInBatch(enqs);
+		Iterable<Invitation> invs = invitationDao.findByAdvert(ad);
+		invitationDao.deleteInBatch(invs);
+		Iterable<Bookmark> bms = bookmarkDao.findByAd(ad);
+		bookmarkDao.deleteInBatch(bms);
+		adDao.delete(ad);
+	}
+
 }

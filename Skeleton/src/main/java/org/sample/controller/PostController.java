@@ -171,6 +171,19 @@ public class PostController {
     }
     
     /**
+     * Deletes an Ad
+     * @param model
+     * @param id
+     * @return 
+     */
+    @RequestMapping("/deletead")
+    public @ResponseBody
+    String deleteAd(Model model, @RequestParam Long id) {
+        sampleService.deleteAd(id);
+        return "#";
+    }
+    
+    /**
      * Set the invitations to the mode accepted after event on jsp
      * @param model
      * @param id

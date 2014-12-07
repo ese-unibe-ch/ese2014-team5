@@ -282,5 +282,11 @@ public interface SampleService {
          * @return 
          */
 	public List<Invitation> findNotCancelledInvitationsForAd(Advert ad);
+
+	/**
+	 * Finds the ad and all notifications, invitations, etc. by ad id and removes them from the database
+	 * @param id
+	 */
+	public void deleteAd(Long id);
 }
  

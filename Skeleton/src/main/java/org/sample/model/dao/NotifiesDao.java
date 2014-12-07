@@ -19,5 +19,7 @@ public interface NotifiesDao  extends JpaRepository<Notifies,Long>
 
 	List<Notifies> findByAdAndNotetype(Advert ad, Type enquiry);
         
-        List<Notifies> findByToUserAndNotetype(User user, Type invitation);
+    List<Notifies> findByToUserAndNotetype(User user, Type invitation);
+
+	Iterable<Notifies> findByAd(Advert ad);
 }
