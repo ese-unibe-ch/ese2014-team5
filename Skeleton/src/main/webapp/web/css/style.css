@@ -202,11 +202,13 @@ body {
 /* start booking_room */
 .online_reservation{
 	position: relative;
-	margin-top: -150px;
+	margin-top: -290px;
 	z-index: 999;
 }
 .b_room{
+	width: 92%;
 	background: white;
+	opacity: 0.97;
 	margin: 2% 2%;
 	padding: 2% 2% 2% 2%;
 	display: inline-flex;
