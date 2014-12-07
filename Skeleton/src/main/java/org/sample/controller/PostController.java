@@ -6,7 +6,10 @@ import java.util.List;
 
 import javax.servlet.ServletContext;
 
-import org.sample.controller.service.SampleService;
+import org.sample.controller.service.AdvertService;
+import org.sample.controller.service.BookmarkService;
+import org.sample.controller.service.EnquiryService;
+import org.sample.controller.service.UserService;
 import org.sample.model.Advert;
 import org.sample.model.Enquiry;
 import org.sample.model.Notifies;
@@ -30,7 +33,13 @@ public class PostController {
     @Autowired
     ServletContext servletContext;
     @Autowired
-    SampleService sampleService;
+    UserService userService;
+    @Autowired
+    AdvertService advertService;
+    @Autowired
+    BookmarkService bookmarkService;
+    @Autowired
+    EnquiryService enquiryService;
     @Autowired
     UserDao userDao;
     
@@ -42,7 +51,7 @@ public class PostController {
     @RequestMapping(value = "/getnotifications", method = RequestMethod.GET)
     public @ResponseBody
     String getNotifications() {
-        Iterable<Notifies> notifications = (Iterable<Notifies>) sampleService.findNotificationsForUser(sampleService.getLoggedInUser());
+        Iterable<Notifies> notifications = (Iterable<Notifies>) userService.findNotificationsForUser(userService.getLoggedInUser());
 
         String result = "{\"Notifications\":[";
         Iterator<Notifies> iterator = notifications.iterator();
@@ -100,9 +109,9 @@ public class PostController {
     String getNumEnquiriesForAd(@RequestParam("id") Long id) {
         String result = "Enquiries: ";
         int numNewNotes = 0;
-    	Advert ad = sampleService.getAd(id);
-    	List<Enquiry> enqs = (List<Enquiry>) sampleService.findEnquiriesForAd(ad);
-    	List<Notifies> notes = sampleService.findNotificationsEnquiryForAd(ad);
+    	Advert ad = advertService.getAd(id);
+    	List<Enquiry> enqs = (List<Enquiry>) enquiryService.findEnquiriesForAd(ad);
+    	List<Notifies> notes = enquiryService.findNotificationsEnquiryForAd(ad);
     	for(Notifies note : notes)
     	{
     		if(note.getSeen()==0)
@@ -127,7 +136,7 @@ public class PostController {
     @RequestMapping("/setread")
     public @ResponseBody
     String setread(Model model, @RequestParam String noteid) {
-        sampleService.setRead(noteid);
+        userService.setRead(noteid);
         return "#";
     }
     
@@ -140,7 +149,7 @@ public class PostController {
     @RequestMapping("/setreadbookmark")
     public @ResponseBody
     String setreadBookmark(Model model, @RequestParam String id) {
-        sampleService.setReadBookmarkNote(id);
+        bookmarkService.setReadBookmarkNote(id);
         return "#";
     }
     
@@ -153,7 +162,7 @@ public class PostController {
     @RequestMapping("/setreadenquiries")
     public @ResponseBody
     String setreadEnquiries(Model model, @RequestParam String id) {
-        sampleService.setReadEnquiryNoteForAdId(id);
+        enquiryService.setReadEnquiryNoteForAdId(id);
         return "#";
     }
     
@@ -166,7 +175,7 @@ public class PostController {
     @RequestMapping("/deleteinvitation")
     public @ResponseBody
     String deleteInvitation(Model model, @RequestParam Long id) {
-        sampleService.cancelInvitation(id);
+        enquiryService.cancelInvitation(id);
         return "#";
     }
     
@@ -179,7 +188,7 @@ public class PostController {
     @RequestMapping("/deletead")
     public @ResponseBody
     String deleteAd(Model model, @RequestParam Long id) {
-        sampleService.deleteAd(id);
+        advertService.deleteAd(id);
         return "#";
     }
     
@@ -192,7 +201,7 @@ public class PostController {
     @RequestMapping("/deletepic")
     public @ResponseBody
     String deletePic(Model model, @RequestParam Long picid, @RequestParam Long adid) {
-        sampleService.deletePic(picid,adid);
+        advertService.deletePic(picid,adid);
         return "#";
     }
     
@@ -205,7 +214,7 @@ public class PostController {
     @RequestMapping("/acceptinvitation")
     public @ResponseBody
     String setAcceptInvitation(Model model, @RequestParam Long id) {
-        sampleService.acceptInvitationForEnquiryId(id);
+        enquiryService.acceptInvitationForEnquiryId(id);
         return "#";
     }
     
@@ -219,7 +228,7 @@ public class PostController {
     @RequestMapping("/cancelinvitation")
     public @ResponseBody
     String setCancelInvitation(Model model, @RequestParam Long id) {
-        sampleService.cancelInvitationForEnquiryId(id);
+        enquiryService.cancelInvitationForEnquiryId(id);
         return "#";
     }
     
@@ -233,7 +242,7 @@ public class PostController {
     @RequestMapping("/setrank")
     public @ResponseBody
     String setRank(Model model, @RequestParam Long id, @RequestParam int rank) {
-        sampleService.setRatingForEnquiry(id,rank);
+        enquiryService.setRatingForEnquiry(id,rank);
         return "#";
     }
     
@@ -246,7 +255,7 @@ public class PostController {
     @RequestMapping("/setenquirynotificationsread")
     public @ResponseBody
     String setRank(Model model, @RequestParam Long id) {
-        sampleService.setEnquiryNotificationsReadForUserId(id);
+        enquiryService.setEnquiryNotificationsReadForUserId(id);
         return "#";
     }
 }

@@ -8,7 +8,7 @@ import org.junit.runner.RunWith;
 import static org.junit.Assert.*;
 
 import org.sample.controller.pojos.AdCreateForm;
-import org.sample.controller.service.SampleServiceImpl;
+import org.sample.controller.service.UserServiceImpl;
 import org.sample.exceptions.InvalidAdException;
 import org.sample.model.User;
 import org.sample.model.dao.UserDao;
@@ -22,14 +22,14 @@ import org.springframework.transaction.annotation.Transactional;
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/config/springMVC.xml","file:src/main/webapp/WEB-INF/config/spring-database.xml"})
 public class RestrictionTest {
 
-	SampleServiceImpl service;
+	UserServiceImpl service;
 	AdCreateForm adForm;
 	String eMessage;
 	
 	@Before
 	public void setUp() {
 
-		service = new SampleServiceImpl();
+		service = new UserServiceImpl();
 		adForm = new AdCreateForm();
 
 		adForm.setTitle("Room");

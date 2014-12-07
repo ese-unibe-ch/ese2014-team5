@@ -5,7 +5,11 @@ import javax.validation.Valid;
 import org.sample.controller.pojos.BookmarkForm;
 import org.sample.controller.pojos.InvitationForm;
 import org.sample.controller.pojos.SignupUser;
-import org.sample.controller.service.SampleService;
+import org.sample.controller.service.AdvertService;
+import org.sample.controller.service.BookmarkService;
+import org.sample.controller.service.EnquiryService;
+import org.sample.controller.service.SearchService;
+import org.sample.controller.service.UserService;
 import org.sample.exceptions.InvalidDateParseException;
 import org.sample.exceptions.InvalidUserException;
 import org.sample.model.Advert;
@@ -27,8 +31,16 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class UserController {
     
+	@Autowired
+    UserService userService;
     @Autowired
-    SampleService sampleService;
+    AdvertService advertService;
+    @Autowired
+    BookmarkService bookmarkService;
+    @Autowired
+    EnquiryService enquiryService;
+    @Autowired
+    SearchService searchService;
 
     @Autowired
     UserDao userDao;
@@ -45,13 +57,13 @@ public class UserController {
 	    ModelAndView model = new ModelAndView("profile");
 	    if(username=="")
 	    {
-	    	model.addObject("currentUser", sampleService.getLoggedInUser());
+	    	model.addObject("currentUser", userService.getLoggedInUser());
 	    }
 	    else
 	    {
 	    	model.addObject("currentUser", userDao.findByUsername(username));
 	    }
-	    model.addObject("loggedInUser", sampleService.getLoggedInUser());
+	    model.addObject("loggedInUser", userService.getLoggedInUser());
 	    return model;
     }
     
@@ -64,7 +76,7 @@ public class UserController {
     public ModelAndView editProfile() {
 	    ModelAndView model = new ModelAndView("profileediting");
 	    model.addObject("profileUpdateForm", new SignupUser());
-	    model.addObject("currentUser", sampleService.getLoggedInUser());
+	    model.addObject("currentUser", userService.getLoggedInUser());
 	    return model;
     }
     
@@ -80,9 +92,9 @@ public class UserController {
     	ModelAndView model;    	
     	if (!result.hasErrors()) {
             try {
-            	sampleService.updateUser(profileUpdateForm);
+            	userService.updateUser(profileUpdateForm);
             	model = new ModelAndView("profile");
-            	model.addObject("currentUser", sampleService.getLoggedInUser());
+            	model.addObject("currentUser", userService.getLoggedInUser());
             	model.addObject("msg", "You've updated your profile successfully.");
             } catch (InvalidUserException e) {
             	model = new ModelAndView("profileediting");
@@ -104,10 +116,10 @@ public class UserController {
 	    ModelAndView model = new ModelAndView("profilesearches");
 	    
 	    if (value!=null){
-	    	sampleService.removeSearch(value);
+	    	searchService.removeSearch(value);
 	    }
 	    
-	    User currentUser = sampleService.getLoggedInUser();
+	    User currentUser = userService.getLoggedInUser();
 	    if (filter!=null && filter==0){
 	    	currentUser.setSelectedSearch(null);
 	    	userDao.save(currentUser);
@@ -129,8 +141,8 @@ public class UserController {
     @RequestMapping(value = "/my-ads", method = RequestMethod.GET)
     public ModelAndView showMyAds() {
 	    ModelAndView model = new ModelAndView("profileadverts");
-	    model.addObject("currentUser", sampleService.getLoggedInUser());
-	    model.addObject("adList", sampleService.findAdsForUser((User) sampleService.getLoggedInUser()));
+	    model.addObject("currentUser", userService.getLoggedInUser());
+	    model.addObject("adList", advertService.findAdsForUser((User) userService.getLoggedInUser()));
 	    return model;
     }
     
@@ -142,12 +154,12 @@ public class UserController {
     @RequestMapping(value = "/showenquiries", method = RequestMethod.GET)
     public ModelAndView showAdEnquiries(@RequestParam("value") Long id) {
         ModelAndView model = new ModelAndView("showenquiries");
-        model.addObject("currentUser", sampleService.getLoggedInUser());
-        Advert ad = sampleService.getAd(id);
+        model.addObject("currentUser", userService.getLoggedInUser());
+        Advert ad = advertService.getAd(id);
         model.addObject("ad", ad);
         model.addObject("invitationForm", new InvitationForm());
-        model.addObject("enqlist", sampleService.findEnquiriesForAd(ad));
-        model.addObject("invitationsList",sampleService.findNotCancelledInvitationsForAd(ad));
+        model.addObject("enqlist", enquiryService.findEnquiriesForAd(ad));
+        model.addObject("invitationsList",enquiryService.findNotCancelledInvitationsForAd(ad));
         return model;
     }
     
@@ -162,14 +174,14 @@ public class UserController {
     @RequestMapping(value = "/invite", method = RequestMethod.POST)
     public ModelAndView invite(@Valid InvitationForm invForm, BindingResult result, RedirectAttributes redirectAttributes) throws InvalidDateParseException {
         
-    	sampleService.createInvitation(invForm);
-    	Advert ad = sampleService.getAd(invForm.getAdvertId());
+    	enquiryService.createInvitation(invForm);
+    	Advert ad = advertService.getAd(invForm.getAdvertId());
     	ModelAndView model = new ModelAndView("showenquiries");
-        model.addObject("currentUser", sampleService.getLoggedInUser());
-        model.addObject("ad", sampleService.getAd(invForm.getAdvertId()));
+        model.addObject("currentUser", userService.getLoggedInUser());
+        model.addObject("ad", advertService.getAd(invForm.getAdvertId()));
         model.addObject("invitationForm", new InvitationForm());
-        model.addObject("enqlist", sampleService.findEnquiriesForAd(ad));
-        model.addObject("invitationsList",sampleService.findNotCancelledInvitationsForAd(ad));
+        model.addObject("enqlist", enquiryService.findEnquiriesForAd(ad));
+        model.addObject("invitationsList",enquiryService.findNotCancelledInvitationsForAd(ad));
         return model;
     }
     
@@ -180,8 +192,8 @@ public class UserController {
     @RequestMapping(value = "/bookmarks", method = RequestMethod.GET)
     public ModelAndView showBookmarks() {
 	    ModelAndView model = new ModelAndView("bookmarks");
-	    model.addObject("currentUser", sampleService.getLoggedInUser());
-	    model.addObject("adList", sampleService.findBookmarkedAdsForUser(sampleService.getLoggedInUser()));
+	    model.addObject("currentUser", userService.getLoggedInUser());
+	    model.addObject("adList", bookmarkService.findBookmarkedAdsForUser(userService.getLoggedInUser()));
 	   
 	    
 	    return model;
@@ -194,8 +206,8 @@ public class UserController {
     @RequestMapping(value = "/sentenquiries", method = RequestMethod.GET)
     public ModelAndView showSentEnquiries() {
 	    ModelAndView model = new ModelAndView("showSentEnquiries");
-	    model.addObject("currentUser", sampleService.getLoggedInUser());
-	    model.addObject("enquiriesList", sampleService.findSentEnquiriesForUser(sampleService.getLoggedInUser()));
+	    model.addObject("currentUser", userService.getLoggedInUser());
+	    model.addObject("enquiriesList", enquiryService.findSentEnquiriesForUser(userService.getLoggedInUser()));
 	    return model;
     }
     
@@ -208,7 +220,7 @@ public class UserController {
      */
     @RequestMapping("/removeBookmark")
 	public String removeBookmark(Model model, @RequestParam String adid,@RequestParam String username) {
-		sampleService.deleteBookmark(adid,username);
+		bookmarkService.deleteBookmark(adid,username);
 		return "/bookmarks";
 	}
     

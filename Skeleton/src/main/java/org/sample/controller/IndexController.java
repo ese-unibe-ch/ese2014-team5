@@ -11,7 +11,11 @@ import javax.validation.Valid;
 import org.sample.controller.pojos.AdCreateForm;
 import org.sample.controller.pojos.BookmarkForm;
 import org.sample.controller.pojos.SearchForm;
-import org.sample.controller.service.SampleService;
+import org.sample.controller.service.AdvertService;
+import org.sample.controller.service.BookmarkService;
+import org.sample.controller.service.EnquiryService;
+import org.sample.controller.service.SearchService;
+import org.sample.controller.service.UserService;
 import org.sample.exceptions.InvalidAdException;
 import org.sample.exceptions.InvalidSearchException;
 import org.sample.model.Advert;
@@ -37,7 +41,15 @@ public class IndexController {
     @Autowired
     ServletContext servletContext;
     @Autowired
-    SampleService sampleService;
+    UserService userService;
+    @Autowired
+    AdvertService advertService;
+    @Autowired
+    BookmarkService bookmarkService;
+    @Autowired
+    EnquiryService enquiryService;
+    @Autowired
+    SearchService searchService;
     @Autowired
     UserDao userDao;
     @Autowired
@@ -54,10 +66,10 @@ public class IndexController {
     @RequestMapping("/sendenquiry")
     public ModelAndView sendenquiry(@RequestParam String enquirytext, @RequestParam String adid) {
         ModelAndView model = new ModelAndView("showad");
-        model.addObject("ad", sampleService.getAd(Long.parseLong(adid)));
-        Enquiry enq = (Enquiry) sampleService.sendEnquiry(enquirytext, adid);
+        model.addObject("ad", advertService.getAd(Long.parseLong(adid)));
+        Enquiry enq = (Enquiry) enquiryService.sendEnquiry(enquirytext, adid);
         if (enq != null) {
-            if (sampleService.createNotificationEnquiry(enq)) {
+            if (enquiryService.createNotificationEnquiry(enq)) {
                 model.addObject("msg", "Your enquiry has been sent successfully.");
             } else {
                 model.addObject("page_error", "Error! Couldn't send enquiry. Try again.");
@@ -124,7 +136,7 @@ public class IndexController {
         }
         
         model.addObject("searchForm", searchForm);
-        model.addObject("searchResults", sampleService.findAds(searchForm));
+        model.addObject("searchResults", searchService.findAds(searchForm));
 
         //model.addObject("notifications",sampleService.findNotificationsForUser(sampleService.getLoggedInUser()));
         boolean saveToProfile = false;
@@ -136,12 +148,12 @@ public class IndexController {
         if (action != null) {
             if (!result.hasErrors()) {
                 try {
-                    sampleService.saveFromSearch(searchForm, saveToProfile);
-                    if (sampleService.getLoggedInUser() != null && sampleService.getLoggedInUser().getUserRole().getRole() == 1 && saveToProfile) {
+                    searchService.saveFromSearch(searchForm, saveToProfile);
+                    if (userService.getLoggedInUser() != null && userService.getLoggedInUser().getUserRole().getRole() == 1 && saveToProfile) {
                         model.addObject("msg", "You can find your saved search in your profile.");
                     }
                 } catch (InvalidSearchException e) {
-                    if (sampleService.getLoggedInUser() != null && sampleService.getLoggedInUser().getUserRole().getRole() == 1 && saveToProfile) {
+                    if (userService.getLoggedInUser() != null && userService.getLoggedInUser().getUserRole().getRole() == 1 && saveToProfile) {
                         model.addObject("page_error", e.getMessage());
                     }
                 }
@@ -186,11 +198,11 @@ public class IndexController {
         ModelAndView model = new ModelAndView("addediting");
         //AdCreateForm addUpdateForm = new AdCreateForm();
         model.addObject("adCreateForm", new AdCreateForm());
-        model.addObject("currentUser", sampleService.getLoggedInUser());
-        model.addObject("currentAd", sampleService.getAd(id));
+        model.addObject("currentUser", userService.getLoggedInUser());
+        model.addObject("currentAd", advertService.getAd(id));
 
         SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-        Advert ad = sampleService.getAd(id);
+        Advert ad = advertService.getAd(id);
         try {
             model.addObject("fromDate", formatter.format(ad.getFromDate()));
             model.addObject("toDate", formatter.format(ad.getToDate()));
@@ -249,11 +261,11 @@ public class IndexController {
                         }
                     }
                 Long id = Long.parseLong(idstring);
-                sampleService.updateAd(adCreateForm, id);
+                advertService.updateAd(adCreateForm, id);
                 model = new ModelAndView("profileadverts");
-                model.addObject("currentUser", sampleService.getLoggedInUser());
-                model.addObject("adList", sampleService.findAdsForUser((User) sampleService.getLoggedInUser()));
-                sampleService.sendNotificationsForBookmarks(sampleService.findBookmarksForAd(id));
+                model.addObject("currentUser", userService.getLoggedInUser());
+                model.addObject("adList", advertService.findAdsForUser((User) userService.getLoggedInUser()));
+                bookmarkService.sendNotificationsForBookmarks(bookmarkService.findBookmarksForAd(id));
 	            } catch (InvalidAdException e) {
 	                model = new ModelAndView("addediting");
 	                model.addObject("page_error", e.getMessage());
@@ -279,19 +291,19 @@ public class IndexController {
     @RequestMapping(value = "/showad")
     public ModelAndView showad(@Valid BookmarkForm bookmarkForm, @RequestParam("value") Long id, BindingResult result, RedirectAttributes redirectAttributes) {
         ModelAndView model = new ModelAndView("showad");
-        model.addObject("currentUser", sampleService.getLoggedInUser());
-        model.addObject("ad", sampleService.getAd(id));
-        if (sampleService.checkBookmarked(id, sampleService.getLoggedInUser())) {
+        model.addObject("currentUser", userService.getLoggedInUser());
+        model.addObject("ad", advertService.getAd(id));
+        if (bookmarkService.checkBookmarked(id, userService.getLoggedInUser())) {
             model.addObject("bookmarked", 1);
         }
         if (bookmarkForm != null && bookmarkForm.getAdNumber() != null && !bookmarkForm.getAdNumber().equals("")) {
-            Long bookmarkid = sampleService.bookmark(bookmarkForm);
+            Long bookmarkid = bookmarkService.bookmark(bookmarkForm);
             if (bookmarkid > 0) {
                 model.addObject("bookmarked", 1);
             }
         }
 
-        if (sampleService.checkSentEnquiry(id, sampleService.getLoggedInUser())) {
+        if (enquiryService.checkSentEnquiry(id, userService.getLoggedInUser())) {
             model.addObject("sentenquiry", 1);
         }
 
@@ -343,11 +355,11 @@ public class IndexController {
                     }
                 }
 
-                Long id = sampleService.saveFromAd(adCreationForm);
+                Long id = advertService.saveFromAd(adCreationForm);
                 model = new ModelAndView("showad");
-                model.addObject("ad", sampleService.getAd(id));
+                model.addObject("ad", advertService.getAd(id));
 
-                sampleService.createNewSearchNotifications(id);
+                searchService.createNewSearchNotifications(id);
 
             } catch (InvalidAdException e) {
                 model = new ModelAndView("adcreation");

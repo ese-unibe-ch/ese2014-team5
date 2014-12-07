@@ -9,7 +9,10 @@ import javax.validation.Valid;
 
 import org.sample.controller.pojos.SearchForm;
 import org.sample.controller.pojos.SignupUser;
-import org.sample.controller.service.SampleService;
+import org.sample.controller.service.AdvertService;
+import org.sample.controller.service.BookmarkService;
+import org.sample.controller.service.EnquiryService;
+import org.sample.controller.service.UserService;
 import org.sample.exceptions.InvalidUserException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,8 +25,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class RegisterController {
     
+	@Autowired
+    UserService userService;
     @Autowired
-    SampleService sampleService;
+    AdvertService advertService;
+    @Autowired
+    BookmarkService bookmarkService;
+    @Autowired
+    EnquiryService enquiryService;
 
     /**
      * Controllerpart which waits for entered registration information
@@ -48,7 +57,7 @@ public class RegisterController {
     	ModelAndView model;    	
     	if (!result.hasErrors()) {
             try {
-            	sampleService.saveUser(signupUser);
+            	userService.saveUser(signupUser);
             	model = new ModelAndView("/index");
             	model.addObject("searchForm", new SearchForm());
             	model.addObject("minPrice",0);
