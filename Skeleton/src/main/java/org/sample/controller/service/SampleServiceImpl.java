@@ -301,7 +301,7 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
 
         MultipartFile file = profileUpdateForm.getFile();
         try {
-
+        	
             byte[] bytes = file.getBytes();
             if (bytes.length <= 0) {
                 throw new Exception();
@@ -323,12 +323,15 @@ public class SampleServiceImpl implements SampleService, UserDetailsService {
             stream.write(bytes);
             stream.close();
 
-            profileUpdateForm.setFilenames(filename);
+            if(file.getOriginalFilename().length()>4)
+            {
+            	profileUpdateForm.setFilenames(filename);
 
-            Picture pic = new Picture();
-            pic.setUrl(filename);
-            pic = pictureDao.save(pic);
-            data.setPicture(pic);
+            	Picture pic = new Picture();
+            	pic.setUrl(filename);
+            	pic = pictureDao.save(pic);
+            	data.setPicture(pic);
+            }
 
         } catch (Exception e) {
             System.out.println("Error uploading file");

@@ -19,7 +19,7 @@ $(document).ready(function(){
 	<div style="padding-left:30px;float:left;">
 		</br>
 		<span style="font-weight:bold;font-size:18pt;font-family:Comic Sans MS,sans-serif;">
-			<c:if test="${currentUser.userData.quote}">"${currentUser.userData.quote}"</c:if>
+			<c:if test="${not empty currentUser.userData.quote}">"${currentUser.userData.quote}"</c:if>
 		</span>
 	</div>
 	
@@ -29,14 +29,14 @@ $(document).ready(function(){
 			<p><span style="font-weight:bold;">Age: </span></p>
 			<p><span style="font-weight:bold;">Biography: </span></p>
 			<p><span style="font-weight:bold;">Hobbies: </span></p>
-			<p><span style="font-weight:bold;">Profession: </br></span></p>
+			<p><span style="font-weight:bold;">Profession: <br /></span></p>
 		</div>
 		<div style="padding-left:14px;float:left;">
-			<p>${currentUser.email}</br></p>
-			<p><c:if test="${currentUser.userData.age}==0">"${currentUser.userData.age}"</c:if></br></p>
-			<p>${currentUser.userData.bio}</br></p>
-			<p>${currentUser.userData.hobbies}</br></p>
-			<p>${currentUser.userData.profession}</br></br></p>
+			<p>${currentUser.email}<br /></p>
+			<p><c:if test="${currentUser.userData.age>0}">${currentUser.userData.age}</c:if><br /></p>
+			<p>${currentUser.userData.bio}<br /></p>
+			<p>${currentUser.userData.hobbies}<br /></p>
+			<p>${currentUser.userData.profession}<br /></p>
 		</div>
 	</div>
 	<div class="form-actions" style="clear:both;padding-top:20px;">

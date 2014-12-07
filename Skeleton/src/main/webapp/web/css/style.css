@@ -207,6 +207,7 @@ body {
 }
 .b_room{
 	width: 92%;
+	min-height: 300px;
 	background: white;
 	opacity: 0.97;
 	margin: 2% 2%;

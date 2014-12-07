@@ -67,7 +67,7 @@ $(document).ready(function(){
 	        <div class="control-group">
 	            <label class="control-label" for="field-bio">Biography</label>
 	            <div class="controls">
-	                <textarea path="bio" id="field-bio" rows="6" width="350px" style="resize:vertical;" tabindex="2" maxlength="500" placeholder="Describe who you are">${currentUser.userData.bio}</textarea>
+	                <textarea name="bio" id="field-bio" rows="6" width="350px" style="resize:vertical;" tabindex="2" maxlength="500" placeholder="Describe who you are">${currentUser.userData.bio}</textarea>
 	                <form:errors path="bio" cssClass="help-inline" element="span"/>
 	            </div>
 	        </div>
