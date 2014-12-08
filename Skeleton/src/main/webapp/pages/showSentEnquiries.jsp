@@ -30,7 +30,7 @@ width: 300px;
 <script type="text/javascript">
 
 $(document).ready(function(){
-	$("#lInv").parent().addClass("active");
+	$(".lInv").parent().addClass("active");
 	$.get("setenquirynotificationsread?id=${currentUser.id}", function(){
 		
 	});
@@ -56,7 +56,7 @@ function cancelinvitation(id)
 <legend>My sent enquiries</legend>
 
 <div class="resultblock" id="sent_enquiries_list">
-	<c:forEach items="${enquiriesList}" var="enq">
+	<c:forEach items="${enquiriesList}" var="enq" varStatus="status">
 		<div class="result">
 			<div class="leftdiv"><a href="showad?value=${enq.advert.id}">${enq.advert.title}</a></div>
 			<div class="invit">
@@ -70,6 +70,7 @@ function cancelinvitation(id)
 				</c:if>
 			</div>
 		</div>
+		<c:if test="${ ! status.last}" ><div class="resultseparator"></div>  </c:if>
 	</c:forEach>
 </div>
 	

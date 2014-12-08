@@ -6,7 +6,7 @@
 
 <script>
 $(document).ready(function(){
-	$("#lLog").parent().addClass("active");
+	$(".lLog").parent().addClass("active");
 });
 </script>
 		<div class="reservation">

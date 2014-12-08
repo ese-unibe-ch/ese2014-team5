@@ -8,7 +8,7 @@
 <div class="reservation">
 <script>
 $(document).ready(function(){
-	$("#lProf").parent().addClass("active");
+	$(".lProf").parent().addClass("active");
 });
 </script>
 <legend>${currentUser.firstName} ${currentUser.lastName}'s profile</legend>

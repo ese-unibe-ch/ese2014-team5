@@ -15,7 +15,7 @@
 </c:if>
 <script>
 $(document).ready(function(){
-	$("#lSear").parent().addClass("active");
+	$(".lSear").parent().addClass("active");
 });
 </script>
 <div class="reservation">
@@ -31,7 +31,7 @@ $(document).ready(function(){
 				</div>
 			</div>
 			
-			<c:forEach items="${searchList}" var="listValue">
+			<c:forEach items="${searchList}" var="listValue" varStatus="status">
 		    	<div id="profilesearches_result">
 				    <div class="result" onclick="setread(${listValue.id},'index?action=blist&searchid=${listValue.id}')">
 				    	<div style="width:50px;float:left;display:inline-block;">
@@ -52,6 +52,7 @@ $(document).ready(function(){
 						</div>
 					</div>
 				</div>
+				<c:if test="${ ! status.last}" ><div class="resultseparator"></div>  </c:if>
 			</c:forEach>
 			
     	</div>

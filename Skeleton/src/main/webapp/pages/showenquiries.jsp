@@ -10,7 +10,7 @@
 <div class="reservation">
 <script>
 $(document).ready(function(){
-	$("#lEnq").parent().addClass("active");
+	$(".lEnq").parent().addClass("active");
 });
 </script>
 <legend>Enquiries for my ad: ${ad.title}</legend>
@@ -30,26 +30,7 @@ $(document).ready(function(){
 	.selectedCell {
 	background-color: rgba(200,200,255,100) !important;
 	}
-	
-	#enquirylist {
-		
-	}
-	
-	#enquirylist > li {
-		clear: left;
-		width: 100%;
-		height: 32px;
-		border: #52ABDF solid 1px;
-		border-radius: 4px;
-		margin-bottom: 0.8em;
-		padding: 0.4em;
-	}
-	
-	#enquirylist > li > div {
-		float:left;
-		margin-right: auto;
-		
-	}
+
 	
 	.favorize
 	{
@@ -62,7 +43,7 @@ $(document).ready(function(){
 		height: 24px;
 		background: url("web/images/icon/favorite.png") transparent;
 		background-size: 24px 24px;
-		opacity: 0.3;
+		opacity: 0.1;
 		float: left;
 		margin-right: 3px;
 		
@@ -76,7 +57,7 @@ $(document).ready(function(){
 		background-size: 28px 28px;
 		float: left;
 		margin-right: 3px;
-		margin-left: 25%;
+		margin-left: 50%;
 	}
 	
 	.accepted 
@@ -87,7 +68,7 @@ $(document).ready(function(){
 		background-size: 24px 24px;
 		float: left;
 		margin-right: 3px;
-		margin-left: 25%;
+		margin-left: 50%;
 	}
 	
 	.cancelled 
@@ -98,12 +79,21 @@ $(document).ready(function(){
 		background-size: 24px 24px;
 		float: left;
 		margin-right: 3px;
-		margin-left: 25%;
+		margin-left: 50%;
 	}
 	
 	.star:last-child
 	{
 		clear:right;
+	}
+	
+	.indented {
+		margin-left: 5em;
+	}
+	
+	.result
+	{
+		min-height: 50px;
 	}
 
 </style>
@@ -153,17 +143,16 @@ $(document).ready(function() {
 
         $('#time').combodate({
 	        firstItem: 'name', //show 'hour' and 'minute' string at first item of dropdown
-	        minuteStep: 30,
+	        minuteStep: 15,
 	        firstItem: 'none'
 	    });
         $('#datetime24').combodate({
+        	firstItem: 'none',
         	minYear: 2014,
-            maxYear: 2020
+            maxYear: 2020,
+            minuteStep: 15
         });
-        $('#userList').combodate({
-        	minYear: 2014,
-            maxYear: 2020
-        });
+
         
         var selected_enqlist = [];
         
@@ -172,11 +161,13 @@ $(document).ready(function() {
         	if (index > -1) {
         		selected_enqlist.splice(index, 1);
         		$(this).css("background-color", "white");
+        		$(this).attr("title","Click to select this user for invitation.");
         	}
         	else
         	{
         		$(this).css("background-color", "#AAAAFF");
         		selected_enqlist.push($(this).data("enqid"));
+        		$(this).attr("title", "Click to remove this user from the invitation selection.");
         	}
         	
         	$("#selected_enquiries").val(selected_enqlist);
@@ -196,7 +187,7 @@ $(document).ready(function() {
 				}
 				else
 				{
-					$(parent).children(".star_" + i).css("opacity", "0.3");
+					$(parent).children(".star_" + i).css("opacity", "0.1");
 				}
 			}
 		});
@@ -213,7 +204,7 @@ $(document).ready(function() {
 				}
 				else
 				{
-					$(this).children(".star_" + i).css("opacity", "0.3");
+					$(this).children(".star_" + i).css("opacity", "0.1");
 				}
 			}
 		});
@@ -237,7 +228,7 @@ $(document).ready(function() {
 				}
 				else
 				{
-					$(this).children(".star_" + i).css("opacity", "0.3");
+					$(this).children(".star_" + i).css("opacity", "0.1");
 				}
 			}
 		});
@@ -245,8 +236,8 @@ $(document).ready(function() {
 	});
 	</script>
 	<c:if test="${not empty invitationsList }">
-		<input id="Button2" type="button" value="prev" />
-		<input id="Button1" type="button" value="next" />
+		<button id="Button2" type="button" value="prev" class="btn">Previous</button>
+		<button id="Button1" type="button" value="next" class="btn" >Next</button>
 		<div id="calendar"></div>
 	</c:if>
 	<form:form modelAttribute="invitationForm" cssClass="form-horizontal" autocomplete="off" action="invite" method="post">
@@ -256,22 +247,21 @@ $(document).ready(function() {
   
         	<textarea name="textOfInvitation" id="field-message" rows="6" width="350px" style="resize:vertical;" tabindex="2" maxlength="500"></textarea>
 <br/>
-    	<label class="control-label" for="field-dateFrom">From</label>
+    	<label class="control-label" for="field-dateFrom">From</label><br/><br />
 
-        	<form:input path="fromDate" type="text" id="datetime24" data-format="YYYY-MM-DD HH:mm" data-template="DD / MM / YYYY     HH : mm" name="datetime" value="2015-01-01 00:00"/>
+        	<form:input path="fromDate" type="text" id="datetime24" data-format="YYYY-MM-DD HH:mm" data-template="DD / MM / YYYY     HH : mm" name="datetime" value="2015-01-01 10:15"/>
 		<br/>
-    	<label class="control-label" for="field-fromTime">Duration</label>
-
-        	<form:input type="text" id="time" path="duration" data-format="HH:mm" data-template="HH : mm" name="datetime"/>
+    	<label class="control-label" for="field-fromTime">Duration</label><br/><br />
+        	<form:input type="text" id="time" path="duration" data-format="HH:mm" data-template="HH : mm" name="datetime" value="01:30"/>
 		<br/>
     	<form:input type="hidden" path="selected_enquiries" name="selected_enquiries" id="selected_enquiries"/> 
     	<label class="control-label" for="field-userList">Select candidates</label>
 		<br/>
-			<ul id="enquirylist">
-				<c:forEach items="${enqlist}" var="enquiry">
+			<div class="results" class="indented" >
+				<c:forEach items="${enqlist}" var="enquiry" varStatus="status">
 					<fmt:formatDate value="${enquiry.invitation.fromDate}" var="formatDate" pattern="MM/dd/yyyy HH:mm" />
 					<c:if test="${enquiry.invitation !=null}">
-						<li class="enqlist_item_invited enqlist_item"><div>${enquiry.userFrom.firstName} ${enquiry.userFrom.lastName} ${formatDate }</div>
+						<div class="enqlist_item_invited enqlist_item result"><div>${enquiry.userFrom.firstName} ${enquiry.userFrom.lastName} ${formatDate }</div>
 							<c:if test="${enquiry.status == 'ACCEPTED'}">
 								<div class="accepted" title="The Invitation has been accepted."></div>
 							</c:if>
@@ -289,14 +279,14 @@ $(document).ready(function() {
 								<div class="star star_2" data-number="2"></div>
 								<div class="star star_1" data-number="1"></div>
 							</div>
-						</li>
+						</div>
 						</c:if>
 					<c:if test="${enquiry.invitation ==null}">
-						<li title="Click to select this user for invitation." class="enqlist_item not_invited" data-enqid="${ enquiry.id}">${enquiry.userFrom.firstName} ${enquiry.userFrom.lastName}</li>
+						<div title="Click to select this user for invitation." class="result enqlist_item not_invited" data-enqid="${ enquiry.id}">${enquiry.userFrom.firstName} ${enquiry.userFrom.lastName}</div>
 					</c:if>
+					<c:if test="${ ! status.last}" ><div class="resultseparator"></div>  </c:if>
 				</c:forEach>
-			</ul>
-		<br>
+			</div>
 		<div class="form-actions">
       	  <button type="submit" class="btn btn-primary">Send Invitation</button>
       	</div>

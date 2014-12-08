@@ -11,7 +11,7 @@
 <div class="reservation">
 <script>
 $(document).ready(function(){
-	$("#lReg").parent().addClass("active");
+	$(".lReg").parent().addClass("active");
 });
 </script>
 <legend>Sign up now, it's free!</legend>

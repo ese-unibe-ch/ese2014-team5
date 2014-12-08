@@ -9,7 +9,7 @@
 <div class="reservation">
 <script>
 $(document).ready(function(){
-	$("#lBook").parent().addClass("active");
+	$(".lBook").parent().addClass("active");
 });
 </script>
 <legend>Bookmarks</legend>
@@ -18,7 +18,7 @@ $(document).ready(function(){
 	</c:if>
 	<c:if test="${not empty adList}">
 		
-		<c:forEach var="ad" items="${adList}">
+		<c:forEach var="ad" items="${adList}" varStatus="status">
 			<div class="resultblock" id="profilead_result">
 				<div class="result" onclick="setreadBookmark(${ad.id},'showad?value=${ad.id}')">
 	       			<c:forEach items="${ad.pictures}" varStatus="loopCount" var="pic">
@@ -39,6 +39,7 @@ $(document).ready(function(){
 					</div>
 				</div>
 			</div>
+			<c:if test="${ ! status.last}" ><div class="resultseparator"></div>  </c:if>
 		</c:forEach>
 		
 	</c:if>

@@ -15,7 +15,7 @@ cursor: pointer;}
 
 $(document).ready(function() {
 	
-	$("#lHome").parent().addClass("active");
+	$(".lHome").parent().addClass("active");
 	
 	var i = 1;
 	$(document).on("click", "result", function(){
@@ -209,10 +209,6 @@ $(document).ready(function() {
 
 		 	</div>
             
-            
-            
-            
-            
             <div class="form-actions">
             	<button type="submit" name="action" value="blist" class="btn btn-primary">Show List</button>
             	<button type="submit" name="action" value="bmap" class="btn btn-primary">Show Map</button>
@@ -229,7 +225,7 @@ $(document).ready(function() {
 		<c:choose>
 	    <c:when test="${displayMap==0 && hasResults==1}">
 	    <div id="results" style="width:100%">
-			<c:forEach items="${searchResults}" var="ad">
+			<c:forEach items="${searchResults}" var="ad" varStatus="status">
 		     
 		    <div class="result" onclick="javascript:location.href='showad?value=${ad.id}'">
 				<c:forEach items="${ad.pictures}" varStatus="loopCount" var="pic">
@@ -237,7 +233,7 @@ $(document).ready(function() {
 					<div style="float:left;width:150px;"><img class="gallery" src="<c:url value="img/${pic.url}"/>"/></div>
 				</c:if>
 				</c:forEach>
-				<div class="resultinfo" style="margin-left:10px;float:left">
+				<div class="resultinfo" style="float:left">
 					<b style="font-family:Arial;font-size:14pt;">${ad.title}</b>
 					<br />
 					Price: CHF ${ad.roomPrice}, Size: ${ad.roomSize}m&sup2;
@@ -245,7 +241,7 @@ $(document).ready(function() {
 					${ad.address.street},  ${ad.address.plz} ${ad.address.city}
 				</div>
 			</div>
-			    			
+			<c:if test="${ ! status.last}" ><div class="resultseparator"></div>  </c:if>		
 			</c:forEach>
 			<c:if test="${empty searchResults }">
 			No results found.
