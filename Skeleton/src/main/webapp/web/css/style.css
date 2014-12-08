@@ -98,7 +98,7 @@ body {
 }
 /* start h_right */
 .h_right{
-	width: 70%;
+	width: 80%;
 	float:right;
 }
 
@@ -116,7 +116,8 @@ body {
 
 .menu li a {
 	color: white;
-	font-size: 1em;
+	font-size: 0.9em;
+	text-transform: uppercase;
 }
 
 .menu  li.active {
@@ -923,7 +924,7 @@ span.next:hover {
 		margin: 6px 12px;
 	}
 	.booking_room h4 {
-		font-size: 1.2em;
+		font-size: 0.9em;
 	}
 	.booking_room p {
 		font-size: 0.8125em;
@@ -940,7 +941,7 @@ span.next:hover {
 		margin: 10px 8px;
 	}
 	.menu li a {
-		font-size: 0.9em;
+		font-size: 0.8em;
 	}
 	.reservation ul li.span1_of_3 {
 		width: 14.33333%;

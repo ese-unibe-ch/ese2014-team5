@@ -18,6 +18,10 @@ $(document).ready(function() {
 	$(".lHome").parent().addClass("active");
 	
 	var i = 1;
+	var maxPrice = 3000;
+	var minPrice = 0;
+	var maxSize = 200;
+	var minSize = 0;
 	$(document).on("click", "result", function(){
 		$(location).attr('href',"showad?value="+$(this).data("value"));
 	});
@@ -28,28 +32,37 @@ $(document).ready(function() {
 
 	</c:if>
 	
-	<c:if test="${maxPrize != null}">
+	<c:if test="${maxPrice != NULL}">
 	if(${maxPrice}==0)
 		maxPrice = 3000;
 	else
 		maxPrice = ${maxPrice};
+	</c:if>
+	<c:if test="${minPrice != NULL}">
+	if(${minPrice}==0)
+		minPrice = 0;
+	else
+		minPrice = ${minPrice};
+	</c:if>
+	<c:if test="${maxSize != NULL}">
 	if(${maxSize}==0)
 		maxSize = 200;
 	else
 		maxSize = ${maxSize};
 	</c:if>
 	
-	<c:if test="${maxPrize == null}">
-	var maxPrice = 3000;
-	var minPrice = 0;
-	var maxSize = 200;
-	var minSize = 0;
+	<c:if test="${minSize != NULL}">
+	if(${minSize}==0)
+		minSize = 0;
+	else
+		minSize = ${minSize};
 	</c:if>
+
 	
 	$( "#slider-range-price" ).slider({
 	      range: true,
-	      min: minPrice,
-	      max: maxPrice,
+	      min: 0,
+	      max: 3000,
 	      values: [ minPrice, maxPrice ],
 	      slide: function( event, ui ) {
 	        $( "#field-fromPrice" ).val(ui.values[ 0 ]);
@@ -61,8 +74,8 @@ $(document).ready(function() {
 
 	$( "#slider-range-size" ).slider({
 	      range: true,
-	      min: minSize,
-	      max: maxSize,
+	      min: 0,
+	      max: 200,
 	      values: [ minSize, maxSize ],
 	      slide: function( event, ui ) {
 	        $( "#field-fromSize" ).val(ui.values[ 0 ]);
@@ -71,13 +84,13 @@ $(document).ready(function() {
 	      }
 	    });
 	
-	$("#slider-range-price").slider('values',0,0);
+	$("#slider-range-price").slider('values',0,minPrice);
 	$("#slider-range-price").slider('values',1,maxPrice);
 	$( "#amountPrice" ).val(minPrice + " - " + maxPrice  );
 	$("#field-fromPrice").val(minPrice);
 	$("#field-toPrice").val(maxPrice);
 	
-	$("#slider-range-size").slider('values',0,0);
+	$("#slider-range-size").slider('values',0,minSize);
 	$("#slider-range-size").slider('values',1,maxSize);
 	$( "#amountSize" ).val(	minSize + " - " + maxSize );
 	$("#field-fromSize").val(minSize);
