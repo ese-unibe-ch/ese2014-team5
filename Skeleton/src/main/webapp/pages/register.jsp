@@ -33,28 +33,28 @@ $(document).ready(function(){
 
             <c:set var="FirstNameErrors"><form:errors path="FirstName"/></c:set>
             <div class="control-group<c:if test="${not empty firstNameErrors}"> error</c:if>">
-                    <label class="control-label" for="field-FirstName">First Name</label>
+                    <label class="control-label" style="width:120px" for="field-FirstName">First Name</label>
                     <div class="controls">
-                    <form:input path="FirstName" id="field-FirstName" tabindex="2" maxlength="35" placeholder="First Name"/>
+                    <form:input path="FirstName" id="field-FirstName" tabindex="2" maxlength="35" class="userinput-field"/>
                     <form:errors path="FirstName" cssClass="help-inline" element="span"/>
                 </div>
             </div>
 
             <c:set var="LastNameErrors"><form:errors path="LastName"/></c:set>
             <div class="control-group<c:if test="${not empty lastNameErrors}"> error</c:if>">
-                    <label class="control-label" for="field-LastName">Last Name</label>
+                    <label class="control-label" style="width:120px" for="field-LastName">Last Name</label>
                     <div class="controls">
-                    <form:input path="LastName" id="field-LastName" tabindex="2" maxlength="35" placeholder="Last Name"/>
+                    <form:input path="LastName" id="field-LastName" tabindex="2" maxlength="35" class="userinput-field"/>
                     <form:errors path="LastName" cssClass="help-inline" element="span"/>
                 </div>
             </div>
 
             <c:set var="EmailErrors"><form:errors path="Email"/></c:set>
             <div class="control-group<c:if test="${not empty emailErrors}"> error</c:if>">
-                    <label class="control-label" for="field-Email">Email</label>
+                    <label class="control-label" style="width:120px" for="field-Email">Email</label>
 
                     <div class="controls">
-                    <form:input path="Email" id="field-Email" tabindex="2" maxlength="45" placeholder="Email"/>
+                    <form:input path="Email" id="field-Email" tabindex="2" maxlength="45" class="userinput-field"/>
                     <form:errors path="Email" cssClass="help-inline" element="span"/>
                 </div>
             </div>
@@ -62,18 +62,18 @@ $(document).ready(function(){
 
             <c:set var="passwordErrors"><form:errors path="password"/></c:set>
             <div class="control-group<c:if test="${not empty passwordErrors}"> error</c:if>">
-                    <label class="control-label" for="field-password">Password</label>
+                    <label class="control-label" style="width:120px" for="field-password">Password</label>
                     <div class="controls">
-                    <form:input type="password" path="password" id="field-password" tabindex="2" maxlength="35" placeholder="password"/>
+                    <form:input type="password" path="password" id="field-password" tabindex="2" maxlength="35" class="userinput-field"/>
                     <form:errors path="password" cssClass="help-inline" element="span"/>
                 </div>
             </div>
 
             <c:set var="passwordRepeatErrors"><form:errors path="passwordRepeat"/></c:set>
             <div class="control-group<c:if test="${not empty passwordRepeatErrors}"> error</c:if>">
-                    <label class="control-label" for="field-passwordRepeat">PasswordRepeat</label>
+                    <label class="control-label" style="width:120px" for="field-passwordRepeat">Repeat Password</label>
                     <div class="controls">
-                    <form:input type="password" path="passwordRepeat" id="field-passwordRepeat" tabindex="2" maxlength="35" placeholder="passwordRepeat"/>
+                    <form:input type="password" path="passwordRepeat" id="field-passwordRepeat" tabindex="2" maxlength="35" class="userinput-field"/>
                     <form:errors path="passwordRepeat" cssClass="help-inline" element="span"/>
                 </div>
             </div>

@@ -188,7 +188,7 @@
 					
 				</sec:authorize>
 				<sec:authorize access="!hasRole('ROLE_USER')">
-					<li><a class="lLog" href="login">login</a></li> |
+					<li><a class="lLog" href="login">login</a></li>
 					<li><a class="lReg" href="register">register</a></li>
 				</sec:authorize>
 				<div class="clear"></div>

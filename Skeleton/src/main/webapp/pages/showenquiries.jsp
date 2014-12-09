@@ -243,25 +243,29 @@ $(document).ready(function() {
 	<form:form modelAttribute="invitationForm" cssClass="form-horizontal" autocomplete="off" action="invite" method="post">
 		<form:input path="advertId" type="hidden" value="${ad.id }"/>
 		<form:input path="userFromId" type="hidden" value="${currentUser.id }"/>
-		<label class="control-label" for="field-message">Message</label>
-  
-        	<textarea name="textOfInvitation" id="field-message" rows="6" width="350px" style="resize:vertical;" tabindex="2" maxlength="500"></textarea>
-<br/>
-    	<label class="control-label" for="field-dateFrom">From</label><br/><br />
-
+		<label class="control-label" style="text-align:left" for="field-message">Message</label>
+		<textarea name="textOfInvitation" id="field-message" rows="6" placeholder="e.g. You're invited to come and see the room at this date. It's 3rd floor." style="resize:vertical;" tabindex="2" maxlength="500"></textarea>
+		<br/>
+		<br/>
+    	<label class="control-label" style="text-align:left" for="field-dateFrom">Starts at</label><br/><br />
         	<form:input path="fromDate" type="text" id="datetime24" data-format="YYYY-MM-DD HH:mm" data-template="DD / MM / YYYY     HH : mm" name="datetime" value="2015-01-01 10:15"/>
 		<br/>
-    	<label class="control-label" for="field-fromTime">Duration</label><br/><br />
+		<br/>
+    	<label class="control-label" style="text-align:left" for="field-fromTime">Duration</label><br/><br />
         	<form:input type="text" id="time" path="duration" data-format="HH:mm" data-template="HH : mm" name="datetime" value="01:30"/>
 		<br/>
-    	<form:input type="hidden" path="selected_enquiries" name="selected_enquiries" id="selected_enquiries"/> 
-    	<label class="control-label" for="field-userList">Select candidates</label>
 		<br/>
+		<br/><br/>
+
+    	<form:input type="hidden" path="selected_enquiries" name="selected_enquiries" id="selected_enquiries"/> 
+    	<label class="control-label" style="width:200px;text-align:left;font-weight:bold" for="field-userList">Select candidates</label>
+    	<br/>
+    	<hr>
 			<div class="results" class="indented" >
 				<c:forEach items="${enqlist}" var="enquiry" varStatus="status">
 					<fmt:formatDate value="${enquiry.invitation.fromDate}" var="formatDate" pattern="MM/dd/yyyy HH:mm" />
 					<c:if test="${enquiry.invitation !=null}">
-						<div class="enqlist_item_invited enqlist_item result"><div>${enquiry.userFrom.firstName} ${enquiry.userFrom.lastName} ${formatDate }</div>
+						<div class="enqlist_item_invited enqlist_item result"><div>${enquiry.userFrom.firstName} ${enquiry.userFrom.lastName} ${formatDate}</div>
 							<c:if test="${enquiry.status == 'ACCEPTED'}">
 								<div class="accepted" title="The Invitation has been accepted."></div>
 							</c:if>
@@ -287,7 +291,7 @@ $(document).ready(function() {
 					<c:if test="${ ! status.last}" ><div class="resultseparator"></div>  </c:if>
 				</c:forEach>
 			</div>
-		<div class="form-actions">
+		<div class="form-actions" style="padding-left:0px">
       	  <button type="submit" class="btn btn-primary">Send Invitation</button>
       	</div>
 		    

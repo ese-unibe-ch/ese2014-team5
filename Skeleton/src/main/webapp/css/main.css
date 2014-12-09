@@ -5526,3 +5526,7 @@ a.label:hover, a.badge:hover {
     position: fixed
 }
 
+.userinput-field {
+    margin-left: 10px
+}
+
