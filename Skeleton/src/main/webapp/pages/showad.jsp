@@ -130,7 +130,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
 	  <button class="btn btn-primary" id="showEnquiryForm">Send Enquiry</button>
 	  <div id="enquiryFormDiv" style="width:94%;">
 		<form:form action="sendenquiry" id="enquiryForm" method="post">
-		  	<textarea name="enquirytext" placeholder="e.g. I'd like to visit your room" rows="6" width="350px" style="resize:vertical;" tabindex="2" maxlength="500"/></textarea>
+		  	<textarea name="enquirytext" id="enquirytext" placeholder="e.g. I'd like to visit your room" rows="6" width="350px" style="resize:vertical;" tabindex="2" maxlength="500"/></textarea>
 		  	<input type="hidden" name="adid" value="${ad.id }" />
 		  	<button type="submit" class="btn btn-primary" >Submit</button>
 		  </form:form>
