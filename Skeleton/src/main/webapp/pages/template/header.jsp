@@ -183,7 +183,7 @@
 					<li><a class="lSear bSearches" href="saved-searches">Saved Searches</a></li>
 					<li><a class="lEnq bEnquiries" href="my-ads">My Ads</a></li>
 					<li><c:if test="${pageContext.request.userPrincipal.name != null}">
-							<a style="cursor:pointer;" onclick="javascript:logout();">Logout</a>
+                            <a class="logoutbtn" style="cursor:pointer;" onclick="javascript:logout();">Logout</a>
 						</c:if></li>
 					
 				</sec:authorize>

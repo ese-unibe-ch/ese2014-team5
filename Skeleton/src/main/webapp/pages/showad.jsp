@@ -15,6 +15,8 @@ $(document).ready(function(){
 	$("#enquiryFormDiv").hide();
 	$("#showEnquiryForm").click(function(){
 		$("#enquiryFormDiv").show();
+		$("#enquirytext").css("width","100%");
+		$("#enquirytext").css("height","150px");
         $(this).hide();
 
 	});

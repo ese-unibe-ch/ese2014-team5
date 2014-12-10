@@ -203,7 +203,7 @@ public class AdvertServiceImpl implements AdvertService {
             ad.setToDate(dateTo);
         }
 
-        if (!adForm.getFilenames().isEmpty()) {
+        if (adForm.getFilenames()!=null && !adForm.getFilenames().isEmpty()) {
             for (String file : adForm.getFilenames()) {
                 Picture pic = new Picture();
                 pic.setUrl(file);
